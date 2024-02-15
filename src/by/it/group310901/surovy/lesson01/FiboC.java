@@ -3,7 +3,7 @@ package by.it.group310901.surovy.lesson01;
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.
- * время расчета должно быть не более 2 секунд
+ * Время расчета должно быть не более 2 секунд
  */
 
 public class FiboC {
@@ -25,9 +25,42 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+
+        long prev = 0;
+        long curr = 1;
+        long temp;
+        long pizanoPeriod = 0;
+
+        for(int i = 0; i < m * m; i++)
+        {
+            temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+
+            if (prev == 0 && curr == 1)
+                pizanoPeriod = i + 1;
+        }
+
+        n = n % pizanoPeriod;
+
+        if (n == 0){
+            return 0;
+        }
+        else if(n == 1){
+            return 1;
+        }
+        else
+
+        prev = 0;
+        curr = 1;
+        for(int i = 0; i < n - 1; i++)
+        {
+
+            temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+        }
+        return curr % m;
     }
-
-
 }
 

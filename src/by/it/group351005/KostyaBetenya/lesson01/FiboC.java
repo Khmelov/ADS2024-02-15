@@ -26,6 +26,7 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
+
         Vector<Long> vector = new Vector<>();
         long newFib0 = 0L;
         long newFib1 = 1L;
@@ -44,7 +45,6 @@ public class FiboC {
         }
         vector.remove(vector.size() - 1);
         vector.remove(vector.size() - 1);
-
         int temp = (int)(n % vector.size());
         return vector.get(temp);
     }

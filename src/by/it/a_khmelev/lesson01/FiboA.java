@@ -3,7 +3,7 @@ package by.it.a_khmelev.lesson01;
 import java.math.BigInteger;
 
 /*
- * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
+ * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи test comment
  */
 
 public class FiboA {

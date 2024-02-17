@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01.group351005.KostyaBet.lesson1;
+package by.it.group351005.KostyaBetenya.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,

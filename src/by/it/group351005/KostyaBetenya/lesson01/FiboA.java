@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01.group351005.KostyaBet.lesson1;
+package by.it.group351005.KostyaBetenya.lesson01;
 
 import java.math.BigInteger;
 

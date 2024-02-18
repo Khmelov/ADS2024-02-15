@@ -11,9 +11,9 @@ public class Lesson01Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:
-    Name:               Test a_khmelev Бладыко
+    Name:               Test Бладыко
     Test kind:          All in package
-    Package:            by.it.310902.a_khmelev Бладыко
+    Package:            by.it.310902.Бладыко
     Search for test:    In whole project
     */
 

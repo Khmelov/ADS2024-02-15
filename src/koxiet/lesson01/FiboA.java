@@ -1,6 +1,8 @@
-package by.it.a_khmelev.lesson01;
+package koxiet.lesson01;
 
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.math.BigInteger;
+import java.nio.Buffer;
 
 /*
  * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
@@ -29,20 +31,16 @@ public class FiboA {
     }
 
     private int calc(int n) {
-        //здесь простейший вариант, в котором код совпадает
-        //с математическим определением чисел Фибоначчи
-        //время O(2^n)
-        return 0;
+        if (n<2) return n;
+        return calc(n-1)+ calc(n-2);
     }
 
 
     BigInteger slowA(Integer n) {
-        //рекурсия
-        //здесь нужно реализовать вариант без ограничения на размер числа,
-        //в котором код совпадает с математическим определением чисел Фибоначчи
-        //время O(2^n)
+        if (n==0) return BigInteger.ZERO;
+        if (n==1) return BigInteger.ONE;
 
-        return BigInteger.ZERO;
+        return slowA(n-1).add(slowA(n-2));
     }
 
 

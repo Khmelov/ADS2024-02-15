@@ -25,9 +25,37 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
-    }
+        int period = getPisanoPeriod(m);
+        int remainder = (int) (n % period);
+        long a = 0;
+        long b = 1;
+        long result = remainder;
 
+        for (int i = 1; i < remainder; i++) {
+            result = (a + b) % m;
+            a = b;
+            b = result;
+        }
+
+        return result;
+    }
+    private int getPisanoPeriod(int m) {
+        int a = 0;
+        int b = 1;
+        int c = a + b;
+
+        for (int i = 0; i < m * m; i++) {
+            c = (a + b) % m;
+            a = b;
+            b = c;
+
+            if (a == 0 && b == 1) {
+                return i + 1;
+            }
+        }
+
+        return 0;
+    }
 
 }
 

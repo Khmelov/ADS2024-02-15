@@ -28,7 +28,7 @@ public class FiboB {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
 
         ArrayList<BigInteger> fiboList = new ArrayList<>();
-        fiboList.addFirst(BigInteger.valueOf(0));
+        fiboList.addFirst(BigInteger.valueOf(1));
         fiboList.add(1,BigInteger.valueOf(1));
         for (int i = 2; i < n; i++) {
             fiboList.add(i,fiboList.get(i-1).add(fiboList.get(i-2)));

@@ -32,18 +32,7 @@ public class FiboA {
     //с математическим определением чисел Фибоначчи
     //время O(2^n)
     private int calc(int n) {
-
-        // простейший вариант без рекурсии для небольших чисел
-        // int cur = 1, prev = 0, i = 2;
-        // while (i < n) {
-        //     int temp = cur;
-        //     cur += prev;
-        //     prev = temp;
-        //     i++;
-        // }
-
-        //рекурсия
-        return (n == 1 || n == 2) ? n-1 : calc(n - 1) + calc(n - 2);
+        return (n == 1 || n == 0) ? n : calc(n - 1) + calc(n - 2);
     }
 
     //рекурсия
@@ -51,8 +40,8 @@ public class FiboA {
     //в котором код совпадает с математическим определением чисел Фибоначчи
     //время O(2^n)
     BigInteger slowA(Integer n) {
-        if (n == 1) return BigInteger.ZERO;
-        if (n == 2) return BigInteger.ONE;
+        if (n == 0) return BigInteger.ZERO;
+        if (n == 1) return BigInteger.ONE;
         return slowA(n - 1).add(slowA(n - 2));
     }
 }

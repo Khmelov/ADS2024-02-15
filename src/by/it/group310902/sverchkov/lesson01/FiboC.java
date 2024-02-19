@@ -6,6 +6,8 @@ package by.it.group310902.sverchkov.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.math.BigInteger;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -16,8 +18,8 @@ public class FiboC {
 
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
-        int n = 10;
-        int m = 2;
+        long n = 6;
+        int m = 4;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
@@ -25,7 +27,25 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+
+        long cur = 1;
+        long prev = 0;
+//        int i = 2;
+//        while (i < n) {
+//            long temp = cur;
+//            cur += prev;
+//            prev = temp;
+//            if (cur%m == 1 && prev%m == 0) break;
+//            i++;
+//        }
+        int i = 0;
+        for (i=0; i < n; i++) {
+            long temp = cur;
+            cur += prev;
+            prev = temp;
+            if (cur % m == 1 && prev % m == 0) break;
+        }
+        return n % i;
     }
 
 

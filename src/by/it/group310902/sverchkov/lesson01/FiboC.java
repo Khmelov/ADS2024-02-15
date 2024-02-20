@@ -7,6 +7,7 @@ package by.it.group310902.sverchkov.lesson01;
  */
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 public class FiboC {
 
@@ -18,8 +19,8 @@ public class FiboC {
 
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
-        long n = 6;
-        int m = 4;
+        long n = 1;
+        int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
@@ -28,24 +29,23 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
 
+        if (n == 1 || n == 2) return n;
         long cur = 1;
         long prev = 0;
-//        int i = 2;
-//        while (i < n) {
-//            long temp = cur;
-//            cur += prev;
-//            prev = temp;
-//            if (cur%m == 1 && prev%m == 0) break;
-//            i++;
-//        }
-        int i = 0;
-        for (i=0; i < n; i++) {
+        int k = 1;
+        ArrayList<Long> fiboL = new ArrayList<>();
+        fiboL.addFirst(Long.valueOf("0"));
+        fiboL.add(1,Long.valueOf("1"));
+        for (int i = 1; i < n*n; i++) {
             long temp = cur;
             cur += prev;
             prev = temp;
+            fiboL.add(i,temp);
             if (cur % m == 1 && prev % m == 0) break;
+            k++;
         }
-        return n % i;
+        int t = (int) n%k;
+        return fiboL.get(t)%m;
     }
 
 

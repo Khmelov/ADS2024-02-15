@@ -29,7 +29,7 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
 
-        if (n == 1 || n == 2) return n;
+        if (n == 1 || n == 0) return n;
         long cur = 1;
         long prev = 0;
         int k = 1;

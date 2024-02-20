@@ -6,7 +6,6 @@ import java.math.BigInteger;
  * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
  */
 public class FiboA {
-public FiboA(){}
     public FiboA(int g){}
 
     private long startTime = System.currentTimeMillis();

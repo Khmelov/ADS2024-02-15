@@ -64,6 +64,7 @@ public class FiboC {
                 t = a.add(b);
                 a = b;
                 b = t;
+
             }
 
         //Решение сложно найти интуитивно

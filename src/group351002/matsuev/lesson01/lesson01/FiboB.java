@@ -1,4 +1,4 @@
-package group351002.matsuev.lesson01;
+package group351002.matsuev.lesson01.lesson01;
 
 import java.math.BigInteger;
 
@@ -33,5 +33,7 @@ public class FiboB {
         }
         return b;
     }
+
 }
+
 

@@ -1,4 +1,4 @@
-package group351002.matsuev.lesson01;
+package group351002.matsuev.lesson01.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -20,7 +20,6 @@ public class FiboC {
         int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
-
     long fasterC(long n, int m) {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
@@ -56,8 +55,5 @@ public class FiboC {
     }
 
 }
-
-
-
 
 

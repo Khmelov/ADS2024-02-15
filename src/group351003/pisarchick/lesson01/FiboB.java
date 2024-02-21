@@ -27,13 +27,15 @@ public class FiboB {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         if (n == 0) return BigInteger.ZERO;
         if (n == 1 || n == 2) return BigInteger.ONE;
-        int fib[] = new int[n - 1];
-        fib[0] = 1;
-        fib[1] = 1;
+
+        BigInteger[] fibArr = new BigInteger[n];
+        fibArr[0] = BigInteger.ONE;
+        fibArr[1] = BigInteger.ONE;
+
         for (int i = 2; i < n; i++) {
-            fib[i] = fib[i-1] + fib[i-2];
+            fibArr[i] = fibArr[i - 1].add(fibArr[i - 2]);
         }
-       // return fib[n - 1];
+        return fibArr[n - 1];
     }
 
 }

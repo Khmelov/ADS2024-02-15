@@ -24,6 +24,7 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
+        //люблюгит
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
       if (n==1||n==2) return BigInteger.ONE;
       BigInteger[] Arr=new BigInteger[3];

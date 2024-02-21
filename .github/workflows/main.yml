@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  #  OR "2" -> To retrieve the preceding commit.
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
       - name: Get changed files
         id: changed-files

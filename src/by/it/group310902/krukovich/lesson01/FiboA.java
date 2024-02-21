@@ -25,7 +25,7 @@ public class FiboA {
     private long time() {
         long res = System.currentTimeMillis() - startTime;
         startTime = System.currentTimeMillis();
-        return res;
+        return res ;
     }
 
     private int calc(int n) {

@@ -24,7 +24,6 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
         ArrayList<Long> Arr = new ArrayList<>();
@@ -36,6 +35,7 @@ public class FiboC {
         Arr.remove(Arr.size() - 1);
         Arr.remove(Arr.size() - 1);
         return Arr.get((int)(n % Arr.size()));
+
     }
 
 

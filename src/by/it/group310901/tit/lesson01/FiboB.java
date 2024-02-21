@@ -39,6 +39,7 @@ public class FiboB {
                 next = new_num;
             }
             return current;
+
         }
     }
 

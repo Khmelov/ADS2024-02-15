@@ -26,9 +26,6 @@ public class FiboB {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         BigInteger fibNums[] = new BigInteger[n+1];
 
-        if (n == 0) return BigInteger.ZERO;
-        if (n == 1) return BigInteger.ONE;
-
         fibNums[0] = new BigInteger("0");
         fibNums[1] = new BigInteger("1");
 

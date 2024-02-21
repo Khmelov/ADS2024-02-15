@@ -25,8 +25,21 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
+        if (n == 1) return 1;
+        int[] FiboArr = new int[m*6];
 
-        return 0L;
+        int i = 1;
+        FiboArr[i] = 1;
+        for(i = 2; i < m*6; i++)
+        {
+            FiboArr[i] = (FiboArr[i-1] + FiboArr[i-2]) % m;
+            if ((FiboArr[i] == 1) && (FiboArr[i-1] == 0)) break;
+        }
+        i -= 1;
+
+        i = (int) n % i;
+
+        return FiboArr[i];
     }
 
 

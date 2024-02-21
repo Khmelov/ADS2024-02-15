@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group351002.yakhnovets_v;
 
 import java.math.BigInteger;
 
@@ -29,4 +29,3 @@ public class FiboB {
     }
 
 }
-

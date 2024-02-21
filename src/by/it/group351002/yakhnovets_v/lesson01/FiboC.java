@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group351002.yakhnovets_v;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -30,4 +30,3 @@ public class FiboC {
 
 
 }
-

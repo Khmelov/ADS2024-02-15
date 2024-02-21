@@ -22,7 +22,7 @@ public class FiboA {
         System.out.printf("slowA(%d)=%d \n\t time=%d \n\n", n, fibo.slowA(n), fibo.time());
     }
 
-    private long time() {
+     private long time() {
         long res = System.currentTimeMillis() - startTime;
         startTime = System.currentTimeMillis();
         return res;

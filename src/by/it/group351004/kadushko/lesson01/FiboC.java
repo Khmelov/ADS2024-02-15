@@ -1,4 +1,4 @@
-package by.it.group351004.kadussho.lesson01;
+package by.it.group351004.kadushko.lesson01;
 import java.util.Vector;
 
 /*

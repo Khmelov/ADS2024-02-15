@@ -1,4 +1,4 @@
-package by.it.a_khmelev.group310902.pashkovich.lesson1;
+package by.it.group310902.pashkovich.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,

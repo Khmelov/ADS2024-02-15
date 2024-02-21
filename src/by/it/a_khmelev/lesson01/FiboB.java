@@ -9,7 +9,7 @@ import java.math.BigInteger;
 
 public class FiboB {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -25,7 +25,15 @@ public class FiboB {
 
     BigInteger fastB(Integer n) {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
-        return BigInteger.ZERO;
+        BigInteger[] nums = new BigInteger[n];
+        if (n == 1) return BigInteger.ONE;
+        if (n == 0) return BigInteger.ZERO;
+        nums[0]=BigInteger.ZERO;
+        nums[1]=BigInteger.ONE;
+        for(int i = 2; i<nums.length; i++){
+            nums[i] = nums[i-1].add(nums[i-2]);
+        }
+        return nums[n-1].add(nums[n-2]);
     }
 
 }

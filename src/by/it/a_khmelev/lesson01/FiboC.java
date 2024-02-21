@@ -8,7 +8,7 @@ package by.it.a_khmelev.lesson01;
 
 public class FiboC {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -22,10 +22,33 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
-        return 0L;
+        int pisanoPeriod = PisanoPeriod(m);
+        n = n % pisanoPeriod;
+        long previous = 0;
+        long current  = 1;
+        for (int i = 0; i < n - 1; ++i) {
+            long tmp_previous = previous;
+            previous = current;
+            current = (tmp_previous + current) % m;
+        }
+
+        return current % m;
+    }
+
+    int PisanoPeriod(int m) {
+        int previous = 0;
+        int current  = 1;
+        int res = 0;
+        for(int i = 0; i < m * m; i++) {
+            int temp = previous;
+            previous = current;
+            current = (temp + current) % m;
+            if (previous == 0 && current == 1) {
+                res = i + 1;
+                break;
+            }
+        }
+        return res;
     }
 
 

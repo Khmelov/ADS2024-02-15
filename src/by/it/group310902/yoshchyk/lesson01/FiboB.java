@@ -32,6 +32,7 @@ public class FiboB {
             Massofnums[i] = Massofnums[i - 1].add(Massofnums[i - 2]);
 
         return Massofnums[n];
+
     }
 
 }

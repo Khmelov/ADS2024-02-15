@@ -29,10 +29,9 @@ public class FiboB {
         Arr[1] = BigInteger.ONE;
         Arr[2] = BigInteger.ONE;
 
-        for(int i = 3; i <= n; i++){
-            Arr[i] = Arr[i-1].add(Arr[i-2]);
+        for(int i = 3; i <= n; i++) {
+            Arr[i] = Arr[i - 1].add(Arr[i - 2]);
         }
-
         return Arr[n];
     }
 

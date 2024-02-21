@@ -22,39 +22,11 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        long period = getPisanoPeriod(m); // менять тут
-        long remainderIndex = n % period; // менять тут
-
-        long current = 0;
-        long next = 1;
-        long newNum = 0;
-
-        if (remainderIndex == 0) { // менять тут
-            return 0;
-        } else if (remainderIndex == 1) { // менять тут
-            return 1;
-        } else {
-            for (int i = 1; i < remainderIndex; i++) { // менять тут
-                newNum = (current + next) % m;
-                current = next;
-                next = newNum;
-            }
-        }
-
-        return newNum;
+        //Решение сложно найти интуитивно
+        //возможно потребуется дополнительный поиск информации
+        //см. период Пизано
+        return 0L;
     }
 
-    long getPisanoPeriod(int m) { // менять тут
-        long a = 0, b = 1, c = a + b;
-        for (int i = 0; i < m * m; i++) {
-            c = (a + b) % m;
-            a = b;
-            b = c;
-            if (a == 0 && b == 1)
-                return i + 1;
-        }
-        return 0;
-    }
+
 }
-
-

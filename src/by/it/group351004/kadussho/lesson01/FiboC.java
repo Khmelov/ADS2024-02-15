@@ -1,4 +1,4 @@
-package by.it.group351004.kadusho.lesson01;
+package by.it.group351004.kadussho.lesson01;
 import java.util.Vector;
 
 /*
@@ -36,7 +36,7 @@ public class FiboC {
         for (int i = 1; i < n; i++)
         {
             long fibOld = fib;
-            fib = (fib + fibPr) % m;
+            fib = (fib + fibPr) % m;;
             fibPr = fibOld;
 
             if (fibPr == 0 && fib == 1) {

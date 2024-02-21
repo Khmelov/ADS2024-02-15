@@ -1,4 +1,4 @@
-package by.it.group351004.kadusho.lesson01;
+package by.it.group351004.kadussho.lesson01;
 
 import org.junit.Test;
 

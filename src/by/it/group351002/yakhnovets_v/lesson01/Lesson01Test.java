@@ -1,4 +1,4 @@
-package by.it.group351002.yakhnovets_v;
+package by.it.group351005.yakhnovets_v.lesson01;
 
 import org.junit.Test;
 
@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("all")
-public class  Lesson01Test {
+public class Lesson01Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:

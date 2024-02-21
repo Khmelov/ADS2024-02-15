@@ -1,4 +1,4 @@
-package by.it.group351002.yakhnovets_v;
+package by.it.group351005.yakhnovets_v.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -25,8 +25,25 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        long[] fiboArray = new long[3];
+        long[] remainderArray = new long[6*m+2];
+        fiboArray[0] = 0;
+        fiboArray[1] = 1;
+        remainderArray[0] = 0;
+        remainderArray[1] = 1 % m;
+        if (n == 1) return 1;
+        else {
+            int i = 2;
+            do {
+                fiboArray[2] = fiboArray[1] + fiboArray[0];
+                remainderArray[i] = fiboArray[2] % m;
+                fiboArray[0] = fiboArray[1];
+                fiboArray[1] = fiboArray[2];
+                i++;
+            } while (!((remainderArray[i - 1] == 1) && (remainderArray[i - 2] == 0)));
+            return (remainderArray[(int)n % (i - 2)]);
+        }
     }
 
-
 }
+

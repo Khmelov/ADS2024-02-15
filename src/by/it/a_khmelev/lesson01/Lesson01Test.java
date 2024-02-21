@@ -11,9 +11,9 @@ public class Lesson01Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:
-    Name:               Test a_khmelev (Рожнов)
+    Name:               Test a_khmelev (тут ваша фамилия)
     Test kind:          All in package
-    Package:            by.it.351003.a_khmelev (Рожнов)
+    Package:            by.it.группа.a_khmelev (тут ваша фамилия)
     Search for test:    In whole project
     */
 
@@ -40,9 +40,5 @@ public class Lesson01Test {
         assertTrue("fasterC failed 1", fibo.fasterC(10,2)==1L);
         assertTrue("fasterC failed 2", fibo.fasterC(1,2)==1L);
         assertTrue("fasterC failed 3", fibo.fasterC(999999999,321)==34L);
-    }
-
-    @Test
-    public void name() {
     }
 }

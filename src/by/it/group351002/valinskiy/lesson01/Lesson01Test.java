@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01.group351002.bob.lesson01;
+package by.it.group351002.valinskiy.lesson01;
 
 import org.junit.Test;
 
@@ -12,7 +12,8 @@ public class Lesson01Test {
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:
     Name:               Test a_khmelev (тут ваша фамилия)
-    Test kind:          All in package
+    Test kind:          All in pa
+    ckage
     Package:            by.it.группа.a_khmelev (тут ваша фамилия)
     Search for test:    In whole project
     */

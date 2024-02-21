@@ -3,7 +3,7 @@ package by.it.a_khmelev.lesson01;
 import java.math.BigInteger;
 
 /*
- * Вам необходимо выполнить рекурсивный способT вычисления чисел Фибоначчи
+ * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
  */
 
 public class FiboA {
@@ -22,7 +22,7 @@ public class FiboA {
         System.out.printf("slowA(%d)=%d \n\t time=%d \n\n", n, fibo.slowA(n), fibo.time());
     }
 
-     private long time() {
+    private long time() {
         long res = System.currentTimeMillis() - startTime;
         startTime = System.currentTimeMillis();
         return res;
@@ -32,9 +32,9 @@ public class FiboA {
         //здесь простейший вариант, в котором код совпадает
         //с математическим определением чисел Фибоначчи
         //время O(2^n)
-        if (n < 2) return n;
-        return calc(n-1) + calc(n-2);
+        return 0;
     }
+
 
     BigInteger slowA(Integer n) {
         //рекурсия
@@ -42,9 +42,7 @@ public class FiboA {
         //в котором код совпадает с математическим определением чисел Фибоначчи
         //время O(2^n)
 
-        if (n == 0) return BigInteger.ZERO;
-        if (n == 1) return BigInteger.ONE;
-        return slowA(n-1).add(slowA(n-2));
+        return BigInteger.ZERO;
     }
 
 

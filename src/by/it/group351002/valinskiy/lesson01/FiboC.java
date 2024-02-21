@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01.group351002.bob.lesson01;
+package by.it.group351002.valinskiy.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -16,9 +16,9 @@ public class FiboC {
 
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
-        long n = 999999999;
-        int m = 321;
-        System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(999999999,321), fibo.time());
+        int n = 10;
+        int m = 2;
+        System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
     long fasterC(long n, int m) {
@@ -26,21 +26,22 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
 
-        if (n == 1) return 1;
-
-        int[] allNums = new int[m*6];
-        allNums[0]=0;
-        allNums[1]=1;
-        int i = 2;
-        for(; i<allNums.length; i++){
-            allNums[i] = (allNums[i-1]+allNums[i-2])%m;
-            if ((allNums[i]==1) && (allNums[i-1]==0)) break;
+        int[] arr = new int[m * m + 2];
+        int x = 0;
+        arr[0] = 0;
+        arr[1] = 1;
+        for (int i = 2; i <= m * m + 1; ++i) {
+            arr[i] = (arr[i - 2] + arr[i - 1]) % m;
+            if (arr[i] == 1 && arr[i - 1] == 0) {
+                x = i;
+                break;
+            }
         }
-        i -= 1;
-
-        i = (int) n%i;
-
-        return allNums[i];
+        x = x - 1;
+        return arr[((int) n % x)];
+    }
     }
 
-}
+
+
+

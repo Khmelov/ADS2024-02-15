@@ -43,7 +43,7 @@ public class FiboC {
     }
 
     private long getPisanoPeriodLength(int m) {
-        long a = 0, b = 1, c = a + b;
+        long a = 0, b = 1, c;
         for (int i = 0; i < m * m; i++) {
             c = (a + b) % m;
             a = b;

@@ -24,8 +24,8 @@ public class FiboC {
         long[] mas;
         long result;
         mas = new long[100];
-        mas[0]=0;
-        mas[1]=1;
+        mas[0] =0;
+        mas[1] =1;
         int i=2;
         while(!(mas[i-2]==0 && mas[i-1]==1) || i<=2){
             mas[i]=(mas[i-2]+mas[i-1])%m;

@@ -1,11 +1,5 @@
 package group351002.lashchenko;
 
-/*
- * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
- * необходимо найти остаток от деления n-го числа Фибоначчи на m.
- * время расчета должно быть не более 2 секунд
- */
-
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -22,12 +16,45 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
-        return 0L;
+        long index = n % getPisanoPeriod(m);
+
+        return getFiboNumber(index) % m;
     }
 
+    long getFiboNumber(long n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        long prev = 0;
+        long cur = 1;
+        long tmp;
+
+        for (int i = 2; i <= n; i++) {
+        tmp = cur;
+        cur = prev + cur;
+        prev = tmp;
+    }
+
+        return cur;
+}
+
+    long getPisanoPeriod(int m) {
+        int prev = 0;
+        int cur = 1;
+        int tmp;
+
+        for (int i = 0; i < m * m; i++) {
+            tmp = (cur + prev) % m;
+            prev = cur;
+            cur = tmp;
+
+            if (prev == 0 & cur == 1) {
+                return i + 1;
+            }
+        }
+        return 0;
+    }
 
 }
+
 

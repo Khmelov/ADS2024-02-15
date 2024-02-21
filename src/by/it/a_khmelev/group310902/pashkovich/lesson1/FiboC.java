@@ -1,4 +1,4 @@
-package by.it.group310902.pashkovich.lesson01;
+package by.it.a_khmelev.group310902.pashkovich.lesson1;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -25,7 +25,30 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        long previous = 0, current = 1;
+        long period = 0;
+        for (long i = 0; i < m * m; i++) {
+            long temp = current;
+            current = (previous + current) % m;
+            previous = temp;
+            if (previous == 0 && current == 1) {
+                period = i + 1;
+                break;
+            }
+        }
+
+        n = n % period;
+        previous = 0;
+        current = 1;
+        if (n <= 1) {
+            return n;
+        }
+        for (long i = 0; i < n - 1; i++) {
+            long temp = current;
+            current = (previous + current) % m;
+            previous = temp;
+        }
+        return current;
     }
 
 

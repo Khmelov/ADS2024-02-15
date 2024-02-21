@@ -1,4 +1,4 @@
-package by.it.group310902.pashkovich.lesson01;
+package by.it.a_khmelev.group310902.pashkovich.lesson1;
 
 import org.junit.Test;
 
@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("all")
+
 public class Lesson01Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:

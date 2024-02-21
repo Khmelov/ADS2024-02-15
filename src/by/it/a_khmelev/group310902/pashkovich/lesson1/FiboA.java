@@ -1,4 +1,4 @@
-package by.it.group310902.pashkovich.lesson01;
+package by.it.a_khmelev.group310902.pashkovich.lesson1;
 
 import java.math.BigInteger;
 
@@ -7,8 +7,6 @@ import java.math.BigInteger;
  */
 
 public class FiboA {
-
-
     private long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
@@ -32,7 +30,9 @@ public class FiboA {
         //здесь простейший вариант, в котором код совпадает
         //с математическим определением чисел Фибоначчи
         //время O(2^n)
-        return 0;
+        if(n < 2)
+            return n;
+        return calc(n-1) + calc(n-2);
     }
 
 
@@ -41,8 +41,10 @@ public class FiboA {
         //здесь нужно реализовать вариант без ограничения на размер числа,
         //в котором код совпадает с математическим определением чисел Фибоначчи
         //время O(2^n)
+        if(n <= 1)
+            return n == 0 ? BigInteger.ZERO : BigInteger.ONE;
 
-        return BigInteger.ZERO;
+        return slowA(n - 1).add(slowA(n-2));
     }
 
 

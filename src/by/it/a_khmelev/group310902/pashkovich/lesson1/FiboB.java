@@ -1,4 +1,4 @@
-package by.it.group310902.pashkovich.lesson01;
+package by.it.a_khmelev.group310902.pashkovich.lesson1;
 
 import java.math.BigInteger;
 
@@ -24,8 +24,18 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
-        //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
-        return BigInteger.ZERO;
+        BigInteger [] array = new BigInteger[n];
+        BigInteger sum = BigInteger.ONE; // приравниваю сумму сразу к 1, т.к в цикле я не учитываю первую единицу
+
+        array[0] = BigInteger.ZERO;
+        array[1] = BigInteger.ONE;
+
+        for(int i = 2; i < n; i++){
+            array[i] = array[i-1].add(array[i-2]);
+            sum = sum.add(array[i]);
+        }
+
+        return sum;
     }
 
 }

@@ -26,7 +26,6 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
         return findFiboNumber(n%findPisanoPeriod(m)) % m;
-
     }
     long findFiboNumber(long n) {
         if (n == 0) return 0;

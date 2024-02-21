@@ -35,7 +35,6 @@ public class FiboA {
         if (n<2) return n;
         return calc(n-1)+calc(n-2);
     }
-
     BigInteger slowA(Integer n) {
         //рекурсия
         //здесь нужно реализовать вариант без ограничения на размер числа,

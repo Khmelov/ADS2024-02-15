@@ -31,8 +31,8 @@ public class FiboA {
     private int calc(int n) {
         if (n <= 1){
             return n;}
-            else {
-                return calc(n-2) +calc(n-1);
+        else {
+            return calc(n-2) +calc(n-1);
         }
 
     }
@@ -44,6 +44,7 @@ public class FiboA {
         //в котором код совпадает с математическим определением чисел Фибоначчи
         //время O(2^n)
 
+        System.out.println(calc(n));
         return BigInteger.ZERO;
     }
 

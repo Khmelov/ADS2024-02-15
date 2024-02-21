@@ -6,6 +6,8 @@ package group351003.pisarchick.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.util.Vector;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -21,9 +23,58 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    long fasterC(long n, int m) {
-        n
+    /*long fasterC(long n, int m) {
+        int period = 0;
+        Vector vcTr = new Vector();
+        vcTr.addElement(0);
+        int curr = 1, pred = 0, temp;
+        vcTr.addElement(0);
+        do {
+            vcTr.addElement(curr);
+            temp = curr;
+            curr = (curr + pred) % m;
+            pred = temp;
+            period++;
+        } while (curr != 1 || pred != 0);
+        period--;
 
+        n = (n + 1) % period;
+        return 0;
+    }*/
+
+    static long pisano(long m) {
+        long prev = 0;
+        long curr = 1;
+        long res = 0;
+
+        return res;
+    }
+
+    static long fasterC(long n, long m) {
+        long prev = 0;
+        long curr = 1;
+        long res = 0;
+        for (int i = 0; i < m * m; i++) {
+            long temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+            if (prev == 0 && curr == 1) {
+                res = i + 1;
+                break;
+            }
+        }
+        long pisanoPeriod = res;
+        n = n % pisanoPeriod;
+        prev = 0;
+        curr = 1;
+        if (n == 0) return 0;
+        else if (n == 1) return 1;
+        for (int i = 0; i < n - 1; i++) {
+            long temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+        }
+        return curr % m;
     }
 
 

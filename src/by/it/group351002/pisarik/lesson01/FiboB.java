@@ -1,8 +1,6 @@
-package group351002.pisarik.lesson01;
+package by.it.group351002.pisarik.lesson01;
 
 import java.math.BigInteger;
-
-import static java.math.BigInteger.*;
 
 /*
  * Вам необходимо выполнить способ вычисления чисел Фибоначчи с вспомогательным массивом

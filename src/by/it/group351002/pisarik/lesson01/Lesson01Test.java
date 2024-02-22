@@ -1,4 +1,4 @@
-package group351002.pisarik.lesson01;
+package by.it.group351002.pisarik.lesson01;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package by.it.group351004.BarsukovEgor.lesson01.lesson01;
+package by.it.group351004.Barsukov;
 
 import java.math.BigInteger;
 

@@ -1,4 +1,4 @@
-package by.it.group351005.vaveyko;
+package by.it.group351005.vaveyko.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -6,7 +6,6 @@ package by.it.group351005.vaveyko;
  * время расчета должно быть не более 2 секунд
  */
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class FiboC {
@@ -28,7 +27,6 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-
         ArrayList<Integer> mod = new ArrayList<>();
         mod.add(0);
         mod.add(1);

@@ -1,4 +1,4 @@
-package group310901.navrosuk.lesson01;
+package by.it.group310901.navrosuk.lesson01;
 
 import java.math.BigInteger;
 

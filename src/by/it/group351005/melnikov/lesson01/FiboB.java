@@ -1,4 +1,4 @@
-package group351005.melnikov.lesson01;
+package by.it.group351005.melnikov.lesson01;
 
 import java.math.BigInteger;
 

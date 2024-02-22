@@ -21,13 +21,43 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    long fasterC(long n, int m) {
+    public static long getPisanoPeriod(int ni) {
+        long previous = 0;
+        long current = 1;
+        long pisano = 0;
+        for (int i = 0; i < ni * ni; i++) {
+            long temp = current;
+            current = (previous + current) % ni;
+            previous = temp;
+
+            if (previous == 0 && current == 1) {
+                return i + 1;
+            }
+        }
+        return pisano;
+    }
+
+    public static long findMod(long n, int ni) {
+        long previous = 0;
+        long current = 1;
+        for (int i = 0; i < n; i++) {
+            long temp = current;
+            current = (previous + current) % ni;
+            previous = temp;
+        }
+        return previous % ni;
+    }
+
+    public static long fasterC(long n, int ni) {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        long pisano = getPisanoPeriod(ni);
+        n %= pisano;
+        if (n == 0L || n == 1L) {
+            return n;
+        }
+        return findMod(n, ni);
     }
-
-
 }
 

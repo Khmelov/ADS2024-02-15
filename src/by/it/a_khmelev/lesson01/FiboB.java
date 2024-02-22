@@ -25,7 +25,7 @@ public class FiboB {
 
     BigInteger fastB(Integer n) {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
-;
+        return BigInteger.ZERO;
     }
 
 }

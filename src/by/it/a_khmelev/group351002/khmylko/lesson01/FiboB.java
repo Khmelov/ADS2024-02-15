@@ -39,5 +39,6 @@ public class FiboB {
         }
         return Mas[2];
     }
+
 }
 

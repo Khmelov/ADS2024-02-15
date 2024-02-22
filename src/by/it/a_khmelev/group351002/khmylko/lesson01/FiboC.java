@@ -27,39 +27,28 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
 
+        Long[] Mas = new Long[3];
+        Long[] Mas1 = new Long[6 * m + 2];
+        Mas[0] = 1l;
+        Mas[1] = 1l;
+        Mas1[0] = 1l;
+        Mas1[1] = 1l;
 
-            //Решение сложно найти интуитивно
-            //возможно потребуется дополнительный поиск информации
-            //см. период Пизано
-            /*
-             * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
-             * необходимо найти остаток от деления n-го числа Фибоначчи на m.
-             * время расчета должно быть не более 2 секунд
-             */
+        int j = 2;
+        do {
+            Mas[2] = Mas[1] + Mas[0];
+            Mas[0] = Mas[1];
+            Mas[1] = Mas[2];
 
-            Long[] Mas = new Long[3];
-            Long[] Mas1 = new Long[6*m+2];
-            Mas[0] = 1l;
-            Mas[1] = 1l;
-            Mas1[0]=1l;
-            Mas1[1]=1l;
-
-            int j = 2 ;
-            do {
-                Mas[2] = Mas[1]+Mas[0];
-                Mas[0] = Mas[1];
-                Mas[1] = Mas[2];
-
-                Mas1[j]= Mas[2] % m;
-                System.out.println(Mas1[j]);
-                j++;
-            } while(!((Mas1[j-1]==1)&&(Mas1[j-2]==1)));
-            j=j-2;
-            long Result;
-            int Pos=(int) (n%j);
-            System.out.println(Pos);
-            Result = Mas1[Pos-1];
-
-            return Result;
-        }
+            Mas1[j] = Mas[2] % m;
+            System.out.println(Mas1[j]);
+            j++;
+        } while (!((Mas1[j - 1] == 1) && (Mas1[j - 2] == 1)));
+        j = j - 2;
+        long Result;
+        int Pos = (int) (n % j);
+        System.out.println(Pos);
+        Result = Mas1[Pos - 1];
+        return Result;
+    }
 }

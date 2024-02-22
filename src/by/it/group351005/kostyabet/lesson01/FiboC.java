@@ -1,4 +1,4 @@
-package by.it.group351005.KostyaBetenya.lesson01;
+package by.it.group351005.kostyabet.lesson01;
 import java.util.Vector;
 
 /*

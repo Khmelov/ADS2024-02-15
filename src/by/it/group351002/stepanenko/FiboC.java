@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01.group351002.stepanenko;
+package by.it.group351002.stepanenko;
 
 public class FiboC {
 

@@ -1,4 +1,4 @@
-package by.it.a_khmelev.group351002.komar.lesson01;
+package by.it.group351004.purenok;
 
 import java.math.BigInteger;
 
@@ -16,23 +16,34 @@ public class FiboB {
     }
 
     public static void main(String[] args) {
-
         //вычисление чисел простым быстрым методом
         FiboB fibo = new FiboB();
         int n = 55555;
+        int[] arr = new int[n];
+        arr[0] = 0;
+        arr[1] = 1;
+        for (int i = 2; i < n; i++) {
+            arr[i] = arr[i-1] + arr[i - 2];
+        }
         System.out.printf("fastB(%d)=%d \n\t time=%d \n\n", n, fibo.fastB(n), fibo.time());
     }
 
     BigInteger fastB(Integer n) {
-        BigInteger[] allNums = new BigInteger[n];
-        if (n == 1) return BigInteger.ONE;
+        //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
+        //BigInteger[] arr1 = new BigInteger [n];
         if (n == 0) return BigInteger.ZERO;
-        allNums[0]=BigInteger.ZERO;
-        allNums[1]=BigInteger.ONE;
-        for(int i = 2; i<allNums.length; i++){
-            allNums[i] = allNums[i-1].add(allNums[i-2]);
+        if (n == 1) return BigInteger.ONE;
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
+        BigInteger result = BigInteger.ZERO;
+
+        for (int i = 2; i <= n; i++) {
+            result = a.add(b);
+            a = b;
+            b = result;
         }
-        return allNums[n-1].add(allNums[n-2]);
+
+        return result;
     }
 
 }

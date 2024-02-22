@@ -1,4 +1,4 @@
-package by.it.a_khmelev.group351002.komar.lesson01;
+package by.it.group351002.komar.lesson01;
 
 import java.math.BigInteger;
 

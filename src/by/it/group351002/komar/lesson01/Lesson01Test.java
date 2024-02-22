@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01.group351004.purenok;
+package by.it.group351002.komar.lesson01;
 
 import org.junit.Test;
 

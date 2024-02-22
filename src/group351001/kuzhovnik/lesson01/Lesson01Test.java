@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package group351001.kuzhovnik.lesson01;
 
 import org.junit.Test;
 
@@ -39,6 +39,6 @@ public class Lesson01Test {
         FiboC fibo=new FiboC();
         assertTrue("fasterC failed 1", fibo.fasterC(10,2)==1L);
         assertTrue("fasterC failed 2", fibo.fasterC(1,2)==1L);
-        assertTrue("fasterC failed 3", fibo.fasterC(999999999,321)==34L);
+    assertTrue("fasterC failed 3", fibo.fasterC(999999999,321)==34L);
     }
 }

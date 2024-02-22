@@ -20,8 +20,8 @@ public class FiboC {
         int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
-    public static long pisanoPeriod(long m) {
-        long x = 0, y = 1, z = x + y;
+    public static int pisanoPeriod(int m) {
+        int x = 0, y = 1, z = x + y;
         for (int i = 0; i < m * m; i++) {
             z = (x + y) % m;
             x = y;
@@ -30,18 +30,17 @@ public class FiboC {
                 return i + 1;
             }
         }
-        return 0;
+        return -1;
     }
 
     long fasterC(long n, int m) {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        if (n<2) return n;
-        long ostatok = n % pisanoPeriod(m);
-
-        long x = 0, y = 1, z = ostatok;
-        for (int i = 2; i <= ostatok; i++) {
+        if (n < 2) return n;
+        long residue = n % pisanoPeriod(m);
+        long x = 0, y = 1, z = residue;
+        for (int i = 2; i <= residue; i++) {
             z = (x + y) % m;
             x = y;
             y = z;
@@ -49,6 +48,7 @@ public class FiboC {
 
         return z % m;
     }
+
 
 
 

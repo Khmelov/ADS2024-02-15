@@ -27,7 +27,6 @@ public class FiboC {
         long prev = 0;
         long curr = 1;
         long res = 0;
-        boolean isCorrect = true;
         for (int i = 0; i < m * m; i++) {
             long temp = curr;
             curr = (prev + curr) % m;

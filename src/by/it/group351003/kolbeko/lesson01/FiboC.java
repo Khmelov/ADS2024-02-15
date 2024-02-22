@@ -25,7 +25,26 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        int pisanoLen = 0;
+        long fiboMod;
+        long mod;
+        long[] fiboNums = new long[6 * m];
+        fiboNums[0] = 0;
+        fiboNums[1] = 1;
+        long[] fiboMods = new long[6 * m];
+        fiboMods[0] = 0;
+        fiboMods[1] = 1;
+        // нахождение периода Пизано
+        for (int i = 2; i <= (6 * m); i++) {
+            fiboNums[i] = fiboNums[i - 1] + fiboNums[i - 2];
+            fiboMods[i] = fiboNums[i] % m;
+            pisanoLen++;
+            if ((fiboMods[i - 1] == 0) && (fiboMods[i] == 1))
+                break;
+        }
+        fiboMod = n % pisanoLen;
+        mod = fiboMods[(int) fiboMod];
+        return mod;
     }
 
 

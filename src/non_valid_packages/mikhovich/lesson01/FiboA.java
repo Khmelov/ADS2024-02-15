@@ -1,4 +1,4 @@
-package by.it.mikhovich.lesson01;
+package non_valid_packages.mikhovich.lesson01;
 
 import java.math.BigInteger;
 

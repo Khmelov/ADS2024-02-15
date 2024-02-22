@@ -13,7 +13,7 @@ public class FiboA {
 
     public static void main(String[] args) {
         FiboA fibo = new FiboA();
-        int n = 33;
+        int n = 6;
 
         System.out.printf("calc(%d)=%d \n\t time=%d \n\n", n, fibo.calc(n), fibo.time());
 
@@ -46,8 +46,8 @@ public class FiboA {
         //время O(2^n)
         if(n == 0) return BigInteger.ZERO;
         if(n == 1) return BigInteger.ONE;
+        return slowA(n - 1).add(slowA(n - 2));
 
-        return slowA(n - 1).add(BigInteger.valueOf(n - 2));
     }
 
 

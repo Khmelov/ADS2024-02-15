@@ -40,7 +40,6 @@ public class FiboC {
     }
     long fasterC(long n, int m)
     {
-
         int period=searchperiod(m);
         long res= n % period;
         int prev=0;

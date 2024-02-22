@@ -1,4 +1,4 @@
-package beliaev.lesson01;
+package non_valid_packages.beliaev.lesson01;
 
 import org.junit.Test;
 

@@ -25,7 +25,6 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-<<<<<<< HEAD
         long[] nums = new long[4 * m];
         nums[0] = 1;
         nums[1] = 1;
@@ -36,12 +35,4 @@ public class FiboC {
         } while ((nums[i - 1]) % m != 1 || (nums[i - 2]) % m != 1);
         return (nums[(int)((n - 1) % (i - 2))] % m);
     }
-=======
-
         }
-    }
-
-
->>>>>>> origin/main
-}
-

@@ -1,4 +1,4 @@
-package non_valid_packages.kashlej.lesson01;
+package by.it.group310902.kashlej.lesson01;
 
 import java.math.BigInteger;
 

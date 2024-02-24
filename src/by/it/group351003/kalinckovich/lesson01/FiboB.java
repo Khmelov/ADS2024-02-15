@@ -35,7 +35,7 @@ public class FiboB {
             a[3] = a[0];
             a[0] = a[1].add(a[0]);
         }
-        a[4].add(BigInteger.valueOf(2));
+        a[4] = a[4].add(BigInteger.valueOf(2));
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         return a[4];
     }

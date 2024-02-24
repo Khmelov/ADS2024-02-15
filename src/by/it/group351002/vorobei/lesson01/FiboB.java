@@ -32,6 +32,7 @@ public class FiboB {
 
         for (int i=3; i<=n; i++){
             Array[i] = Array[i-1].add(Array[i-2]);
+
         }
 
         return Array[n];

@@ -36,6 +36,7 @@ public class FiboC {
         while ((Array[i-1] % m != 1) && (Array [i-2] % m != 0)){
             Array[i] = Array[i-1] + Array[i-2];
             i++;
+
         }
 
         return (Array[(int) n + 1 % (i-2)] % m);

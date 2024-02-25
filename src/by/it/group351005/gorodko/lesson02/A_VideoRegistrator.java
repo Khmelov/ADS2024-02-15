@@ -38,7 +38,7 @@ public class A_VideoRegistrator {
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
         Arrays.sort(events);
-        double cameraFinish = 0;
+        double cameraFinish;
         while (i < events.length) {
             result.add(events[i]);
             cameraFinish = events[i] + workDuration;

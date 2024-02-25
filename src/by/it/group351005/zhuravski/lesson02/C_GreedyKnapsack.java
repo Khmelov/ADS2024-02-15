@@ -14,7 +14,7 @@ package by.it.group351005.zhuravski.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -38,8 +38,7 @@ public class C_GreedyKnapsack {
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
 
-
-            return 0;
+            return this.cost / this.weight - o.cost / o.weight;
         }
     }
 
@@ -66,9 +65,85 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
+        //Arrays.sort(items);
 
 
 
+
+        //Святая сортировка естественным слиянием.
+        LinkedList<LinkedList<Item>> parts = new LinkedList<LinkedList<Item>>();
+        LinkedList<Item> curPart = new LinkedList<Item>();
+        curPart.add(items[0]);
+        parts.add(curPart);
+        for (int i = 1; i < n; i++) {
+            curPart = parts.getLast();
+            if (curPart.getLast().compareTo(items[i]) >= 0) {
+                curPart.add(items[i]);
+            }
+            else {
+                curPart = new LinkedList<Item>();
+                curPart.add(items[i]);
+                parts.add(curPart);
+            }
+        }
+        LinkedList<LinkedList<Item>> newParts;
+        LinkedList<Item> merge1;
+        LinkedList<Item> merge2;
+        Item it1;
+        Item it2;
+        while (parts.size() > 1) {
+            newParts = new LinkedList<LinkedList<Item>>();
+            if (parts.size() % 2 == 1) {
+                newParts.add(parts.getLast());
+                parts.removeLast();
+            }
+            while (!parts.isEmpty()) {
+                merge1 = parts.getFirst();
+                parts.removeFirst();
+                merge2 = parts.getFirst();
+                parts.removeFirst();
+                curPart = new LinkedList<Item>();
+                while (!merge1.isEmpty() && !merge2.isEmpty()) {
+                    it1 = merge1.getFirst();
+                    it2 = merge2.getFirst();
+                    if (it1.compareTo(it2) >= 0) {
+                        curPart.add(it1);
+                        merge1.removeFirst();
+                    }
+                    else {
+                        curPart.add(it2);
+                        merge2.removeFirst();
+                    }
+                }
+                if (!merge1.isEmpty()) {
+                    curPart.addAll(merge1);
+                }
+                if (!merge2.isEmpty()) {
+                    curPart.addAll(merge2);
+                }
+                newParts.add(curPart);
+            }
+            parts = newParts;
+        }
+        curPart = parts.getFirst();
+        curPart.toArray(items);
+        /*for (Item item:items) {
+            System.out.println(item);
+        }*/
+
+        short curItem = 0;
+        int freeSpace = W;
+        while ((curItem < n) && (freeSpace > 0)) {
+            if (items[curItem].weight >= freeSpace) {
+                result += items[curItem].cost * freeSpace / items[curItem].weight;
+                freeSpace = 0;
+            }
+            else {
+                freeSpace -= items[curItem].weight;
+                result += items[curItem].cost;
+            }
+            curItem++;
+        }
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

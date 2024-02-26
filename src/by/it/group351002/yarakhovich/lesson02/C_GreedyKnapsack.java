@@ -42,33 +42,6 @@ public class C_GreedyKnapsack {
             return 0;
         }
     }
-    private static int partition(Item[] arr, int low, int high) {
-        int middle = low + (high - low) / 2;
-        Item pivot = arr[middle];
-        Item temp = arr[middle];
-        arr[middle] = arr[high];
-        arr[high] = temp;
-        int i = (low - 1);
-        for (int j = low; j < high; j++) {
-            if (arr[j].cost / arr[j].weight > pivot.cost / pivot.weight) {
-                i++;
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-        }
-        temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-        return i + 1;
-    }
-    static void quickSort(Item[] arr, int low, int high) {
-        if (low < high) {
-            int pi = partition(arr, low, high);
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
-    }
 
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);

@@ -26,24 +26,38 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
         if (n <= 1){
-            return n%m;
+            return n % m;
         }
-        long prev = 0;
+        long prev;
         long curr = 1;
-        long result = 0;
+        long ln;
+        long l1 = 0;
+        long l2 = 1;
         for (int i = 2; i <= n ; i++) {
-            result = (prev + curr)%m;
+            ln = l1 + l2;
             prev = curr;
-            curr = result;
+            curr = ln % m;
+            l1 = l2;
+            l2 = ln;
             if (prev == 0 && curr == 1){
                 long period = i - 1;
-                int remainder = (int) (n % period);
-                return fasterC(remainder, m);
+                long remainder = n % period;
+                long pn;
+                long p1 = 0;
+                long p2 = 1;
+                if (remainder <= 1){
+                    return remainder % m;
+                }
+                for (int j = 2; j < period - 1; j++) {
+                    pn = p1 + p2;
+                    p1 = p2;
+                    p2 = pn;
+                    if (j == remainder)
+                        return pn % m;
+                }
+                return 1;
             }
-
         }
-        return result;
+        return curr;
     }
-
-
 }

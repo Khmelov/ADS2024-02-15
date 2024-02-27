@@ -25,14 +25,13 @@ public class A_VideoRegistrator {
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result = new ArrayList<>();
         int i = 0;
+        double time;
         //C*(n log n) + C1*n = O(n log n)
         Arrays.sort(events);
         while (i < events.length){
             result.add(events[i]);
-            double time = events[i];
-            time += workDuration;
-            while (++i < events.length && events[i] <= time)
-            { if (events[i] + workDuration > time) time = events[i] + workDuration;};
+            time = events[i] + workDuration;
+            while (++i < events.length && events[i] <= time);
         }
         return result;
     }

@@ -1,6 +1,7 @@
-package by.it.a_khmelev.lesson02;
+package by.it.group351001.orsik.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -24,7 +25,9 @@ public class A_VideoRegistrator {
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result;
         result = new ArrayList<>();
-        int i=0;                              //i - это индекс события events[i]
+        int i=0;
+        int n= events.length-1;
+        //i - это индекс события events[i]
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
@@ -36,7 +39,16 @@ public class A_VideoRegistrator {
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-
+        Arrays.sort(events);
+        double r;
+        while(i<=n){
+            result.add(events[i]);
+            r =events[i]+1;
+            i=i+1;
+            while(i<=n && events[i]<=r) {
+                i++;
+            }
+        }
 
 
         return result;                        //вернем итог

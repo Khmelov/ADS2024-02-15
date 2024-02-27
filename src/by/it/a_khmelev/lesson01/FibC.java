@@ -6,7 +6,7 @@ package by.it.a_khmelev.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
-public class FiboC {
+public class FibC {
 
     private long startTime = System.currentTimeMillis();
 
@@ -15,7 +15,7 @@ public class FiboC {
     }
 
     public static void main(String[] args) {
-        FiboC fibo = new FiboC();
+        FibC fibo = new FibC();
         int n = 10;
         int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
@@ -30,4 +30,3 @@ public class FiboC {
 
 
 }
-

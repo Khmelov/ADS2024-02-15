@@ -21,11 +21,42 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
+    int searchperiod(int m) {
+        int period= 0;
+        int prev=0;
+        int curr=1;
+        int next;
+
+
+        for(int i=0; i<m*6; i++) {
+            next = (prev+curr) % m;
+            prev=curr;
+            curr=next;
+            if (prev==0 && curr==1)
+                period=i+1;
+
+        }
+        return period;
+    }
+
     long fasterC(long n, int m) {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        int period=searchperiod(m);
+        long res= n % period;
+        int prev=0;
+        int curr=1;
+        int next=0;
+        if (n==0) return 0;
+        if (n==1) return 1;
+        else
+            for (int i=0; i<res-1; i++ ) {
+                next = (prev+curr) % m;
+                prev=curr;
+                curr=next;
+            }
+        return curr % m;
     }
 
 

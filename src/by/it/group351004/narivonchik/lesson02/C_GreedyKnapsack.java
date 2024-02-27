@@ -65,14 +65,12 @@ public class C_GreedyKnapsack {
             result += items[i].cost;
             nowCommonWeight += items[i].weight;
         }
-
         result -= items[i].cost;
         result += (double)(W - (nowCommonWeight - items[i].weight)) * items[i].cost/items[i].weight;
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }
-
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
         String root=System.getProperty("user.dir")+"/src/";

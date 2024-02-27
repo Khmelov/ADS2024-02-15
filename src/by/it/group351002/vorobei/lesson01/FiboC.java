@@ -27,19 +27,24 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        long[] Array= new long[(int) n+1];
-        int i = 3;
+        long[] Array= new long[6*m];
+        int i = 2;
+        boolean flag = true;
 
+        Array[0] = 0L;
         Array[1] = 1L;
-        Array[2] = 1L;
 
-        while ((Array[i-1] % m != 1) && (Array [i-2] % m != 0)){
-            Array[i] = Array[i-1] + Array[i-2];
-            i++;
+        if (n==1) return 1L;
+        else {
+            while (flag) {
+                Array[i] = Array[i - 1] + Array[i - 2];
+                if ((Array[i] % m == 1) && (Array[i - 1] % m == 0)) flag = false;
+                else i++;
 
+            }
+
+            return (Array[(int) n % (i - 1)] % m);
         }
-
-        return (Array[(int) n + 1 % (i-2)] % m);
     }
 
 

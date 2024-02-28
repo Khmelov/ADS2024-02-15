@@ -1,6 +1,7 @@
 package by.it.group351004.kuchko.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -11,7 +12,6 @@ import java.util.List;
 */
 
 public class A_VideoRegistrator {
-    //
     public static void main(String[] args) {
         A_VideoRegistrator instance=new A_VideoRegistrator();
         double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
@@ -24,7 +24,16 @@ public class A_VideoRegistrator {
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result;
         result = new ArrayList<>();
-        int i=0;                              //i - это индекс события events[i]
+        int i=0; //i - это индекс события events[i]
+        double finish;
+        Arrays.sort(events);
+        while (i < events.length) {
+            result.add(events[i]);
+            finish = events[i] + workDuration;
+            while (i < events.length && events[i] <= finish) {
+                i++;
+            }
+        }
 
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
         //Подготовка к жадному поглощению массива событий

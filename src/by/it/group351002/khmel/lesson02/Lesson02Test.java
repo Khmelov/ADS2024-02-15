@@ -51,6 +51,7 @@ public class Lesson02Test {
         double costFinal=new C_GreedyKnapsack().calc(file);
         boolean ok=costFinal==200;
         assertTrue("B_Sheduler failed", ok);
+
     }
 
 }

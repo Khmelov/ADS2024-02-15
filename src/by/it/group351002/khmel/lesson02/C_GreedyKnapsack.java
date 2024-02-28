@@ -82,5 +82,6 @@ public class C_GreedyKnapsack {
         System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);
 
 
+
     }
 }

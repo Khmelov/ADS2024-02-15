@@ -1,7 +1,9 @@
 package by.it.group351002.abrashin.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Comparator;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -40,19 +42,30 @@ public class B_Sheduler {
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
+    class SortByMinStop implements Comparator<Event> {
+        public int compare(Event a, Event b) {
+            if ( a.stop < b.stop ) return -1;
+            else if ( a.stop == b.stop ) return 0;
+            else return 1;
+        }
+    }
+
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
-        //в период [from, int] (включительно).
-        //оптимизация проводится по наибольшему числу непересекающихся событий.
+        //в период [from, int] (включительно)
+        //оптимизация проводится по наибольшему числу непересекающихся событий
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
 
-
-
-
-
+        Arrays.sort(events,new SortByMinStop());
+        for (int i = 0; (i<events.length) && (events[i].stop<=to); i++) {
+            if ((events[i].start>=from)) {
+                result.add(events[i]);
+                from = events[i].stop;
+            }
+        }
 
         return result;          //вернем итог
     }

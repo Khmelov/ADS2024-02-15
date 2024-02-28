@@ -66,19 +66,19 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-        Comparator<Item> comparator = Comparator.comparing(obj -> obj.weight);
+        Comparator<Item> comparator = Comparator.comparing(obj -> obj.cost / obj.weight);
         Arrays.sort(items, comparator);
-        int i = 0;
-        while(W != 0 && n > i){
-            if (W < items[i].weight){
-                result += items[i].cost * W / items[i].weight;
+        n--;
+        while(W != 0 && n > 0){
+            if (W < items[n].weight){
+                result += items[n].cost * W / items[n].weight;
                 W = 0;
             }
             else{
-                result += items[i].cost;
-                W -= items[i].weight;
+                result += items[n].cost;
+                W -= items[n].weight;
             }
-            i++;
+            n--;
         }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

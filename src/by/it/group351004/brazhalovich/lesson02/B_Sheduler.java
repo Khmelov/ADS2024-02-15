@@ -37,7 +37,7 @@ public class B_Sheduler {
         };
 
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
-        System.out.println(starts);                                 //покажем рассчитанный график занятийы
+        System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {

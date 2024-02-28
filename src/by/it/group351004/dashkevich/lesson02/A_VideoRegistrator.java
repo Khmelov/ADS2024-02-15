@@ -9,7 +9,7 @@ import java.util.List;
 были зарегистрированы.
 Алгоритм жадный. Для реализации обдумайте надежный шаг.
 */
-//gg
+
 
 public class A_VideoRegistrator {
 

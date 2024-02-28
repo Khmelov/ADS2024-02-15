@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 /*
  * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
- * //hj
+ * /
  */
 
 public class FiboA {

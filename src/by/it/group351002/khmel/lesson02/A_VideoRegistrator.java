@@ -34,5 +34,6 @@ public class A_VideoRegistrator {
             while (++i < events.length && events[i] <= time);
         }
         return result;
+
     }
 }

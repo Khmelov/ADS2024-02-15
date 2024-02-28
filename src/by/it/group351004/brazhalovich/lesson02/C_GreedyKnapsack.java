@@ -8,7 +8,6 @@ package by.it.group351004.brazhalovich.lesson02;
     120 30
     100 50
 Все это указано в файле (by/it/a_khmelev/lesson02/greedyKnapsack.txt)
-
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
@@ -37,9 +36,12 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-
-
+            if (this.cost / this.weight > o.cost / o.weight){
+                return -1;
+            }
+            else if (this.cost / this.weight < o.cost / o.weight){
+                return 1;
+            }
             return 0;
         }
     }

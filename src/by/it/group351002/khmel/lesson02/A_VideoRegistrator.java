@@ -47,5 +47,6 @@ public class A_VideoRegistrator {
         //за время до конца работы, увеличивая индекс
         return result;                        //вернем итог
 
+
     }
 }

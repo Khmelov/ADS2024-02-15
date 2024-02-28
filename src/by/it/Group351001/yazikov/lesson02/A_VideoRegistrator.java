@@ -38,6 +38,7 @@ public class A_VideoRegistrator {
                 result.add(events[i]);
                 count++;
             }
+
         }
 
         //пока есть незарегистрированные события

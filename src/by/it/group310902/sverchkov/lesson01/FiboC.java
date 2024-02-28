@@ -34,7 +34,7 @@ public class FiboC {
         long prev = 0;
         int k = 1;
         ArrayList<Long> fiboL = new ArrayList<>();
-        fiboL.addFirst(Long.valueOf("0"));
+        fiboL.add(Long.valueOf("0"));
         fiboL.add(1,Long.valueOf("1"));
         for (int i = 1; i < n*n; i++) {
             long temp = cur;
@@ -50,4 +50,3 @@ public class FiboC {
 
 
 }
-

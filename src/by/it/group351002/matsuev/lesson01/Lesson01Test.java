@@ -1,5 +1,8 @@
-package by.it.group351002.matsuev.lesson01.lesson01;
+package by.it.group351002.matsuev.lesson01;
 
+import by.it.group351002.matsuev.lesson01.FiboA;
+import by.it.group351002.matsuev.lesson01.FiboB;
+import by.it.group351002.matsuev.lesson01.FiboC;
 import org.junit.Test;
 
 import java.math.BigInteger;

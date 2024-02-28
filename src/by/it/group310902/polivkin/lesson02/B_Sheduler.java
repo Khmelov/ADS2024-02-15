@@ -1,6 +1,8 @@
 package by.it.group310902.polivkin.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -49,10 +51,23 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
 
-
-
-
-
+        Arrays.sort(events, new Comparator<Event>() {
+            @Override
+            public int compare(Event a, Event b) {
+                return a.stop-b.stop;
+            }
+        });
+//[(0:1), (1:2), (0:3), (1:3), (1:3), (1:3), (2:3), (2:3), (2:4), (3:5), (3:5), (4:5), (3:6), (4:6),
+// (2:7), (2:7), (3:7), (6:7), (7:9), (6:9), (7:9), (8:9), (8:10), (7:10)]
+           int i=0;
+           Event temp=events[i];
+          while(i<events.length-1){
+              result.add(events[i]);
+              temp=events[i];
+              while(events[i].start< temp.stop&& i< events.length-1){
+                  i++;
+              }
+          }
 
         return result;          //вернем итог
     }

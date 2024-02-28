@@ -1,6 +1,7 @@
 package by.it.group310902.polivkin.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -29,6 +30,15 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
+        Arrays.sort(events);
+        double reg=0.0;
+         while(i<events.length){
+             reg=events[i];
+             result.add(reg);
+             for(int j=i;j< events.length;j++){
+                 if(events[j]<=reg+workDuration)i++;
+             }
+         }
 
         //пока есть незарегистрированные события
         //получим одно событие по левому краю

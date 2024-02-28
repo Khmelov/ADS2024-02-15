@@ -28,7 +28,6 @@ public class FiboB {
         if (n <= 0) {
             return BigInteger.ZERO;
         }
-
         BigInteger[] arr = new BigInteger[n+1];
         arr[0]=BigInteger.ZERO;
         arr[1]=BigInteger.ONE;

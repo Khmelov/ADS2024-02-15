@@ -14,6 +14,8 @@ package by.it.group351005.gorodko.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -37,10 +39,23 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
             return 0;
         }
+    }
+
+    Item[] sortArray(Item[] items) {
+        for (int i = 0; i < items.length; i++) {
+            int maxIndex = i;
+            for (int j = i + 1; j < items.length - 1; j++)
+                if (items[maxIndex].cost/items[maxIndex].weight < items[j].cost/items[j].weight)
+                    maxIndex = j;
+            if (i != maxIndex) {
+                Item temp = items[i];
+                items[i] = items[maxIndex];
+                items[maxIndex] = temp;
+            }
+        }
+        return items;
     }
 
     double calc(File source) throws FileNotFoundException {
@@ -67,10 +82,19 @@ public class C_GreedyKnapsack {
 
         //ваше решение.
 
-
-
-
-
+        items = sortArray(items);
+        double weightLeft = W;
+        int i = 0;
+        while ((weightLeft > 0) && (i < items.length)) {
+            if (items[i].weight <= weightLeft) {
+                result += items[i].cost;
+                weightLeft -= items[i].weight;
+            } else {
+                result += items[i].cost * weightLeft / items[i].weight;
+                weightLeft = 0;
+            }
+            i++;
+        }
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }

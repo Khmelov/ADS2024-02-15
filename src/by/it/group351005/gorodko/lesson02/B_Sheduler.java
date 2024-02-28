@@ -50,7 +50,7 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Arrays.sort(events, Comparator.comparing(e -> e.stop));
+        Arrays.sort(events, Comparator.comparing(event -> event.stop));
         int i = 0;
         int j = 1;
         while (i < events.length) {

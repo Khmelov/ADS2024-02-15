@@ -1,4 +1,4 @@
-package by.it.group351001.golovko.lesson02;
+package by.it.Group351001.golovko_r.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +42,12 @@ public class B_Sheduler {
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
-        //в период [from, int] (включительно)
+        //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
-        //Начало и конец событий могут совпадать
-        //ваше решение.
+        //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
+        //ваше решение.
         Event temp;
         for (int i=0; i<24; i++) {
             for (int j=23; j>i; j--){
@@ -71,6 +71,5 @@ public class B_Sheduler {
             i++;
         }
         return result;          //вернем итог
-
     }
 }

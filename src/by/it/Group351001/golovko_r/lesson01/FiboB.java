@@ -1,4 +1,4 @@
-package by.it.group351001.golovko.lesson01;
+package by.it.Group351001.golovko_r.lesson01;
 
 import java.math.BigInteger;
 
@@ -28,7 +28,6 @@ public class FiboB {
         BigInteger[] fibo = new BigInteger [n+1];
         fibo[0] = BigInteger.ZERO;
         fibo[1] = BigInteger.ONE;
-
 
         for (int i = 2; i <= n; i++) {
             fibo[i] = fibo[i-1].add(fibo[i-2]);

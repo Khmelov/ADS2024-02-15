@@ -1,4 +1,4 @@
-package by.it.group351001.golovko.lesson01;
+package by.it.Group351001.golovko_r.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,

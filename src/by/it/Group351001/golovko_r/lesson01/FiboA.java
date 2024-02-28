@@ -1,4 +1,4 @@
-package by.it.group351001.golovko.lesson01;
+package by.it.Group351001.golovko_r.lesson01;
 
 import java.math.BigInteger;
 

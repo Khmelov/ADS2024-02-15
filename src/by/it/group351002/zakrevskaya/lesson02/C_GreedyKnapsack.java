@@ -11,7 +11,7 @@ package by.it.group351002.zakrevskaya.lesson02;
 Все это указано в файле (by/it/a_khmelev/lesson02/greedyKnapsack.txt)
 
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
-Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
+Предметы можно резать на  кусочки (т.е. алгоритм будет жадным)
  */
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -42,6 +42,7 @@ public class Lesson02Test {
         boolean ok=starts.toString().equals("[(0:1), (1:2), (2:3), (3:5), (6:7), (7:9)]");
         assertTrue("B_Sheduler failed", ok);
     }
+
     @Test(timeout = 2000)
     public void C_GreedyKnapsack() throws Exception {
         String root=System.getProperty("user.dir")+"/src/";

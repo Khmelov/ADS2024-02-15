@@ -26,7 +26,7 @@ public class Lesson02Test {
         boolean ok=starts.toString().equals("[1.0, 2.2, 3.7, 5.5, 8.1]");
         assertTrue("slowA failed", ok);
     }
-/*
+
     @Test(timeout = 2000)
     public void B_Sheduler() {
         B_Sheduler instance = new B_Sheduler();
@@ -49,6 +49,6 @@ public class Lesson02Test {
         double costFinal=new C_GreedyKnapsack().calc(file);
         boolean ok=costFinal==200;
         assertTrue("B_Sheduler failed", ok);
-    }*/
+    }
 
 }

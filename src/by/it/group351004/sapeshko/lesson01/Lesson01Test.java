@@ -1,5 +1,8 @@
 package by.it.group351004.sapeshko.lesson01;
 
+import by.it.group351004.sapeshko.lesson01.FiboA;
+import by.it.group351004.sapeshko.lesson01.FiboB;
+import by.it.group351004.sapeshko.lesson01.FiboC;
 import org.junit.Test;
 
 import java.math.BigInteger;

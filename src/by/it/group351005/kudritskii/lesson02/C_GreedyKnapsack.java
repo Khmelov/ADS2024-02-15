@@ -14,7 +14,9 @@ package by.it.group351005.kudritskii.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
+
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -66,11 +68,17 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-
-
-
-
-
+        Arrays.sort(items);
+        for (int i = 0; i < items.length; i++){
+            if (items[i].weight < W){
+                result += items[i].cost;
+                W -= items[i].weight;
+            }
+            else if (W > 0){
+                result += (items[i].cost * W / items[i].weight );
+                W = 0;
+            }
+        }
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }

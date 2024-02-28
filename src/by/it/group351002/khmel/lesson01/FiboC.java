@@ -1,4 +1,4 @@
-package by.it.group310902.kaskevich.lesson01;
+package by.it.group351002.khmel.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -21,41 +21,30 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    public static long getPisanoPeriod(long m) {
-        long a = 0, b = 1, c = a + b;
-        for (int i = 0; i < m * m; i++) {
-            c = (a + b) % m;
-            a = b;
-            b = c;
-            if (a == 0 && b == 1) {
-                return i + 1;
-            }
-        }
-        return 0;
-    }
     long fasterC(long n, int m) {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
+        long[] fiboArray = new long[3];
+        long[] remainderArray = new long[6*m+2];
+        fiboArray[0] = 0;
+        fiboArray[1] = 1;
+        remainderArray[0] = 0;
+        remainderArray[1] = 1 % m;
+        if (n == 1) return 1;
+        else {
+            int i = 2;
+            do {
+                fiboArray[2] = fiboArray[1] + fiboArray[0];
+                remainderArray[i] = fiboArray[2] % m;
+                fiboArray[0] = fiboArray[1];
+                fiboArray[1] = fiboArray[2];
+                i++;
+            } while (!((remainderArray[i - 1] == 1) && (remainderArray[i - 2] == 0)));
+            return (remainderArray[(int)n % (i - 2)]);
 
-
-
-        if (n <= 1) {
-            return n;
         }
-
-        long remainder = n % getPisanoPeriod(m);
-
-        long a = 0, b = 1, c = remainder;
-        for (int i = 2; i <= remainder; i++) {
-            c = (a + b) % m;
-            a = b;
-            b = c;
-        }
-
-        return c % m;
     }
-
 
 }
 

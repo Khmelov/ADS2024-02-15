@@ -19,7 +19,7 @@ public class A_VideoRegistrator {
         List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
         System.out.println(starts);                            //покажем моменты старта
     }
-    //модификаторы доступа опущены для возможности тестирования
+    //модификаторы доступа опущены для возможности тестированиядл
     List<Double> calcStartTimes(double[] events, double workDuration){
         //events - события которые нужно зарегистрировать
         //timeWorkDuration время работы видеокамеры после старта

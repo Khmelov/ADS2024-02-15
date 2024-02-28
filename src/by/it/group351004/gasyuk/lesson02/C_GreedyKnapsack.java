@@ -63,7 +63,7 @@ public class C_GreedyKnapsack {
         int n = input.nextInt();      //сколько предметов в файле
         int W = input.nextInt();      //какой вес у рюкзака
         Item[] items = new Item[n];   //получим список предметов
-        for (int i = 0; i < n; i++) { //создавая каждый конструктором
+        for (int i = 0; i < n; i++) { //создавая каждый конструкторомдд
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
         //покажем предметы

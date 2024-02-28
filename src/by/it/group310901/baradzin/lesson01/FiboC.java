@@ -12,7 +12,7 @@ public class FiboC {
     private final long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
-        var fibo = new FiboC();
+        FiboC fibo = new FiboC();
         int n = 10;
         int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
@@ -25,11 +25,25 @@ public class FiboC {
     // Решение сложно найти интуитивно
     // возможно потребуется дополнительный поиск информации
     // см. период Пизано
-    long fasterC(int n, int m) {
-        var pisano = new ArrayList<Long>();
-        pisano.add(0L);
-        for (long fib1 = 1L, fib2 = 1L; fib1 % m != 0 || fib2 % m != 1; fib2 = fib1 + (fib1 = fib2))
-            pisano.add(fib1 % m);
-        return pisano.get(n % pisano.size());
+    long fasterC(long n, int m) {
+        //Решение сложно найти интуитивно
+        //возможно потребуется дополнительный поиск информации
+        //см. период Пизано
+
+        if (n == 1) return 1;
+
+        int[] allNums = new int[m*6];
+        allNums[0]=0;
+        allNums[1]=1;
+        int i = 2;
+        for(; i<allNums.length; i++){
+            allNums[i] = (allNums[i-1]+allNums[i-2])%m;
+            if ((allNums[i]==1) && (allNums[i-1]==0)) break;
+        }
+        i -= 1;
+
+        i = (int) n%i;
+
+        return allNums[i];
     }
 }

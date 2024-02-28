@@ -2,6 +2,7 @@ package by.it.group351002.khmel.lesson02;
 
 
 
+
 /*
 Даны
 1) объем рюкзака 4

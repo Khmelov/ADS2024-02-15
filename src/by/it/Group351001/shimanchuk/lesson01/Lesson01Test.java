@@ -1,4 +1,4 @@
-package by.it.Group351001.Shimanchuk.lesson01;
+package by.it.Group351001.shimanchuk.lesson01;
 
 import org.junit.Test;
 

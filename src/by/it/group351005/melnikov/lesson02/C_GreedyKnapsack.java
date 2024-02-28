@@ -86,6 +86,7 @@ double[]buff=new double[2];
         for (int i=0;i<4;i++) {
             twoDimArray[i][0] = twoDimArray[i][0] / twoDimArray[i][1];
         }
+
 for (int i=0;i<4;i++){
     for (int j=0;j<3;j++){
         if (twoDimArray[j+1][0]>twoDimArray[j][0]){

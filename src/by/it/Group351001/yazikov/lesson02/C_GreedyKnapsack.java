@@ -72,6 +72,7 @@ public class C_GreedyKnapsack {
             if (W < items[i].weight){
                 result += items[i].cost * W / items[i].weight;
                 W = 0;
+
             }
             else{
                 result += items[i].cost;

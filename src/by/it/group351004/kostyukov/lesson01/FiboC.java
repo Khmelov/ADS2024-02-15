@@ -44,7 +44,7 @@ public class FiboC {
         long res= n % period;
         int prev=0;
         int curr=1;
-        int next=0;
+        int next;
         if (n==0) return 0;
         if (n==1) return 1;
         else

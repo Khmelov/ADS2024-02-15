@@ -14,6 +14,7 @@ package by.it.group351002.abrashin.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -35,11 +36,11 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item o) {
+        public int compareTo(Item a) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            if ( this.cost/this.weight > a.cost/a.weight ) return -1;
+            else if ( this.cost/this.weight == a.cost/a.weight) return 0;
+            else return 1;
         }
     }
 
@@ -66,9 +67,20 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
+        Arrays.sort(items);
+        int i = 0;
 
-
-
+        while ((i<n) && (W>0)){
+            if (W>=items[i].weight){
+                W-=items[i].weight;
+                result+=items[i].cost;
+            }
+            else{
+                result+=items[i].cost * W / items[i].weight;
+                W = 0;
+            }
+            i++;
+        }
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

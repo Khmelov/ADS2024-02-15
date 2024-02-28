@@ -18,6 +18,7 @@ public class Lesson02Test {
     */
 
 
+
     @Test(timeout = 2000)
     public void A_VideoRegistrator() {
         A_VideoRegistrator instance=new A_VideoRegistrator();

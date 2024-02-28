@@ -52,6 +52,7 @@ public class C_GreedyKnapsack {
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
+
         //покажем предметы
         for (Item item : items) {
             System.out.println(item);

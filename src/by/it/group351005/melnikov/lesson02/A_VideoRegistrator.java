@@ -46,6 +46,7 @@ public class A_VideoRegistrator {
                 currenttime = events[i] + workDuration;
             }
 
+
         }
 
 

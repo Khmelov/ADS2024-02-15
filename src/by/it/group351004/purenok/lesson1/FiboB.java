@@ -1,4 +1,4 @@
-package by.it.group351004.purenok;
+package by.it.group351004.purenok.lesson1;
 
 import java.math.BigInteger;
 

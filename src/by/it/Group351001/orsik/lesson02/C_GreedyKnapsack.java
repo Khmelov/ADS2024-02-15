@@ -69,10 +69,17 @@ public class C_GreedyKnapsack {
                 return Integer.compare((o2.cost/o2.weight), (o1.cost/ o1.weight));
             }
         });
+        for (Item item:items) {
+            System.out.println(item);
+        }
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
-
+//        4 60
+//        60 20
+//        100 50
+//        120 30
+//        100 50
         //ваше решение.
         int weight = W;
         int i=0;

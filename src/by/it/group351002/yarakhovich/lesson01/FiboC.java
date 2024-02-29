@@ -28,8 +28,8 @@ public class FiboC {
         if (n == 1) return 1;
         int[] FiboArr = new int[m*6];
 
-        int i = 1;
-        FiboArr[i] = 1;
+        int i;
+        FiboArr[1] = 1;
         for(i = 2; i < m*6; i++)
         {
             FiboArr[i] = (FiboArr[i-1] + FiboArr[i-2]) % m;

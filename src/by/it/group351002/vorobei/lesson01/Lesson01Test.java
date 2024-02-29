@@ -35,6 +35,7 @@ public class Lesson01Test {
 
 
     @Test(timeout = 2000)
+
     public void fasterC() throws Exception {
         FiboC fibo=new FiboC();
         assertTrue("fasterC failed 1", fibo.fasterC(10,2)==1L);

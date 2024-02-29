@@ -1,4 +1,4 @@
-package by.it.suchok.lesson01;
+package by.it.group310901.dritz.lesson01;
 
 import org.junit.Test;
 

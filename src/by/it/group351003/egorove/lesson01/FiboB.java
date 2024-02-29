@@ -1,4 +1,4 @@
-package by.it.group351005.egorov.lesson01;
+package by.it.group351003.egorove.lesson01;
 
 import java.math.BigInteger;
 
@@ -24,13 +24,15 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
-        BigInteger[] results = new BigInteger[n];
-        results[0] = BigInteger.ONE;
-        results[1] = BigInteger.ONE;
-        for (int i = 2; i < n; i++){
-            results[i] = results[i-2].add(results[i-1]);
+        BigInteger[] fib = new BigInteger[n+1];
+        fib[0] = BigInteger.ZERO;
+        fib[1] = BigInteger.ONE;
+
+        for (int i = 2; i <= n; i++) {
+            fib[i] = fib[i-1].add(fib[i-2]);
         }
-        return results[n-1];
+
+        return fib[n];
     }
 
 }

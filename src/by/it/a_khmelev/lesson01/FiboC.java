@@ -6,16 +6,16 @@ package by.it.a_khmelev.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
-public class FibC {
+public class FiboC {
 
-    private final long startTime = System.currentTimeMillis();
+    private long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
     }
 
     public static void main(String[] args) {
-        FibC fibo = new FibC();
+        FiboC fibo = new FiboC();
         int n = 10;
         int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
@@ -25,24 +25,7 @@ public class FibC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        if (n <= 1){
-            return n%m;
-        }
-        long prev = 0;
-        long curr = 1;
-        long result = 0;
-        for (int i = 2; i <= n ; i++) {
-            result = (prev + curr)%m;
-            prev = curr;
-            curr = result;
-            if (prev == 0 && curr == 1){
-                long period = i - 1;
-                int remainder = (int) (n % period);
-                return fasterC(remainder, m);
-            }
-
-        }
-        return result;
+        return 0L;
     }
 
 

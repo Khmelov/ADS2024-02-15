@@ -28,9 +28,13 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
-        for (i = 0; i < events.length - 1; i++){
-            if (events[i] - events[i + 1] == workDuration){
-                result.add(events[i]);
+        double r;
+        while (i < events.length - 1) {
+            result.add(events[i]);
+            r = events[i]+1;
+            i++;
+            while ((i < events.length - 1) && (events[i] <= r)) {
+                i++;
             }
         }
         //пока есть незарегистрированные события

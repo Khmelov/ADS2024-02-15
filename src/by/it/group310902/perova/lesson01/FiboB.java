@@ -17,6 +17,7 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
+
         BigInteger[] fib = new BigInteger[n + 1];
         fib[0] = BigInteger.ZERO;
         fib[1] = BigInteger.ONE;

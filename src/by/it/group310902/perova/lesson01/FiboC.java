@@ -47,7 +47,7 @@ public class FiboC {
         return newNum;
     }
 
-    long getPisanoPeriod(int m) { // менять тут
+    long getPisanoPeriod(int m) {
         long a = 0, b = 1, c = a + b;
         for (int i = 0; i < m * m; i++) {
             c = (a + b) % m;

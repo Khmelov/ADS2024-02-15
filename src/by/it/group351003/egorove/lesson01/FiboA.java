@@ -1,4 +1,4 @@
-package by.it.group351004.narivonchik.lesson01;
+package by.it.group351003.egorove.lesson01;
 
 import java.math.BigInteger;
 
@@ -7,6 +7,8 @@ import java.math.BigInteger;
  */
 
 public class FiboA {
+
+
     private long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
@@ -27,18 +29,25 @@ public class FiboA {
     }
 
     private int calc(int n) {
-        if ((n == 1) || (n == 0))
+        if (n <= 1) {
             return n;
-        else
+        } else {
             return calc(n - 1) + calc(n - 2);
+        }
     }
 
+
     BigInteger slowA(Integer n) {
-        if (n == 1 || n == 0) {
-            return BigInteger.valueOf(n);
+        if (n == 0) {
+            return BigInteger.ZERO;
+        } else if (n == 1) {
+            return BigInteger.ONE;
         } else {
             return slowA(n - 1).add(slowA(n - 2));
         }
     }
+
+
+
 }
 

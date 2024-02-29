@@ -26,18 +26,17 @@ public class FiboC {
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
         Boolean Flag;
-        Long[] arr=new Long[(int) n];
+        Integer[] arr=new Integer[ 6*m];
         int numost = 0;
-        if (n==1) arr[numost]= 1L;
+        if (n==1) return 1L;
                 else {
-            arr[0] = 0L;
-            arr[1] = 1L;
+            arr[0] = 0;
+            arr[1] = 1;
             int i = 2;
             int pizano = 2;
             Flag = true;
-            while ((i < n) && Flag) {
-                arr[i] = arr[i - 1] + arr[i - 2];
-                if (arr[i] >= m) arr[i] = arr[i] % m;
+            while ((i < 6*m) && Flag) {
+                arr[i] = (arr[i - 1] + arr[i - 2]) % m;
                 if ((arr[i] == 1) && (arr[i - 1] == 0)) Flag = false;
                 else
                     pizano++;

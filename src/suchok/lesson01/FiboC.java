@@ -36,8 +36,7 @@ public class FiboC {
                 break;
             }
         }
-        long pisanoPeriod = res;
-        n = n % pisanoPeriod;
+        n = n % res;
         if (n == 0) return 0;
         else if (n == 1) return 1;
         for (int i = 0; i < n - 1; i++) {

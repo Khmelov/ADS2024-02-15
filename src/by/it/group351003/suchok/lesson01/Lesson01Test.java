@@ -1,4 +1,4 @@
-package by.it.suchok.lesson01;
+package by.it.group351003.suchok.lesson01;
 
 import org.junit.Test;
 

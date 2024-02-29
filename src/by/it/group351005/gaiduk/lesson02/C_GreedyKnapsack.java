@@ -75,6 +75,7 @@ public class C_GreedyKnapsack {
             }
             W -= items[i].weight;
             result += items[i].cost;
+
         }
 
 

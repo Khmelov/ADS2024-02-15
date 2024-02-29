@@ -54,6 +54,7 @@ public class B_Sheduler {
             @Override
             public int compare(Event event1, Event event2) {
                 return Integer.compare(event1.stop, event2.stop);
+
             }
         }
         Arrays.sort(events, new EventComparator());

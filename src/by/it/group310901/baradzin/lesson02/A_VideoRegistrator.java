@@ -1,7 +1,9 @@
 package by.it.group310901.baradzin.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 /*
     Даны события events
     реализуйте метод calcStartTimes, так, чтобы число включений регистратора на
@@ -29,21 +31,14 @@ public class A_VideoRegistrator {
      * @return итог
      */
     List<Double> calcStartTimes(double[] events, double workDuration) {
-        List<Double> result = new ArrayList<>();
-        // индекс события events[i]
-        var i = 0;
-
-        // Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
-        // Подготовка к жадному поглощению массива событий
-        // hint: сортировка Arrays.sort обеспечит скорость алгоритма
-        // C*(n log n) + C1*n = O(n log n)
-        // пока есть незарегистрированные события
-        // получим одно событие по левому краю
-        // и запомним время старта видеокамеры
-        // вычислим момент окончания работы видеокамеры
-        // и теперь пропустим все покрываемые события
-        // за время до конца работы, увеличивая индекс
-
+        Arrays.sort(events);
+        var result = new ArrayList<Double>();
+        double currentTime = 0;
+        for (var event : events)
+            if (event > currentTime) {
+                result.add(event);
+                currentTime = event + workDuration;
+            }
         return result;
     }
 }

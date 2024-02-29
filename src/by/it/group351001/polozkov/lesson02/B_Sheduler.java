@@ -1,4 +1,4 @@
-package by.it.Group351001.polozkov.lesson02;
+package by.it.group351001.polozkov.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;

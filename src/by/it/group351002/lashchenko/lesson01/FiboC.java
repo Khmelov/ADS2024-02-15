@@ -1,4 +1,4 @@
-package by.it.group351002.lashchenko;
+package by.it.group351002.lashchenko.lesson01;
 
 public class FiboC {
 

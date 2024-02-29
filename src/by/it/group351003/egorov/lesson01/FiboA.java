@@ -1,4 +1,4 @@
-package by.it.group351003.egor_guzaev.lesson01;
+package by.it.group351003.egorov.lesson01;
 
 import java.math.BigInteger;
 
@@ -36,13 +36,18 @@ public class FiboA {
         }
     }
 
-    BigInteger slowA(int n) {
-        if (n <= 1) {
-            return BigInteger.valueOf(n);
+
+    BigInteger slowA(Integer n) {
+        if (n == 0) {
+            return BigInteger.ZERO;
+        } else if (n == 1) {
+            return BigInteger.ONE;
         } else {
             return slowA(n - 1).add(slowA(n - 2));
         }
     }
+
+
 
 }
 

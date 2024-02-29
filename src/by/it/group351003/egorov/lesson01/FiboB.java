@@ -1,4 +1,4 @@
-package by.it.group351003.egor_guzaev.lesson01;
+package by.it.group351003.egorov.lesson01;
 
 import java.math.BigInteger;
 
@@ -23,7 +23,7 @@ public class FiboB {
         System.out.printf("fastB(%d)=%d \n\t time=%d \n\n", n, fibo.fastB(n), fibo.time());
     }
 
-    BigInteger fastB(int n) {
+    BigInteger fastB(Integer n) {
         BigInteger[] fib = new BigInteger[n+1];
         fib[0] = BigInteger.ZERO;
         fib[1] = BigInteger.ONE;

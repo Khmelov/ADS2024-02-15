@@ -69,7 +69,7 @@ public class Lesson4Test {
             sync += syncRun;
             async += asyncRun;
         }
-        System.out.printf("|Summa:| %13d | %14d |\n", sync, async);
+        System.out.printf("| Sum  | %13d | %14d |\n", sync, async);
     }
 
     private long CRun(InverseCounter counter) {

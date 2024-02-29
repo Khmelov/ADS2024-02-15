@@ -1,4 +1,4 @@
-package by.it.group351001.budnikov.lesson02;
+package by.it.Group351001.budnikov.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;

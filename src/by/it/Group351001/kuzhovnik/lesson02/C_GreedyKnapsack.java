@@ -1,4 +1,4 @@
-package by.it.group351001.kuzhovnik.lesson02;
+package by.it.Group351001.kuzhovnik.lesson02;
 /*
 Даны
 1) объем рюкзака 4

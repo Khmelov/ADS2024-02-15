@@ -1,4 +1,4 @@
-package by.it.group351001.radzetskii.lesson02;
+package by.it.Group351001.radzetskii.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -14,7 +14,6 @@ package by.it.group351001.radzetskii.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {

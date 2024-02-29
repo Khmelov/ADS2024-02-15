@@ -1,4 +1,4 @@
-package by.it.group351001.orsik.lesson02;
+package by.it.Group351001.orsik.lesson02;
 
 import java.util.*;
 /*

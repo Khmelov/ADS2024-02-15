@@ -1,4 +1,4 @@
-package by.it.group351001.anton_matsiushenka.lesson02;
+package by.it.Group351001.anton_matsiushenka.lesson02;
 /*
 Даны
 1) объем рюкзака 4

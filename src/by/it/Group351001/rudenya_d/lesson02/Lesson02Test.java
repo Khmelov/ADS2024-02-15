@@ -1,4 +1,4 @@
-package by.it.group351001.rudenya_d.lesson02;
+package by.it.Group351001.rudenya_d.lesson02;
 
 import org.junit.Test;
 

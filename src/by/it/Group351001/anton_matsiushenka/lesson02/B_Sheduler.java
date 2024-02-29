@@ -1,4 +1,4 @@
-package by.it.group351001.anton_matsiushenka.lesson02;
+package by.it.Group351001.anton_matsiushenka.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;

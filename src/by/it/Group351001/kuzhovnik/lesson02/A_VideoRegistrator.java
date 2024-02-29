@@ -1,6 +1,5 @@
-package by.it.group351001.kuzhovnik.lesson02;
+package by.it.Group351001.kuzhovnik.lesson02;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

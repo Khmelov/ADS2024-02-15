@@ -24,25 +24,20 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
 
-        if (n == 1) return 1;
+        int[] a = new int[m*4];
+        a[0]=0;
+        a[1]=1;
+        int i = 1;
 
-        int[] allNums = new int[m*6];
-        allNums[0]=0;
-        allNums[1]=1;
-        int i = 2;
-        for(; i<allNums.length; i++){
-            allNums[i] = (allNums[i-1]+allNums[i-2])%m;
-            if ((allNums[i]==1) && (allNums[i-1]==0)) break;
-        }
-        i -= 1;
+        do {
+            i++;
+            a[i] = (a[i - 1] + a[i - 2]) % m;
+        } while (a[i] != 1 || a[i - 1] != 0);
 
         i = (int) n%i;
 
-        return allNums[i];
+        return a[i];
     }
 
 

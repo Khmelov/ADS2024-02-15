@@ -37,9 +37,7 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            return this.cost*o.weight-o.cost*this.weight;
         }
     }
 
@@ -62,10 +60,46 @@ public class C_GreedyKnapsack {
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
         
+        //To max-heap
+        for(int i = 1; i < items.length; i++){
+            int curr = i;
+            int prev = (curr-1) >> 1;
+            while(prev > -1 && items[prev].compareTo(items[curr]) < 0){
+                Item temp = items[prev];
+                items[prev] = items[i];
+                items[i] = temp;
+                curr = prev;
+                prev = (curr-1) >> 1;
+            }
+        }
+
+        //Swap max and min element and re-add max element
+        for(int i = 0; i < items.length-1; i++){
+            Item temp = items[items.length-1];
+            items[items.length-1] = items[i];
+            items[i] = temp;
+
+            int curr = items.length-1;
+            int prev = i+1+((curr-i-2) >> 1);
+            while(prev > i && items[prev].compareTo(items[curr]) < 0){
+                temp = items[prev];
+                items[prev] = items[curr];
+                items[curr] = temp;
+                curr = prev;
+                prev = i+1+((curr-i-2) >> 1);
+            }
+        }
         
-
-
-
+        //Greedy algorithm
+        int space = W;
+        for(int i = items.length-1; i >= 0; i--){
+            if(items[i].weight > space){
+                result += items[i].cost*space/items[i].weight;
+                break;
+            }
+            result += items[i].cost;
+            space -= items[i].weight;
+        }
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

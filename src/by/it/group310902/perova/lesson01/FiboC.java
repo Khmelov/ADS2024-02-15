@@ -1,4 +1,4 @@
-package by.it.a_khmelev.group310902.perova.lesson01;
+package by.it.group310902.perova.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -8,7 +8,7 @@ package by.it.a_khmelev.group310902.perova.lesson01;
 
 public class FiboC {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -25,31 +25,36 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        int period = getPeriodLength(m);
-        int remainder = (int) (n % period);
+        long period = getPisanoPeriod(m); // менять тут
+        long remainderIndex = n % period; // менять тут
 
-        long a = 0;
-        long b = 1;
-        long result = remainder;
+        long current = 0;
+        long next = 1;
+        long newNum = 0;
 
-        for (int i = 1; i < remainder; i++) {
-            result = (a + b) % m;
-            a = b;
-            b = result;
+        if (remainderIndex == 0) { // менять тут
+            return 0;
+        } else if (remainderIndex == 1) { // менять тут
+            return 1;
+        } else {
+            for (int i = 1; i < remainderIndex; i++) { // менять тут
+                newNum = (current + next) % m;
+                current = next;
+                next = newNum;
+            }
         }
 
-        return result;
+        return newNum;
     }
 
-    private int getPeriodLength(int m) {
-        int a = 0, b = 1, c = a + b;
+    long getPisanoPeriod(int m) { // менять тут
+        long a = 0, b = 1, c = a + b;
         for (int i = 0; i < m * m; i++) {
             c = (a + b) % m;
             a = b;
             b = c;
-            if (a == 0 && b == 1) {
+            if (a == 0 && b == 1)
                 return i + 1;
-            }
         }
         return 0;
     }

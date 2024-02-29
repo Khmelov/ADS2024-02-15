@@ -1,6 +1,8 @@
-package by.it.a_khmelev.lesson02;
+package by.it.group310902.tichonenko.lesson01.lesson01.lesson02;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -29,6 +31,16 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
+        Arrays.sort(events);
+        while (i < events.length) {
+            double start = events[i];
+            double end = start + workDuration;
+            result.add(start);
+            while (i < events.length && events[i] <= end) {
+                i++;
+            }
+        }
+
 
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
@@ -39,7 +51,7 @@ public class A_VideoRegistrator {
 
 
 
-
+        System.out.print(result);
         return result;                        //вернем итог
     }
 }

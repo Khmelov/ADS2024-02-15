@@ -5,7 +5,6 @@ package by.it.group351002.khmel.lesson01;
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.
  * время расчета должно быть не более 2 секунд
  */
-
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();

@@ -16,15 +16,17 @@ package by.it.group310901.baradzin.lesson02;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
-        String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson02/greedyKnapsack.txt");
-        double costFinal = new C_GreedyKnapsack().calc(f);
-        long finishTime = System.currentTimeMillis();
+        var root = System.getProperty("user.dir") + "/src/";
+        var f = new File(root + "by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        var costFinal = new C_GreedyKnapsack().calc(f);
+        var finishTime = System.currentTimeMillis();
         System.out.printf("Общая стоимость %f (время %d)", costFinal, finishTime - startTime);
     }
 
@@ -44,15 +46,16 @@ public class C_GreedyKnapsack {
             System.out.println(item);
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
 
-        //тут необходимо реализовать решение задачи
-        //итогом является максимально возможная стоимость вещей в рюкзаке
-        //вещи можно резать на кусочки (непрерывный рюкзак)
-
+        Arrays.sort(items, Collections.reverseOrder());
         double result = 0;
-
-        //тут реализуйте алгоритм сбора рюкзака
-        //будет особенно хорошо, если с собственной сортировкой
-        //кроме того, можете описать свой компаратор в классе Item
+        for (var item: items)
+            if (item.weight <= W) {
+                W -= item.weight;
+                result += item.cost;
+            } else {
+                result += W * item.profit;
+                break;
+            }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
         return result;
@@ -60,10 +63,12 @@ public class C_GreedyKnapsack {
 
     private static class Item implements Comparable<Item> {
         int cost, weight;
+        double profit;
 
         Item(int cost, int weight) {
             this.cost = cost;
             this.weight = weight;
+            this.profit = (double) cost / weight;
         }
 
         @Override
@@ -71,15 +76,13 @@ public class C_GreedyKnapsack {
             return "Item{" +
                     "cost=" + cost +
                     ", weight=" + weight +
+                    ", profit=" + profit +
                     '}';
         }
 
         @Override
         public int compareTo(Item o) {
-
-            // тут ваш компаратор
-
-            return 0;
+            return Double.compare(this.profit, o.profit);
         }
     }
 }

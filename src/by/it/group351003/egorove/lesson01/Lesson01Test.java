@@ -1,4 +1,4 @@
-package by.it.group351003.egorov.lesson01;
+package by.it.group351003.egorove.lesson01;
 
 import org.junit.Test;
 

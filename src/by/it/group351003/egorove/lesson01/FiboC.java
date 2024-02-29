@@ -1,13 +1,10 @@
-package by.it.group351005.egorov.lesson01;
+package by.it.group351003.egorove.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.
  * время расчета должно быть не более 2 секунд
  */
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FiboC {
 
@@ -24,23 +21,32 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    long fasterC(long n, int m) {
-        List<Integer> list = new ArrayList<>();
-        int temp = 0;
-        int n0 = 0;
-        int n1 = 1;
-        boolean isNotFound = true;
-        list.add(n0);
-        list.add(n1);
-        while (isNotFound){
-            temp = (n0 + n1) % m;
-            n0 = n1;
-            n1 = temp;
-            list.add(temp);
-            if (list.get(list.size() - 1) == 1 && list.get(list.size() - 2) == 0)
-                isNotFound = false;
+    private static long getPisanoPeriod(int m) {
+        long a = 0, b = 1, c;
+        for (int i = 0; i < m * m; i++) {
+            c = (a + b) % m;
+            a = b;
+            b = c;
+            if (a == 0 && b == 1) return i + 1;
         }
-        return list.get((int)(n % (list.size() - 2)));
+        return 0;
+    }
+
+    long fasterC(long n, int m) {
+        long remainder = n % getPisanoPeriod(m);
+
+        long first = 0;
+        long second = 1;
+
+        long res = remainder;
+
+        for (int i = 1; i < remainder; i++) {
+            res = (first + second) % m;
+            first = second;
+            second = res;
+        }
+
+        return res % m;
     }
 
 

@@ -28,7 +28,7 @@ public class FiboC {
         Boolean Flag;
         Integer[] arr=new Integer[ 6*m];
         int numost = 0;
-        if (n==1) return 1L;
+        if (n==1) return 1;
                 else {
             arr[0] = 0;
             arr[1] = 1;

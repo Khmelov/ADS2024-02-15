@@ -16,8 +16,8 @@ public class FiboC {
 
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
-        int n = 1;
-        int m = 6;
+        int n = 10;
+        int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
@@ -25,19 +25,21 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        long prev = 0;
-        long curr = 1;
-        long result = 0;
-        for (int i = 2; i <= n ; i++) {
-            result = (prev + curr)%m;
+        if (n <= 1) {
+            return n%m;
+        }
+        int prev = 0;
+        int curr = 1;
+        int result = 0;
+        for (int i = 2; i <= n; i++) {
+            result = (prev + curr) % m;
             prev = curr;
             curr = result;
-            if (prev == 0 && curr == 1){
-                long period = i - 1;
+            if (prev == 0 && curr == 1) {
+                int period = i - 1;
                 int remainder = (int) (n % period);
                 return fasterC(remainder, m);
             }
-
         }
         return result;
     }

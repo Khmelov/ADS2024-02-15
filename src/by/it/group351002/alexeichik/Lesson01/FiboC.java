@@ -1,4 +1,4 @@
-package by.it.group351002.alexeichik;
+package by.it.group351002.alexeichik.Lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -29,7 +29,7 @@ public class FiboC {
         Integer[] arr=new Integer[ 6*m];
         int numost = 0;
         if (n==1) return 1;
-                else {
+        else {
             arr[0] = 0;
             arr[1] = 1;
             int i = 2;

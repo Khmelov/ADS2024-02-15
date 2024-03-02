@@ -15,7 +15,7 @@ package by.it.group351005.bitno.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.Arrays;
+
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
         int cost;
@@ -42,6 +42,33 @@ public class C_GreedyKnapsack {
             return 0;
         }
     }
+    private static int partition(Item[] arr, int low, int high) {
+        int middle = low + (high - low) / 2;
+        Item pivot = arr[middle];
+        Item temp = arr[middle];
+        arr[middle] = arr[high];
+        arr[high] = temp;
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (arr[j].cost / arr[j].weight > pivot.cost / pivot.weight) {
+                i++;
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return i + 1;
+    }
+    static void quickSort(Item[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
 
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);
@@ -66,18 +93,18 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-
-        Arrays.sort(items, (Item1, Item2)->{
-            return Double.compare((double)Item1.weight/Item1.cost,(double)Item2.weight/Item2.cost);
-        });
-        for (int i = 0; i < items.length && W != 0; ++i){
-            while (items[i].weight > W) {
-                items[i].cost -= items[i].cost / items[i].weight;
-                items[i].weight--;
+        quickSort(items, 0, items.length - 1);
+        int i = 0;
+        while (W > 0) {
+            if (items[i].weight <= W) {
+                result += items[i].cost;
+                W -= items[i].weight;
             }
-            W -= items[i].weight;
-            result += items[i].cost;
-
+            else {
+                result += W * items[i].cost / items[i].weight;
+                W = 0;
+            }
+            i++;
         }
 
 

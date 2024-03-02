@@ -1,9 +1,7 @@
 package by.it.group351005.bitno.lesson02;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Comparator;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -27,8 +25,34 @@ public class B_Sheduler {
             return "("+ start +":" + stop + ")";
         }
     }
-
-    public static void main(String[] args) {
+    private static int partition(Event[] arr, int low, int high) {
+        int middle = low + (high - low) / 2;
+        Event pivot = arr[middle];
+        Event temp = arr[middle];
+        arr[middle] = arr[high];
+        arr[high] = temp;
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (arr[j].start < pivot.start || arr[j].start == pivot.start && arr[j].stop < pivot.stop) {
+                i++;
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return i + 1;
+    }
+    static void quickSort(Event[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+    static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
         Event[] events = {  new Event(0, 3),  new Event(0, 1), new Event(1, 2), new Event(3, 5),
                 new Event(1, 3),  new Event(1, 3), new Event(1, 3), new Event(3, 6),
@@ -50,23 +74,16 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        class EventComparator implements Comparator<Event> {
-            @Override
-            public int compare(Event event1, Event event2) {
-                return Integer.compare(event1.stop, event2.stop);
-
-            }
-        }
-        Arrays.sort(events, new EventComparator());
-        int i = 0;
-        int curentEventTime = 0;
-        while (i < events.length){
-            if (curentEventTime > events[i].start) ++i;
-            else {
-                curentEventTime = events[i].stop;
+        quickSort(events, 0, events.length - 1);
+        result.add(events[0]);
+        for (int i = 1; i < events.length; i++)
+            if (result.get(result.size() - 1).stop <= events[i].start )
                 result.add(events[i]);
-            }
-        }
-        return result;           //вернем итог
+
+
+
+
+
+        return result;          //вернем итог
     }
 }

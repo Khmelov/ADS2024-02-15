@@ -1,4 +1,5 @@
 package by.it.a_khmelev.lesson01;
+import java.util.Vector;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -25,7 +26,34 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        Vector<Long> vector = new Vector<>();
+        long newFib0 = 1L;
+        long newFib1 = 1L;
+        long newFib2=1l;
+        int i=1;
+        vector.add(newFib0);
+        vector.add(newFib1);
+
+
+        do {
+            newFib2=(newFib0+newFib1)%m;
+            newFib0=newFib1;
+
+            newFib1=newFib2;
+
+            vector.add(newFib2);
+
+            i++;
+
+        }while (vector.get(i)!=1 || vector.get(i-1)!=1);
+        i++;
+        i-=2;
+        while(n-i>0){
+            n=n-i;
+        }
+        n--;
+
+        return vector.get((int)n);
     }
 
 

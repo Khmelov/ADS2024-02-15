@@ -1,6 +1,7 @@
 package by.it.group351005.bitno.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -28,15 +29,17 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
-        double r;
-        while (i < events.length - 1) {
-            result.add(events[i]);
-            r = events[i]+1;
-            i++;
-            while ((i < events.length - 1) && (events[i] <= r)) {
-                i++;
+        Arrays.sort(events);
+        double curentTime = 0;
+        while (i < events.length){
+            if (curentTime >= events[i]) i++;
+            else
+            {
+                result.add(events[i]);
+                curentTime = events[i] + workDuration;
             }
         }
+
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
         //и запомним время старта видеокамеры

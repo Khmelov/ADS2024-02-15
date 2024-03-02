@@ -1,7 +1,9 @@
 package by.it.group351005.bitno.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Comparator;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -48,14 +50,21 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
+        class EventComparator implements Comparator<Event> {
+            @Override
+            public int compare(Event event1, Event event2) {
+                return Integer.compare(event1.stop, event2.stop);
+
+            }
+        }
+        Arrays.sort(events, new EventComparator());
         int i = 0;
-        int r;
-        while (i < events.length - 1) {
-            result.add(events[i]);
-            r = events[i].stop;
-            i++;
-            while ((i < events.length - 1) && (events[i].start < r)) {
-                i++;
+        int curentEventTime = 0;
+        while (i < events.length){
+            if (curentEventTime > events[i].start) ++i;
+            else {
+                curentEventTime = events[i].stop;
+                result.add(events[i]);
             }
         }
         return result;           //вернем итог

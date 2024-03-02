@@ -1,6 +1,8 @@
-package by.it.group351001.ivan_shaminko.lesson02;
+package by.it.group351001.kuzhovnik.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -40,33 +42,30 @@ public class B_Sheduler {
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
-    List<Event> calcStartTimes(Event[] events, int from, int to) {
-        List<Event> result;
-        result = new ArrayList<>();
-        Event swap;
-        for (int i = 0; i < events.length; i++) {
-            for (int k = 0; k < events.length - i - 1; k++) {
-                if (events[k].stop > events[k + 1].stop) {
-                    swap = events[k];
-                    events[k] = events[k + 1];
-                    events[k + 1] = swap;
+        List<Event> calcStartTimes(Event[] events, int from, int to) {
+            //Events - события которые нужно распределить в аудитории
+            //в период [from, int] (включительно).
+            //оптимизация проводится по наибольшему числу непересекающихся событий.
+            //Начало и конец событий могут совпадать.
+            List<Event> result;
+            result = new ArrayList<>();
+            Arrays.sort(events, new Comparator<Event>(){
+                @Override
+                public int compare (Event o1, Event o2){
+                    return Integer.compare(o1.stop, o2.stop);
                 }
-
+            });
+            //ваше решение.
+            int i = 0;
+            int r;
+            while (i < events.length - 1) {
+                    result.add(events[i]);
+                    r = events[i].stop;
+                    i++;
+                    while ((i < events.length - 1) && (events[i].start < r)) {
+                      i++;
+                }
             }
-
+            return result;     //вернем итог
         }
-
-        int buf = from;
-        for (Event event : events){
-            if (buf <= event.start) {
-                result.add(event);
-                buf = event.stop;
-            }
-        }
-
-
-
-
-        return result;          //вернем итог
-    }
 }

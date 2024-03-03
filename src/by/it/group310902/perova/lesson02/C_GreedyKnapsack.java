@@ -14,6 +14,7 @@ package by.it.group310902.perova.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -58,7 +59,7 @@ public class C_GreedyKnapsack {
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
         //тут реализуйте алгоритм сбора рюкзака
@@ -67,9 +68,18 @@ public class C_GreedyKnapsack {
 
         //ваше решение.
 
+        Arrays.sort(items, (Item1, Item2)->{
+            return Double.compare((double)Item1.weight/Item1.cost,(double)Item2.weight/Item2.cost);
+        });
+        for (int i = 0; i < items.length && W != 0; ++i){
+            while (items[i].weight > W) {
+                items[i].cost -= items[i].cost / items[i].weight;
+                items[i].weight--;
+            }
+            W -= items[i].weight;
+            result += items[i].cost;
 
-
-
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

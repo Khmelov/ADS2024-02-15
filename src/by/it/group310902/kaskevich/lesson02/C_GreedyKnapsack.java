@@ -14,6 +14,8 @@ package by.it.group310902.kaskevich.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -60,7 +62,7 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-        double result = 0;
+
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
@@ -68,6 +70,26 @@ public class C_GreedyKnapsack {
         //ваше решение.
 
 
+
+
+        double result = 0;
+
+        int currentWeight = 0;
+
+        for (Item item : items)
+        {
+            if (currentWeight + item.weight <= W)
+            {
+                result += item.cost;
+                currentWeight += item.weight;
+            }
+            else
+            {
+                double fraction = (double) (W - currentWeight) / item.weight;
+                result += item.cost * fraction;
+                break;
+            }
+        }
 
 
 
@@ -78,7 +100,7 @@ public class C_GreedyKnapsack {
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
         String root=System.getProperty("user.dir")+"/src/";
-        File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        File f=new File(root+"by/it/group310902/kaskevich/lesson02/greedyKnapsack.txt");
         double costFinal=new C_GreedyKnapsack().calc(f);
         long finishTime = System.currentTimeMillis();
         System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);

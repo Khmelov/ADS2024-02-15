@@ -40,8 +40,23 @@ public class C_GreedyKnapsack {
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
 
+            
 
-            return 0;
+            double ratio1 = (double) cost / weight;
+            double ratio2 = (double) o.cost / o.weight;
+            
+            if (ratio1 > ratio2) 
+            {
+                return -1;
+            } 
+            else if (ratio1 < ratio2) 
+            {
+                return 1;
+            } 
+            else 
+            {
+                return 0;
+            }
         }
     }
 
@@ -71,6 +86,7 @@ public class C_GreedyKnapsack {
 
 
 
+        Array.sort(items);
 
         double result = 0;
 

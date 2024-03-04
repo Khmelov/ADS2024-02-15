@@ -18,6 +18,7 @@ public class Lesson01Test {
     */
 
     @Test(timeout = 2000)
+
     public void slowA() throws Exception {
         FiboA fibo=new FiboA();
         BigInteger res=fibo.slowA(33);

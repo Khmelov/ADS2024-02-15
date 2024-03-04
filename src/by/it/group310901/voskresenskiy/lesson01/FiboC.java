@@ -8,6 +8,7 @@ package by.it.group310901.voskresenskiy.lesson01;
 
 public class FiboC {
 
+
     private long startTime = System.currentTimeMillis();
 
     private long time() {

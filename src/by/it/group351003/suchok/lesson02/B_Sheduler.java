@@ -45,15 +45,27 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
-        List<Event> result;
-        result = new ArrayList<>();
+        List<Event> result = new ArrayList<>();
+        //result = new ArrayList<>();
         //ваше решение.
-
-
-
-
-
-
+        while (from < to){
+            Event best = null;
+            for (int i = 0; i < events.length; ++i){
+                if (events[i].start == from && best == null){
+                    best = events[i];
+                }
+                else if (events[i].start == from && events[i].stop < best.stop){
+                    best = events[i];
+                }
+            }
+            if (best != null){
+                result.add(best);
+                from = best.stop;
+            }
+            else {
+                from++;
+            }
+        }
         return result;          //вернем итог
     }
 }

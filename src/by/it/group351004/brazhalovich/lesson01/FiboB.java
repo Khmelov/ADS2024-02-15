@@ -31,8 +31,8 @@ public class FiboB {
         fib[0] = BigInteger.ZERO;
         fib[1] = BigInteger.ONE;
         if (n > 1) {
-            for (int i = 2; i <= n; i++) {
-                fib[i] = fib[i - 1].add(fib[i - 2]);
+            for (int j = 2; j <= n; j++) {
+                fib[j] = fib[j - 1].add(fib[j - 2]);
             }
         }
         return fib[n];

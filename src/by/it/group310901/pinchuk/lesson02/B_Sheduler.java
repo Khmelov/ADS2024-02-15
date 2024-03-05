@@ -1,8 +1,8 @@
-package by.it.group351002.yarakhovich.lesson02;
+package by.it.group310901.pinchuk.lesson02;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -50,10 +50,11 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
 
-        Arrays.sort(events, (one,two) ->{
-            if(one.stop!=two.stop){
-                return Integer.compare(one.stop,two.stop);
-            }else return Integer.compare(one.start,two.start);
+        //сортировка массива событий по времени окончания
+        Arrays.sort(events, (o1,o2) ->{
+            if(o1.stop!=o2.stop){
+                return Integer.compare(o1.stop,o2.stop);
+            }else return Integer.compare(o1.start,o2.start);
         });
 
         int i =0;
@@ -64,6 +65,8 @@ public class B_Sheduler {
                 i++;
             }
         }
+
+
 
 
 

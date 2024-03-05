@@ -23,7 +23,6 @@ public class A_VideoRegistrator {
     List<Double> calcStartTimes(double[] events, double workDuration){
         //events - события которые нужно зарегистрировать
         //timeWorkDuration время работы видеокамеры после старта
-
         List<Double> result;
         result = new ArrayList<>();
         int i=0;

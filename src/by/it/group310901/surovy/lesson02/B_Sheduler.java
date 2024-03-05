@@ -1,7 +1,6 @@
 package by.it.group310901.surovy.lesson02;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class B_Sheduler {
     //событие у аудитории(два поля: начало и конец)
-    static class Event {
+    static class Event implements Comparable<Event>{
         int start;
         int stop;
 
@@ -23,6 +22,11 @@ public class B_Sheduler {
         @Override
         public String toString() {
             return "("+ start +":" + stop + ")";
+        }
+
+        @Override
+        public int compareTo(Event o) {
+            return this.stop - o.stop;
         }
     }
 
@@ -37,7 +41,7 @@ public class B_Sheduler {
         };
 
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
-        System.out.println(starts);                                 //покажем рассчитанный график занятий
+        System.out.println(starts);                                         //покажем рассчитанный график занятий
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
@@ -46,14 +50,19 @@ public class B_Sheduler {
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
         List<Event> result;
+        List<Event> list;
         result = new ArrayList<>();
+        list = Arrays.asList(events);
         //ваше решение.
-
-
-
-
-
-
+        Collections.sort(list);
+        int i = 0;
+        while(i < events.length) {
+            result.add(list.get(i));
+            i++;
+            while(i < events.length && list.get(i).start < result.get(result.size() - 1).stop){
+                i++;
+            }
+        }
         return result;          //вернем итог
     }
 }

@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group310901.dritz.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -8,7 +8,7 @@ package by.it.a_khmelev.lesson01;
 
 public class FiboC {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -25,9 +25,17 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        long[] pisanoPeriod = new long[m * 6];    pisanoPeriod[0] = 0L;
+        pisanoPeriod[1] = 1L;
+        int pisanoPeriodSize = 0;
+        for (int i = 2; i < m * 6; i++) {        pisanoPeriod[i] = (pisanoPeriod[i - 1] + pisanoPeriod[i - 2]) % m;
+            pisanoPeriodSize++;
+            if (pisanoPeriod[i] == 1 && pisanoPeriod[i - 1] == 0) {            break;
+            }    }
+        int index = (int) (n % pisanoPeriodSize);
+        return pisanoPeriod[index];
+         }
     }
 
 
-}
 

@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group351003.suchok.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -21,13 +21,28 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
-        return 0L;
+    static long fasterC(long n, long m) {
+        long prev = 0;
+        long curr = 1;
+        long res = 0;
+        for (int i = 0; i < m * m; i++) {
+            long temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+            if (prev == 0 && curr == 1 ) {
+                res = i + 1;
+                break;
+            }
+        }
+        n = n % res;
+        if (n == 0) return 0;
+        else if (n == 1) return 1;
+        for (int i = 0; i < n - 1; i++) {
+            long temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+        }
+        return curr % m;
     }
-
-
 }
 

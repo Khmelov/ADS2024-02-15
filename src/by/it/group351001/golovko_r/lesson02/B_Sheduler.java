@@ -1,4 +1,4 @@
-package by.it.group351001.sosnovski.lesson02;
+package by.it.group351001.golovko_r.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class B_Sheduler {
                 new Event(8, 9),  new Event(4, 6), new Event(8, 10), new Event(7, 10)
         };
 
-        List<Event> starts = instance.calcStartTimes(events,4,7);  //рассчитаем оптимальное заполнение аудитории
+        List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
@@ -48,37 +48,25 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-
-        int i, j, num, curr;
         Event temp;
-        for (i = 0; i < events.length - 1; i++){
-            num = i;
-            for (j = i + 1; j < events.length; j++){
-                if ((events[j].stop < events[num].stop) | (events[j].stop == events[num].stop && events[j].start < events[num].start)){
-                    num = j;
+        for (int i=0; i<24; i++) {
+            for (int j=23; j>i; j--){
+                if (events[j].stop<events[j-1].stop){
+                    temp = events[j];
+                    events[j] = events[j-1];
+                    events[j-1] = temp;
                 }
             }
-            temp = events[i];
-            events[i] = events[num];
-            events[num] = temp;
         }
-        //for (i = 0; i < events.length; i++) System.out.println(events[i] + " ");
-        i = 0;
-        curr = 0;
-        while (i < events.length) {
-            if (events[i].start >= from){
+        int i=1;
+        int Right = events[0].stop;
+        result.add(events[0]);
+        while (i<24)
+        {
+            if (events[i].start>=Right)
+            {
                 result.add(events[i]);
-                curr = i;
-                i++;
-                break;
-            }
-            i++;
-        }
-
-        while (i < events.length){
-            if ((events[i].stop <= to) && (events[i].start >= events[curr].stop)){
-                curr = i;
-                result.add(events[i]);
+                Right = events[i].stop;
             }
             i++;
         }

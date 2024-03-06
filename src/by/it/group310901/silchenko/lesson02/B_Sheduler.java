@@ -60,6 +60,7 @@ public class B_Sheduler {
                 lastAddedStop = event.stop;
             }
         }
+
         return result;          //вернем итог
     }
 }

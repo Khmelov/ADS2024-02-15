@@ -80,7 +80,6 @@ public class C_GreedyKnapsack {
             totalWeight+=item.weight;
         }
 
-
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }

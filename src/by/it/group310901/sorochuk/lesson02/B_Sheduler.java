@@ -2,6 +2,7 @@ package by.it.group310901.sorochuk.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -40,6 +41,20 @@ public class B_Sheduler {
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
+    Event[] sort(Event[] events) {
+        Event buffer;
+        for (int i = 0; i < events.length - 1; i++) {
+            for (int j = 0; j < events.length - i - 1; j++) {
+                if (events[j].stop > events[j + 1].stop) {
+                    buffer = events[j];
+                    events[j] = events[j + 1];
+                    events[j + 1] = buffer;
+                }
+            }
+        }
+        return events;
+    }
+
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
@@ -48,11 +63,20 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
+        sort(events);
 
+        int i = 0;
+        while (events[i].start < from) {
+            i++;
+        }
 
-
-
-
+        while ((i < events.length) && (events[i].stop <= to)) {
+            int stopMoment = events[i].stop;
+            result.add(events[i]);
+            while ((i < events.length) && (events[i].stop <= to) && (events[i].start < stopMoment)) {
+                i++;
+            }
+        }
 
         return result;          //вернем итог
     }

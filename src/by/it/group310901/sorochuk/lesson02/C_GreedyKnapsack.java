@@ -14,6 +14,7 @@ package by.it.group310901.sorochuk.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -35,11 +36,12 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item o) {
+        public int compareTo(Item other) {
             //тут может быть ваш компаратор
+            double specificWeightCurrent = ((double) cost) / weight;
+            double specificWeightOther = ((double) other.cost) / other.weight;
 
-
-            return 0;
+            return Double.compare(specificWeightOther, specificWeightCurrent);
         }
     }
 
@@ -60,7 +62,17 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
+        Arrays.sort(items);
         double result = 0;
+        int totalWeight = 0;
+        for (Item item : items) {
+            if (totalWeight + item.weight > W) {
+                result += ((double) item.cost) / item.weight * (W - totalWeight);
+                break;
+            }
+            result += item.cost;
+            totalWeight += item.weight;
+        }
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item

@@ -20,7 +20,6 @@ public class B_Sheduler {
             this.start = start;
             this.stop = stop;
         }
-
         @Override
         public String toString() {
             return "("+ start +":" + stop + ")";

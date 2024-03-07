@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group310901.kovalyova.lesson01;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -8,7 +8,7 @@ package by.it.a_khmelev.lesson01;
 
 public class FiboC {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -16,8 +16,8 @@ public class FiboC {
 
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
-        int n = 10;
-        int m = 2;
+        long n = 35;
+        int m = 5;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
@@ -25,7 +25,24 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        if (n <= 1){
+            return n%m;
+        }
+        long previous = 0;
+        long current = 1;
+        long new_current = 0;
+        long period = 0;
+        for(int i = 2; i <= n; i++){
+            new_current = previous + current;
+            previous = current;
+            current = new_current;
+            period++;
+            if ((previous%m == 0)&&(current%m == 1)){
+                n = (int)n%period;
+                return fasterC(n,m);
+            }
+        }
+        return new_current%m;
     }
 
 

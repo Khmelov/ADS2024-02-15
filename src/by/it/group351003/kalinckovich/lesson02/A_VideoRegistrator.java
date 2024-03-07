@@ -1,4 +1,4 @@
-package by.it.group351001.polozkov.lesson02;
+package by.it.group351003.kalinckovich.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,15 +25,19 @@ public class A_VideoRegistrator {
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result;
         result = new ArrayList<>();
+        int i=0;
+        double checkValue;
+        checkValue = events[0];
         Arrays.sort(events);
-        result.add(events[0]);
-        int i = 1;
-        double distance = events[0];
-        for (i = 1; i < events.length; i++){
-            if (!(events[i] - distance <= workDuration)) {
+        while (i<events.length - 1) {
+            if(events[i] < checkValue) {
                 result.add(events[i]);
-                distance = events[i];
             }
+            while (events[i]<checkValue){
+                i++;
+            }
+            checkValue++;
+            //i - это индекс события events[i]
         }
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
         //Подготовка к жадному поглощению массива событий
@@ -46,7 +50,6 @@ public class A_VideoRegistrator {
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-
 
 
 

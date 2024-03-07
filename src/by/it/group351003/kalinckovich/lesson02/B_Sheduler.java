@@ -1,4 +1,4 @@
-package by.it.group351001.sosnovski.lesson02;
+package by.it.group351003.kalinckovich.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,52 +36,58 @@ public class B_Sheduler {
                 new Event(8, 9),  new Event(4, 6), new Event(8, 10), new Event(7, 10)
         };
 
-        List<Event> starts = instance.calcStartTimes(events,4,7);  //рассчитаем оптимальное заполнение аудитории
+        List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
-
+    public static void EnterSort(Event[] events){
+        int j;
+        Event temp;
+        for(int i = 1;i < events.length; i++){
+            j = i - 1;
+            temp = events[i];
+            while (j>=0 && events[j].start > temp.start){
+                events[j + 1] = events[j];
+                j--;
+            }
+            events[j + 1] = temp;
+        }
+    }
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
         List<Event> result;
+        EnterSort(events);
         result = new ArrayList<>();
+        int i;
+        int startValue;
+        int min;
+        Event addValue;
+        i = 0;
+        while (i < events.length){
+            min = events[i].stop;
+            startValue = events[i].start;
+            addValue = events[i];
+            while (i < events.length && events[i].start == startValue){
+                if(events[i].stop < min){
+                    addValue = events[i];
+                    min = events[i].stop;
+                }
+                i++;
+            }
+            while (i < events.length && addValue.stop > events[i].start){
+                i++;
+            }
+            result.add(addValue);
+        }
         //ваше решение.
 
-        int i, j, num, curr;
-        Event temp;
-        for (i = 0; i < events.length - 1; i++){
-            num = i;
-            for (j = i + 1; j < events.length; j++){
-                if ((events[j].stop < events[num].stop) | (events[j].stop == events[num].stop && events[j].start < events[num].start)){
-                    num = j;
-                }
-            }
-            temp = events[i];
-            events[i] = events[num];
-            events[num] = temp;
-        }
-        //for (i = 0; i < events.length; i++) System.out.println(events[i] + " ");
-        i = 0;
-        curr = 0;
-        while (i < events.length) {
-            if (events[i].start >= from){
-                result.add(events[i]);
-                curr = i;
-                i++;
-                break;
-            }
-            i++;
-        }
 
-        while (i < events.length){
-            if ((events[i].stop <= to) && (events[i].start >= events[curr].stop)){
-                curr = i;
-                result.add(events[i]);
-            }
-            i++;
-        }
+
+
+
+
         return result;          //вернем итог
     }
 }

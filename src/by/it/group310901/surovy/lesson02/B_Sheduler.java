@@ -50,16 +50,14 @@ public class B_Sheduler {
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
         List<Event> result;
-        List<Event> list;
         result = new ArrayList<>();
-        list = Arrays.asList(events);
         //ваше решение.
-        Collections.sort(list);
+        Arrays.sort(events, Event::compareTo);
         int i = 0;
         while(i < events.length) {
-            result.add(list.get(i));
+            result.add(events[i]);
             i++;
-            while(i < events.length && list.get(i).start < result.get(result.size() - 1).stop){
+            while(i < events.length && events[i].start < result.get(result.size() - 1).stop){
                 i++;
             }
         }

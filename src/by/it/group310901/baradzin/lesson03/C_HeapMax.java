@@ -1,0 +1,119 @@
+package by.it.group310901.baradzin.lesson03;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+/*
+ * Построить max-кучу = пирамиду = бинарное сбалансированное дерево на массиве
+ *
+ * ВАЖНО! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ НИКАКИЕ КОЛЛЕКЦИИ, КРОМЕ ARRAYLIST (его можно, но только для массива)
+ *
+ * Проверка проводится по данным файла. Первая строка входа содержит число операций 1 ≤ n ≤ 100000. Каждая из
+ * последующих nn строк задают операцию одного из следующих двух типов:
+ *
+ * Insert x, где 0 ≤ x ≤ 1000000000 — целое число. Добавляет число x в очередь с приоритетами
+ * ExtractMax. Извлекает максимальное число и выводит его
+ *
+ * Используйте Алгоритм Хаффмана — жадный алгоритм оптимального безпрефиксного кодирования алфавита с минимальной
+ * избыточностью.
+ *
+ * В первой строке выведите количество различных букв kk, встречающихся в строке, и размер получившейся
+ * закодированной строки. В следующих kk строках запишите коды букв в формате "letter: code". В последней строке
+ * выведите закодированную строку. Примеры ниже
+ *
+ * Sample Input:
+ * 6
+ * Insert 200
+ * Insert 10
+ * ExtractMax
+ * Insert 5
+ * Insert 500
+ * ExtractMax
+ * Sample Output:
+ * 200
+ * 500
+ *
+ * РЕМАРКА
+ * Это задание исключительно учебное. Свои собственные кучи нужны довольно редко. "В реальном бою" все существенно
+ * иначе. Изучите и используйте коллекции TreeSet, TreeMap, PriorityQueue и т.д. с нужным CompareTo() для объекта
+ * внутри.
+ */
+
+public class C_HeapMax {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        var root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group310901/baradzin/lesson03/heapData.txt");
+        var instance = new C_HeapMax();
+        System.out.println("MAX=" + instance.findMaxValue(stream));
+    }
+
+    /**
+     * Читает данные из файла, можно не менять
+     */
+    Long findMaxValue(InputStream stream) {
+        long maxValue = 0L;
+        var heap = new MaxHeap();
+        // прочитаем строку для кодирования из тестового файла
+        var scanner = new Scanner(stream);
+        var count = scanner.nextInt();
+        for (var i = 0; i < count; ) {
+            var s = scanner.nextLine();
+            if (s.equalsIgnoreCase("extractMax")) {
+                var res = heap.extractMax();
+                if (res != null && res > maxValue) maxValue = res;
+                System.out.println();
+                i++;
+            }
+            if (s.contains(" ")) {
+                var p = s.split(" ");
+                if (p[0].equalsIgnoreCase("insert"))
+                    heap.insert(Long.parseLong(p[1]));
+                i++;
+            }
+        }
+        return maxValue;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Решение
+     */
+    private static class MaxHeap {
+        private final List<Long> heap = new ArrayList<>();
+
+        /**
+         * Просеивание вверх
+         */
+        int siftUp(int i) {
+            return i;
+        }
+
+        /**
+         * Просеивание вниз
+         */
+        int siftDown(int i) {
+            return i;
+        }
+
+        /**
+         * Вставка
+         */
+        void insert(Long value) {
+        }
+
+        /**
+         * Извлечение и удаление максимума
+         */
+        Long extractMax() {
+            Long result = null;
+            return result;
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
+}

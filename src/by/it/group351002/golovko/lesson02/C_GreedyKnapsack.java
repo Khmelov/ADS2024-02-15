@@ -1,4 +1,4 @@
-package by.it.group351005.bitno.lesson02;
+package by.it.group351002.golovko.lesson02;
 /*
 Даны
 1) объем рюкзака 4

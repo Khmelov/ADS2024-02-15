@@ -15,8 +15,6 @@ package by.it.group310901.surovy.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -75,7 +73,7 @@ public class C_GreedyKnapsack {
                 W -= items[i].weight;
                 result += items[i].cost;
             }else{
-                result += W * items[i].cost / items[i].weight ;
+                result += (W * items[i].cost) / (items[i].weight) ;
                 break;
             }
         }

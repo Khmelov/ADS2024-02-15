@@ -85,5 +85,4 @@ public class B_Huffman {
         System.out.println(result);
     }
 
-
 }

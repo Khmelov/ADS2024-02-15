@@ -1,8 +1,6 @@
-package by.it.group351002.golovko.lesson02;
+package by.it.group351003.suchok.lesson02;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -42,46 +40,31 @@ public class B_Sheduler {
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
 
-    class Sravnit implements Comparator<Event> {
-
-        public int compare(Event a,Event b) {
-
-            if (a.start<b.start) return -1;
-            else if (a.start==b.start) return 0;
-            else return 1;
-
-
-        }
-    }
-
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
-        List<Event> result;
-        result = new ArrayList<>();
-        Arrays.sort(events,new Sravnit());
-        int min;
-        int minInd=0;
-        int i;
-        int k=0;
-
-        while (events[minInd].stop<=events[events.length-1].start) {
-            min = events[k].stop;
-            minInd = k;
-            for (i = k + 1; i < events.length; i++) {
-                if (events[i].stop < min) {
-                    min = events[i].stop;
-                    minInd = i;
+        List<Event> result = new ArrayList<>();
+        //result = new ArrayList<>();
+        //ваше решение.
+        while (from < to){
+            Event best = null;
+            for (int i = 0; i < events.length; ++i){
+                if (events[i].start == from && best == null){
+                    best = events[i];
+                }
+                else if (events[i].start == from && events[i].stop < best.stop){
+                    best = events[i];
                 }
             }
-            result.add(events[minInd]);
-            i = minInd;
-            while (i < events.length && events[i].start < events[minInd].stop) {
-                i++;
+            if (best != null){
+                result.add(best);
+                from = best.stop;
             }
-            k = i;
+            else {
+                from++;
+            }
         }
         return result;          //вернем итог
     }

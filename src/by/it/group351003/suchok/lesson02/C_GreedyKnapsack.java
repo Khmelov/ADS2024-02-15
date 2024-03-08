@@ -15,6 +15,7 @@ package by.it.group351003.suchok.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -37,8 +38,12 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
+            if (this.cost / this.weight > o.cost / o.weight){
+                return -1;
+            }
+            else if (this.cost / this.weight < o.cost / o.weight){
+                return 1;
+            }
             return 0;
         }
     }
@@ -56,7 +61,7 @@ public class C_GreedyKnapsack {
             System.out.println(item);
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
-
+        Arrays.sort(items);
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
@@ -67,10 +72,16 @@ public class C_GreedyKnapsack {
 
         //ваше решение.
 
-
-
-
-
+        for (int i = 0; i < items.length; i++){
+            if (items[i].weight < W){
+                result += items[i].cost;
+                W -= items[i].weight;
+            }
+            else if (W > 0){
+                result += (items[i].cost * W / items[i].weight);
+                W = 0;
+            }
+        }
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }

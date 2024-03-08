@@ -37,22 +37,70 @@ import java.util.Scanner;
 public class B_Huffman {
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = System.getProperty("user.dir") + "/src/";
-        var f = new File(root + "by/it/group310901/baradzin/lesson03/encodeHuffman.txt");
+        var root = STR."\{System.getProperty("user.dir")}/src/";
+        var f = new File(STR."\{root}by/it/group310901/baradzin/lesson03/encodeHuffman.txt");
         var instance = new B_Huffman();
         var result = instance.decode(f);
         System.out.println(result);
     }
 
     String decode(File file) throws FileNotFoundException {
-        var result = new StringBuilder();
-        // прочитаем строку для кодирования из тестового файла
         var scanner = new Scanner(file);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
-        ////////////////////////////////////////////////////////////////////////////////////
+        var count = scanner.nextInt();
+        scanner.nextLine();
 
-        ////////////////////////////////////////////////////////////////////////////////////
-        return result.toString();
+        var head = new NodeHead();
+        for (var i = 0; i < count; i++) {
+            var line = scanner.nextLine();
+            head.push(line.substring(3), line.charAt(0));
+        }
+        return head.parse(scanner.nextLine(), head);
+    }
+
+    static class NodeNum {
+        NodeNum Node0 = null;
+        NodeNum Node1 = null;
+
+        void push(String code, Character symbol) {
+            var is1 = code.startsWith("1");
+            if (code.length() == 1) {
+                if (is1)
+                    Node1 = new NodeChar(symbol);
+                else
+                    Node0 = new NodeChar(symbol);
+            } else if (is1) {
+                if (Node1 == null)
+                    Node1 = new NodeNum();
+                Node1.push(code.substring(1), symbol);
+            } else {
+                if (Node0 == null)
+                    Node0 = new NodeNum();
+                Node0.push(code.substring(1), symbol);
+            }
+        }
+
+        String parse(String encoded, NodeHead head) {
+            return (encoded.startsWith("1") ? Node1 : Node0).parse(encoded.substring(1), head);
+        }
+    }
+
+    static class NodeHead extends NodeNum {
+        @Override
+        String parse(String encoded, NodeHead head) {
+            return (encoded.startsWith("1") ? Node1 : Node0).parse(encoded.substring(1), this);
+        }
+    }
+
+    static class NodeChar extends NodeNum {
+        Character symbol;
+
+        NodeChar(Character symbol) {
+            this.symbol = symbol;
+        }
+
+        @Override
+        String parse(String encoded, NodeHead head) {
+            return symbol + (encoded.isEmpty() ? "" : head.parse(encoded, head));
+        }
     }
 }

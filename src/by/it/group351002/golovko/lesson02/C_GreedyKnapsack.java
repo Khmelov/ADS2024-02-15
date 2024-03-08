@@ -1,4 +1,4 @@
-package by.it.group351005.bitno.lesson02;
+package by.it.group351002.golovko.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -14,6 +14,7 @@ package by.it.group351005.bitno.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -37,9 +38,9 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            if (this.cost/this.weight> o.cost / o.weight) return -1;
+            else if (this.cost/this.weight== o.cost / o.weight) return 0;
+            else return 1;
         }
     }
 
@@ -66,6 +67,16 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
+        Arrays.sort(items);
+        int i=0;
+        double mnozh;
+        while (W>0){
+            if (items[i].weight>W) mnozh= (double) W /items[i].weight;
+            else mnozh=1;
+            result=result+mnozh*items[i].cost;
+            W=W-items[i].weight;
+            i++;
+        }
 
 
 

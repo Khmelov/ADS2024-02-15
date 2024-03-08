@@ -43,41 +43,32 @@ public class A_Huffman {
     static private final Map<Character, String> codes = new TreeMap<>();
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = System.getProperty("user.dir") + "/src/";
-        var f = new File(root + "by/it/group310901/baradzin/lesson03/dataHuffman.txt");
+        var root = STR."\{System.getProperty("user.dir")}/src/";
+        var f = new File(STR."\{root}by/it/group310901/baradzin/lesson03/dataHuffman.txt");
         var instance = new A_Huffman();
-        var startTime = System.currentTimeMillis();
         var result = instance.encode(f);
-        var finishTime = System.currentTimeMillis();
         System.out.printf("%d %d\n", codes.size(), result.length());
-        for (var entry : codes.entrySet()) {
+        for (var entry : codes.entrySet())
             System.out.printf("%s: %s\n", entry.getKey(), entry.getValue());
-        }
         System.out.println(result);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
     String encode(File file) throws FileNotFoundException {
-        // прочитаем строку для кодирования из тестового файла
         var scanner = new Scanner(file);
-        var s = scanner.next();
+        var input = scanner.next();
 
-        Map<Character, Integer> count = new HashMap<>();
-        // 1. переберем все символы по очереди и рассчитаем их частоту в Map count, для каждого символа добавим 1 если
-        // его в карте еще нет или инкремент если есть.
+        var symbols = new HashMap<Character, Integer>();
+        input.chars().forEach(symbol -> symbols.compute((char) symbol, (_, frequency) -> (frequency == null ? 0 : frequency) + 1));
 
-        // 2. перенесем все символы в приоритетную очередь в виде листьев
-        var priorityQueue = new PriorityQueue<Node>();
+        var priorityQueue = new PriorityQueue<Node>(symbols.size());
+        symbols.forEach((symbol, frequency) -> priorityQueue.add(new LeafNode(symbol, frequency)));
 
-        // 3. вынимая по два узла из очереди (для сборки родителя) и возвращая этого родителя обратно в очередь
-        // построим дерево кодирования Хаффмана. У родителя частоты детей складываются.
+        while (priorityQueue.size() > 1)
+            priorityQueue.add(new InternalNode(priorityQueue.poll(), priorityQueue.poll()));
 
-        // 4. последний из родителей будет корнем этого дерева это будет последний и единственный элемент оставшийся в
-        // очереди priorityQueue.
+        priorityQueue.poll().fillCodes("");
         var sb = new StringBuilder();
-
-        //.....
-
+        input.chars().forEach(c -> sb.append(codes.get((char) c)));
         return sb.toString();
     }
 
@@ -107,7 +98,6 @@ public class A_Huffman {
             return Integer.compare(frequency, o.frequency);
         }
     }
-    ////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Внутренний узел дерева
@@ -131,12 +121,11 @@ public class A_Huffman {
 
         @Override
         void fillCodes(String code) {
-            left.fillCodes(code + "0");
-            right.fillCodes(code + "1");
+            left.fillCodes(STR."\{code}0");
+            right.fillCodes(STR."\{code}1");
         }
 
     }
-    ////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Лист для хранения символов
@@ -144,7 +133,7 @@ public class A_Huffman {
     private class LeafNode extends Node {
         char symbol;
 
-        LeafNode(int frequency, char symbol) {
+        LeafNode(char symbol, int frequency) {
             super(frequency);
             this.symbol = symbol;
         }

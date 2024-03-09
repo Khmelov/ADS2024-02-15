@@ -18,13 +18,6 @@ import java.util.Scanner;
  * Insert x, где 0 ≤ x ≤ 1000000000 — целое число. Добавляет число x в очередь с приоритетами
  * ExtractMax. Извлекает максимальное число и выводит его
  *
- * Используйте Алгоритм Хаффмана — жадный алгоритм оптимального безпрефиксного кодирования алфавита с минимальной
- * избыточностью.
- *
- * В первой строке выведите количество различных букв kk, встречающихся в строке, и размер получившейся
- * закодированной строки. В следующих kk строках запишите коды букв в формате "letter: code". В последней строке
- * выведите закодированную строку. Примеры ниже
- *
  * Sample Input:
  * 6
  * Insert 200
@@ -46,17 +39,17 @@ import java.util.Scanner;
 public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/group310901/baradzin/lesson03/heapData.txt");
+        var root = STR."\{System.getProperty("user.dir")}/src/";
+        InputStream stream = new FileInputStream(STR."\{root}by/it/group310901/baradzin/lesson03/heapData.txt");
         var instance = new C_HeapMax();
-        System.out.println("MAX=" + instance.findMaxValue(stream));
+        System.out.println(STR."MAX=\{instance.findMaxValue(stream)}");
     }
 
     /**
      * Читает данные из файла, можно не менять
      */
     Long findMaxValue(InputStream stream) {
-        long maxValue = 0L;
+        var maxValue = 0L;
         var heap = new MaxHeap();
         // прочитаем строку для кодирования из тестового файла
         var scanner = new Scanner(stream);
@@ -79,8 +72,6 @@ public class C_HeapMax {
         return maxValue;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * Решение
      */
@@ -88,32 +79,63 @@ public class C_HeapMax {
         private final List<Long> heap = new ArrayList<>();
 
         /**
-         * Просеивание вверх
+         * Просеивание вверх (если элемент ниже нужного)
          */
-        int siftUp(int i) {
-            return i;
+        void siftUp(int child) {
+            var parent = (child - 1) / 2;
+            if (child > 0 && heap.get(child) > heap.get(parent)) {
+                swap(child, parent);
+                siftDown(parent);
+            }
         }
 
         /**
-         * Просеивание вниз
+         * Просеивание вниз (если элемент выше нужного)
          */
-        int siftDown(int i) {
-            return i;
+        void siftDown(int parent) {
+            var right = 2 * parent + 1;
+            var left = 2 * parent + 2;
+            var child = (heap.size() > right && heap.get(right) > heap.get(parent)) ? right :
+                    (heap.size() > left && heap.get(left) > heap.get(parent)) ? left : parent;
+
+            if (parent != child) {
+                swap(parent, child);
+                siftDown(child);
+            }
         }
 
         /**
          * Вставка
          */
         void insert(Long value) {
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
         /**
          * Извлечение и удаление максимума
          */
         Long extractMax() {
-            Long result = null;
-            return result;
+            return (heap.isEmpty()) ? null : pop(0);
+        }
+
+        /**
+         * Обмен элементов местами
+         */
+        void swap(int i, int j) {
+            var iValue = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, iValue);
+        }
+
+        /**
+         * Получение элемента, его удаление и нормализация кучи
+         */
+        Long pop(int i) {
+            var iValue = heap.get(i);
+            heap.remove(i);
+            siftDown(i);
+            return iValue;
         }
     }
-    ////////////////////////////////////////////////////////////////////////////////////
 }

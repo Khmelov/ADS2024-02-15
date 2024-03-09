@@ -1,6 +1,9 @@
-package by.it.group310902.rakitskiy.lesson02;
+package by.it.group351002.alexeichik.Lesson02;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -18,8 +21,6 @@ public class B_Sheduler {
             this.start = start;
             this.stop = stop;
         }
-
-
 
         @Override
         public String toString() {
@@ -40,6 +41,18 @@ public class B_Sheduler {
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
+    class Sortstop implements Comparator<Event>
+    {
+        @Override
+        public int compare(Event o1, Event o2) {
+            if (o1.stop<o2.stop) return -1;
+            else {
+                if (o1.stop == o2.stop) return 0;
+                else return 1;
+            }
+
+        }
+    }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
@@ -48,19 +61,23 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
+
         //ваше решение.
-        Arrays.sort(events,Comparator.comparingInt(e->e.stop));
-        int prev=from;
-        for(Event event:events){
-            if((event.start>=prev) && (event.stop<= to) ){
-                result.add(event);
-                prev=event.stop;
-            }
+         Arrays.sort(events,new Sortstop());
+         int i=0;
+         while ((i< events.length)&& (events[i].stop<=to) )
+         {
+           if (events[i].start>=from){
+               result.add(events[i]);
+               from=events[i].stop;
+           }
+           i++;
+         }
 
 
-        }
 
-        System.out.println(result);
+
+
         return result;          //вернем итог
     }
 }

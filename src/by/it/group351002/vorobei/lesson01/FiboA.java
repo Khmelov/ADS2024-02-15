@@ -34,6 +34,8 @@ public class FiboA {
         //время O(2^n)
         if (n<2) return n;
         return calc(n-1)+calc(n-2);
+
+
     }
 
 

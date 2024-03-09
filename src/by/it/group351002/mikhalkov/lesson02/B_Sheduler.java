@@ -49,25 +49,25 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
         // bubble sort
-            for (int j = 0; j < events.length - 1; j++) {
-                for (int i = 0; i < events.length - 1; i++) {
-                    if (events[i].stop > events[i + 1].stop) {
-                        Event buf = events[i];
-                        events[i] = events[i + 1];
-                        events[i + 1] = buf;
-                    }
+        for (int j = 0; j < events.length - 1; j++) {
+            for (int i = 0; i < events.length - 1; i++) {
+                if (events[i].stop > events[i + 1].stop) {
+                    Event buf = events[i];
+                    events[i] = events[i + 1];
+                    events[i + 1] = buf;
                 }
             }
+        }
 
-                result.add(events[0]);
+        result.add(events[0]);
 
-                for (int i = 1; i < events.length - 1; i++) {
-                    if (events[i].start >= result.getLast().stop) {
-                        result.add(events[i]);
-                    }
-                }
-
-                return result;          //вернем итог
+        for (int i = 1; i < events.length - 1; i++) {
+            if (events[i].start >= result.getLast().stop) {
+                result.add(events[i]);
             }
+        }
 
+        return result;          //вернем итог
     }
+
+}

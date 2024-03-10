@@ -1,8 +1,4 @@
-package group310901.kapuza;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.Scanner;
+package by.it.group310901.kapuza.lesson2;
 /*
 Даны
 1) объем рюкзака 4
@@ -17,6 +13,10 @@ import java.util.Scanner;
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -35,6 +35,7 @@ public class C_GreedyKnapsack {
                     ", weight=" + weight +
                     '}';
         }
+
         @Override
         public int compareTo(Item other) {
             //тут может быть ваш компаратор
@@ -86,6 +87,7 @@ public class C_GreedyKnapsack {
 
         double result = 0;
         int totalWeight = 0;
+
         for (Item item : items) {
 
             if (totalWeight + item.weight > W) {
@@ -110,6 +112,7 @@ public class C_GreedyKnapsack {
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }
+
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
         String root=System.getProperty("user.dir")+"/src/";

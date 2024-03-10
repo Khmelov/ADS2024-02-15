@@ -1,4 +1,4 @@
-package group310901.kapuza;
+package by.it.group310901.kapuza.lesson2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +26,7 @@ public class B_Sheduler {
             return "("+ start +":" + stop + ")";
         }
     }
+
     public static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
         Event[] events = {  new Event(0, 3),  new Event(0, 1), new Event(1, 2), new Event(3, 5),

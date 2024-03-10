@@ -1,4 +1,4 @@
-package group310901.kapuza;
+package by.it.group310901.kapuza.lesson3;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

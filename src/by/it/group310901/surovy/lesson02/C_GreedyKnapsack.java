@@ -39,7 +39,6 @@ public class C_GreedyKnapsack {
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
             return o.cost*this.weight - this.cost*o.weight;
-
         }
     }
 
@@ -51,7 +50,7 @@ public class C_GreedyKnapsack {
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
-        Arrays.sort(items, Item::compareTo);
+        Arrays.sort(items);
         //покажем предметы
         for (Item item:items) {
             System.out.println(item);

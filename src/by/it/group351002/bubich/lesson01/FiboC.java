@@ -1,4 +1,4 @@
-package by.it.group351002.bubich.lesson01.lesson01.lesson01;
+package by.it.group351002.bubich.lesson01;
 import java.util.Vector;
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
@@ -36,7 +36,7 @@ public class FiboC {
         newFib0 = newFib1;
         newFib1 = newFib2;
         vector.add(newFib2 % m);
-        while (vector.get(0) != vector.get(vector.size() - 2) || vector.get(1) != vector.get(vector.size() - 1)) {
+        while (vector.get(0) != vector.get(vector.size()-2) || vector.get(1) != vector.get(vector.size()-1)){
             newFib2 = newFib0 + newFib1;
             newFib0 = newFib1;
             newFib1 = newFib2;
@@ -44,7 +44,9 @@ public class FiboC {
         }
         vector.remove(vector.size() - 1);
         vector.remove(vector.size() - 1);
-        int temp = (int) (n % vector.size());
+        int temp = (int)(n % vector.size());
         return vector.get(temp);
     }
+
+
 }

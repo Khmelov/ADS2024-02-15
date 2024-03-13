@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group310901.fomina.istg.lesson02.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -12,6 +12,7 @@ package by.it.group310901.fomina.lesson02;
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -38,10 +39,17 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            double thisValue = (double) this.cost / this.weight;
+            double otherValue = (double) o.cost / o.weight;
+            if (thisValue < otherValue) {
+                return 1;
+            } else if (thisValue > otherValue) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
+
     }
 
     double calc(File source) throws FileNotFoundException {
@@ -58,21 +66,28 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
-
-        Arrays.sort(items);
+        //тут необходимо реализовать решение задачи
+        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
+        Arrays.sort(items);
+        //тут реализуйте алгоритм сбора рюкзака
+        //будет особенно хорошо, если с собственной сортировкой
+        //кроме того, можете описать свой компаратор в классе Item
 
-        int totalWeight = 0;
+        //ваше решение.
+        int currentWeight = 0;
+
         for (Item item : items) {
-            if (totalWeight + item.weight > W) {
-                result += ((double) item.cost) / item.weight * (W - totalWeight);
+            if (currentWeight + item.weight <= W) {
+                result += item.cost;
+                currentWeight += item.weight;
+            } else {
+                int remainingWeight = W - currentWeight;
+                result += (double) item.cost * remainingWeight / item.weight;
                 break;
             }
-
-            result += item.cost;
-            totalWeight += item.weight;
         }
-
 
 
 

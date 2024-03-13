@@ -56,7 +56,7 @@ public class B_Huffman {
         String line;
         scanner.nextLine();
         for (int i = 0; i < count; i++) {
-            line = scanner.nextLine();
+            line = scanner.nextLine();//
             syms[i] = line.charAt(0);
         }
         String encodedStr = scanner.next();

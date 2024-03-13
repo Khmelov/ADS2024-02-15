@@ -1,4 +1,4 @@
-package lordofplatinumforest.lesson01;
+package group351003.sologub.lesson01;
 
 import org.junit.Test;
 

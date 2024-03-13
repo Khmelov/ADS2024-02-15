@@ -105,7 +105,7 @@ public class C_HeapMax {
         Long extractMax() { //извлечение и удаление максимума
             Long result = layers.getLast().get(0);
             int pos = 0;//Не помешшала бы проверка на пустое дерево
-            for (int i = 1; i < layers.getLast().size(); i++) {
+            for (int i = 1; i < layers.getLast().size(); i++) {//
                 if (layers.getLast().get(i) > result) {//Но было принято решение забить
                     result = layers.getLast().get(i);//Всё равно это быдлокод
                     pos = i;

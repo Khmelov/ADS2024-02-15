@@ -49,16 +49,34 @@ public class C_HeapMax {
         }
 
         int siftUp(int i) { //просеивание вниз
-
+            int listElem,len;
+            long temp;
+            len = heap.size() - 1;
+            listElem = 0;
+            while (listElem != len) {
+                while (heap.get(listElem) > heap.get(i)){
+                    temp = heap.get(listElem);
+                    heap.remove(listElem);
+                    heap.add(temp);
+                }
+                listElem++;
+            }
             return i;
         }
 
         void insert(Long value) { //вставка
+            heap.add(value);
+            int currentPosition;
+            currentPosition = heap.indexOf(value);
+            if(value <= heap.get(0)){
+                siftUp(currentPosition);
+            }
         }
 
         Long extractMax() { //извлечение и удаление максимума
             Long result = null;
-
+            result = heap.get(heap.size() - 1);
+            heap.remove(0);
             return result;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -84,7 +102,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-            //System.out.println(heap); //debug
+                //System.out.println(heap); //debug
             }
         }
         return maxValue;

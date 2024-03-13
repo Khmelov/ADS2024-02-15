@@ -2,6 +2,8 @@ package by.it.Group351001.golovko_r.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -50,9 +52,31 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-
-
-
+        Map<String, Character> DecodeTable = new HashMap<>();
+        String Data = "";
+        while (true) {
+            String Letter = scanner.next();
+            Data = Letter;
+            if (Letter.length()>2) break;
+            String Code = scanner.next();
+            DecodeTable.put(Code ,Letter.charAt(0));
+        }
+        StringBuilder CodeStr = new StringBuilder(Data);
+        int i;
+        while (CodeStr.charAt(0)<'2'){
+            i = 0;
+            StringBuilder Temp = new StringBuilder();
+            Temp.setLength(0);
+            String k = Temp.toString();
+            while (!(DecodeTable.containsKey(k))){
+                Temp.insert(Temp.length(), CodeStr.charAt(i));
+                k = Temp.toString();
+                i++;
+            }
+            CodeStr.delete(0, i);
+            CodeStr.insert(CodeStr.length(), DecodeTable.get(k));
+        }
+        result.insert(0, CodeStr);
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111

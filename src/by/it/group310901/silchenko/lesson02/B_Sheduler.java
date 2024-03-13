@@ -51,7 +51,6 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-
         Arrays.sort(events, Comparator.comparingInt(e -> e.stop)); // сортировка по времени окончания
         int lastAddedStop = from;
         for (Event event : events) {

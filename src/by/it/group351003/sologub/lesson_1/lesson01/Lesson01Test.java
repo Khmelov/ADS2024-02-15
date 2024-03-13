@@ -1,4 +1,4 @@
-package group351003.sologub.lesson01;
+package by.it.group351003.sologub.lesson_1.lesson01;
 
 import org.junit.Test;
 

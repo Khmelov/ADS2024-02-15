@@ -6,7 +6,6 @@ package by.it.group351001.rudenya_d.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 
 public class FiboC {

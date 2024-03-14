@@ -79,7 +79,7 @@ public class B_Huffman {
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
-        by.it.group351002.valinskiy.lesson03.B_Huffman instance = new by.it.group351002.valinskiy.lesson03.B_Huffman();
+        B_Huffman instance = new B_Huffman();
         String result = instance.decode(f);
         System.out.println(result);
     }

@@ -85,7 +85,7 @@ public class C_HeapMax {
     //эта процедура читает данные из файла, ее можно не менять.
     Long findMaxValue(InputStream stream) {
         Long maxValue=0L;
-        by.it.group351002.valinskiy.lesson03.C_HeapMax.MaxHeap heap = new by.it.group351002.valinskiy.lesson03.C_HeapMax.MaxHeap();
+        MaxHeap heap = new MaxHeap();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(stream);
         Integer count = scanner.nextInt();
@@ -111,7 +111,7 @@ public class C_HeapMax {
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
-        by.it.group351002.valinskiy.lesson03.C_HeapMax instance = new by.it.group351002.valinskiy.lesson03.C_HeapMax();
+        C_HeapMax instance = new C_HeapMax();
         System.out.println("MAX="+instance.findMaxValue(stream));
     }
 

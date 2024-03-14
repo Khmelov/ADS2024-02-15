@@ -41,7 +41,7 @@ import java.util.*;
 public class A_Huffman {
 
     //Изучите классы Node InternalNode LeafNode
-    abstract class Node implements Comparable<by.it.group351002.valinskiy.lesson03.A_Huffman.Node> {
+    abstract class Node implements Comparable<Node> {
         //абстрактный класс элемент дерева
         //(сделан abstract, чтобы нельзя было использовать его напрямую)
         //а только через его версии InternalNode и LeafNode
@@ -59,21 +59,21 @@ public class A_Huffman {
         //метод нужен для корректной работы узла в приоритетной очереди
         //или для сортировок
         @Override
-        public int compareTo(by.it.group351002.valinskiy.lesson03.A_Huffman.Node o) {
+        public int compareTo(Node o) {
             return Integer.compare(frequence, o.frequence);
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //расширение базового класса до внутреннего узла дерева
-    private class InternalNode extends by.it.group351002.valinskiy.lesson03.A_Huffman.Node {
+    private class InternalNode extends Node {
         //внутренный узел дерева
-        by.it.group351002.valinskiy.lesson03.A_Huffman.Node left;  //левый ребенок бинарного дерева
-        by.it.group351002.valinskiy.lesson03.A_Huffman.Node right; //правый ребенок бинарного дерева
+        Node left;  //левый ребенок бинарного дерева
+        Node right; //правый ребенок бинарного дерева
 
         //для этого дерева не существует внутренних узлов без обоих детей
         //поэтому вот такого конструктора будет достаточно
-        InternalNode(by.it.group351002.valinskiy.lesson03.A_Huffman.Node left, by.it.group351002.valinskiy.lesson03.A_Huffman.Node right) {
+        InternalNode(Node left, Node right) {
             super(left.frequence + right.frequence);
             this.left = left;
             this.right = right;
@@ -89,7 +89,7 @@ public class A_Huffman {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //расширение базового класса до листа дерева
-    private class LeafNode extends by.it.group351002.valinskiy.lesson03.A_Huffman.Node {
+    private class LeafNode extends Node {
         //лист
         char symbol; //символы хранятся только в листах
 
@@ -128,17 +128,17 @@ public class A_Huffman {
         //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
-        PriorityQueue<by.it.group351002.valinskiy.lesson03.A_Huffman.Node> priorityQueue = new PriorityQueue<>();
-        by.it.group351002.valinskiy.lesson03.A_Huffman.LeafNode addNode;
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
+        LeafNode addNode;
         for(char c:count.keySet()){
-            addNode = new by.it.group351002.valinskiy.lesson03.A_Huffman.LeafNode(count.get(c),c);
+            addNode = new LeafNode(count.get(c),c);
             priorityQueue.add(addNode);
         }
-        by.it.group351002.valinskiy.lesson03.A_Huffman.Node fElem,sElem,tree;
+        Node fElem,sElem,tree;
         while (priorityQueue.size() > 1){
             fElem = priorityQueue.poll();
             sElem = priorityQueue.poll();
-            tree = new by.it.group351002.valinskiy.lesson03.A_Huffman.InternalNode(fElem,sElem);
+            tree = new InternalNode(fElem,sElem);
             priorityQueue.add(tree);
         }
         //3. вынимая по два узла из очереди (для сборки родителя)
@@ -171,7 +171,7 @@ public class A_Huffman {
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         File f = new File(root + "by/it/a_khmelev/lesson03/dataHuffman.txt");
-        by.it.group351002.valinskiy.lesson03.A_Huffman instance = new by.it.group351002.valinskiy.lesson03.A_Huffman();
+        A_Huffman instance = new A_Huffman();
         long startTime = System.currentTimeMillis();
         String result = instance.encode(f);
         long finishTime = System.currentTimeMillis();

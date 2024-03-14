@@ -1,4 +1,4 @@
-package by.it.group310901.kapuza.lesson1;
+package by.it.group310901.kapuza.lesson_1;
 import java.math.BigInteger;
 
 /*

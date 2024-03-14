@@ -116,6 +116,7 @@ public class A_Huffman {
         String s = scanner.next();
 
         Map<Character, Integer> count = new HashMap<>();
+
         for (char c : s.toCharArray()) {
             count.put(c, count.getOrDefault(c, 0) + 1);
         }

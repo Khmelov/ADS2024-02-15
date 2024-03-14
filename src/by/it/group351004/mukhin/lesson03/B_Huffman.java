@@ -87,6 +87,7 @@ public class B_Huffman {
     }
 
     public Node getNode(Integer count, Scanner scan) {
+
         ArrayList<Node> nodeList = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {

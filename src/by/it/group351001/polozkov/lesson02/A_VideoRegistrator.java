@@ -1,6 +1,7 @@
 package by.it.group351001.polozkov.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events

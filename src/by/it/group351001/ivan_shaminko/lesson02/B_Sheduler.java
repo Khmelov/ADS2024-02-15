@@ -1,8 +1,6 @@
 package by.it.group351001.ivan_shaminko.lesson02;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 /*
 Даны интервальные события events

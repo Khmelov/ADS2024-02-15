@@ -1,8 +1,6 @@
 package by.it.group351001.sosnovski.lesson02;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 /*
 Даны интервальные события events

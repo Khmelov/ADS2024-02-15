@@ -8,6 +8,9 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 public class Lesson02Test {
+    @Test
+    public void name() {
+    }
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:

@@ -1,4 +1,4 @@
-package by.it.group351003.egor_guzaev;
+package by.it.group351003.egor_guzaev.lesson01;
 
 import org.junit.Test;
 

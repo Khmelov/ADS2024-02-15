@@ -141,14 +141,22 @@ public class A_Huffman {
         }
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
+<<<<<<< HEAD
         Node root = priorityQueue.poll();
         root.fillCodes("");
+=======
+>>>>>>> origin/main
         StringBuilder sb = new StringBuilder();
         for (char c : s.toCharArray()) {
             sb.append(codes.get(c));
         }
         //.....
+<<<<<<< HEAD
 
+=======
+        Node root = priorityQueue.poll();
+        root.fillCodes("");
+>>>>>>> origin/main
 
         return sb.toString();
         //01001100100111

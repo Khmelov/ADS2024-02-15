@@ -1,8 +1,6 @@
-package by.it.group351005.vaveyko.lesson02;
+package by.it.group310901.surovy.lesson02;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -12,7 +10,7 @@ import java.util.List;
 
 public class B_Sheduler {
     //событие у аудитории(два поля: начало и конец)
-    static class Event {
+    static class Event implements Comparable<Event>{
         int start;
         int stop;
 
@@ -24,6 +22,11 @@ public class B_Sheduler {
         @Override
         public String toString() {
             return "("+ start +":" + stop + ")";
+        }
+
+        @Override
+        public int compareTo(Event o) {
+            return this.stop - o.stop;
         }
     }
 
@@ -38,37 +41,8 @@ public class B_Sheduler {
         };
 
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
-        System.out.println(starts);                                 //покажем рассчитанный график занятий
+        System.out.println(starts);                                         //покажем рассчитанный график занятий
     }
-
-    private static int partition(Event[] arr, int low, int high) {
-        int middle = low + (high - low) / 2;
-        Event pivot = arr[middle];
-        Event temp = arr[middle];
-        arr[middle] = arr[high];
-        arr[high] = temp;
-        int i = (low - 1);
-        for (int j = low; j < high; j++) {
-            if (arr[j].start < pivot.start || arr[j].start == pivot.start && arr[j].stop < pivot.stop) {
-                i++;
-                temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
-        }
-        temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-        return i + 1;
-    }
-    static void quickSort(Event[] arr, int low, int high) {
-        if (low < high) {
-            int pi = partition(arr, low, high);
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
-    }
-
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
@@ -78,19 +52,15 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-
-        quickSort(events, 0, events.length-1);
-        result.add(events[0]);
-        for (Event event : events) {
-            if (event.start >= result.getLast().stop)
-                result.add(event);
+        Arrays.sort(events, Event::compareTo);
+        int i = 0;
+        while(i < events.length) {
+            result.add(events[i]);
+            i++;
+            while(i < events.length && events[i].start < result.get(result.size() - 1).stop){
+                i++;
+            }
         }
-
-
-
-
-
-
         return result;          //вернем итог
     }
 }

@@ -1,4 +1,4 @@
-package by.it.group351002.abrashin.lesson02;
+package by.it.group310901.surovy.lesson02;
 
 import org.junit.Test;
 

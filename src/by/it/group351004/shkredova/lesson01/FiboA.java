@@ -47,5 +47,6 @@ public class FiboA {
         if (n==1) return BigInteger.ONE;
         return slowA(n-1).add(slowA(n-2));
     }
+
 }
 

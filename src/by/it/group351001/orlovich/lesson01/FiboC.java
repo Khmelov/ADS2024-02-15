@@ -7,7 +7,6 @@ package by.it.group351001.orlovich.lesson01;
  */
 
 import java.math.BigInteger;
-import java.sql.SQLOutput;
 
 public class FiboC {
 

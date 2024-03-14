@@ -28,7 +28,10 @@ public class FiboC {
         int next;
 
 
+
         for(int i=0; i < m * 6; i++) {
+        for(int i=0; i<m*6; i++) {
+
             next = (prev+curr) % m;
             prev=curr;
             curr=next;
@@ -43,6 +46,7 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
+
         int period = searchperiod(m);
         long res= n % period;
         int prev=0;
@@ -52,6 +56,17 @@ public class FiboC {
         if (n==1) return 1;
         else
             for (int i=0; i < res-1; i++ ) {
+
+        int period=searchperiod(m);
+        long res= n % period;
+        int prev=0;
+        int curr=1;
+        int next=0;
+        if (n==0) return 0;
+        if (n==1) return 1;
+        else
+            for (int i=0; i<res-1; i++ ) {
+
                 next = (prev+curr) % m;
                 prev=curr;
                 curr=next;

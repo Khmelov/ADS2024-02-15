@@ -120,61 +120,52 @@ public class A_Huffman {
         //если они вам мешают их можно удалить
 
         Map<Character, Integer> count = new HashMap<>();
+        for(int i = 0;i < s.length();i++){
+            char c = s.charAt(i);
+            count.put(c, count.getOrDefault(c, 0) + 1);
+        }
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
         //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
 
-        for(int i = 0;i<s.length();i++){
-            char key = s.charAt(i);
-            count.merge(key,1,Integer::sum);
-        }
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-
-        LeafNode el;
-        Node fir,sec;
-        InternalNode parn;
-        for(char key : count.keySet()){
-            el = new LeafNode(count.get(key),key);
-            priorityQueue.add(el);
+        LeafNode addNode;
+        for(char c:count.keySet()){
+            addNode = new LeafNode(count.get(c),c);
+            priorityQueue.add(addNode);
+        }
+        Node fElem,sElem,tree;
+        while (priorityQueue.size() > 1){
+            fElem = priorityQueue.poll();
+            sElem = priorityQueue.poll();
+            tree = new InternalNode(fElem,sElem);
+            priorityQueue.add(tree);
         }
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
 
-        while(priorityQueue.size()>1){
-            fir = priorityQueue.peek();
-            priorityQueue.remove();
-            sec = priorityQueue.peek();
-            priorityQueue.remove();
-            parn = new InternalNode(fir,sec);
-            priorityQueue.add(parn);
-        }
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
         StringBuilder sb = new StringBuilder();
         //.....
+        tree = priorityQueue.poll();
 
-        String bfcod = "";
-        fir = priorityQueue.peek();
-        fir.fillCodes(bfcod);
-        for(int i=0;i<s.length();i++)
-            sb.append(codes.get(s.charAt(i)));
-        System.out.print(codes.size());
-        System.out.print(' ');
-        System.out.println(sb.length());
-        for(char key : codes.keySet())
-        {
-            System.out.print(key);
-            System.out.print(": ");
-            System.out.println(codes.get(key));
+// Заполняем коды Хаффмана для каждого символа
+        tree.fillCodes("");
+
+// Проходим по входной строке и добавляем код Хаффмана каждого символа в StringBuilder
+        for (char c : s.toCharArray()) {
+            sb.append(codes.get(c));
         }
-        System.out.println(sb);
+
+// Возвращаем закодированную строку
         return sb.toString();
         //01001100100111
         //01001100100111
     }
-    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!1
+    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
 
     public static void main(String[] args) throws FileNotFoundException {

@@ -55,7 +55,6 @@ public class B_Sheduler {
         });
         int i=0;
         int r;
-        System.out.println(events.length);
         while(i<=events.length-1){
             result.add(events[i]);
             r = events[i].stop;

@@ -1,4 +1,4 @@
-package group310901.kapuza;
+package by.it.group310901.chizh.lesson02;
 
 import org.junit.Test;
 
@@ -26,6 +26,7 @@ public class Lesson02Test {
         boolean ok=starts.toString().equals("[1.0, 2.2, 3.7, 5.5, 8.1]");
         assertTrue("slowA failed", ok);
     }
+
     @Test(timeout = 2000)
     public void B_Sheduler() {
         B_Sheduler instance = new B_Sheduler();

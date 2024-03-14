@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/C_GreedyKnapsack.java
 package by.it.group310901.kapuza.lesson2;
+========
+package by.it.group310901.chizh.lesson02;
+>>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/chizh/lesson02/C_GreedyKnapsack.java
 /*
 Даны
 1) объем рюкзака 4
@@ -12,9 +16,15 @@ package by.it.group310901.kapuza.lesson2;
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
+<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/C_GreedyKnapsack.java
 
 import java.io.File;
 import java.io.FileNotFoundException;
+========
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+>>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/chizh/lesson02/C_GreedyKnapsack.java
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -37,33 +47,16 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item other) {
+        public int compareTo(Item o) {
             //тут может быть ваш компаратор
-            double thisCostPerWeight = ((double) cost) / weight;
-            double otherCostPerWeight = ((double) other.cost) / other.weight;
-
-            return Double.compare(otherCostPerWeight, thisCostPerWeight);
-        }
-    }
-
-    Item[] bubbleSort(Item[] items) {
-
-        Item temp;
-
-        for(int i = 0; i < items.length - 1; i++ ) {
-
-            for(int j = 0; j < items.length - i - 1; j++ ) {
-
-                if (items[j].cost > items[j + 1].cost) {
-                    temp = items[j];
-                    items[j] = items[j + 1];
-                    items[j + 1] = temp;
-                }
-
+            if (cost * o.weight < o.cost * weight){
+                return 1;
+            } else if (cost * o.weight == o.cost * weight){
+                return 0;
+            } else {
+                return -1;
             }
-
         }
-        return items;
     }
 
     double calc(File source) throws FileNotFoundException {
@@ -83,9 +76,8 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-        Arrays.sort(items);
-
         double result = 0;
+<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/C_GreedyKnapsack.java
         int totalWeight = 0;
 
         for (Item item : items) {
@@ -99,14 +91,26 @@ public class C_GreedyKnapsack {
             totalWeight += item.weight;
         }
 
+========
+>>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/chizh/lesson02/C_GreedyKnapsack.java
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-
-
-
+        Arrays.sort(items);
+        for (int i = 0; i < items.length; i++){
+            if (W == 0){
+                break;
+            }
+            if (items[i].weight <= W){
+                result += items[i].cost;
+                W -= items[i].weight;
+            } else {
+                result += W * (items[i].cost / items[i].weight);
+                W = 0;
+            }
+        }
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

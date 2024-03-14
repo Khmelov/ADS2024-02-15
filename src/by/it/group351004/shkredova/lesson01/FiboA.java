@@ -5,6 +5,7 @@ import java.math.BigInteger;
 /*
  * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
  */
+//Wew
 
 public class FiboA {
 

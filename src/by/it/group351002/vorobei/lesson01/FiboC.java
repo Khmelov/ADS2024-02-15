@@ -6,6 +6,8 @@ package by.it.group351002.vorobei.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.math.BigInteger;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -25,7 +27,24 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        long[] Array= new long[6*m];
+        int i = 2;
+        boolean flag = true;
+
+        Array[0] = 0L;
+        Array[1] = 1L;
+
+        if (n==1) return 1L;
+        else {
+            while (flag) {
+                Array[i] = Array[i - 1] + Array[i - 2];
+                if ((Array[i] % m == 1) && (Array[i - 1] % m == 0)) flag = false;
+                else i++;
+
+            }
+
+            return (Array[(int) n % (i - 1)] % m);
+        }
     }
 
 

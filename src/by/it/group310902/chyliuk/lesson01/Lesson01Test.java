@@ -10,9 +10,9 @@ import static org.junit.Assert.assertTrue;
 public class Lesson01Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
-    Поля:
-    Name:               Test a_khmelev (тут ваша фамилия)
+    Поля:ваша фамилия)
     Test kind:          All in package
+    Name:               Test a_khmelev (тут
     Package:            by.it.группа.a_khmelev (тут ваша фамилия)
     Search for test:    In whole project
     */

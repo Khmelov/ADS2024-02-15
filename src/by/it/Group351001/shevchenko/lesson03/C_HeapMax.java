@@ -59,6 +59,11 @@ public class C_HeapMax {
                 if ((child2 < heap.size()) && (heap.get(child2) > heap.get(max))) {
                     max = child2;
                 }
+
+                if (heap.get(i) >= heap.get(max)) {
+                    break;
+                }
+
                 swap(i, max);
                 i = max;
             }

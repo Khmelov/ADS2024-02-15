@@ -1,4 +1,4 @@
-package by.it.group310901.yakovtsov;
+package by.it.group310901.yakovtsov.lesson01;
 
 import by.it.group310901.yakovtsov.lesson01.FiboA;
 import by.it.group310901.yakovtsov.lesson01.FiboB;

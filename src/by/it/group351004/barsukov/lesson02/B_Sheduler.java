@@ -1,4 +1,4 @@
-package by.it.group351004.Barsukov.lesson02;
+package by.it.group351004.barsukov.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,15 +41,10 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-        //Events - события которые нужно распределить в аудитории
-        //в период [from, int] (включительно).
-        //оптимизация проводится по наибольшему числу непересекающихся событий.
-        //Начало и конец событий могут совпадать.
-        List<Event> result;
-        result = new ArrayList<>();
+        List<Event> result = new ArrayList<>();
 
             while (from < to){
-                by.it.group351004.brazhalovich.lesson02.B_Sheduler.Event best = null;
+                Event best = null;
                 for (int i = 0; i < events.length; i++){
                     if (events[i].start == from && best == null){
                         best = events[i];
@@ -66,12 +61,6 @@ public class B_Sheduler {
                     from++;
                 }
             }
-
-
-
-
-
-
         return result;          //вернем итог
     }
 }

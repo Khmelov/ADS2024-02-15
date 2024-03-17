@@ -28,6 +28,7 @@ public class A_VideoRegistrator {
 
         //i - это индекс события events[i]
         while(i < events.length){
+            int time = 0;
             if(time >= events[i]){
                 i++;
             }else{

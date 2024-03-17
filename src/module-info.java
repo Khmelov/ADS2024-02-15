@@ -1,3 +1,4 @@
 module Desktop {
+
     requires init;
 }

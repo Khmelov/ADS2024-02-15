@@ -1,4 +1,5 @@
-package by.it.group351004.Barsukov;
+package by.it.group351004.barsukov.lesson01;
+
 
 import org.junit.Test;
 

@@ -1,6 +1,7 @@
-package by.it.group310902.kulik.lesson02;
+package by.it.group351004.barsukov.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -13,7 +14,7 @@ import java.util.List;
 public class A_VideoRegistrator {
 
     public static void main(String[] args) {
-        A_VideoRegistrator instance=new A_VideoRegistrator();
+        A_VideoRegistrator instance = new A_VideoRegistrator();
         double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
         List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
         System.out.println(starts);                            //покажем моменты старта
@@ -25,19 +26,31 @@ public class A_VideoRegistrator {
         List<Double> result;
         result = new ArrayList<>();
         int i=0;
+        double time = 0;
 
         //i - это индекс события events[i]
-        while(i < events.length){
-             /*if(time >= events[i]){
+        Arrays.sort(events);
+        while (i < events.length) {
+            time = events[i] + workDuration;
+            result.add(events[i]);
+            while (i < events.length && (events[i] <= time)) {
                 i++;
-            }else{
-                result.add(events[i]);
-                time += workDuration;
+            }
 
-            }*/
 
         }
 
+        //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
+        //Подготовка к жадному поглощению массива событий
+        //hint: сортировка Arrays.sort обеспечит скорость алгоритма
+        //C*(n log n) + C1*n = O(n log n)
+
+        //пока есть незарегистрированные события
+        //получим одно событие по левому краю
+        //и запомним время старта видеокамеры
+        //вычислим момент окончания работы видеокамеры
+        //и теперь пропустим все покрываемые события
+        //за время до конца работы, увеличивая индекс
 
 
 

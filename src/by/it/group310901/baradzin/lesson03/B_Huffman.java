@@ -37,11 +37,11 @@ import java.util.Scanner;
 public class B_Huffman {
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = STR."\{System.getProperty("user.dir")}/src/";
-        var f = new File(STR."\{root}by/it/group310901/baradzin/lesson03/encodeHuffman.txt");
+        //var root = STR."\{System.getProperty("user.dir")}/src/";
+        //var f = new File(STR."\{root}by/it/group310901/baradzin/lesson03/encodeHuffman.txt");
         var instance = new B_Huffman();
-        var result = instance.decode(f);
-        System.out.println(result);
+       // var result = instance.decode(f);
+        //System.out.println(result);
     }
 
     String decode(File file) throws FileNotFoundException {

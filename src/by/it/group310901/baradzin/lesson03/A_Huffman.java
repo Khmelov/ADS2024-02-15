@@ -43,14 +43,14 @@ public class A_Huffman {
     static private final Map<Character, String> codes = new TreeMap<>();
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = STR."\{System.getProperty("user.dir")}/src/";
+         /*var root = STR."\{System.getProperty("user.dir")}/src/";
         var f = new File(STR."\{root}by/it/group310901/baradzin/lesson03/dataHuffman.txt");
         var instance = new A_Huffman();
-        var result = instance.encode(f);
+        //var result = instance.encode(f);
         System.out.printf("%d %d\n", codes.size(), result.length());
         for (var entry : codes.entrySet())
             System.out.printf("%s: %s\n", entry.getKey(), entry.getValue());
-        System.out.println(result);
+        System.out.println(result);*/
     }
 
     String encode(File file) throws FileNotFoundException {
@@ -58,7 +58,7 @@ public class A_Huffman {
         var input = scanner.next();
 
         var symbols = new HashMap<Character, Integer>();
-        input.chars().forEach(symbol -> symbols.compute((char) symbol, (_, frequency) -> (frequency == null ? 0 : frequency) + 1));
+        //input.chars().forEach(symbol -> symbols.compute((char) symbol, (_, frequency) -> (frequency == null ? 0 : frequency) + 1));
 
         var priorityQueue = new PriorityQueue<Node>(symbols.size());
         symbols.forEach((symbol, frequency) -> priorityQueue.add(new LeafNode(symbol, frequency)));
@@ -121,8 +121,8 @@ public class A_Huffman {
 
         @Override
         void fillCodes(String code) {
-            left.fillCodes(STR."\{code}0");
-            right.fillCodes(STR."\{code}1");
+      //      left.fillCodes(STR."\{code}0");
+            //right.fillCodes(STR."\{code}1");
         }
 
     }

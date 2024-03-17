@@ -1,8 +1,13 @@
-package by.it.group351002.stepanenko;
+package by.it.group351004.barsukov.lesson01;
 
 import java.math.BigInteger;
 
+/*
+ * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
+ */
+
 public class FiboA {
+
 
     private long startTime = System.currentTimeMillis();
 
@@ -11,6 +16,7 @@ public class FiboA {
         int n = 33;
         System.out.printf("calc(%d)=%d \n\t time=%d \n\n", n, fibo.calc(n), fibo.time());
 
+        //вычисление чисел фибоначчи медленным методом (рекурсией)
         fibo = new FiboA();
         n = 34;
         System.out.printf("slowA(%d)=%d \n\t time=%d \n\n", n, fibo.slowA(n), fibo.time());
@@ -22,22 +28,22 @@ public class FiboA {
         return res;
     }
 
-    private int calc(int n) {
-        if (n <= 1) {
-            return n;
-        } else {
-            return calc(n - 1) + calc(n - 2);
+    private int calc(int n) {{
+            if (n <= 1) {
+                return n;
+            }
+            return calc(n - 1) +calc(n - 2);
         }
     }
 
+
     BigInteger slowA(Integer n) {
-        if (n <= 1) {
-            return BigInteger.valueOf(n);
-        } else {
-            BigInteger a = slowA(n - 1);
-            BigInteger b = slowA(n - 2);
-            return a.add(b);
-        }
+        if (n==0) return BigInteger.ZERO;
+        if (n==1) return BigInteger.ONE;
+        else return slowA(n-1).add(slowA(n-2));
+
     }
+
+
 }
 

@@ -21,7 +21,6 @@ public class FiboA {
         startTime = System.currentTimeMillis();
         return res;
     }
-
     private int calc(int n) {
         if (n <= 1) {
             return n;

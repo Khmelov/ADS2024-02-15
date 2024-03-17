@@ -1,4 +1,4 @@
-package by.it.group310902.perova.lesson02;
+package by.it.group310901.navrosuk.lesson02;
 
 import org.junit.Test;
 

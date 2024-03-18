@@ -37,9 +37,7 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            return this.cost*o.weight-o.cost*this.weight;
         }
     }
 
@@ -62,14 +60,54 @@ public class C_GreedyKnapsack {
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
         
+        sort(items);
         
-
-
-
+        //Greedy algorithm
+        int space = W;
+        for(int i = items.length-1; i >= 0; i--){
+            if(items[i].weight > space){
+                result += items[i].cost*space/items[i].weight;
+                break;
+            }
+            result += items[i].cost;
+            space -= items[i].weight;
+        }
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
+    }
+
+    void siftDown(Item[] arr, int size, int index){
+        int C = index, L = 2*C, R = L+1, M;
+        while(L < size){
+            if(L == size-1){
+                M = L;
+            }
+            else {
+                M = arr[L].compareTo(arr[R]) >= 0 ? L : R;
+            }
+            if(arr[C].compareTo(arr[M]) >= 0) break;
+            Item temp = arr[C];
+            arr[C] = arr[M];
+            arr[M] = temp;
+            C = M; L = 2*C; R = L+1;
+        }
+    }
+
+    void sort(Item[] arr){
+        //To max-heap
+        for(int i = arr.length/2; i >= 0; i--){
+            siftDown(arr, arr.length, i);
+        }
+
+        //Swap max and last element and re-add last element to the smaller heap
+        for(int i = arr.length-1; i >= 0; i--){
+            Item temp = arr[i];
+            arr[i] = arr[0];
+            arr[0] = temp;
+            siftDown(arr, i, 0);
+        }
     }
 
     public static void main(String[] args) throws FileNotFoundException {

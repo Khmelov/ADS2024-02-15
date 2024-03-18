@@ -25,17 +25,17 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        List<Long> Fib = new ArrayList<>();
-        Fib.add(0L);
-        Fib.add(1L);
+        List<Long> fib = new ArrayList<>();
+        fib.add(0L);
+        fib.add(1L);
         int i = 2;
-        while (!(Fib.get(i - 2) == 0 && Fib.get(i - 1) == 1) || i <= 2) {
+        while (!(fib.get(i - 2) == 0 && fib.get(i - 1) == 1) || i <= 2) {
 
-            Fib.add((Fib.get(i - 2) + Fib.get(i - 1)) % m);
+            fib.add((fib.get(i - 2) + fib.get(i - 1)) % m);
 
             i++;
         }
-        return Fib.get((int) (n % (i - 2)));
+        return fib.get((int) (n % (i - 2)));
     }
 
 

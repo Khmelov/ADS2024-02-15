@@ -16,8 +16,6 @@ public class FiboB {
     }
 
     public static void main(String[] args) {
-
-        //вычисление чисел простым быстрым методом
         FiboB fibo = new FiboB();
         int n = 55555;
         int[] arr = new int[n];
@@ -30,7 +28,6 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
-        //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         if (n == 0) return BigInteger.ZERO;
         if (n == 1) return BigInteger.ONE;
         BigInteger a = BigInteger.ZERO;

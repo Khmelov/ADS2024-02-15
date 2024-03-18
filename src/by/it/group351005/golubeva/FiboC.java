@@ -1,4 +1,4 @@
-package by.it.group351005.AnastasiaGolubeva.lesson01;
+package by.it.group351005.golubeva;
 import java.util.Vector;
 
 /*

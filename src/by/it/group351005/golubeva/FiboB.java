@@ -1,4 +1,4 @@
-package by.it.group351005.AnastasiaGolubeva.lesson01;
+package by.it.group351005.golubeva;
 
 /*
  * Вам необходимо выполнить способ вычисления чисел Фибоначчи с вспомогательным массивом

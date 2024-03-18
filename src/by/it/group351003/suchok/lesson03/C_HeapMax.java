@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.util.Collections.swap;
+
 // Lesson 3. C_Heap.
 // Задача: построить max-кучу = пирамиду = бинарное сбалансированное дерево на массиве.
 // ВАЖНО! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ НИКАКИЕ КОЛЛЕКЦИИ, КРОМЕ ARRAYLIST (его можно, но только для массива)
@@ -44,6 +46,21 @@ public class C_HeapMax {
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вверх
+            int maxIndex = i;
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+
+            if (left < heap.size() && heap.get(left) > heap.get(maxIndex)) {
+                maxIndex = left;
+            }
+
+            if (right < heap.size() && heap.get(right) > heap.get(maxIndex)) {
+                maxIndex = right;
+            }
+
+            if (maxIndex != i) {
+                //swap(i, maxIndex);
+            }
 
             return i;
         }

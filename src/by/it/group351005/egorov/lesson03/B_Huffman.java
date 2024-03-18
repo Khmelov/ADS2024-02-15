@@ -2,7 +2,7 @@ package by.it.group351005.egorov.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
@@ -49,11 +49,25 @@ public class B_Huffman {
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-
-
-
-
+        Map<String,Character> letter =new HashMap<>();
+        for (int i = 0; i < count; i++) {
+            Character symbol = scanner.next().charAt(0);
+            letter.put(scanner.next(), symbol);
+        }
+        String code = scanner.next();
+        String symbolCode = "";
+        // change symbols
+        for (int i = 0; i < length; i++) {
+            symbolCode += code.charAt(i);
+            if (code.charAt(i) == '0'){
+                result.append(letter.get(symbolCode));
+                symbolCode = "";
+            }
+        }
+        if (!symbolCode.isEmpty()){
+            result.append(letter.get(symbolCode));
+        }
+        scanner.close();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

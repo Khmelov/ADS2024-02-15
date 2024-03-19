@@ -1,4 +1,4 @@
-package by.it.group351003.zarenok.lesson02;
+package by.it.group310901.tit.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +20,7 @@ public class B_Sheduler {
             this.start = start;
             this.stop = stop;
         }
+
         @Override
         public String toString() {
             return "("+ start +":" + stop + ")";
@@ -47,15 +48,23 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        //ваше решение.
-        Arrays.sort(events, (a, b) -> a.stop - b.stop);
-        int lastTime = from;
+        // Сортируем события по времени окончания
+        Arrays.sort(events, (e1, e2) -> {
+            if (e1.stop == e2.stop) {
+                return e1.start - e2.start;
+            } else {
+                return e1.stop - e2.stop;
+            }
+        });
+
+        int lastEventStop = from;
         for (Event event : events) {
-            if (event.start >= lastTime && event.stop <= to) {
+            if (event.start >= lastEventStop && event.stop <= to) {
                 result.add(event);
-                lastTime = event.stop;
+                lastEventStop = event.stop;
             }
         }
-        return result;          //вернем итог
+
+        return result;
     }
 }

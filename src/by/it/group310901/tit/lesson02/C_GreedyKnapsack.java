@@ -1,4 +1,4 @@
-package by.it.group310902.kashlej.lesson02;
+package by.it.group310901.tit.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Arrays;
+
+
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
         int cost;
@@ -36,16 +38,10 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-            double thisValue = (double) this.cost / this.weight;
-            double otherValue = (double) o.cost / o.weight;
-            if (thisValue < otherValue) {
-                return 1;
-            } else if (thisValue > otherValue) {
-                return -1;
-            } else {
-                return 0;
-            }
+            // Сравниваем предметы по их стоимости за единицу веса
+            double ratioThis = (double) this.cost / this.weight;
+            double ratioOther = (double) o.cost / o.weight;
+            return Double.compare(ratioOther, ratioThis);
         }
     }
 
@@ -62,17 +58,15 @@ public class C_GreedyKnapsack {
             System.out.println(item);
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
-
+        Arrays.sort(items);
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
-        Arrays.sort(items);
+
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
-
-        //ваше решение.
         int currentWeight = 0;
 
         for (Item item : items) {
@@ -82,9 +76,11 @@ public class C_GreedyKnapsack {
             } else {
                 int remainingWeight = W - currentWeight;
                 result += (double) item.cost * remainingWeight / item.weight;
-                break;
+                break; // Выходим из цикла, так как рюкзак заполнен
             }
         }
+
+        //ваше решение.
 
 
 

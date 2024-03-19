@@ -1,7 +1,6 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group310901.fomina.istg.lesson02.lesson02;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -26,14 +25,35 @@ public class A_VideoRegistrator {
         List<Double> result;
         result = new ArrayList<>();
         int i=0;                              //i - это индекс события events[i]
+        //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
+        //Подготовка к жадному поглощению массива событий
+        //hint: сортировка Arrays.sort обеспечит скорость алгоритма
+        //C*(n log n) + C1*n = O(n log n)
 
-        Arrays.sort(events);
-        while (i < events.length) {
-            double startTime = events[i];
-            result.add(startTime);
-            while ((i < events.length) && (events[i] <= startTime + workDuration))
-                i++;
+        //пока есть незарегистрированные события
+        //получим одно событие по левому краю
+        //и запомним время старта видеокамеры
+        //вычислим момент окончания работы видеокамеры
+        //и теперь пропустим все покрываемые события
+        //за время до конца работы, увеличивая индекс
+        for (int j = 0; j < events.length - 1; j++){
+            for (int k = j + 1; k < events.length; k++){
+                if(events[j] > events[k]){
+                    double temp = events[j];
+                    events[j] = events[k];
+                    events[k] = temp;
+                }
+            }
         }
+        while (i < events.length){
+            double start = events[i];
+            double end = start + workDuration;
+            result.add(start);
+            while (i < events.length && events[i] <= end){
+                i++;
+            }
+        }
+
 
         return result;                        //вернем итог
     }

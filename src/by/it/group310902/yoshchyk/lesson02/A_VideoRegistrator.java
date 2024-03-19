@@ -1,6 +1,7 @@
 package by.it.group310902.yoshchyk.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -29,26 +30,22 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
-
+        Arrays.sort(events);
+        double start = 0, end = 0;
+        for (i = 0; i < events.length; i++){
+            if (events[i] > end){
+                start = events[i];
+                end = start + workDuration;
+                result.add(start);
+            }
+        }
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
         //и запомним время старта видеокамеры
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-        double time = 0;
-        Arrays.sort(events);
-        while(i < events.length){
-            if(time >= events[i]){
-                i++;
-            }
-            else{
-                result.add(events[i]);
-                time += workDuration;
 
-            }
-
-        }
 
 
         return result;                        //вернем итог

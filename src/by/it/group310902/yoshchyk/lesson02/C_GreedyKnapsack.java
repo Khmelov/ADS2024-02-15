@@ -40,7 +40,7 @@ public class C_GreedyKnapsack {
             //тут может быть ваш компаратор
 
 
-            return 0;
+            return Double.compare((double) o.cost / o.weight, (double) this.cost / this.weight);
         }
     }
 
@@ -61,28 +61,31 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-        double result = 0;
+
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
 
-
         Arrays.sort(items);
-        for (int i = 0; i < items.length && W != 0; i++){
-            while (items[i].weight > W) {
-                items[i].cost -= items[i].cost / items[i].weight;
-                items[i].weight--;
-            }
-            W -= items[i].weight;
-            result += items[i].cost;
-        }
 
+        double result = 0;
+        int currentWeight = 0;
+
+        for (Item item : items) {
+            if (currentWeight + item.weight <= W) {
+                result += item.cost;
+                currentWeight += item.weight;
+            } else {
+                double remainingWeight = W - currentWeight;
+                result += item.cost * ((double) remainingWeight / item.weight);
+                break;
+            }
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
-
     }
 
     public static void main(String[] args) throws FileNotFoundException {

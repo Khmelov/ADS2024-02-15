@@ -25,31 +25,38 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
+        Vector<Long> vector = new Vector<>();
+        long newFib0 = 1L;
+        long newFib1 = 1L;
+        long newFib2 = 1l;
+        int i=1;
+        vector.add(newFib0);
+        vector.add(newFib1);
+
+
+        do {
+            newFib2=(newFib0+newFib1)%m;
+            newFib0=newFib1;
+
+            newFib1=newFib2;
+
+            vector.add(newFib2);
+
+            i++;
+
+        }while (vector.get(i)!=1 || vector.get(i-1)!=1);
+        i++;
+        i-=2;
+        while(n-i>0){
+            n=n-i;
+        }
+        n--;
+
+        return vector.get((int)n);
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
-        //см. период Пизане
+        //см. период Пизано
 
-        long fibPr = 0;
-        long fib = 1;
-        Vector<Long> v = new Vector();
-
-        v.add(fibPr);
-        v.add(fib);
-        for (int i = 1; i < n; i++)
-        {
-            long fibOld = fib;
-            fib = (fib + fibPr) % m;;
-            fibPr = fibOld;
-
-            if (fibPr == 0 && fib == 1) {
-                v.remove(v.size() - 1);
-                break;
-            }
-            else
-                v.add(fib);
-        }
-        int offset = (int)(n % v.size());
-        return v.get(offset);
     }
 
 

@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson03;
+package by.it.group310902.verenich.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -100,6 +100,7 @@ public class A_Huffman {
 
         @Override
         void fillCodes(String code) {
+            int a;
             //добрались до листа, значит рекурсия закончена, код уже готов
             //и можно запомнить его в индексе для поиска кода по символу.
             codes.put(this.symbol, code);

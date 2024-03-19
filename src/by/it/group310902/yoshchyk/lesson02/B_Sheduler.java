@@ -27,12 +27,9 @@ public class B_Sheduler {
         public String toString() {
             return "("+ start +":" + stop + ")";
         }
-<<<<<<< HEAD
         public int compareTo(Event o) {
             return this.stop - o.stop;
         }
-=======
->>>>>>> origin/main
     }
 
     public static void main(String[] args) {
@@ -57,7 +54,7 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-<<<<<<< HEAD
+
 
         Arrays.sort(events, Event::compareTo);
         int i = 0;
@@ -68,7 +65,6 @@ public class B_Sheduler {
                 i++;
             }
         }
-=======
         for(int i = 0; i < events.length - 1; i++){
             for(int j = i + 1; j < events.length; j++){
                 if(events[i].stop > events[j].stop){
@@ -86,7 +82,6 @@ public class B_Sheduler {
             }
         }
 
->>>>>>> origin/main
 
 
 

@@ -42,11 +42,11 @@ public class C_GreedyKnapsack {
             //тут может быть ваш компаратор
 
 
-<<<<<<< HEAD
+
             return Double.compare((double) o.cost / o.weight, (double) this.cost / this.weight);
-=======
+
             return 0;
->>>>>>> origin/main
+
         }
     }
 

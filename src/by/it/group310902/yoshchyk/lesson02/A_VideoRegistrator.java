@@ -31,7 +31,7 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
-<<<<<<< HEAD
+
         Arrays.sort(events);
         double start = 0, end = 0;
         for (i = 0; i < events.length; i++){
@@ -41,18 +41,14 @@ public class A_VideoRegistrator {
                 result.add(start);
             }
         }
-=======
 
->>>>>>> origin/main
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
         //и запомним время старта видеокамеры
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-<<<<<<< HEAD
 
-=======
         double time = 0;
         Arrays.sort(events);
         while(i < events.length){
@@ -66,7 +62,7 @@ public class A_VideoRegistrator {
             }
 
         }
->>>>>>> origin/main
+
 
 
         return result;                        //вернем итог

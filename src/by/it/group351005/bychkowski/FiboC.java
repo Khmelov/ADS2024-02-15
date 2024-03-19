@@ -1,4 +1,4 @@
-package by.it.group351005.bychkowski.lesson01;
+package by.it.group351005.bychkowski;
 import java.util.Vector;
 
 /*
@@ -6,8 +6,6 @@ import java.util.Vector;
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.
  * время расчета должно быть не более 2 секунд
  */
-
-import java.util.Vector;
 
 public class FiboC {
 

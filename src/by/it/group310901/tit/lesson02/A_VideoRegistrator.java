@@ -26,6 +26,7 @@ public class A_VideoRegistrator {
         result = new ArrayList<>();
         Arrays.sort(events); // сортируем массив событий
 
+
         int i = 0;
         while (i < events.length) {
             double start = events[i]; // время старта видеокамеры

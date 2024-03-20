@@ -52,15 +52,15 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
         Arrays.sort(events,Comparator.comparingInt(event -> event.stop));
-        int start = 0;
-        int i = 1;
-        do {
-            result.add(events[start]);
-            while ((i <= (events.length-1)) && ((events[start].stop) > (events[i].start))) {
-                i++;
+        result.add(events[0]);
+        int prevEventIndex = 0;
+
+        for (int i = 1; i < events.length; i++) {
+            if (events[i].start >= events[prevEventIndex].stop) {
+                result.add(events[i]);
+                prevEventIndex = i;
             }
-            start = i;
-        } while (i <= (events.length-1));
+        }
 
 
         return result;          //вернем итог

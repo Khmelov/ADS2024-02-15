@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson03;
+package by.it.group351005.brezgunov.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;

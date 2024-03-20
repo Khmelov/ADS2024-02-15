@@ -1,4 +1,5 @@
-package by.it.group310901.eremeiko.lesson02;
+package by.it.group310902.perova.lesson02;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,27 +40,30 @@ public class B_Sheduler {
         };
 
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
-        System.out.println(starts);                                 //покажем рассчитанный график занятий
+        System.out.println();                                 //покажем рассчитанный график занятий
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
-        //оптимизация проводится по наибольшему числу непересекающихся событий.
+
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
+        Arrays.sort(events,Comparator.comparingInt(event -> event.stop));
+        result.add(events[0]);
+        int prevEventIndex = 0;
 
-        Arrays.sort(events, Comparator.comparingInt(e -> e.stop)); // сортировка по времени окончания
-        int lastAddedStop = from;
-        for (Event event : events) {
-            if (event.start >= lastAddedStop && event.stop <= to) {
-                result.add(event);
-                lastAddedStop = event.stop;
+        for (int i = 1; i < events.length; i++) {
+            if (events[i].start >= events[prevEventIndex].stop) {
+                result.add(events[i]);
+                prevEventIndex = i;
             }
         }
 
+
         return result;          //вернем итог
     }
+
 }

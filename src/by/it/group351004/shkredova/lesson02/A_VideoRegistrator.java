@@ -1,8 +1,8 @@
-package by.it.group351004.shkredova.lesson02;
+package by.it.group310902.perova.lesson02;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Arrays;
 /*
 Даны события events
 реализуйте метод calcStartTimes, так, чтобы число включений регистратора на
@@ -16,7 +16,7 @@ public class A_VideoRegistrator {
     public static void main(String[] args) {
         A_VideoRegistrator instance=new A_VideoRegistrator();
         double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
+        List<Double> starts = instance.calcStartTimes(events,1);
         System.out.println(starts);                            //покажем моменты старта
     }
     //модификаторы доступа опущены для возможности тестирования
@@ -25,6 +25,29 @@ public class A_VideoRegistrator {
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result;
         result = new ArrayList<>();
+
+        Arrays.sort(events); // Сортировка массива events
+        result.add(events[0]);
+
+       // int i = 1, counter = 0;
+
+        double endOfWork = events[0] + workDuration;
+
+        for ( int i = 1 ; i < events.length; i++) {
+
+                if (events[i] > endOfWork) {
+
+                    result.add(events[i]); // Добавляем время старта текущего события
+                    endOfWork = events[i] + workDuration;
+                }
+                 // Обновляем время старта
+
+        }
+
+
+       // i--; // Чтобы не пропустить следующее событие
+
+
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
@@ -36,19 +59,9 @@ public class A_VideoRegistrator {
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-        double startTime;
 
-        Arrays.sort(events);
 
-        startTime = events[0];
-        result.add(startTime);
 
-        for (int i = 1; i < events.length; i++) {
-            if (events[i] > startTime + workDuration) {
-                startTime = events[i];
-                result.add(startTime);
-            }
-        }
         return result;                        //вернем итог
     }
 }

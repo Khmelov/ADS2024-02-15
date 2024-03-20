@@ -14,7 +14,7 @@ public class fibuB {
         }
 
         public static void main(String[] args) {
-//вычисление чисел простым быстрым методом
+        //вычисление чисел простым быстрым методом
             fibuB fibo = new fibuB();
             int n = 55555;
             System.out.printf("fastB(%d)=%d \n\t time=%d \n\n", n, fibo.fastB(n), fibo.time());
@@ -34,7 +34,6 @@ public class fibuB {
         }
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         //return BigInteger.ZERO;
-
     }
 
         }

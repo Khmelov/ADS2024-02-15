@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/B_Sheduler.java
 package by.it.group310901.kapuza.lesson2;
-========
-package by.it.group310901.pinchuk.lesson02;
->>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/pinchuk/lesson02/B_Sheduler.java
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,10 +65,6 @@ public class B_Sheduler {
                 i++;
             }
         }
-
-
-
-
 
         return result;          //вернем итог
     }

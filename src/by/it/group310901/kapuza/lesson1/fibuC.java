@@ -18,7 +18,8 @@ public class fibuC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    public long fasterC(long n, int m) {    //Решение сложно найти интуитивно
+    public long fasterC(long n, int m) {   
+        //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         // см. период Пизано
         long prev = 0;

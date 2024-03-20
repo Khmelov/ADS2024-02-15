@@ -1,10 +1,8 @@
 package by.it.group310901.kapuza.lesson2;
 
 import org.junit.Test;
-
 import java.io.File;
 import java.util.List;
-
 import static org.junit.Assert.assertTrue;
 
 public class Lesson02Test {

@@ -114,6 +114,7 @@ public class B_Huffman {
         }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+       
         return result.toString(); //01001100100111
     }
 
@@ -124,5 +125,4 @@ public class B_Huffman {
         String result = instance.decode(f);
         System.out.println(result);
     }
-
 }

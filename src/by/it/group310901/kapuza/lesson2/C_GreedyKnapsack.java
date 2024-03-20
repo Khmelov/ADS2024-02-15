@@ -1,8 +1,5 @@
-<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/C_GreedyKnapsack.java
 package by.it.group310901.kapuza.lesson2;
-========
-package by.it.group310901.chizh.lesson02;
->>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/chizh/lesson02/C_GreedyKnapsack.java
+
 /*
 Даны
 1) объем рюкзака 4
@@ -16,15 +13,12 @@ package by.it.group310901.chizh.lesson02;
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
-<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/C_GreedyKnapsack.java
 
 import java.io.File;
 import java.io.FileNotFoundException;
-========
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
->>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/chizh/lesson02/C_GreedyKnapsack.java
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -90,9 +84,6 @@ public class C_GreedyKnapsack {
             result += item.cost;
             totalWeight += item.weight;
         }
-
-========
->>>>>>>> 9899abefb452e0dd5a10abc8cead5a727479959d:src/by/it/group310901/chizh/lesson02/C_GreedyKnapsack.java
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
@@ -111,7 +102,6 @@ public class C_GreedyKnapsack {
                 W = 0;
             }
         }
-
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

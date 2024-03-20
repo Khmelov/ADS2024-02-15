@@ -34,13 +34,13 @@ import java.util.Scanner;
 //      200
 //      500
 
-
 public class C_HeapMax {
 
     private class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение.
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
+       
         private List<Long> heap = new ArrayList<>();
 
         private void siftDown(int i) { // просеивание вверх
@@ -123,7 +123,6 @@ public class C_HeapMax {
         C_HeapMax instance = new C_HeapMax();
         System.out.println("MAX="+instance.findMaxValue(stream));
     }
-
     // РЕМАРКА. Это задание исключительно учебное.
     // Свои собственные кучи нужны довольно редко.
     // "В реальном бою" все существенно иначе. Изучите и используйте коллекции

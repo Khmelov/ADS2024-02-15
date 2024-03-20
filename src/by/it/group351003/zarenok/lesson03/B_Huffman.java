@@ -45,29 +45,24 @@ public class B_Huffman {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         int count = scanner.nextInt();
-        Integer length = scanner.nextInt();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-        Map<Character, String > codes = new HashMap<>();
+        int length = scanner.nextInt();
+        Map<String, String> map = new HashMap<>();
         for (int i = 0; i < count; i++) {
-            String line = scanner.next();
-            char letter = line.charAt(0);
-            String code = line.substring(2);
-            codes.put(letter,code);
-        }
-        String str = scanner.next();
-        StringBuilder codePrefix = new StringBuilder();
-        for (char c : str.toCharArray()) {
-            codePrefix.append(c);
-            for (Map.Entry<Character, String> entry : codes.entrySet()) {
-                if (entry.getValue().equals(codePrefix.toString())) {
-                    result.append(entry.getKey());
-                    codePrefix.setLength(0);
-                    break;
-                }
-            }
+            String elem = scanner.next();
+            String numKey = scanner.next();
+            map.put(numKey, String.valueOf(elem.charAt(0)));
         }
 
+        String res = scanner.next();
+        String str = "";
+        for (int i = 0; i < length; i++){
+            int ch = Integer.parseInt(String.valueOf(res.charAt(i)));
+            str += ch;
+            if(map.containsKey(str)) {
+                result.append(map.get(str));
+                str = "";
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

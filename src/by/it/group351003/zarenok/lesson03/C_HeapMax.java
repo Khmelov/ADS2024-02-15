@@ -44,33 +44,37 @@ public class C_HeapMax {
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вверх
-            int leftChild = 2 * i + 1;
-            int rightChild = 2 * i + 2;
+            int size = heap.size();
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
             int largest = i;
-            if (leftChild < heap.size() && heap.get(leftChild) > heap.get(largest)) {
-                largest = leftChild;
+
+            if (left < size && heap.get(left) > heap.get(largest)) {
+                largest = left;
             }
-            if (rightChild < heap.size() && heap.get(rightChild) > heap.get(largest)) {
-                largest = rightChild;
+
+            if (right < size && heap.get(right) > heap.get(largest)) {
+                largest = right;
             }
 
             if (largest != i) {
-                long temp = heap.get(i);
+                Long temp = heap.get(i);
                 heap.set(i, heap.get(largest));
                 heap.set(largest, temp);
                 siftDown(largest);
             }
-            return largest;
+
+            return i;
         }
 
         int siftUp(int i) { //просеивание вниз
             while (i > 0) {
-                int parentIndex = (i - 1) / 2;
-                if (heap.get(i) > heap.get(parentIndex)) {
-                    long temp = heap.get(i);
-                    heap.set(i, heap.get(parentIndex));
-                    heap.set(parentIndex, temp);
-                    i = parentIndex;
+                int parent = (i - 1) / 2;
+                if (heap.get(i) > heap.get(parent)) {
+                    Long temp = heap.get(i);
+                    heap.set(i, heap.get(parent));
+                    heap.set(parent, temp);
+                    i = parent;
                 } else {
                     break;
                 }
@@ -80,21 +84,23 @@ public class C_HeapMax {
 
         void insert(Long value) { //вставка
             heap.add(value);
-            siftUp(heap.size() - 1);
+            int index = heap.size() - 1;
+            siftUp(index);
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            /*Long result = null;
             if (heap.isEmpty()) {
                 return null;
-            }*/
+            }
 
-            long max = heap.get(0);
-            heap.set(0, heap.get(heap.size() - 1));
-            heap.remove(heap.size() - 1);
+            Long max = heap.get(0);
+            int size = heap.size();
+            heap.set(0, heap.get(size - 1));
+            heap.remove(size - 1);
             siftDown(0);
 
             return max;
+        }
             //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         }
 
@@ -102,25 +108,27 @@ public class C_HeapMax {
         Long findMaxValue(InputStream stream) {
             Long maxValue = 0L;
             MaxHeap heap = new MaxHeap();
-            //прочитаем строку для кодирования из тестового файла
+
             Scanner scanner = new Scanner(stream);
             Integer count = scanner.nextInt();
+
             for (int i = 0; i < count; ) {
                 String s = scanner.nextLine();
                 if (s.equalsIgnoreCase("extractMax")) {
                     Long res = heap.extractMax();
                     if (res != null && res > maxValue) maxValue = res;
-                    System.out.println();
+                    System.out.println(res);
                     i++;
                 }
                 if (s.contains(" ")) {
                     String[] p = s.split(" ");
                     if (p[0].equalsIgnoreCase("insert"))
                         heap.insert(Long.parseLong(p[1]));
-                    i++;
                     //System.out.println(heap); //debug
+                    i++;
                 }
             }
+
             return maxValue;
         }
 
@@ -136,9 +144,3 @@ public class C_HeapMax {
         // "В реальном бою" все существенно иначе. Изучите и используйте коллекции
         // TreeSet, TreeMap, PriorityQueue и т.д. с нужным CompareTo() для объекта внутри.
     }
-
-     String findMaxValue(InputStream stream) {
-        return null;
-    }
-
-}

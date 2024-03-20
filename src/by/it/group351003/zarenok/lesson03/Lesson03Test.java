@@ -1,5 +1,6 @@
 package by.it.group351003.zarenok.lesson03;
 
+
 import org.junit.Test;
 
 import java.io.File;
@@ -43,7 +44,7 @@ public class Lesson03Test {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
         C_HeapMax instance = new C_HeapMax();
-        Long res= Long.valueOf(instance.findMaxValue(stream));
+        Long res=instance.findMaxValue(stream);
         boolean ok=(res==500);
         assertTrue("C failed", ok);
     }

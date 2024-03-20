@@ -58,7 +58,6 @@ public class B_Huffman {
                 sb = new StringBuilder();
             }
         }
-
         System.out.println(result);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111

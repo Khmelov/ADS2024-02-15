@@ -121,43 +121,38 @@ public class A_Huffman {
 
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
-            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-
-        for (char c: s.toCharArray()) {
-            count.put(c, count.getOrDefault(c, 0) + 1);
+        //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
+        for (int i = 0; i < s.length(); i++) {
+            if (!count.containsKey(s.charAt(i)))
+                count.put(s.charAt(i), 1);
+            else
+                count.put(s.charAt(i), count.get(s.charAt(i)) + 1);
         }
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
-
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for (Map.Entry<Character, Integer> entry : count.entrySet()) {
-            priorityQueue.add(new LeafNode(entry.getValue(), entry.getKey()));
+        for (Character ch: count.keySet()) {
+            Node node = new LeafNode(count.get(ch), ch);
+            priorityQueue.add(node);
         }
-
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-
+        Node root = null;
         while (priorityQueue.size() > 1) {
-            Node left = priorityQueue.poll();
-            Node right = priorityQueue.poll();
-            priorityQueue.add(new InternalNode(left, right));
+            Node node1 = priorityQueue.remove();
+            Node node2 = priorityQueue.remove();
+            root = new InternalNode(node1, node2);
+            priorityQueue.add(root);
         }
-
         //4. последний из родителей будет корнем этого дерева
-        //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
-
+        //это будет последний и единственный элемент оставшийся в очереди priorityQueue
         StringBuilder sb = new StringBuilder();
-        for (char c : s.toCharArray()) {
-            sb.append(codes.get(c));
-        }
-
-        //.....
-
-        Node root = priorityQueue.poll();
         root.fillCodes("");
-
+        //.....
+        for (int i = 0; i < s.length(); i++)
+            sb.append(codes.get(s.charAt(i)));
         return sb.toString();
         //01001100100111
         //01001100100111

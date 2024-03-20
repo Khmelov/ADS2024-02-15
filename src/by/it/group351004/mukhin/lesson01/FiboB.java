@@ -34,7 +34,6 @@ public class FiboB {
             numbers.add(f);
             i++;
         }
-
         return numbers.get(n);
 
     }

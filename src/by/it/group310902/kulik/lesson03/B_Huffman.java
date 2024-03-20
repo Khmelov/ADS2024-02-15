@@ -50,10 +50,16 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
+        for(int i = 0;i<length;i++){
+            sb.append(str.charAt(i));
+            String key = sb.toString();
+            if(mp.containsKey(key)){
+                result.append(mp.get(key));
+                sb = new StringBuilder();
+            }
+        }
 
-
-
-
+        System.out.println(result);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

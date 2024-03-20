@@ -16,7 +16,7 @@ public class A_VideoRegistrator {
     public static void main(String[] args) {
         A_VideoRegistrator instance=new A_VideoRegistrator();
         double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
+        List<Double> starts = instance.calcStartTimes(events,1);
         System.out.println(starts);                            //покажем моменты старта
     }
     //модификаторы доступа опущены для возможности тестирования
@@ -27,21 +27,25 @@ public class A_VideoRegistrator {
         result = new ArrayList<>();
 
         Arrays.sort(events); // Сортировка массива events
-result.add(events[0]);
-        int i = 1, counter = 0;
+        result.add(events[0]);
 
-        for ( ; i < events.length; i++) {
+       // int i = 1, counter = 0;
 
-                if (events[i] > result.get(counter)+workDuration) {
+        double endOfWork = events[0] + workDuration;
+
+        for ( int i = 1 ; i < events.length; i++) {
+
+                if (events[i] > endOfWork) {
 
                     result.add(events[i]); // Добавляем время старта текущего события
+                    endOfWork = events[i] + workDuration;
                 }
                  // Обновляем время старта
 
         }
 
 
-        i--; // Чтобы не пропустить следующее событие
+       // i--; // Чтобы не пропустить следующее событие
 
 
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.

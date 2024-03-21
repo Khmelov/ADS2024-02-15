@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group351001.golovko_r.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,6 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
@@ -50,31 +49,27 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
         Event temp;
-
-        for ( int i = 0; i <= events.length - 1; i++) {
-            for ( int j = 0; j < events.length - i - 1; j++) {
-                if ( events[j].stop > events[j+1].stop ) {
+        for (int i=0; i<24; i++) {
+            for (int j=23; j>i; j--){
+                if (events[j].stop<events[j-1].stop){
                     temp = events[j];
-                    events[j] = events[j+1];
-                    events[j + 1] = temp;
+                    events[j] = events[j-1];
+                    events[j-1] = temp;
                 }
             }
         }
-        int i = 0;
-        while (events[i].start < from)
-            i++;
-        while ((i < events.length) && (events[i].stop <= to)) {
-            int stopTime = events[i].stop;
-            result.add(events[i]);
-            while ((i < events.length) && (events[i].stop <= to) && (events[i].start < stopTime)) {
-                i++;
+        int i=1;
+        int Right = events[0].stop;
+        result.add(events[0]);
+        while (i<24)
+        {
+            if (events[i].start>=Right)
+            {
+                result.add(events[i]);
+                Right = events[i].stop;
             }
+            i++;
         }
-
-
-
-
-
         return result;          //вернем итог
     }
 }

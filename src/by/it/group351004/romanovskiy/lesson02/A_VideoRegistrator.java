@@ -25,14 +25,15 @@ public class A_VideoRegistrator {
 
     List<Double> calcStartTimes(double[] events, double workDuration) {
         List<Double> result = new ArrayList<>();
-        Arrays.sort(events);
+        Arrays.sort(events); // Сортируем события по возрастанию времени
 
         int i = 0;
         while (i < events.length) {
-            double startTime = events[i];
-            double endTime = startTime + workDuration;
-            result.add(startTime);
+            double startTime = events[i]; // Момент старта видеокамеры
+            double endTime = startTime + workDuration; // Момент окончания работы видеокамеры
+            result.add(startTime); // Добавляем момент старта в результат
 
+            // Пропускаем все покрываемые события
             while (i < events.length && events[i] <= endTime)
                 i++;
         }

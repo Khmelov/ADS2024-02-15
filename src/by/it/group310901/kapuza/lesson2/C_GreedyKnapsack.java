@@ -1,4 +1,5 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group310901.kapuza.lesson2;
+
 /*
 Даны
 1) объем рюкзака 4
@@ -12,8 +13,12 @@ package by.it.group310901.fomina.lesson02;
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -38,9 +43,13 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            if (cost * o.weight < o.cost * weight){
+                return 1;
+            } else if (cost * o.weight == o.cost * weight){
+                return 0;
+            } else {
+                return -1;
+            }
         }
     }
 
@@ -58,12 +67,15 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
-
-        Arrays.sort(items);
+        //тут необходимо реализовать решение задачи
+        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
-
+<<<<<<<< HEAD:src/by/it/group310901/kapuza/lesson2/C_GreedyKnapsack.java
         int totalWeight = 0;
+
         for (Item item : items) {
+
             if (totalWeight + item.weight > W) {
                 result += ((double) item.cost) / item.weight * (W - totalWeight);
                 break;
@@ -72,10 +84,24 @@ public class C_GreedyKnapsack {
             result += item.cost;
             totalWeight += item.weight;
         }
+        //тут реализуйте алгоритм сбора рюкзака
+        //будет особенно хорошо, если с собственной сортировкой
+        //кроме того, можете описать свой компаратор в классе Item
 
-
-
-
+        //ваше решение.
+        Arrays.sort(items);
+        for (int i = 0; i < items.length; i++){
+            if (W == 0){
+                break;
+            }
+            if (items[i].weight <= W){
+                result += items[i].cost;
+                W -= items[i].weight;
+            } else {
+                result += W * (items[i].cost / items[i].weight);
+                W = 0;
+            }
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

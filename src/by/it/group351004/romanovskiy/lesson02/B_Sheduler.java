@@ -46,7 +46,7 @@ public class B_Sheduler {
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         List<Event> result = new ArrayList<>();
-        Arrays.sort(events, Comparator.comparingInt(e -> e.stop));
+        Arrays.sort(events, Comparator.comparingInt(e -> e.stop)); // Сортируем события по возрастанию времени окончания
 
         int currentTime = from;
         for (Event event : events) {

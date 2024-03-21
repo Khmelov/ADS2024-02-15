@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group351001.golovko_r.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -14,7 +14,6 @@ package by.it.group310901.fomina.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -56,22 +55,40 @@ public class C_GreedyKnapsack {
         for (Item item:items) {
             System.out.println(item);
         }
+        Item temp;
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
-
-
-        Arrays.sort(items);
-        double result = 0;
-
-        int totalWeight = 0;
-        for (Item item : items) {
-            if (totalWeight + item.weight > W) {
-                result += ((double) item.cost) / item.weight * (W - totalWeight);
-                break;
+        for (int i=0; i<n; i++){
+            for (int j=n-1; j>i; j--){
+                if (items[j].cost/items[j].weight>items[j-1].cost/items[j-1].weight){
+                    temp = items[j];
+                    items[j] = items[j-1];
+                    items[j-1] = temp;
+                }
             }
-
-            result += item.cost;
-            totalWeight += item.weight;
         }
+        double result = 0;
+        int i = 0;
+        boolean f=true;
+        while ((i<n) && f){
+            if (W>=items[i].weight){
+                result+=items[i].cost;
+                W-=items[i].weight;
+            }
+            else{
+                result+=items[i].cost*W/items[i].weight;
+                f = false;
+            }
+            i++;
+        }
+        //тут необходимо реализовать решение задачи
+        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //вещи можно резать на кусочки (непрерывный рюкзак)
+
+        //тут реализуйте алгоритм сбора рюкзака
+        //будет особенно хорошо, если с собственной сортировкой
+        //кроме того, можете описать свой компаратор в классе Item
+
+        //ваше решение.
 
 
 

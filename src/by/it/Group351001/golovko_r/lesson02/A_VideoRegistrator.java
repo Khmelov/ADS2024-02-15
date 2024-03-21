@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group351001.golovko_r.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,22 +19,21 @@ public class A_VideoRegistrator {
         List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
         System.out.println(starts);                            //покажем моменты старта
     }
-    //модификаторы доступа опущены для возможности тестирования
+
     List<Double> calcStartTimes(double[] events, double workDuration){
-        //events - события которые нужно зарегистрировать
-        //timeWorkDuration время работы видеокамеры после старта
+
         List<Double> result;
-        result = new ArrayList<>();
-        int i=0;                              //i - это индекс события events[i]
-
         Arrays.sort(events);
-        while (i < events.length) {
-            double startTime = events[i];
-            result.add(startTime);
-            while ((i < events.length) && (events[i] <= startTime + workDuration))
-                i++;
-        }
+        result = new ArrayList<>();
 
-        return result;                        //вернем итог
+        result.add (events[0]);
+        int j=1;
+        for (int i=1; i<11; i++) {
+            if (events[i]-result.get(j-1)>workDuration){
+                result.add(events[i]);
+                j++;
+            }
+        }
+        return result;
     }
 }

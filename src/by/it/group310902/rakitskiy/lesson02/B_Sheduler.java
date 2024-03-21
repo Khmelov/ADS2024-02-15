@@ -1,7 +1,6 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group310902.rakitskiy.lesson02;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -19,6 +18,8 @@ public class B_Sheduler {
             this.start = start;
             this.stop = stop;
         }
+
+
 
         @Override
         public String toString() {
@@ -41,7 +42,6 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
@@ -49,32 +49,18 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Event temp;
+        Arrays.sort(events,Comparator.comparingInt(e->e.stop));
+        int prev=from;
+        for(Event event:events){
+            if((event.start>=prev) && (event.stop<= to) ){
+                result.add(event);
+                prev=event.stop;
+            }
 
-        for ( int i = 0; i <= events.length - 1; i++) {
-            for ( int j = 0; j < events.length - i - 1; j++) {
-                if ( events[j].stop > events[j+1].stop ) {
-                    temp = events[j];
-                    events[j] = events[j+1];
-                    events[j + 1] = temp;
-                }
-            }
-        }
-        int i = 0;
-        while (events[i].start < from)
-            i++;
-        while ((i < events.length) && (events[i].stop <= to)) {
-            int stopTime = events[i].stop;
-            result.add(events[i]);
-            while ((i < events.length) && (events[i].stop <= to) && (events[i].start < stopTime)) {
-                i++;
-            }
+
         }
 
-
-
-
-
+        System.out.println(result);
         return result;          //вернем итог
     }
 }

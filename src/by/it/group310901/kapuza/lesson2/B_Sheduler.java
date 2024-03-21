@@ -1,6 +1,7 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group310901.kapuza.lesson2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -41,7 +42,6 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
@@ -49,31 +49,22 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Event temp;
 
-        for ( int i = 0; i <= events.length - 1; i++) {
-            for ( int j = 0; j < events.length - i - 1; j++) {
-                if ( events[j].stop > events[j+1].stop ) {
-                    temp = events[j];
-                    events[j] = events[j+1];
-                    events[j + 1] = temp;
-                }
-            }
-        }
-        int i = 0;
-        while (events[i].start < from)
-            i++;
-        while ((i < events.length) && (events[i].stop <= to)) {
-            int stopTime = events[i].stop;
+        //сортировка массива событий по времени окончания
+        Arrays.sort(events, (o1,o2) ->{
+            if(o1.stop!=o2.stop){
+                return Integer.compare(o1.stop,o2.stop);
+            }else return Integer.compare(o1.start,o2.start);
+        });
+
+        int i =0;
+        while(i < events.length) {
             result.add(events[i]);
-            while ((i < events.length) && (events[i].stop <= to) && (events[i].start < stopTime)) {
+            i++;
+            while(i < events.length && events[i].start < result.get(result.size() - 1).stop){
                 i++;
             }
         }
-
-
-
-
 
         return result;          //вернем итог
     }

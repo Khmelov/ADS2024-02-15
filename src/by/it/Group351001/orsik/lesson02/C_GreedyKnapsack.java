@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group351001.orsik.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -15,6 +15,7 @@ package by.it.group310901.fomina.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -58,21 +59,41 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
-
-        Arrays.sort(items);
+        //тут необходимо реализовать решение задачи
+        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
-
-        int totalWeight = 0;
-        for (Item item : items) {
-            if (totalWeight + item.weight > W) {
-                result += ((double) item.cost) / item.weight * (W - totalWeight);
-                break;
+        Arrays.sort(items, new Comparator<Item>() {
+            @Override
+            public int compare(Item o1, Item o2) {
+                return Integer.compare((o2.cost/o2.weight), (o1.cost/ o1.weight));
             }
-
-            result += item.cost;
-            totalWeight += item.weight;
+        });
+        for (Item item:items) {
+            System.out.println(item);
         }
-
+        //тут реализуйте алгоритм сбора рюкзака
+        //будет особенно хорошо, если с собственной сортировкой
+        //кроме того, можете описать свой компаратор в классе Item
+//        4 60
+//        60 20
+//        100 50
+//        120 30
+//        100 50
+        //ваше решение.
+        int weight = W;
+        int i=0;
+        while(weight>0){
+            if(items[i].weight>weight){
+                result+=(items[i].cost/items[i].weight)*weight;
+                weight-=weight;
+            }
+            else {
+                result += items[i].cost;
+                weight -= items[i].weight;
+            }
+            i++;
+        }
 
 
 

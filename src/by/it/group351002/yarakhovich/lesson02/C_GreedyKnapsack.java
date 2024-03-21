@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group351002.yarakhovich.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -8,7 +8,6 @@ package by.it.group310901.fomina.lesson02;
     120 30
     100 50
 Все это указано в файле (by/it/a_khmelev/lesson02/greedyKnapsack.txt)
-
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
@@ -58,21 +57,30 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
-
-        Arrays.sort(items);
+        //тут необходимо реализовать решение задачи
+        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
+        //тут реализуйте алгоритм сбора рюкзака
+        //будет особенно хорошо, если с собственной сортировкой
+        //кроме того, можете описать свой компаратор в классе Item
 
-        int totalWeight = 0;
-        for (Item item : items) {
-            if (totalWeight + item.weight > W) {
-                result += ((double) item.cost) / item.weight * (W - totalWeight);
-                break;
+        //ваше решение.
+        Arrays.sort(items, (Item1, Item2)->{
+            return Double.compare((double)Item1.weight/Item1.cost,(double)Item2.weight/Item2.cost);
+        });
+        int i = 0;
+        while (W > 0) {
+            if (items[i].weight <= W) {
+                result += items[i].cost;
+                W -= items[i].weight;
             }
-
-            result += item.cost;
-            totalWeight += item.weight;
+            else {
+                result += W * items[i].cost / items[i].weight;
+                W = 0;
+            }
+            i++;
         }
-
 
 
 

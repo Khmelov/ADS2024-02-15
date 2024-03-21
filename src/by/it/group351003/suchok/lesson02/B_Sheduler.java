@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group351003.suchok.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,40 +41,31 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
-        List<Event> result;
-        result = new ArrayList<>();
+        List<Event> result = new ArrayList<>();
+        //result = new ArrayList<>();
         //ваше решение.
-        Event temp;
-
-        for ( int i = 0; i <= events.length - 1; i++) {
-            for ( int j = 0; j < events.length - i - 1; j++) {
-                if ( events[j].stop > events[j+1].stop ) {
-                    temp = events[j];
-                    events[j] = events[j+1];
-                    events[j + 1] = temp;
+        while (from < to){
+            Event best = null;
+            for (int i = 0; i < events.length; ++i){
+                if (events[i].start == from && best == null){
+                    best = events[i];
+                }
+                else if (events[i].start == from && events[i].stop < best.stop){
+                    best = events[i];
                 }
             }
-        }
-        int i = 0;
-        while (events[i].start < from)
-            i++;
-        while ((i < events.length) && (events[i].stop <= to)) {
-            int stopTime = events[i].stop;
-            result.add(events[i]);
-            while ((i < events.length) && (events[i].stop <= to) && (events[i].start < stopTime)) {
-                i++;
+            if (best != null){
+                result.add(best);
+                from = best.stop;
+            }
+            else {
+                from++;
             }
         }
-
-
-
-
-
         return result;          //вернем итог
     }
 }

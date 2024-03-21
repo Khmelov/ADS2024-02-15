@@ -1,3 +1,0 @@
-module Desktop {
-    requires init;
-}

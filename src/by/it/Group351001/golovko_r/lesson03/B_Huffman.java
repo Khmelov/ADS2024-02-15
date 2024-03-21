@@ -67,14 +67,12 @@ public class B_Huffman {
             i = 0;
             StringBuilder Temp = new StringBuilder();
             Temp.setLength(0);
-            String k = Temp.toString();
-            while (!(DecodeTable.containsKey(k))){
+            while (!(DecodeTable.containsKey(Temp.toString()))){
                 Temp.insert(Temp.length(), CodeStr.charAt(i));
-                k = Temp.toString();
                 i++;
             }
             CodeStr.delete(0, i);
-            CodeStr.insert(CodeStr.length(), DecodeTable.get(k));
+            CodeStr.insert(CodeStr.length(), DecodeTable.get(Temp.toString()));
         }
         result.insert(0, CodeStr);
 

@@ -1,5 +1,8 @@
-package by.it.group351002.khmylko.lesson01;
+package lesson01;
 
+import by.it.a_khmelev.lesson01.FiboA;
+import by.it.a_khmelev.lesson01.FiboB;
+import by.it.a_khmelev.lesson01.FiboC;
 import org.junit.Test;
 
 import java.math.BigInteger;

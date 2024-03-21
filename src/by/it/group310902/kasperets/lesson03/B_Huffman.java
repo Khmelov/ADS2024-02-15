@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson03;
+package by.it.group310902.kasperets.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,17 +50,32 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-
-
-
-
+        String[] codes = new String[count];
+        for (int i = 0; i < count; i++) {
+            String s = scanner.next();
+            char ch = s.charAt(0);
+            String code = scanner.next();
+            codes[ch - 'a'] = code;
+        }
+        String s = scanner.next();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            for (int j = 0; j < count; j++) {
+                if (codes[j].equals(sb.toString())) {
+                    result.append((char) (j + 'a'));
+                    sb = new StringBuilder();
+                    break;
+                }
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
+        File f = new File(root + "by/it/group310902/kasperets/lesson03/encodeHuffman.txt");
         B_Huffman instance = new B_Huffman();
         String result = instance.decode(f);
         System.out.println(result);

@@ -37,7 +37,6 @@ public class FiboC {
             b=result;
         }
         return result;
-
     }
     private int  getPisanoPeriod(int m)
     {

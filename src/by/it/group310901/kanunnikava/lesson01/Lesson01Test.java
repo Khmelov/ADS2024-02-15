@@ -16,7 +16,6 @@ public class Lesson01Test {
     Package:            by.it.группа.a_khmelev (тут ваша фамилия)
     Search for test:    In whole project
     */
-
     @Test(timeout = 2000)
     public void slowA() throws Exception {
         FiboA fibo=new FiboA();

@@ -1,4 +1,4 @@
-package by.it.group351005.bitno.lesson02;
+package by.it.group310901.tit.lesson02;
 
 import org.junit.Test;
 

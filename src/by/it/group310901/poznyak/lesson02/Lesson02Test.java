@@ -1,4 +1,4 @@
-package by.it.group351003.suchok.lesson02;
+package by.it.group310901.poznyak.lesson02;
 
 import org.junit.Test;
 

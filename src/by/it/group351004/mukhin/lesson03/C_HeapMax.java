@@ -38,31 +38,56 @@ import java.util.Scanner;
 public class C_HeapMax {
 
     private class MaxHeap {
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
-        int siftDown(int i) { //просеивание вверх
+        void siftDown(int i) {
+            int leftChild = 2 * i + 1;
+            int rightChild = leftChild + 1;
+            int largest = i;
 
-            return i;
+            if (leftChild < heap.size() && heap.get(leftChild) > heap.get(largest))
+                largest = leftChild;
+
+            if (rightChild < heap.size() && heap.get(rightChild) > heap.get(largest))
+                largest = rightChild;
+
+            if (largest != i) {
+                swapElms(largest, i);
+                siftDown(largest);
+            }
         }
 
-        int siftUp(int i) { //просеивание вниз
+        private void swapElms(int parentElm, int i) {
+            Long temp = heap.get(parentElm);
 
-            return i;
+            heap.set(parentElm, heap.get(i));
+            heap.set(i, temp);
         }
 
-        void insert(Long value) { //вставка
+        void siftUp(int i) {
+            if (i < 1) return;
+
+            int parentElem = (i - 1) / 2;
+
+            if (heap.get(parentElem) < heap.get(i))
+                swapElms(parentElem, i);
+            siftUp(parentElem);
         }
 
-        Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
+        void insert(Long value) {
+            heap.add(value);
+            siftUp(heap.size() - 1);
+        }
+
+        Long extractMax() {
+            if (heap.size() == 0)
+                return 0L;
+
+            Long result = heap.remove(0);
+            siftDown(0);
 
             return result;
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }
 
     //эта процедура читает данные из файла, ее можно не менять.

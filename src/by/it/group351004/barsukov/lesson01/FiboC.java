@@ -1,4 +1,4 @@
-package by.it.group351004.barsukov.lesson01.lesson01;
+package by.it.group351004.barsukov.lesson01;
 import java.util.ArrayList;
 import java.util.List;
 /*

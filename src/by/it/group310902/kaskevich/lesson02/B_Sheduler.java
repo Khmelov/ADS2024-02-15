@@ -50,10 +50,48 @@ public class B_Sheduler {
         //ваше решение.
 
 
+        int start = 0;
+        int maxStop = start;
 
 
+        for (Event event : events)
+        {
+            if (event.stop > maxStop)
+            {
+                maxStop = event.stop;
+            }
+        }
 
+        int end = start + 1;
 
+        while(end <= maxStop)
+        {
+            boolean isFound = false;
+            for (Event event : events)
+            {
+                if (event.start == start && event.stop == end)
+                {
+                    isFound = true;
+                    break;
+                }
+            }
+
+            if(isFound)
+            {
+                result.add(new Event(start, end));
+                start = end;
+                end = start + 1;
+            }else
+            {
+                if(end == maxStop)
+                {
+                    start++;
+                    end = start+1;
+                }
+                else
+                    end++;
+            }
+        }
 
         return result;          //вернем итог
     }

@@ -25,8 +25,34 @@ public class B_Sheduler {
             return "("+ start +":" + stop + ")";
         }
     }
-
-    public static void main(String[] args) {
+    private static int partition(Event[] arr, int low, int high) {
+        int middle = low + (high - low) / 2;
+        Event pivot = arr[middle];
+        Event temp = arr[middle];
+        arr[middle] = arr[high];
+        arr[high] = temp;
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (arr[j].start < pivot.start || arr[j].start == pivot.start && arr[j].stop < pivot.stop) {
+                i++;
+                temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+        return i + 1;
+    }
+    static void quickSort(Event[] arr, int low, int high) {
+        if (low < high) {
+            int pi = partition(arr, low, high);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
+    }
+    static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
         Event[] events = {  new Event(0, 3),  new Event(0, 1), new Event(1, 2), new Event(3, 5),
                 new Event(1, 3),  new Event(1, 3), new Event(1, 3), new Event(3, 6),
@@ -45,21 +71,14 @@ public class B_Sheduler {
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
         //Начало и конец событий могут совпадать.
-        int counter = 0 ;
         List<Event> result;
         result = new ArrayList<>();
-        result = new ArrayList<>();
-        for (int i = 0; i < events.length; i++) {
-            counter = 0;
-            for (int j = 0; j < events.length; j++) {
-                if ((events[i].stop - events[i].start) > 1 || (i != j && events[i].stop == events[j].stop && events[i].start == events[j].start))
-                    counter++;
-            }
-            if (counter == 0)
-                result.add(events[i]);
-        }
         //ваше решение.
-
+        quickSort(events, 0, events.length - 1);
+        result.add(events[0]);
+        for (int i = 1; i < events.length; i++)
+            if (result.get(result.size() - 1).stop <= events[i].start )
+                result.add(events[i]);
 
 
 

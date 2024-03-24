@@ -70,7 +70,6 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-
         Arrays.sort(items, (a2, a1)->{
             return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
         });
@@ -87,6 +86,7 @@ public class C_GreedyKnapsack {
                 W = 0;
             }
         }
+
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }

@@ -34,7 +34,52 @@ Sample Output:
 
 
 public class C_GetInversions {
+    int Merge(int[] x, int l, int r){
+        int ans = 0;
+        int m = (l + r)/2;
+        int lsize = m - l + 1;
+        int rsize = r - m;
 
+        int[] left = new int[lsize];
+        int[] right = new int[rsize];
+
+        for (int i = 0; i < lsize; i++)
+            left[i] = x[i+l];
+        for (int i = 0; i < rsize; i++)
+            right[i] = x[i+m+1];
+
+        int i = 0, j = 0, idx = l;
+        while (i < lsize && j < rsize){
+            if(left[i] <= right[j]){
+                x[idx] = left[i];
+                i++;
+            }
+            else{
+                x[idx] = right[j];
+                ans += lsize - i;
+                j++;
+            }
+            idx++;
+        }
+        while (i < lsize){
+            x[idx] = left[i];
+            i++;
+            idx++;
+        }
+        while (j < rsize){
+            x[idx] = right[j];
+            j++;
+            idx++;
+        }
+        return ans;
+    }
+    int Inversions(int[] a, int l, int r){
+        if (l >= r) return 0;
+        int m = l + (r - l) / 2;
+        int left = Inversions(a,l,m);
+        int right = Inversions(a,m+1,r);
+        return (left + right + Merge(a,l,r));
+    }
     int calc(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -48,15 +93,7 @@ public class C_GetInversions {
         }
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
+        result = Inversions(a,0,n-1);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

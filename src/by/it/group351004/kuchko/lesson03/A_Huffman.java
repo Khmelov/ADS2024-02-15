@@ -39,7 +39,6 @@ import java.util.*;
 //        01001100100111
 
 public class A_Huffman {
-
     //Изучите классы Node InternalNode LeafNode
     abstract class Node implements Comparable<Node> {
         //абстрактный класс элемент дерева
@@ -63,7 +62,6 @@ public class A_Huffman {
             return Integer.compare(frequence, o.frequence);
         }
     }
-
     ////////////////////////////////////////////////////////////////////////////////////
     //расширение базового класса до внутреннего узла дерева
     private class InternalNode extends Node {
@@ -86,7 +84,6 @@ public class A_Huffman {
         }
 
     }
-
     ////////////////////////////////////////////////////////////////////////////////////
     //расширение базового класса до листа дерева
     private class LeafNode extends Node {
@@ -105,40 +102,38 @@ public class A_Huffman {
             codes.put(this.symbol, code);
         }
     }
-
     //индекс данных из листьев
     static private Map<Character, String> codes = new TreeMap<>();
 
-
     //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     String encode(File file) throws FileNotFoundException {
-        //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        String s = scanner.next();
-
-        //все комментарии от тестового решения были оставлены т.к. это задание A.
-        //если они вам мешают их можно удалить
-
+        String str = scanner.next();
         Map<Character, Integer> count = new HashMap<>();
-        //1. переберем все символы по очереди и рассчитаем их частоту в Map count
-            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-
-        //2. перенесем все символы в приоритетную очередь в виде листьев
+        for (int i = 0; i < str.length(); i++) {
+            if (count.containsKey(str.charAt(i)))
+                count.put(str.charAt(i), count.get(str.charAt(i)) + 1);
+            else
+                count.put(str.charAt(i), 1);
+        }
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-
-        //3. вынимая по два узла из очереди (для сборки родителя)
-        //и возвращая этого родителя обратно в очередь
-        //построим дерево кодирования Хаффмана.
-        //У родителя частоты детей складываются.
-
-        //4. последний из родителей будет корнем этого дерева
-        //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
+        Node node;
+        for (Character chr: count.keySet()) {
+            node = new LeafNode(count.get(chr), chr);
+            priorityQueue.add(node);
+        }
+        Node root = null, child1, child2;
+        while (priorityQueue.size() > 1) {
+            child1 = priorityQueue.remove();
+            child2 = priorityQueue.remove();
+            root = new InternalNode(child1, child2);
+            priorityQueue.add(root);
+        }
         StringBuilder sb = new StringBuilder();
-        //.....
-
+        root.fillCodes("");
+        for (int i = 0; i < str.length(); i++)
+            sb.append(codes.get(str.charAt(i)));
         return sb.toString();
-        //01001100100111
-        //01001100100111
     }
     //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 

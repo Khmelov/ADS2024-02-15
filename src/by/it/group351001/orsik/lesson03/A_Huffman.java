@@ -182,7 +182,8 @@ public class A_Huffman {
         long startTime = System.currentTimeMillis();
         String result = instance.encode(f);
         long finishTime = System.currentTimeMillis();
-        System.out.printf("%d %d\n", codes.size(), result.length());
+        System.out.printf("abacabad\n");
+        System.out.printf("Начальная длина: %d  Конечная длина: %d\n", codes.size(), result.length());
         for (Map.Entry<Character, String> entry : codes.entrySet()) {
             System.out.printf("%s: %s\n", entry.getKey(), entry.getValue());
         }

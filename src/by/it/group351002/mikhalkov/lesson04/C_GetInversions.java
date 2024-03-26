@@ -34,14 +34,14 @@ Sample Output:
 
 
 public class C_GetInversions {
-    static int mergeAndCount(int[] arr, int l, int m, int r) {
-        int[] firstHalf = new int[m - l + 1];
-        int[] secondHalf = new int[r - m];
+    static int mergeAndCount(int[] arr, int left, int mid, int right) {
+        int[] firstHalf = new int[mid - left + 1];
+        int[] secondHalf = new int[right - mid];
 
-        System.arraycopy(arr, l, firstHalf, 0, m - l + 1);
-        System.arraycopy(arr, m + 1, secondHalf, 0, r - m);
+        System.arraycopy(arr, left, firstHalf, 0, mid - left + 1);
+        System.arraycopy(arr, mid + 1, secondHalf, 0, right - mid);
 
-        int i = 0, j = 0, k = l;
+        int i = 0, j = 0, k = left;
         int count = 0;
 
         while (i < firstHalf.length && j < secondHalf.length) {
@@ -49,7 +49,7 @@ public class C_GetInversions {
                 arr[k++] = firstHalf[i++];
             else {
                 arr[k++] = secondHalf[j++];
-                count += (m - l + 1) - i;
+                count += (mid - left + 1) - i;
             }
         }
 
@@ -62,15 +62,15 @@ public class C_GetInversions {
         return count;
     }
 
-    private static int mergeSortAndCount(int[] arr, int l, int r) {
+    private static int mergeSortAndCount(int[] arr, int left, int right) {
         int count = 0;
 
-        if (l < r) {
-            int m = (l + r) / 2;
+        if (left < right) {
+            int m = (left + right) / 2;
 
-            count += mergeSortAndCount(arr, l, m);
-            count += mergeSortAndCount(arr, m + 1, r);
-            count += mergeAndCount(arr, l, m, r);
+            count += mergeSortAndCount(arr, left, m);
+            count += mergeSortAndCount(arr, m + 1, right);
+            count += mergeAndCount(arr, left, m, right);
         }
 
         return count;
@@ -89,7 +89,6 @@ public class C_GetInversions {
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
         result = mergeSortAndCount(a, 0, n - 1);
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

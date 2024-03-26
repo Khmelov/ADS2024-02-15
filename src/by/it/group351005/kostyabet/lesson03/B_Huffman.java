@@ -47,7 +47,7 @@ public class B_Huffman {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
+        scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
         char[] charArr = new char[count];

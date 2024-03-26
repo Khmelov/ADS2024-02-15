@@ -1,7 +1,5 @@
 package by.it.group351002.mikhalkov.lesson05;
 
-import by.it.group351005.pavello06.lesson02.B_Sheduler;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

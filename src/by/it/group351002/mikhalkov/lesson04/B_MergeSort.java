@@ -39,7 +39,7 @@ public class B_MergeSort {
             arr[k++] = secondHalf[j++];
         }
     }
-     static void mergeSort(int[] arr) {
+    static void mergeSort(int[] arr) {
         if (arr.length <= 1) return;
 
         int mid = arr.length / 2;
@@ -70,11 +70,6 @@ public class B_MergeSort {
 
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-
-
-
-
-
         mergeSort(a);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;

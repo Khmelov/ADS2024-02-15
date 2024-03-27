@@ -1,6 +1,7 @@
-package by.it.group351002.matsuev.lesson02;
+package by.it.group310901.poznyak.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -10,7 +11,6 @@ import java.util.List;
 */
 
 public class B_Sheduler {
-
     //событие у аудитории(два поля: начало и конец)
     static class Event {
         int start;
@@ -48,19 +48,21 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        while (from < to){
-            Event choice = null;
-            for (int i = 0; i < events.length; i++){
-                if (events[i].start == from && (choice == null||events[i].stop < choice.stop)){
-                    choice = events[i];
-                }
-            }
-            if (choice != null) {
-                result.add(choice);
-                from = choice.stop;
-            }
-            else{
-                from++;
+        //ваше решение.
+
+        //сортировка массива событий по времени окончания
+        Arrays.sort(events, (o1,o2) ->{
+            if(o1.stop!=o2.stop){
+                return Integer.compare(o1.stop,o2.stop);
+            }else return Integer.compare(o1.start,o2.start);
+        });
+
+        int i =0;
+        while(i < events.length) {
+            result.add(events[i]);
+            i++;
+            while(i < events.length && events[i].start < result.get(result.size() - 1).stop){
+                i++;
             }
         }
 

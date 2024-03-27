@@ -32,7 +32,7 @@ import java.util.Scanner;
 
 public class A_QSort {
 
-    // отрезок
+    //   отрезок
     private class Segment implements Comparable<Segment> {
         int start;
         int stop;

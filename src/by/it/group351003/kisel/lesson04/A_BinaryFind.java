@@ -35,22 +35,33 @@ public class A_BinaryFind {
         //размер отсортированного массива
         int n = scanner.nextInt();
         //сам отсортированный массива
-        int[] a=new int[n];
+        int[] a = new int[n];
         for (int i = 1; i <= n; i++) {
-            a[i-1] = scanner.nextInt();
+            a[i - 1] = scanner.nextInt();
         }
 
         //размер массива индексов
         int k = scanner.nextInt();
-        int[] result=new int[k];
+        int[] result = new int[k];
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
             //тут реализуйте бинарный поиск индекса
+            result[i] = 0;
+            int m;
+            int leftBoarder = 0;
+            int rightBoarder = n - 1;
+            while (leftBoarder <= rightBoarder && result[i] == 0) {
+                m = (leftBoarder + rightBoarder) / 2;
+                if (a[m] == value)
+                    result[i] = m + 1;
+                else if (value > a[m])
+                    leftBoarder = m + 1;
+                else
+                    rightBoarder = m - 1;
+            }
+            if (result[i] == 0)
+                result[i] = -1;
 
-
-
-
-            result[i]=0;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
@@ -62,10 +73,10 @@ public class A_BinaryFind {
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataA.txt");
         A_BinaryFind instance = new A_BinaryFind();
         //long startTime = System.currentTimeMillis();
-        int[] result=instance.findIndex(stream);
+        int[] result = instance.findIndex(stream);
         //long finishTime = System.currentTimeMillis();
-        for (int index:result){
-            System.out.print(index+" ");
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
 

@@ -89,7 +89,6 @@ public class A_QSort {
             int count = 0;
 
             int left = 0;
-
             int right = n - 1;
             while (left <= right) {
                 int mid = left + (right - left) / 2;

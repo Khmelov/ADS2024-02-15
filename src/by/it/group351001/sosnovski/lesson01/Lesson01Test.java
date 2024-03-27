@@ -8,14 +8,12 @@ import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("all")
 public class Lesson01Test {
-    /*
-    для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
-    Поля:
-    Name:               Test a_khmelev (тут ваша фамилия)
-    Test kind:          All in package
-    Package:            by.it.группа.a_khmelev (тут ваша фамилия)
-    Search for test:    In whole project
-    */
+    // для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
+    // Поля:
+    // Name:               Test a_khmelev (тут ваша фамилия)
+    // Test kind:          All in package
+    // Package:            by.it.группа.a_khmelev (тут ваша фамилия)
+    // Search for test:    In whole project
 
     @Test(timeout = 2000)
     public void slowA() throws Exception {

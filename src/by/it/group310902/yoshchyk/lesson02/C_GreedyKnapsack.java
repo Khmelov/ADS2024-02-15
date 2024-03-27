@@ -1,80 +1,127 @@
-package by.it.group351004.purenok.lesson04;
+package by.it.group310902.yoshchyk.lesson02;
+/*
+Даны
+1) объем рюкзака 4
+2) число возможных предметов 60
+3) сам набор предметов
+    100 50
+    120 30
+    100 50
+Все это указано в файле (by/it/a_khmelev/lesson02/greedyKnapsack.txt)
 
-import java.io.FileInputStream;
+Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
+Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
+ */
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+
+import java.util.Arrays;
+
 import java.util.Scanner;
 
-/*
-В первой строке источника данных даны:
-        - целое число 1<=n<=100000 (размер массива)
-        - сам массив A[1...n] из n различных натуральных чисел,
-          не превышающих 10E9, в порядке возрастания,
-Во второй строке
-        - целое число 1<=k<=10000 (сколько чисел нужно найти)
-        - k натуральных чисел b1,...,bk не превышающих 10E9 (сами числа)
-Для каждого i от 1 до kk необходимо вывести индекс 1<=j<=n,
-для которого A[j]=bi, или -1, если такого j нет.
-        Sample Input:
-        5 1 5 8 12 13
-        5 8 1 23 1 11
-        Sample Output:
-        3 1 -1 1 -1
-(!) Обратите внимание на смещение начала индекса массивов JAVA относительно условий задачи
-*/
+public class C_GreedyKnapsack {
+    private static class Item implements Comparable<Item> {
+        int cost;
+        int weight;
 
-public class A_BinaryFind {
-    int[] findIndex(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
-        Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-        //размер отсортированного массива
-        int n = scanner.nextInt();
-        //сам отсортированный массива
-        int[] a = new int[n];
-        for (int i = 1; i <= n; i++) {
-            a[i - 1] = scanner.nextInt();
+        Item(int cost, int weight) {
+            this.cost = cost;
+            this.weight = weight;
         }
 
-        //размер массива индексов
-        int k = scanner.nextInt();
-        int[] result = new int[k];
-        for (int i = 0; i < k; i++) {
-            int value = scanner.nextInt();
-            //тут реализуйте бинарный поиск индекса
-            result[i] = 0;
-            int m;
-            int leftBoarder = 0;
-            int rightBoarder = n - 1;
-            while (leftBoarder <= rightBoarder && result[i] == 0) {
-                m = (leftBoarder + rightBoarder) / 2;
-                if (a[m] == value)
-                    result[i] = m + 1;
-                else if (value > a[m])
-                    leftBoarder = m + 1;
-                else
-                    rightBoarder = m - 1;
-            }
-            if (result[i] == 0)
-                result[i] = -1;
+        @Override
+        public String toString() {
+            return "Item{" +
+                    "cost=" + cost +
+                    ", weight=" + weight +
+                    '}';
+        }
+
+        @Override
+        public int compareTo(Item o) {
+            //тут может быть ваш компаратор
+
+
+
+            return Double.compare((double) o.cost / o.weight, (double) this.cost / this.weight);
+
+            return 0;
 
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
     }
 
+    double calc(File source) throws FileNotFoundException {
+        Scanner input = new Scanner(source);
+        int n = input.nextInt();      //сколько предметов в файле
+        int W = input.nextInt();      //какой вес у рюкзака
+        Item[] items = new Item[n];   //получим список предметов
+        for (int i = 0; i < n; i++) { //создавая каждый конструктором
+            items[i] = new Item(input.nextInt(), input.nextInt());
+        }
+        //покажем предметы
+        for (Item item:items) {
+            System.out.println(item);
+        }
+        System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
+
+        //тут необходимо реализовать решение задачи
+        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //вещи можно резать на кусочки (непрерывный рюкзак)
+<<<<<<< HEAD
+
+                =======
+        double result = 0;
+>>>>>>> origin/main
+                //тут реализуйте алгоритм сбора рюкзака
+                //будет особенно хорошо, если с собственной сортировкой
+                //кроме того, можете описать свой компаратор в классе Item
+
+                //ваше решение.
+
+                <<<<<<< HEAD
+        Arrays.sort(items);
+
+        double result = 0;
+        int currentWeight = 0;
+
+        for (Item item : items) {
+            if (currentWeight + item.weight <= W) {
+                result += item.cost;
+                currentWeight += item.weight;
+            } else {
+                double remainingWeight = W - currentWeight;
+                result += item.cost * ((double) remainingWeight / item.weight);
+                break;
+            }
+        }
+
+        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
+        return result;
+=======
+
+
+
+
+        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
+        return result;
+        Arrays.sort(items);
+        for (int i = 0; i < items.length && W != 0; i++){
+            while (items[i].weight > W) {
+                items[i].cost -= items[i].cost / items[i].weight;
+                items[i].weight--;
+            }
+            W -= items[i].weight;
+            result += items[i].cost;
+        }
+>>>>>>> origin/main
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataA.txt");
-        A_BinaryFind instance = new A_BinaryFind();
-        //long startTime = System.currentTimeMillis();
-        int[] result = instance.findIndex(stream);
-        //long finishTime = System.currentTimeMillis();
-        for (int index : result) {
-            System.out.print(index + " ");
-        }
+        long startTime = System.currentTimeMillis();
+        String root=System.getProperty("user.dir")+"/src/";
+        File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        double costFinal=new C_GreedyKnapsack().calc(f);
+        long finishTime = System.currentTimeMillis();
+        System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);
     }
-
 }

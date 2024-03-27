@@ -33,7 +33,7 @@ public class Lesson4Test {
         B_MergeSort instance = new B_MergeSort();
         //long startTime = System.currentTimeMillis();
         int[] result=instance.getMergeSort(stream);
-        //long finishTime = System.currentTimeMillis();
+        //long finishTime  = System.currentTimeMillis();
         boolean ok=result.length>3;
         int test[]=new int[result.length];
         System.arraycopy(result,0,test,0,result.length);

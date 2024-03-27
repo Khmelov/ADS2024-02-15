@@ -20,7 +20,7 @@ public class Lesson5Test {
     }
 
 
-    @Test
+    @Test 
     public void B() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");

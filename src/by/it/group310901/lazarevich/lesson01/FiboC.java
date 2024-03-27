@@ -6,6 +6,9 @@ package by.it.group310901.lazarevich.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+
+
+import java.util.ArrayList;
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -25,8 +28,18 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        ArrayList<Integer> fibMas = new ArrayList<Integer>();
+        fibMas.add(0);
+        fibMas.add(1);
+        int period = 0;
+        do {
+            fibMas.add( ( fibMas.get(fibMas.size() - 1) + fibMas.get(fibMas.size() - 2) ) % m );
+            period++;
+        } while (!( (fibMas.get(fibMas.size() - 2) == 0) && (fibMas.get(fibMas.size() - 1) == 1) ) );
+        int index = (int)((n + 1) % period) - 1;
+        return fibMas.get(index);
     }
+
 
 
 }

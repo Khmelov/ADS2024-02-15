@@ -58,12 +58,7 @@ public class B_Sheduler {
         result.add(events[0]);
         stopTime = events[0].stop;
 
-        int firstEventInRange = 0;
-        while (events[0].start < from) {
-            firstEventInRange++;
-        }
-
-        for (int i = firstEventInRange; (i < events.length) && (stopTime <= to); i++){
+        for (int i = 0; (i < events.length) && (stopTime <= to); i++){
             if (events[i].start >= stopTime){
                 result.add(events[i]);
                 stopTime = events[i].stop;

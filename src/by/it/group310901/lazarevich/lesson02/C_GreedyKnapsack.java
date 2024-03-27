@@ -15,6 +15,7 @@ package by.it.group310901.lazarevich.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -36,10 +37,9 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            //тут может быть ваш компаратор
-
-
-            return 0;
+            double ratioThis = (double) this.cost / this.weight;
+            double ratioOther = (double) o.cost / o.weight;
+            return Double.compare(ratioOther, ratioThis);
         }
     }
 
@@ -52,11 +52,12 @@ public class C_GreedyKnapsack {
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
         //покажем предметы
+
         for (Item item:items) {
             System.out.println(item);
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
-
+        Arrays.sort(items);
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
@@ -64,7 +65,17 @@ public class C_GreedyKnapsack {
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
-
+        int currentWeight = 0;
+        for (Item item : items) {
+            if (currentWeight + item.weight <= W) {
+                result += item.cost;
+                currentWeight += item.weight;
+            } else {
+                int remainingWeight = W - currentWeight;
+                result += (double) item.cost * remainingWeight / item.weight;
+                break; // Выходим из цикла, так как рюкзак заполнен
+            }
+        }
         //ваше решение.
 
 

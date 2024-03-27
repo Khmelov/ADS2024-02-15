@@ -1,6 +1,8 @@
 package by.it.group310901.lazarevich.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -47,13 +49,20 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        //ваше решение.
-
-
-
-
-
-
+        Arrays.sort(events, (e1, e2) -> {
+            if (e1.stop == e2.stop) {
+                return e1.start - e2.start;
+            } else {
+                return e1.stop - e2.stop;
+            }
+        });
+        int lastEventStop = from;
+        for (Event event : events) {
+            if (event.start >= lastEventStop && event.stop <= to) {
+                result.add(event);
+                lastEventStop = event.stop;
+            }
+        }
         return result;          //вернем итог
     }
 }

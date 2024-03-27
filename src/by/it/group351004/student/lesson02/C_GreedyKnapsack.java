@@ -67,7 +67,7 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
 
-        Arrays.sort(items); // Сортируем предметы по убыванию стоимости за единицу веса
+        Arrays.sort(items);
 
         double result = 0;
         int currentWeight = 0;

@@ -72,7 +72,7 @@ public class C_GreedyKnapsack {
                 i++;
             }
             else{
-                result += items[i].cost * (W - ww) / (items[i].weight);
+                result += items[i].cost * (W - ww) / (items[i].weight); // жадность
                 ww = W;
                 break;
             }

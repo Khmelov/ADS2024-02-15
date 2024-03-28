@@ -117,7 +117,6 @@ public class A_Huffman {
         String s = scanner.next();
 
         //все комментарии от тестового решения были оставлены т.к. это задание A.
-        //если они вам мешают их можно удалить
 
         Map<Character, Integer> count = new HashMap<>();
         for(int i = 0;i < s.length();i++){

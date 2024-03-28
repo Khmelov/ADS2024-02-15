@@ -35,7 +35,6 @@ public class FiboC {
         arrayOfFibNumbers[1] = 1;
         divisors[0] = 1;
         divisors[1] = 1;
-
         do{
             i++;
             arrayOfFibNumbers[i] = arrayOfFibNumbers[i - 1] + arrayOfFibNumbers[i - 2];

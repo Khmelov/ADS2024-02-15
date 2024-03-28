@@ -49,11 +49,20 @@ public class B_Huffman {
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
+        char[] chars = new char[count];
+        for (int i = 0; i < count; i++) {
+            String tempStr = scanner.next() + scanner.next();
+            chars[i] = tempStr.charAt(0);
+        }
+        String resultStr = scanner.next();
 
-
-
-
+        int i = 0;
+        int step = 0;
+        do {
+            if (resultStr.charAt(i) == '0') result.append(chars[step]);
+            step = resultStr.charAt(i) == '0' ? 0 : ++step;
+        } while (++i < resultStr.length());
+        if (step != 0) result.append(chars[step]);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

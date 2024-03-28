@@ -55,7 +55,7 @@ for (int i = 0; i < count; i++) {
     String tempStr = scanner.next()+scanner.next();
     charArr[i] = tempStr.charAt(0);
 }
-String resultStr = scanner.next();
+String resultStr = scanner.next(); // считывание закодированной строки из файла.
 
 int i = 0;
 int zeroStep = 0;

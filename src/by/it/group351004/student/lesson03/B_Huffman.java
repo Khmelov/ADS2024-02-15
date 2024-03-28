@@ -69,7 +69,7 @@ public class B_Huffman {
             result.append(chars[indexOfChar]);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        return result.toString(); //01001100100111
+        return result.toString();
     }
 
     public static void main(String[] args) throws FileNotFoundException {

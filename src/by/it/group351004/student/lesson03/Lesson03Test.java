@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class Lesson03Test {
     /*
-    для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
+    для прохождения тестов создайте JUnit-конфигурацию на свой пакт:
     Поля:
     Name:               Test a_khmelev (тут ваша фамилия)
     Test kind:          All in package

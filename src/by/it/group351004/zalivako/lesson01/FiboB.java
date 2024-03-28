@@ -35,7 +35,6 @@ public class FiboB {
             arr[1] = BigInteger.ONE;
             for (int i = 2; i <= n; i++) {
                 arr[i] = arr[i-1].add(arr[i-2]);
-
             }
             return arr[n];
         }

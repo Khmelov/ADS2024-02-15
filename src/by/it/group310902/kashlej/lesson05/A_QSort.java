@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /*
 Видеорегистраторы и площадь.
@@ -82,7 +83,18 @@ public class A_QSort {
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
+        Arrays.sort(segments);
 
+        // Для каждой точки определяем количество отрезков, которым она принадлежит
+        for (int i = 0; i < m; i++) {
+            int count = 0;
+            for (Segment segment : segments) {
+                if (segment.start <= points[i] && points[i] <= segment.stop) {
+                    count++;
+                }
+            }
+            result[i] = count;
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

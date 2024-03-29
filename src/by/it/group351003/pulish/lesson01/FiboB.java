@@ -1,7 +1,6 @@
-package by.it.group310902.sverchkov.lesson01;
+package by.it.group351003.pulish.lesson01;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 
 /*
  * Вам необходимо выполнить способ вычисления чисел Фибоначчи с вспомогательным массивом
@@ -17,24 +16,34 @@ public class FiboB {
     }
 
     public static void main(String[] args) {
-
         //вычисление чисел простым быстрым методом
         FiboB fibo = new FiboB();
-        int n = 500;
+        int n = 55555;
+        int[] arr = new int[n];
+        arr[0] = 0;
+        arr[1] = 1;
+        for (int i = 2; i < n; i++) {
+            arr[i] = arr[i-1] + arr[i - 2];
+        }
         System.out.printf("fastB(%d)=%d \n\t time=%d \n\n", n, fibo.fastB(n), fibo.time());
     }
 
     BigInteger fastB(Integer n) {
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
+        //BigInteger[] arr1 = new BigInteger [n];
+        if (n == 0) return BigInteger.ZERO;
+        if (n == 1) return BigInteger.ONE;
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
+        BigInteger result = BigInteger.ZERO;
 
-        ArrayList<BigInteger> fiboList = new ArrayList<>();
-        fiboList.addFirst(BigInteger.valueOf(1));
-        fiboList.add(1,BigInteger.valueOf(1));
-        for (int i = 2; i < n; i++) {
-            fiboList.add(i,fiboList.get(i-1).add(fiboList.get(i-2)));
+        for (int i = 2; i <= n; i++) {
+            result = a.add(b);
+            a = b;
+            b = result;
         }
-        return fiboList.get(n-1);
+
+        return result;
     }
 
 }
-

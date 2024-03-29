@@ -1,4 +1,4 @@
-package by.it.group310902.sverchkov.lesson01;
+package by.it.group351003.pulish.lesson01;
 
 import java.math.BigInteger;
 
@@ -28,21 +28,25 @@ public class FiboA {
         return res;
     }
 
-    //здесь простейший вариант, в котором код совпадает
-    //с математическим определением чисел Фибоначчи
-    //время O(2^n)
     private int calc(int n) {
-        return (n == 1 || n == 0) ? n : calc(n - 1) + calc(n - 2);
+        //здесь простейший вариант, в котором код совпадает
+        //с математическим определением чисел Фибоначчи
+        //время O(2^n)
+        if (n < 2) return n;
+        return calc(n-1)+calc(n-2);
     }
 
-    //рекурсия
-    //здесь нужно реализовать вариант без ограничения на размер числа,
-    //в котором код совпадает с математическим определением чисел Фибоначчи
-    //время O(2^n)
+
     BigInteger slowA(Integer n) {
-        if (n == 0) return BigInteger.ZERO;
+        //рекурсия
+        //здесь нужно реализовать вариант без ограничения на размер числа,
+        //в котором код совпадает с математическим определением чисел Фибоначчи
+        //время O(2^n)
+        if ( n == 0) return BigInteger.ZERO;
         if (n == 1) return BigInteger.ONE;
-        return slowA(n - 1).add(slowA(n - 2));
+        return slowA(n-1).add(slowA(n-2));
     }
+
+
 }
 

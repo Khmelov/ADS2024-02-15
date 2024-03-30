@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static java.lang.Integer.min;
+
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
         int cost;
@@ -35,13 +37,30 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item o) {
-            //тут может быть ваш компаратор
+        public int compareTo(Item o) {return (o.cost/o.weight - this.cost/this.weight);}
 
 
-            return 0;
+    }
+
+    void exchangeSort(Item[] items) {
+        int index;
+        Item buff, max;
+        for (int i = 0; i < items.length; i++) {
+            max = items[i];
+            index = i;
+            for (int j = i; j < items.length; j++) {
+                if (items[j].compareTo(max) < 0) {
+                    index = j;
+                    max = items[j];
+                }
+            }
+
+            buff = items[i];
+            items[i] = max;
+            items[index] = buff;
         }
     }
+
 
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);
@@ -55,6 +74,7 @@ public class C_GreedyKnapsack {
         for (Item item:items) {
             System.out.println(item);
         }
+
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
         //тут необходимо реализовать решение задачи
@@ -66,7 +86,15 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
+        exchangeSort(items);
+        //Arrays.sort(items);
 
+        for (Item item: items){
+            if (W != 0) {
+                result += min(W, item.weight) * (double) (item.cost / item. weight);
+                W -= min(W, item.weight);
+            }
+        }
 
 
 

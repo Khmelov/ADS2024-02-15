@@ -1,4 +1,4 @@
-package by.it.group351003.suchok.lesson03;
+package by.it.group310902.yoshchyk.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,7 +51,26 @@ public class B_Huffman {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
 
-
+        int i;
+        char[] characters = new char[count];
+        for (i = 0; i < count; i++) {
+            String line = scanner.next() + scanner.next();
+            characters[i] = line.charAt(0);
+        }
+        String encoded = scanner.next();
+        int ind = 0;
+        for (i = 0; i < length; i++)
+        {
+            if (encoded.charAt(i) == '0') {
+                result.append(characters[ind]);
+                ind = 0;
+            } else {
+                ind++;
+            }
+        }
+        if (ind >= 0) {
+            result.append(characters[ind]);
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

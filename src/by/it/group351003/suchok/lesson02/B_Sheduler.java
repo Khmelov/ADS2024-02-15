@@ -2,7 +2,6 @@ package by.it.group351003.suchok.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 /*
 Даны интервальные события events
@@ -12,8 +11,7 @@ import java.util.List;
 */
 
 public class B_Sheduler {
-    //событие у аудитории(два поля: начало и конец)
-    static class Event {
+    static class Event implements Comparable<Event>{
         int start;
         int stop;
 
@@ -25,6 +23,10 @@ public class B_Sheduler {
         @Override
         public String toString() {
             return "("+ start +":" + stop + ")";
+        }
+        @Override
+        public int compareTo(Event o) {
+            return this.stop - o.stop;
         }
     }
 
@@ -38,18 +40,35 @@ public class B_Sheduler {
                 new Event(8, 9),  new Event(4, 6), new Event(8, 10), new Event(7, 10)
         };
 
-        List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
-        System.out.println(starts);                                 //покажем рассчитанный график занятий
+        List<Event> starts = instance.calcStartTimes(events,0,10);
+        System.out.println(starts);
     }
+
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-        List<Event> result = new ArrayList<>();
-        Arrays.sort(events, Comparator.comparingInt(event -> event.stop));
+        //Events - события которые нужно распределить в аудитории
+        //в период [from, int] (включительно).
+        //оптимизация проводится по наибольшему числу непересекающихся событий.
+        //Начало и конец событий могут совпадать.
+        List<Event> result;
+        result = new ArrayList<>();
+        double stopTime;
+
+        Arrays.sort(events);
+
         result.add(events[0]);
-        for (Event event : events) {
-            if (result.get(result.size() - 1).stop <= event.start) {
-                result.add(event);
+        stopTime = events[0].stop;
+
+        int firstEventInRange = 0;
+        while (events[0].start < from) {
+            firstEventInRange++;
+        }
+
+        for (int i = firstEventInRange; (i < events.length) && (stopTime <= to); i++){
+            if (events[i].start >= stopTime){
+                result.add(events[i]);
+                stopTime = events[i].stop;
             }
         }
-        return result;         //вернем итог
+        return result;
     }
 }

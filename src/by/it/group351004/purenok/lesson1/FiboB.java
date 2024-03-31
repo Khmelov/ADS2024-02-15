@@ -45,5 +45,5 @@ public class FiboB {
 
         return result;
     }
-
+    // линейная
 }

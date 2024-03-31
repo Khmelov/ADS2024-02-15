@@ -1,4 +1,4 @@
-package by.it.group310901.kapuza;
+package by.it.group310901.kapuza.lesson1;
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.

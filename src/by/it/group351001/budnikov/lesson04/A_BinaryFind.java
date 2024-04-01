@@ -33,24 +33,45 @@ public class A_BinaryFind {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
         //размер отсортированного массива
-        int n = scanner.nextInt();
+        int len = scanner.nextInt();
         //сам отсортированный массива
-        int[] a=new int[n];
-        for (int i = 1; i <= n; i++) {
+        int[] a=new int[len];
+        for (int i = 1; i <= len; i++) {
             a[i-1] = scanner.nextInt();
         }
 
         //размер массива индексов
         int k = scanner.nextInt();
+        int mid, left, right;
         int[] result=new int[k];
+        boolean found;
+
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
-            //тут реализуйте бинарный поиск индекса
+            left = 0;
+            right = len-1;
+            mid = (left+right) / 2;
+            found = false;
 
+            while ((left <= right) && !(found)) {
+                if (a[mid] == value) {
+                    found = true;
+                    result[i] = mid+1;
+                }
+                else {
+                    if (a[mid] > value) {
+                        right = mid - 1;
+                    } else if (a[mid] < value) {
+                        left = mid + 1;
+                    }
+                    mid = (left + right) / 2;
+                }
+            }
 
+            if (!(found)) {
+                result[i] = -1;
+            }
 
-
-            result[i]=0;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
@@ -59,7 +80,7 @@ public class A_BinaryFind {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataA.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/budnikov/lesson04/dataA.txt");
         A_BinaryFind instance = new A_BinaryFind();
         //long startTime = System.currentTimeMillis();
         int[] result=instance.findIndex(stream);

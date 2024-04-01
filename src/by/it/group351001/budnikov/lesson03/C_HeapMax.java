@@ -37,28 +37,30 @@ import java.util.Scanner;
 
 public class C_HeapMax {
 
-    private class MaxHeap {
+    private static class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
-        private List<Long> heap = new ArrayList<>();
+        private final List<Long> heap = new ArrayList<>();
 
-        int siftDown(int i) { //просеивание вверх
 
-            return i;
-        }
-
-        int siftUp(int i) { //просеивание вниз
-
-            return i;
-        }
-
-        void insert(Long value) { //вставка
+        void insert(Long value) {
+            heap.add(value);
+            // Просеивание вниз
+            int i = heap.size() - 1;
+            int parent = (i - 1) / 2;
+            while (i > 0 && heap.get(parent) < heap.get(i)) {
+                long temp = heap.get(i);
+                heap.set(i, heap.get(parent));
+                heap.set(parent, temp);
+                i = parent;
+                parent = (i - 1) / 2;
+            }
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
-
+            Long result = heap.getFirst();
+            heap.set(0, heap.getLast());
+            heap.removeLast();
             return result;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -66,16 +68,16 @@ public class C_HeapMax {
 
     //эта процедура читает данные из файла, ее можно не менять.
     Long findMaxValue(InputStream stream) {
-        Long maxValue=0L;
+        long maxValue = 0L;
         MaxHeap heap = new MaxHeap();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(stream);
-        Integer count = scanner.nextInt();
+        int count = scanner.nextInt();
         for (int i = 0; i < count; ) {
             String s = scanner.nextLine();
             if (s.equalsIgnoreCase("extractMax")) {
-                Long res=heap.extractMax();
-                if (res!=null && res>maxValue) maxValue=res;
+                Long res = heap.extractMax();
+                if (res != null && res > maxValue) maxValue = res;
                 System.out.println();
                 i++;
             }
@@ -84,7 +86,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-            //System.out.println(heap); //debug
+                //System.out.println(heap); //debug
             }
         }
         return maxValue;
@@ -92,9 +94,9 @@ public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/budnikov/lesson03/heapData.txt");
         C_HeapMax instance = new C_HeapMax();
-        System.out.println("MAX="+instance.findMaxValue(stream));
+        System.out.println("MAX=" + instance.findMaxValue(stream));
     }
 
     // РЕМАРКА. Это задание исключительно учебное.

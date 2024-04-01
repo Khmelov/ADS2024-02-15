@@ -17,7 +17,7 @@ import java.util.Scanner;
 // В качестве букв могут встречаться лишь строчные буквы латинского алфавита;
 // каждая из этих букв встречается в строке хотя бы один раз.
 // Наконец, в последней строке записана закодированная строка.
-// Исходная строка и коды всех букв непусты.
+// Исходная строка и коды всех букв непустые.
 // Заданный код таков, что закодированная строка имеет минимальный возможный размер.
 //
 //        Sample Input 1:
@@ -43,24 +43,38 @@ import java.util.Scanner;
 public class B_Huffman {
 
     String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
+        StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
+        int count = scanner.nextInt();
+        int length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-
-
-
-
+        char[] chars = new char[count];
+        for (int i = 0; i < count; i++) {
+            String line = scanner.next() + scanner.next();
+            chars[i] = line.charAt(0);
+        }
+        String encodedStr = scanner.next();
+        int indexOfChar = 0;
+        for (int i = 0; i < length; i++) {
+            if (encodedStr.charAt(i) == '0') {
+                result.append(chars[indexOfChar]);
+                indexOfChar = 0;
+            } else {
+                ++indexOfChar;
+            }
+        }
+        if (indexOfChar >= 0) {
+            result.append(chars[indexOfChar]);
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
+        File f = new File(root + "by/it/group351001/budnikov/lesson03/encodeHuffman.txt");
         B_Huffman instance = new B_Huffman();
         String result = instance.decode(f);
         System.out.println(result);

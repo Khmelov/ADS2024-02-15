@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson02;
+package by.it.group310901.dashkovskiy.lesson01.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,6 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-
         //сортировка массива событий по времени окончания
         Arrays.sort(events, (o1,o2) ->{
             if(o1.stop!=o2.stop){
@@ -65,6 +64,7 @@ public class B_Sheduler {
                 i++;
             }
         }
+
 
 
 

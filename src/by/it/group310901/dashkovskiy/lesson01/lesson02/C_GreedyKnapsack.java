@@ -1,4 +1,4 @@
-package by.it.group310901.dashkovskiy.lesson02;
+package by.it.group310901.dashkovskiy.lesson01.lesson02;
 /*
 Даны
 1) объем рюкзака 4

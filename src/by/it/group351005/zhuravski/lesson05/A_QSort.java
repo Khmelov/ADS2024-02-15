@@ -94,7 +94,7 @@ public class A_QSort {
         //число точек
         int m = scanner.nextInt();
         int[] points=new int[m];
-        int[] result=new int[m];
+        int[] result=new int[m];//
 
         //читаем сами отрезки
         LinkedList<Segment> arr = new LinkedList<>();

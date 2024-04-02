@@ -33,7 +33,7 @@ public class B_MergeSort {
         int n = scanner.nextInt();
         //сам массив
         int[] a=new int[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {//3 5 //2 4  //2 3 4 5
             a[i] = scanner.nextInt();
             System.out.println(a[i]);
         }

@@ -57,11 +57,14 @@ public class B_MergeSort {
         mergeSort(arr, left, mid);
         mergeSort(arr, mid, right);
         var range = Arrays.copyOfRange(arr, left, mid);
-        for (var i = 0; i < range.length;)
-            if (mid >= right || range[i] < arr[mid])
-                    arr[left++] = range[i++];
-                else
-                    arr[left++] = arr[mid++];
+        var i = 0;
+        while (i < range.length && mid < right)
+            if (range[i] <= arr[mid])
+                arr[left++] = range[i++];
+            else
+                arr[left++] = arr[mid++];
+        while (i < range.length)
+            arr[left++] = range[i++];
         while (mid < right)
             arr[left++] = arr[mid++];
     }

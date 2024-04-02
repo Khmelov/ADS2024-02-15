@@ -81,13 +81,17 @@ class InverseCounter extends RecursiveTask<Integer> {
 
     void merge(int[] arr, int left, int mid, int right) {
         var range = Arrays.copyOfRange(arr, left, mid);
-        for (var i = 0; i < range.length;)
-            if ((range[i] <= arr[mid]) || mid >= right)
+        var i = 0;
+        while (i < range.length && mid < right)
+            if (range[i] <= arr[mid])
                 arr[left++] = range[i++];
             else {
                 arr[left++] = arr[mid++];
                 inverses += range.length - i;
             }
-        while (mid < right) arr[left++] = arr[mid++];
+        while (i < range.length)
+            arr[left++] = range[i++];
+        while (mid < right)
+            arr[left++] = arr[mid++];
     }
 }

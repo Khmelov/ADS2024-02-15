@@ -21,6 +21,48 @@ Sample Output:
 */
 public class B_MergeSort {
 
+    void merger(int[] a,int l,int m,int r){
+        // make a copies of arrays
+        int length1 = m - l;
+        int length2 = r - m + 1;
+        int[] leftArray = new int[length1];
+        for (int i = 0; i < length1; i++) {
+            leftArray[i] = a[l+i];
+        }
+        int[] rightArray = new int[length2];
+        for (int i = 0; i < length2; i++) {
+            rightArray[i] = a[m+i];
+        }
+        //merging
+        int i = 0;
+        int j = 0;
+        int k = l;
+        while(k <= r){
+            if (i == length1){
+                a[k++] = rightArray[j++];
+            }
+            else if (j == length2){
+                a[k++] = leftArray[i++];
+            }
+            else if (leftArray[i] < rightArray[j]){
+                a[k++] = leftArray[i++];
+            }
+            else{
+                a[k++] = rightArray[j++];
+            }
+        }
+    }
+
+    void mergeSorter (int[] a, int l,int r){
+        if (r <= l)
+            return;
+        int m = (r + l) /2;
+        mergeSorter(a,l,m);
+        mergeSorter(a,m+1,r);
+        merger(a,l,m+1,r);
+
+    }
+
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -37,7 +79,7 @@ public class B_MergeSort {
 
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-
+        mergeSorter(a,0,n - 1);
 
 
 

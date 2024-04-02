@@ -1,8 +1,5 @@
 package by.it.group310902.pashkovich.lesson03;
 
-import by.it.a_khmelev.lesson03.A_Huffman;
-import by.it.a_khmelev.lesson03.B_Huffman;
-import by.it.a_khmelev.lesson03.C_HeapMax;
 import org.junit.Test;
 
 import java.io.File;

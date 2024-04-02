@@ -1,7 +1,9 @@
-package by.it.a_khmelev.lesson03;
+package by.it.group310902.pashkovich.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -43,19 +45,32 @@ import java.util.Scanner;
 public class B_Huffman {
 
     public String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
-        //прочитаем строку для кодирования из тестового файла
+        StringBuilder result = new StringBuilder();
         Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-
-
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        return result.toString(); //01001100100111
+        int count = scanner.nextInt();
+        int length = scanner.nextInt();
+        scanner.nextLine();
+        Map<String, Character> codeMap = new HashMap<>();
+        for (int i = 0; i < count; i++) {
+            String line = scanner.nextLine();
+            String[] parts = line.split(": ");
+            char letter = parts[0].charAt(0);
+            String code = parts[1];
+            codeMap.put(code, letter);
+        }
+        String encodedString = scanner.nextLine();
+        int index = 0;
+        while (index < length) {
+            for (String code : codeMap.keySet()) {
+                int codeLength = code.length();
+                if (index + codeLength <= length && encodedString.substring(index, index + codeLength).equals(code)) {
+                    result.append(codeMap.get(code));
+                    index += codeLength;
+                    break;
+                }
+            }
+        }
+        return result.toString();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -65,6 +80,4 @@ public class B_Huffman {
         String result = instance.decode(f);
         System.out.println(result);
     }
-
-
 }

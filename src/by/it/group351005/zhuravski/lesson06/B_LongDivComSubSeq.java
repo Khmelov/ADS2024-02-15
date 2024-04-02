@@ -44,7 +44,23 @@ public class B_LongDivComSubSeq {
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
-
+        int[] dests = new int[n + 1];
+        dests[0] = -1;
+        int topDest = 0;
+        for (int i = 0; i < n; i++) {
+            int curDest = topDest;
+            while (m[i] % dests[curDest] != 0) {
+                curDest--;
+            }
+            curDest++;
+            if ((curDest > topDest) || (m[i] < dests[curDest])) {
+                dests[curDest] = m[i];
+                if (curDest > topDest) {
+                    topDest = curDest;
+                }
+            }
+        }
+        result = topDest;
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

@@ -1,6 +1,6 @@
-package by.it.group310901.pinchuk.lesson02;
+package by.it.group310901.dashkovskiy.lesson02;
 /*
-Даны
+Даныk
 1) объем рюкзака 4
 2) число возможных предметов 60
 3) сам набор предметов
@@ -71,7 +71,7 @@ public class C_GreedyKnapsack {
         //ваше решение.
 
         Arrays.sort(items, (a2,a1)->{
-           return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
+            return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
         });
 
         for (int i = n-1; i >= 0; i--) {

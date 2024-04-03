@@ -1,24 +1,7 @@
-9
+6
 Insert 200
 Insert 10
+ExtractMax
 Insert 5
 Insert 500
-Insert 150
-Insert 300
-extractMax
-Insert 15
-Insert 1
-Insert 400
-extractMax
-extractMax
-
-int c = 0;
-            int prev = 0;
-            while (c < heap.toArray().length && (heap.get(c) < value)){
-                prev = c;
-                if (heap.get(c) < value){
-                    c = (c+1) * 2;
-                }
-                else if ()
-            }
-            heap.add(c, value);
+ExtractMax

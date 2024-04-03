@@ -32,6 +32,7 @@ import java.util.Scanner;
 
 public class C_QSortOptimized {
 
+
     //отрезок
     private class Segment  implements Comparable{
         int start;
@@ -48,7 +49,41 @@ public class C_QSortOptimized {
             return 0;
         }
     }
+    static void qSort(Segment[] a, int l, int r){
+        while (l<r){
+            int m = (int) (Math.random()*(r-l+1)+l);
 
+            int cur = l;
+            int num = r;
+
+            Segment temp = a[r];
+            a[r] = a[m];
+            a[m] = temp;
+
+            for (int i =l; i<num; i++){
+                if (a[i].start<a[r].start){
+                    temp = a[i];
+                    a[i] = a[cur];
+                    a[cur++] = temp;
+                } else if (a[i].start==a[r].start){ //3-partition
+                    num--;
+                    a[i] = a[num];
+                    a[num] = a[r];
+                }
+            }
+
+            for (int i = 0; i<=(r-num); i++){
+                temp = a[r-i];
+                a[r-i] = a[cur];
+                a[cur++] = temp;
+            }
+
+
+            qSort(a, l, cur-(r-num+2));
+            //qSort(a, m+1, r);
+            l = cur;
+        }
+    }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -68,11 +103,37 @@ public class C_QSortOptimized {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        qSort(segments, 0, segments.length-1);
+
+        int l, r, med;
+        for(int k = 0; k < points.length; k++){
+            l=0;
+            r=segments.length;
+
+            while (l<r){
+                med=(l+r)/2;
+                if (segments[med].start<points[k]){
+                    l=med+1;
+                }else if (segments[med].start>points[k]){
+                    r=med-1;
+                }else{
+                    r=med;
+                    l=med;
+                }
+            }
+            if (r>=segments.length) {r=segments.length-1;}
+            for (int i = 0; i<=r; i++){
+                if (segments[i].stop>=points[k]){
+                    result[k]++;
+                }
+            }
+        }
+
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

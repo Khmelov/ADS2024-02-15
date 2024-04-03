@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-// Lesson 3. B_Huffman.
+// Lesson 3. B_Huffman
 // Восстановите строку по её коду и беспрефиксному коду символов.
 
 // В первой строке входного файла заданы два целых числа

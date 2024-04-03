@@ -109,7 +109,6 @@ public class A_Huffman {
     //индекс данных из листьев
     static private Map<Character, String> codes = new TreeMap<>();
 
-
     //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     String encode(File file) throws FileNotFoundException {
         //прочитаем строку для кодирования из тестового файла
@@ -120,7 +119,7 @@ public class A_Huffman {
         //если они вам мешают их можно удалить
 
         Map<Character, Integer> count = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
+        for(int i = 0;i < s.length();i++){
             char c = s.charAt(i);
             count.put(c, count.getOrDefault(c, 0) + 1);
         }
@@ -130,15 +129,15 @@ public class A_Huffman {
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         LeafNode addNode;
-        for (char c : count.keySet()) {
-            addNode = new LeafNode(count.get(c), c);
+        for(char c:count.keySet()){
+            addNode = new LeafNode(count.get(c),c);
             priorityQueue.add(addNode);
         }
-        Node fElem, sElem, tree;
-        while (priorityQueue.size() > 1) {
+        Node fElem,sElem,tree;
+        while (priorityQueue.size() > 1){
             fElem = priorityQueue.poll();
             sElem = priorityQueue.poll();
-            tree = new InternalNode(fElem, sElem);
+            tree = new InternalNode(fElem,sElem);
             priorityQueue.add(tree);
         }
         //3. вынимая по два узла из очереди (для сборки родителя)
@@ -159,9 +158,14 @@ public class A_Huffman {
         for (char c : s.toCharArray()) {
             sb.append(codes.get(c));
         }
+
+// Возвращаем закодированную строку
         return sb.toString();
+        //01001100100111
+        //01001100100111
     }
     //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 
     public static void main(String[] args) throws FileNotFoundException {

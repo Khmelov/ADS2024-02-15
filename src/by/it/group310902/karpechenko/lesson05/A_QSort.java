@@ -3,6 +3,7 @@ package by.it.group310902.karpechenko.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -43,6 +44,11 @@ public class A_QSort {
         int stop;
 
         Segment(int start, int stop){
+            if(start>stop){
+                int t = stop;
+                stop = start;
+                start = t;
+            }
             this.start = start;
             this.stop = stop;
             //тут вообще-то лучше доделать конструктор на случай если
@@ -51,12 +57,36 @@ public class A_QSort {
 
         @Override
         public int compareTo(Segment o) {
-            //подумайте, что должен возвращать компаратор отрезков
-
-            return 0;
+            return (this.start == o.start?this.stop-o.stop : this.start-o.start);
         }
     }
+    int partition(Segment[] a, int l, int r){
+        int m = (l + r)/2;
+        Segment mid = a[m];
+        int i = l;
+        int j = r;
+        while(i<=j){
+            while(a[i].compareTo(mid)<0)
+                i++;
+            while(a[j].compareTo(mid)>=0 && j>l)
+                j--;
 
+            if(i>=j)
+                break;
+
+            Segment t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+        return j;
+    }
+    void quickSort(Segment[] a, int l, int r){
+        if (l < r){
+            int q = partition(a, l, r);
+            quickSort(a, l, q);
+            quickSort(a, q+1, r);
+        }
+    }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -81,6 +111,15 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+       quickSort(segments,0,n-1);
+        for (int i = 0; i < m; i++){
+            int res = 0;
+            for(int j = 0; j < n; j++){
+                if(points[i] >= segments[j].start && points[i]<=segments[j].stop)
+                    res++;
+            }
+            result[i]=res;
+        }
 
 
 
@@ -92,7 +131,7 @@ public class A_QSort {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataA.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group310902/karpechenko/lesson05/dataA.txt");
         A_QSort instance = new A_QSort();
         int[] result=instance.getAccessory(stream);
         for (int index:result){

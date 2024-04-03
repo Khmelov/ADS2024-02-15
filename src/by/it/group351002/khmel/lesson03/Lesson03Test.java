@@ -26,6 +26,7 @@ public class Lesson03Test {
         boolean ok=result.equals("01001100100111");
         assertTrue("A failed", ok);
     }
+
     @Test
     public void B() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";

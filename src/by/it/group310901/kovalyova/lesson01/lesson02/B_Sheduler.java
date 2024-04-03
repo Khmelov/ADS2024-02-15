@@ -1,9 +1,14 @@
 package by.it.group310901.kovalyova.lesson01.lesson02;
 
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Arrays;
+<<<<<<< HEAD:src/by/it/group310901/kovalyova/lesson01/lesson02/B_Sheduler.java
+=======
+import java.util.Comparator;
+>>>>>>> f7dc13e (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/B_Sheduler.java
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -39,17 +44,18 @@ public class B_Sheduler {
         };
 
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
-        System.out.println(starts);                                 //покажем рассчитанный график занятий
+        System.out.println();                                 //покажем рассчитанный график занятий
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
-        //оптимизация проводится по наибольшему числу непересекающихся событий.
+
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
+<<<<<<< HEAD:src/by/it/group310901/kovalyova/lesson01/lesson02/B_Sheduler.java
         Arrays.sort(events, Comparator.comparingInt(e -> e.stop));
         for (Event e : events)
         {
@@ -59,6 +65,21 @@ public class B_Sheduler {
                 from = e.stop;
             }
         }
+=======
+        Arrays.sort(events,Comparator.comparingInt(event -> event.stop));
+        int start = 0;
+        int i = 1;
+        do {
+            result.add(events[start]);
+            while ((i <= (events.length-1)) && ((events[start].stop) > (events[i].start))) {
+                i++;
+            }
+            start = i;
+        } while (i <= (events.length-1));
+
+
+>>>>>>> f7dc13e (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/B_Sheduler.java
         return result;          //вернем итог
     }
+
 }

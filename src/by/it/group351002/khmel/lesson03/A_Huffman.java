@@ -37,7 +37,6 @@ import java.util.*;
 //        c: 110
 //        d: 111
 //        01001100100111
-
 public class A_Huffman {
 
     //Изучите классы Node InternalNode LeafNode

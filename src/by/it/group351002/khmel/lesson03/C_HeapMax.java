@@ -84,7 +84,6 @@ public class C_HeapMax {
             swap(0, heap.size() - 1);
             heap.remove(heap.size() - 1);
             siftDown(0);
-
             return result;
         }
         private void swap(int i, int j) {

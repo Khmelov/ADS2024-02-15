@@ -10,45 +10,34 @@ import java.util.List;
 Алгоритм жадный. Для реализации обдумайте надежный шаг.
 */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class A_VideoRegistrator {
 
     public static void main(String[] args) {
-        A_VideoRegistrator instance=new A_VideoRegistrator();
-        double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
-        System.out.println(starts);                            //покажем моменты старта
+        A_VideoRegistrator instance = new A_VideoRegistrator();
+        double[] events = new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
+        List<Double> starts = instance.calcStartTimes(events, 1);
+        System.out.println(starts);
     }
-    //модификаторы доступа опущены для возможности тестирования
 
-    //events - события которые нужно зарегистрировать
-    //timeWorkDuration время работы видеокамеры после старта
-    //i - это индекс события events[i]
-    //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
-    //Подготовка к жадному поглощению массива событий
-    //hint: сортировка Arrays.sort обеспечит скорость алгоритма
-    //C*(n log n) + C1*n = O(n log n)
+    List<Double> calcStartTimes(double[] events, double workDuration) {
+        List<Double> result = new ArrayList<>();
+        Arrays.sort(events); // Сортируем события по возрастанию времени
 
-    //пока есть незарегистрированные события
-    //получим одно событие по левому краю
-    //и запомним время старта видеокамеры
-    //вычислим момент окончания работы видеокамеры
-    //и теперь пропустим все покрываемые события
-    //за время до конца работы, увеличивая индекс
-    List<Double> calcStartTimes(double[] events, double workDuration){
-        List<Double> result;
-        result = new ArrayList<>();
-        java.util.Arrays.sort(events);
-        int i;
-        result.add(events[0]);
-        int j = 0;
-        for (i = 1; i <= events.length - 1; i++){
-            if (events[i] > events[j] + workDuration){
-                result.add(events[i]);
-                j = i;
-            }
+        int i = 0;
+        while (i < events.length) {
+            double startTime = events[i]; // Момент старта видеокамеры
+            double endTime = startTime + workDuration; // Момент окончания работы видеокамеры
+            result.add(startTime); // Добавляем момент старта в результат
+
+            // Пропускаем все покрываемые события
+            while (i < events.length && events[i] <= endTime)
+                i++;
         }
 
-
-        return result;                        //вернем итог
+        return result;
     }
 }

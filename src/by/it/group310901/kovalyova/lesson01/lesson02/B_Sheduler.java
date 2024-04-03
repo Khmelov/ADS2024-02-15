@@ -1,14 +1,18 @@
-package by.it.group310901.kovalyova.lesson01.lesson02;
+package by.it.group310902.perova.lesson02;
+
 
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Arrays;
+<<<<<<< HEAD
 <<<<<<< HEAD:src/by/it/group310901/kovalyova/lesson01/lesson02/B_Sheduler.java
 =======
 import java.util.Comparator;
 >>>>>>> f7dc13e (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/B_Sheduler.java
+=======
+import java.util.Comparator;
+>>>>>>> 5d9c926e7505733be3f900fc74bf3401b5c3992d
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -55,6 +59,7 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
+<<<<<<< HEAD
 <<<<<<< HEAD:src/by/it/group310901/kovalyova/lesson01/lesson02/B_Sheduler.java
         Arrays.sort(events, Comparator.comparingInt(e -> e.stop));
         for (Event e : events)
@@ -79,6 +84,20 @@ public class B_Sheduler {
 
 
 >>>>>>> f7dc13e (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/B_Sheduler.java
+=======
+        Arrays.sort(events,Comparator.comparingInt(event -> event.stop));
+        result.add(events[0]);
+        int prevEventIndex = 0;
+
+        for (int i = 1; i < events.length; i++) {
+            if (events[i].start >= events[prevEventIndex].stop) {
+                result.add(events[i]);
+                prevEventIndex = i;
+            }
+        }
+
+
+>>>>>>> 5d9c926e7505733be3f900fc74bf3401b5c3992d
         return result;          //вернем итог
     }
 

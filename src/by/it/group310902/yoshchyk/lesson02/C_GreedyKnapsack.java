@@ -67,18 +67,18 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-<<<<<<< HEAD
 
-=======
+
+
         double result = 0;
->>>>>>> origin/main
+
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
 
-<<<<<<< HEAD
+
         Arrays.sort(items);
 
         double result = 0;
@@ -97,7 +97,7 @@ public class C_GreedyKnapsack {
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
-=======
+
 
 
 
@@ -113,7 +113,7 @@ public class C_GreedyKnapsack {
             W -= items[i].weight;
             result += items[i].cost;
         }
->>>>>>> origin/main
+
     }
 
     public static void main(String[] args) throws FileNotFoundException {

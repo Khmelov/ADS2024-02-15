@@ -15,7 +15,10 @@ package by.it.group351001.semashka.lesson01.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+<<<<<<< HEAD:src/by/it/group351001/semashka/lesson01/lesson02/C_GreedyKnapsack.java
 import java.util.Comparator;
+=======
+>>>>>>> 01de64f (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/C_GreedyKnapsack.java
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -60,7 +63,7 @@ public class C_GreedyKnapsack {
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
         //тут реализуйте алгоритм сбора рюкзака
@@ -68,6 +71,7 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
+<<<<<<< HEAD:src/by/it/group351001/semashka/lesson01/lesson02/C_GreedyKnapsack.java
         Arrays.sort(items, Comparator.comparingDouble(item -> (double) item.weight / item.cost));
         System.out.println(Arrays.toString(items));
         for (Item item : items) {
@@ -80,9 +84,21 @@ public class C_GreedyKnapsack {
                 break;
             }
         }
+=======
 
+        Arrays.sort(items, (Item1, Item2)->{
+            return Double.compare((double)Item1.weight/Item1.cost,(double)Item2.weight/Item2.cost);
+        });
+        for (int i = 0; i < items.length && W != 0; ++i){
+            while (items[i].weight > W) {
+                items[i].cost -= items[i].cost / items[i].weight;
+                items[i].weight--;
+            }
+            W -= items[i].weight;
+            result += items[i].cost;
+>>>>>>> 01de64f (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/C_GreedyKnapsack.java
 
-
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

@@ -2,6 +2,7 @@ package by.it.group351001.semashka.lesson01.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 /*
 Даны события events
 реализуйте метод calcStartTimes, так, чтобы число включений регистратора на
@@ -25,6 +26,27 @@ public class A_VideoRegistrator {
         List<Double> result;
         result = new ArrayList<>();
 
+<<<<<<< HEAD:src/by/it/group351001/semashka/lesson01/lesson02/A_VideoRegistrator.java
+=======
+        Arrays.sort(events); // Сортировка массива events
+result.add(events[0]);
+        int i = 1, counter = 0;
+
+        for ( ; i < events.length; i++) {
+
+                if (events[i] > result.get(counter)+workDuration) {
+
+                    result.add(events[i]); // Добавляем время старта текущего события
+                }
+                 // Обновляем время старта
+
+        }
+
+
+        i--; // Чтобы не пропустить следующее событие
+
+
+>>>>>>> 01de64f (Lesson02 A,B,C):src/by/it/group310902/perova/lesson02/A_VideoRegistrator.java
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма

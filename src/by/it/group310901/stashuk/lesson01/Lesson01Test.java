@@ -1,5 +1,4 @@
-package by.it.group310901.Stashuk.lesson01;
-
+package by.it.group310901.stashuk.lesson01;
 import org.junit.Test;
 
 import java.math.BigInteger;

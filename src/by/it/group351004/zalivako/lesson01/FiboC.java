@@ -55,7 +55,6 @@ public class FiboC {
                     if (j == remainder)
                         return pn % m;
                 }
-                return 1;
             }
         }
         return curr;

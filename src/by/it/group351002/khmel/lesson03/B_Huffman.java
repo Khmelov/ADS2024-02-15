@@ -40,7 +40,6 @@ import java.util.Scanner;
 
 //        Sample Output 2:
 //        abacabad
-
 public class B_Huffman {
     String decode(File file) throws FileNotFoundException {
         StringBuilder result=new StringBuilder();

@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /*
-Задача на программирование: наибольшая возрастающая подпоследовательность
+Задача на рограммирование: наибольшая возрастающая подпоследовательность
 см.     https://ru.wikipedia.org/wiki/Задача_поиска_наибольшей_увеличивающейся_подпоследовательности
         https://en.wikipedia.org/wiki/Longest_increasing_subsequence
 Дано:

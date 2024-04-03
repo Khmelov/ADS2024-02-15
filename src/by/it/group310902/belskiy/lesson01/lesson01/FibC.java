@@ -45,7 +45,7 @@ public class FibC {
             fibModM[i] = (fibModM[i - 1] + fibModM[i - 2]) % m;
         }
 
-        return fibModM[(int) remainder];
+        return fibModM[(int)remainder];
     }
 
     public static int findPeriod(int m) {

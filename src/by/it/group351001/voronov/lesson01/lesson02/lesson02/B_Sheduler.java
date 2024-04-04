@@ -1,7 +1,6 @@
-package by.it.Group351001.voronov.lesson01.lesson02.lesson02;
+package by.it.group351001.voronov.lesson01.lesson02.lesson02;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 /*
 Даны интервальные события events

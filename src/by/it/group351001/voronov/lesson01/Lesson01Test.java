@@ -1,4 +1,4 @@
-package by.it.Group351001.voronov.lesson01;
+package by.it.group351001.voronov.lesson01;
 
 import org.junit.Test;
 

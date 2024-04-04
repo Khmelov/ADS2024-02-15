@@ -74,7 +74,6 @@ public class B_Huffman {
         return result.toString(); //01001100100111
     }
 
-
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");

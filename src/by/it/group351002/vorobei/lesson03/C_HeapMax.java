@@ -67,6 +67,7 @@ public class C_HeapMax {
             }
             return i;
         }
+
         int siftUp(int i) { //просеивание вверх
             int parent = (i - 1) / 2;
             while (i > 0 && heap.get(i) > heap.get(parent)){

@@ -1,4 +1,4 @@
-package by.it.group351003.suchok.lesson02;
+package by.it.group351003.suchok.lesson002;
 /*
 Даны
 1) объем рюкзака 4

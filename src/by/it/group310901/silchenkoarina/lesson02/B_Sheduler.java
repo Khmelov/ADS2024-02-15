@@ -1,4 +1,4 @@
-package by.it.group310901.silchenko.lesson02;
+package by.it.group310901.silchenkoarina.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +51,6 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-
         Arrays.sort(events, Comparator.comparingInt(e -> e.stop)); // сортировка по времени окончания
         int lastAddedStop = from;
         for (Event event : events) {

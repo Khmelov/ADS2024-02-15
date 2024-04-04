@@ -1,4 +1,4 @@
-package by.it.group310901.silchenko.lesson02;
+package by.it.group310901.silchenkoarina.lesson02;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +39,6 @@ public class A_VideoRegistrator {
         //вычислим момент окончания работы видеокамеры
         //и теперь пропустим все покрываемые события
         //за время до конца работы, увеличивая индекс
-
         while (i<events.length) {
             if(events[i]>lastRegisterEvent) {
                 result.add(events[i]);

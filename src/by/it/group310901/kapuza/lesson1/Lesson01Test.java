@@ -1,10 +1,6 @@
-package by.it.group310901.kapuza;
-
-import org.junit.Test;
+package by.it.group310901.kapuza.lesson1;
 
 import java.math.BigInteger;
-
-import static org.junit.Assert.assertTrue;
 
 @SuppressWarnings("all")
 public class Lesson01Test {
@@ -23,6 +19,10 @@ public class Lesson01Test {
         BigInteger res=fibo.slowA(33);
         boolean ok=res.toString().equals("3524578");
         assertTrue("slowA failed", ok);
+    }
+    private void assertTrue(String string, boolean ok) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'assertTrue'");
     }
     @Test(timeout = 2000)
     public void fastB() throws Exception {

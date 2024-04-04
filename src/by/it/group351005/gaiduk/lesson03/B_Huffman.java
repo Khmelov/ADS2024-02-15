@@ -50,29 +50,21 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
+
         char[] charArr = new char[count];
-        String[] codeArr = new String[count];
         for (int i = 0; i < count; i++) {
-            String temp = scanner.next() + scanner.next();
-            charArr[i] = temp.charAt(0);
-            codeArr[i] = temp.substring(2);
+            String tempStr = scanner.next() + scanner.next();
+            charArr[i] = tempStr.charAt(0);
         }
-        String encodedStr = scanner.next();
+        String resultStr = scanner.next();
 
         int i = 0;
-        int charIndex = 0;
-        while (i < encodedStr.length()) {
-            if (encodedStr.charAt(i) == '0') {
-                result.append(charArr[charIndex]);
-                charIndex = 0;
-            }
-            else
-                charIndex++;
-            i++;
-        }
-        if (charIndex != 0)
-            result.append(charArr[charIndex]);
-
+        int zeroStep = 0;
+        do {
+            if (resultStr.charAt(i) == '0') result.append(charArr[zeroStep]);
+            zeroStep = resultStr.charAt(i) == '0' ? 0 : ++zeroStep;
+        } while (++i < resultStr.length());
+        if (zeroStep != 0) result.append(charArr[zeroStep]);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

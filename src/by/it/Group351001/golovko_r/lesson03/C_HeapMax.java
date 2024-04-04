@@ -1,4 +1,4 @@
-package by.it.group351001.golovko_r.lesson03;
+package by.it.Group351001.golovko_r.lesson03;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -41,10 +41,8 @@ public class FiboC {
                 return fasterC(remainder, m);
             }
 
-        }
+        
         return result;
     }
-
-
 }
 

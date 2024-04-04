@@ -1,4 +1,4 @@
-package by.it.group351003.suchok.lesson03;
+package by.it.group351003.dmitrij_komashilo.lesson03;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,39 +34,71 @@ import java.util.Scanner;
 //      200
 //      500
 
-
 public class C_HeapMax {
 
     private class MaxHeap {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вверх
+            int maxIndex = i;
+            int leftChildIndex = 2 * i + 1;
+            int rightChildIndex = 2 * i + 2;
+
+            if (leftChildIndex < heap.size() && heap.get(leftChildIndex) > heap.get(maxIndex)) {
+                maxIndex = leftChildIndex;
+            }
+            if (rightChildIndex < heap.size() && heap.get(rightChildIndex) > heap.get(maxIndex)) {
+                maxIndex = rightChildIndex;
+            }
+
+            if (maxIndex != i) {
+                swap(i, maxIndex);
+                siftDown(maxIndex);
+            }
 
             return i;
         }
 
         int siftUp(int i) { //просеивание вниз
+            int parentIndex = (i - 1) / 2;
+
+            while (i > 0 && heap.get(i) > heap.get(parentIndex)) {
+                swap(i, parentIndex);
+                i = parentIndex;
+                parentIndex = (i - 1) / 2;
+            }
 
             return i;
         }
 
         void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
         Long extractMax() { //извлечение и удаление максимума
             Long result = null;
 
+            if (heap.size() > 0) {
+                result = heap.get(0);
+                heap.set(0, heap.get(heap.size() - 1));
+                heap.remove(heap.size() - 1);
+                siftDown(0);
+            }
+
             return result;
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
+        private void swap(int i, int j) {
+            Long temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
+        }
     }
 
     //эта процедура читает данные из файла, ее можно не менять.
     Long findMaxValue(InputStream stream) {
-        Long maxValue=0L;
+        Long maxValue = 0L;
         MaxHeap heap = new MaxHeap();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(stream);
@@ -74,8 +106,8 @@ public class C_HeapMax {
         for (int i = 0; i < count; ) {
             String s = scanner.nextLine();
             if (s.equalsIgnoreCase("extractMax")) {
-                Long res=heap.extractMax();
-                if (res!=null && res>maxValue) maxValue=res;
+                Long res = heap.extractMax();
+                if (res != null && res > maxValue) maxValue = res;
                 System.out.println();
                 i++;
             }
@@ -84,7 +116,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-            //System.out.println(heap); //debug
+                //System.out.println(heap); //debug
             }
         }
         return maxValue;
@@ -94,7 +126,7 @@ public class C_HeapMax {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
         C_HeapMax instance = new C_HeapMax();
-        System.out.println("MAX="+instance.findMaxValue(stream));
+        System.out.println("MAX=" + instance.findMaxValue(stream));
     }
 
     // РЕМАРКА. Это задание исключительно учебное.

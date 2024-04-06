@@ -37,7 +37,7 @@ public class B_MergeSort {
             System.out.print(index + " ");
     }
 
-    int[] getMergeSort(InputStream stream) throws FileNotFoundException {
+    int[] getMergeSort(InputStream stream) {
         var scanner = new Scanner(stream);
         var a = new int[scanner.nextInt()];
         for (var i = 0; i < a.length; i++) {

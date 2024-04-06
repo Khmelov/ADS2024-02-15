@@ -56,34 +56,25 @@ public class Lesson4Test {
     }
 
     @Test
-    public void CBenchmark() throws Exception {
-        System.out.println("Benchmark of inversions counter...\n| Size |  Time(nano-secs)  | Per-element average |");
-        var time = 0L;
-        var times = 20;
-        var powers = 0;
-        for (var i = 1; i <= times; i++) {
-            time += CRunAverage(i);
-            powers += (int)Math.pow(2, i);
-        }
-        System.out.printf("| Avrg |  %15d  |  %17d  |\n", time / times, time / times / powers);
-    }
-
-    private long CRunAverage(int power) {
-        var times = 100;
-        var time = 0L;
-        for (var i = 0; i < times; i++) time += CRunSingle(power);
-        time /= times;
-        System.out.printf("| 2^%2d |  %15d  |  %17d  |\n", power, time, time / (int)Math.pow(2, power));
-        return time;
-    }
-
-    private long CRunSingle(int power) {
+    public void CBenchmark() {
         var random = new Random(System.currentTimeMillis());
-        var arr = random.ints((long) Math.pow(2, power), 0, 1_000).toArray();
-        var instance = new InverseCounter(arr, 0, arr.length);
-        var time = -System.nanoTime();
-        instance.invoke();
-        time += System.nanoTime();
-        return time;
+        System.out.println("Benchmark of inversions counter...\n| Size |  Sync (nsec)  |  Async (nsec)  |");
+        var sync = 0L;
+        var async = 0L;
+        for (var i = 1; i <= 25; i++) {
+            var arr = random.ints((long) Math.pow(2, i)).toArray();
+            var syncRun = CRun(new SyncInverseCounter(arr));
+            var asyncRun = CRun(new SyncInverseCounter(arr));
+            System.out.printf("| 2^%2d | %13d | %14d |\n", i, syncRun, asyncRun);
+            sync += syncRun;
+            async += asyncRun;
+        }
+        System.out.printf("|Summa:| %13d | %14d |\n", sync, async);
+    }
+
+    private long CRun(InverseCounter counter) {
+        var start = -System.nanoTime();
+        counter.invoke();
+        return start + System.nanoTime();
     }
 }

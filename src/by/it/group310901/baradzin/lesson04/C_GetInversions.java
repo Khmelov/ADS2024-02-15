@@ -45,41 +45,90 @@ public class C_GetInversions {
         System.out.print(result);
     }
 
-    int calc(InputStream stream) throws FileNotFoundException {
+    int calc(InputStream stream) {
         var scanner = new Scanner(stream);
         var a = new int[scanner.nextInt()];
         for (var i = 0; i < a.length; i++)
             a[i] = scanner.nextInt();
-        return new InverseCounter(a, 0, a.length).invoke();
+        return new AsyncInverseCounter(a).invoke();
     }
 }
 
-class InverseCounter extends RecursiveTask<Integer> {
-    private final int[] arr;
-    private final int left, right;
-    private int inverses;
+interface InverseCounter {
+    Integer invoke();
+}
 
-    InverseCounter(int[] arr, int left, int right) {
+class AsyncInverseCounter extends RecursiveTask<Integer> implements InverseCounter {
+    private final int[] arr;
+    private final int right;
+    private int left, mid, inverses;
+
+    AsyncInverseCounter(int[] arr) {
+        this(arr, 0, arr.length);
+    }
+
+    AsyncInverseCounter(int[] arr, int left, int right) {
         this.arr = arr;
         this.left = left;
         this.right = right;
+        this.mid = (left + right) >>> 1;
     }
 
     @Override
     protected Integer compute() {
         if (right - left < 2) return 0;
-        var mid = (left + right) >>> 1;
-        var left = new InverseCounter(arr, this.left, mid);
-        var right = new InverseCounter(arr, mid, this.right);
-        left.fork();
-        right.fork();
-        inverses += left.join();
-        inverses += right.join();
-        merge(arr, this.left, mid, this.right);
+        var leftCounter = new AsyncInverseCounter(arr, left, mid);
+        var rightCounter = new AsyncInverseCounter(arr, mid, right);
+        leftCounter.fork();
+        rightCounter.fork();
+        inverses += leftCounter.join();
+        inverses += rightCounter.join();
+        merge();
         return inverses;
     }
 
-    void merge(int[] arr, int left, int mid, int right) {
+    private void merge() {
+        var range = Arrays.copyOfRange(arr, left, mid);
+        var i = 0;
+        while (i < range.length && mid < right)
+            if (range[i] <= arr[mid])
+                arr[left++] = range[i++];
+            else {
+                arr[left++] = arr[mid++];
+                inverses += range.length - i;
+            }
+        while (i < range.length)
+            arr[left++] = range[i++];
+        while (mid < right)
+            arr[left++] = arr[mid++];
+    }
+}
+
+class SyncInverseCounter implements InverseCounter {
+    private final int[] arr;
+    private final int right;
+    private int left, mid, inverses;
+
+    SyncInverseCounter(int[] arr) {
+        this(arr, 0, arr.length);
+    }
+
+    SyncInverseCounter(int[] arr, int left, int right) {
+        this.arr = arr;
+        this.left = left;
+        this.right = right;
+        this.mid = (left + right) >>> 1;
+    }
+
+    public Integer invoke() {
+        if (right - left < 2) return 0;
+        inverses += new SyncInverseCounter(arr, left, mid).invoke();
+        inverses += new SyncInverseCounter(arr, mid, right).invoke();
+        merge();
+        return inverses;
+    }
+
+    private void merge() {
         var range = Arrays.copyOfRange(arr, left, mid);
         var i = 0;
         while (i < range.length && mid < right)

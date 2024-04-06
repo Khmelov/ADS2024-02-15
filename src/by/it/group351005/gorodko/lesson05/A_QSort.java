@@ -43,8 +43,14 @@ public class A_QSort {
         int stop;
 
         Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
+            if (start <= stop) {
+                this.start = start;
+                this.stop = stop;
+            }
+            else {
+                this.start = stop;
+                this.stop = start;
+            }
             //тут вообще-то лучше доделать конструктор на случай если
             //концы отрезков придут в обратном порядке
         }
@@ -52,11 +58,34 @@ public class A_QSort {
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-
-            return 0;
+            return Integer.compare(start, o.start);
         }
     }
 
+    void swap(Segment[] arr, int i, int j) {
+        Segment temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    int partition(Segment[] arr, int l, int r) {
+        Segment x = arr[r];
+        int j = l;
+        for (int i = l; i < r; i++)
+            if (arr[i].compareTo(x) <= 0) {
+                swap(arr, j, i);
+                j++;
+            }
+        swap(arr, j, r);
+        return j;
+    }
+
+    void quickSort(Segment[] arr, int l, int r) {
+        if (l >= r)
+            return;
+        int m = partition(arr, l, r);
+        quickSort(arr, l, m - 1);
+        quickSort(arr, m + 1, r);
+    }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -82,9 +111,15 @@ public class A_QSort {
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
-
-
-
+        quickSort(segments, 0, n - 1);
+        for (int j = 0; j < points.length; j++) {
+            int i = 0;
+            while ((j < segments.length) && (segments[i].start <= points[j])) {
+                if (segments[i].stop >= points[j])
+                    result[j]++;
+                i++;
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

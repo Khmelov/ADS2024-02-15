@@ -45,10 +45,35 @@ public class C_QSortOptimized {
         @Override
         public int compareTo(Object o) {
             //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+            Segment other = (Segment) o;
+            return Integer.compare(start, other.start);
         }
     }
 
+    void swap(Segment[] arr, int i, int j) {
+        Segment temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    int partition(Segment[] arr, int l, int r) {
+        Segment x = arr[r];
+        int j = l;
+        for (int i = l; i < r; i++)
+            if (arr[i].compareTo(x) <= 0) {
+                swap(arr, j, i);
+                j++;
+            }
+        swap(arr, j, r);
+        return j;
+    }
+
+    void quickSort(Segment[] arr, int l, int r) {
+        if (l >= r)
+            return;
+        int m = partition(arr, l, r);
+        quickSort(arr, l, m - 1);
+        quickSort(arr, m + 1, r);
+    }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -68,12 +93,36 @@ public class C_QSortOptimized {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        quickSort(segments, 0, segments.length - 1);
 
+        for (int i = 0; i < m; i++) {
+            result[i] = 0;// бинарный поиск для первого отрезка решения
+            int left = 0;
+            int right = n - 1;
+            int middle = 0;
+            while (left <= right) {
+                middle = (left + right) / 2;
+                if ((points[i] >= segments[middle].start) && (points[i] <= segments[middle].stop)) {
+                    result[i]++;
+                    left++;
+                    break;
+                } else if (points[i] > segments[middle].start)
+                    left = middle + 1;
+                else
+                    right = middle - 1;
+            }
+            int j = left;
+            while ((i < segments.length) && (segments[j].start <= points[i])) {
+                if (segments[j].stop >= points[i])
+                    result[i]++;
+                j++;
+            }
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

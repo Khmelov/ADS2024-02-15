@@ -17,7 +17,6 @@ import java.util.Scanner;
 
 public class B_CountSort {
 
-
     int[] countSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -32,9 +31,15 @@ public class B_CountSort {
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
 
-
-
-
+        int[] valueCount = {0,0,0,0,0,0,0,0,0,0};
+        for (int i = 0; i < n; i++)
+            valueCount[points[i] - 1]++;
+        int j = 0;
+        for (int i = 1; i <= 10; i++)
+            while (valueCount[i - 1] > 0) {
+                points[j++] = i;
+                valueCount[i - 1]--;
+            }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;

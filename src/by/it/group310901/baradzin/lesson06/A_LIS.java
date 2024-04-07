@@ -40,20 +40,31 @@ public class A_LIS {
 
     int getSeqSize(InputStream stream) {
         var scanner = new Scanner(stream);
-        var m = new int[scanner.nextInt()];
+        var m = new Integer[scanner.nextInt()];
         for (var i = 0; i < m.length; i++)
             m[i] = scanner.nextInt();
-        return getLength(m);
+        return new SeqCheck((arr, current, next) -> arr[current] < arr[next]).getLength(m);
+    }
+}
+
+interface Lambda3<T, U, V, R> {
+    public R apply(T t, U u, V v);
+}
+
+class SeqCheck {
+    private final Lambda3<Integer[], Integer, Integer, Boolean> checker;
+    SeqCheck(Lambda3<Integer[], Integer, Integer, Boolean> checker) {
+        this.checker = checker;
     }
 
-    int getLength(int[] arr) {
+    public int getLength(Integer[] arr) {
         return getLength(arr, -1, 0);
     }
 
-    int getLength(int[] arr, int current, int next) {
+    int getLength(Integer[] arr, int current, int next) {
         if (next == arr.length) return 0;
         var includes = 0;
-        if (current == -1 || arr[current] < arr[next])
+        if (current == -1 || checker.apply(arr, current, next))
             includes = 1 + getLength(arr, next, next + 1);
         var excludes = getLength(arr, current, next + 1);
         return Math.max(includes, excludes);

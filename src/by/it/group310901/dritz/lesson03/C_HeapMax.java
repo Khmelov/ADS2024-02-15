@@ -35,7 +35,7 @@ import java.util.Scanner;
 //      500
 
 
-public class C_HeapMax {
+public class C_HeapMax{
 
     private class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

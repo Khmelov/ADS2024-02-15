@@ -3,6 +3,8 @@ package by.it.group351001.shevchenko.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -49,18 +51,56 @@ public class C_LongNotUpSubSeq {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
 
+        int[] F = new int[n + 2];
+        F[0] = Integer.MAX_VALUE;
+        for (int i = 1; i < F.length; i++) F[i] = Integer.MIN_VALUE;
+
+        int[] FIndex = new int[n + 2];
+        for (int i = 0; i < FIndex.length; i++) FIndex[i] = -1;
+
+        int[] Prev = new int[n];
+        for (int i = 0; i < Prev.length; i++) Prev[i] = -1;
+
+        int left, right, middle;
+        for (int i = 0; i < m.length; i++) {
+            left = 1;
+            right = F.length - 2;
+
+            while (left < right) {
+                middle = (right + left) >> 1;
+                if (F[middle] < m[i]) right = middle;
+                else if (F[middle] >= m[i]) left = middle + 1;
+            }
+
+            if (F[right - 1] >= m[i] && F[right] <= m [i]) {
+                F[right] = m[i];
+                FIndex[right] = i;
+                Prev[i] = FIndex[right - 1];
+            }
+        }
+
+        int end = F.length - 1;
+        while (F[end] == Integer.MIN_VALUE) end--;
+
+        int index = FIndex[end];
+        List<Integer> result = new ArrayList<>();
+        result.add(index + 1);
+        while (Prev[index] != -1) {
+            index = Prev[index];
+            result.add(index + 1);
+        }
+
+        result = result.reversed();
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return end;
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/shevchenko/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
         int result = instance.getNotUpSeqSize(stream);
         System.out.print(result);

@@ -3,6 +3,7 @@ package by.it.group351001.shevchenko.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -32,7 +33,6 @@ import java.util.Scanner;
 
 public class A_LIS {
 
-
     int getSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -40,13 +40,24 @@ public class A_LIS {
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
+        int[] temp = new int[n];
         //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        int result = 0;
+
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            temp[i] = 0;
+            for (int j = 0; j < i; j++) {
+                if (m[i] > m[j]) temp[i] = Integer.max(temp[j], temp[i]);
+            }
+            temp[i] += 1;
+            if (temp[i] > max) max = temp[i];
+        }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return max;
     }
 
 

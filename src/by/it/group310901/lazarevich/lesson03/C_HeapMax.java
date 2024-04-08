@@ -114,6 +114,7 @@ public class C_HeapMax {
                 System.out.println();
                 i++;
             }
+
             if (s.contains(" ")) {
                 String[] p = s.split(" ");
                 if (p[0].equalsIgnoreCase("insert"))

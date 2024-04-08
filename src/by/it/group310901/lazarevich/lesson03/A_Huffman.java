@@ -151,6 +151,7 @@ public class A_Huffman {
         for(int i = 0; i < s.length();i++){
             sb.append(codes.get(s.charAt(i)));
         }
+
         //.....
 
         return sb.toString();

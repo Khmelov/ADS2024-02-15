@@ -27,6 +27,7 @@ public class Lesson03Test {
         String result = instance.encode(f);
         boolean ok=result.equals("01001100100111");
         assertTrue("A failed", ok);
+
     }
 
 

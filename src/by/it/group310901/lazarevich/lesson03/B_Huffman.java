@@ -59,6 +59,7 @@ public class B_Huffman {
             String code = scanner.next();
             codes[ch - 'a'] = code;
         }
+
         String s = scanner.next();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {

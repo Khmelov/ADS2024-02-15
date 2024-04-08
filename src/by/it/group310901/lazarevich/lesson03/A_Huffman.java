@@ -152,6 +152,7 @@ public class A_Huffman {
             sb.append(codes.get(s.charAt(i)));
         }
 
+
         //.....
 
         return sb.toString();

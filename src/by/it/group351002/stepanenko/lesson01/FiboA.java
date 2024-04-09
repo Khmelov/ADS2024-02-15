@@ -1,19 +1,19 @@
-package by.it.group351002.stepanenko;
+package by.it.group351002.stepanenko.lesson01;
 
 import java.math.BigInteger;
 
 public class FiboA {
-
     private long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
         FiboA fibo = new FiboA();
         int n = 33;
-        System.out.printf("calc(%d)=%d \n\t time=%d \n\n", n, fibo.calc(n), fibo.time());
+        System.out.printf("calc(%d)=%d\n", n, fibo.calc(n));
 
+        // Вычисление чисел Фибоначчи медленным методом (рекурсией)
         fibo = new FiboA();
         n = 34;
-        System.out.printf("slowA(%d)=%d \n\t time=%d \n\n", n, fibo.slowA(n), fibo.time());
+        System.out.printf("slowA(%d)=%d\n", n, fibo.slowA(n));
     }
 
     private long time() {
@@ -25,19 +25,14 @@ public class FiboA {
     private int calc(int n) {
         if (n <= 1) {
             return n;
-        } else {
-            return calc(n - 1) + calc(n - 2);
         }
+        return calc(n - 1) + calc(n - 2);
     }
 
-    BigInteger slowA(Integer n) {
+    BigInteger slowA(int n) {
         if (n <= 1) {
             return BigInteger.valueOf(n);
-        } else {
-            BigInteger a = slowA(n - 1);
-            BigInteger b = slowA(n - 2);
-            return a.add(b);
         }
+        return slowA(n - 1).add(slowA(n - 2));
     }
 }
-

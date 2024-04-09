@@ -41,6 +41,7 @@ public class Lesson02Test {
         List<B_Sheduler.Event> starts = instance.calcStartTimes(events, 0, 10);  //рассчитаем оптимальное заполнение аудитории
         boolean ok=starts.toString().equals("[(0:1), (1:2), (2:3), (3:5), (6:7), (7:9)]");
         assertTrue("B_Sheduler failed", ok);
+
     }
     @Test(timeout = 2000)
     public void C_GreedyKnapsack() throws Exception {

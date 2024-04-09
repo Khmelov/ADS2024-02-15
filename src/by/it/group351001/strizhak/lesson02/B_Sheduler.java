@@ -75,6 +75,7 @@ public class B_Sheduler {
             i++;
         }
 
+
         while (i < events.length){
             if ((events[i].stop <= to) && (events[i].start >= events[curr].stop)){
                 curr = i;

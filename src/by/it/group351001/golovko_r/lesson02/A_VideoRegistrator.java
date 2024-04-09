@@ -12,26 +12,27 @@ import java.util.List;
 */
 
 public class A_VideoRegistrator {
-
     public static void main(String[] args) {
-        A_VideoRegistrator instance=new A_VideoRegistrator();
-        double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
-        System.out.println(starts);                            //покажем моменты старта
+        A_VideoRegistrator instance = new A_VideoRegistrator();
+        double[] events = new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
+        List<Double> starts = instance.calcStartTimes(events,1);
+        System.out.println(starts);
     }
 
     List<Double> calcStartTimes(double[] events, double workDuration){
-
         List<Double> result;
-        Arrays.sort(events);
         result = new ArrayList<>();
+        double startTime;
 
-        result.add (events[0]);
-        int j=1;
-        for (int i=1; i<11; i++) {
-            if (events[i]-result.get(j-1)>workDuration){
-                result.add(events[i]);
-                j++;
+        Arrays.sort(events);
+
+        startTime = events[0];
+        result.add(startTime);
+
+        for (int i = 1; i < events.length; i++) {
+            if (events[i] > startTime + workDuration) {
+                startTime = events[i];
+                result.add(startTime);
             }
         }
         return result;

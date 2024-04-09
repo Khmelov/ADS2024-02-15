@@ -2,7 +2,6 @@ package by.it.group351002.yarakhovich.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -50,20 +49,8 @@ public class B_Sheduler {
         result = new ArrayList<>();
         //ваше решение.
 
-        Arrays.sort(events, (one,two) ->{
-            if(one.stop!=two.stop){
-                return Integer.compare(one.stop,two.stop);
-            }else return Integer.compare(one.start,two.start);
-        });
 
-        int i =0;
-        while(i < events.length) {
-            result.add(events[i]);
-            i++;
-            while(i < events.length && events[i].start < result.get(result.size() - 1).stop){
-                i++;
-            }
-        }
+
 
 
 

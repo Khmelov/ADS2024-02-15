@@ -1,6 +1,5 @@
 package by.it.group351002.matsuev.lesson02;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
@@ -20,7 +19,6 @@ public class A_VideoRegistrator {
         List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
         System.out.println(starts);                            //покажем моменты старта
     }
-
     //модификаторы доступа опущены для возможности тестирования
     List<Double> calcStartTimes(double[] events, double workDuration){
         //events - события которые нужно зарегистрировать
@@ -57,3 +55,4 @@ public class A_VideoRegistrator {
         return result;                        //вернем итог
     }
 }
+

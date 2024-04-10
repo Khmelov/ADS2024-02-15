@@ -35,6 +35,40 @@ Sample Output:
 
 public class C_GetInversions {
 
+    private int[] a;
+    private int[] temp;
+
+    int counter;
+
+    private void merge(int left, int middle, int right) {
+        int i1 = left;
+        int i2 = middle;
+
+        for (int k = left; k < right; k++) {
+            if (i2 == right || (i1 < middle && a[i1] <= a[i2])) {
+                temp[k] = a[i1];
+                i1++;
+            }
+            else {
+                counter += middle - i1;
+                temp[k] = a[i2];
+                i2++;
+            }
+
+        }
+        System.arraycopy(temp, left, a, left, right - left);
+    }
+
+    private void mergeSort(int left, int right) {
+        if (right <= left + 1) {
+            return;
+        };
+        int middle = (right + left) >> 1;
+        mergeSort(left, middle);
+        mergeSort(middle, right);
+        merge(left, middle, right);
+    }
+
     int calc(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -42,23 +76,17 @@ public class C_GetInversions {
         //размер массива
         int n = scanner.nextInt();
         //сам массив
-        int[] a = new int[n];
+        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
+        a = new int[n];
+        temp = new int[n];
+        counter = 0;
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
+            System.out.println(a[i]);
         }
-        int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
+        mergeSort(0, a.length);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return counter;
     }
 
 

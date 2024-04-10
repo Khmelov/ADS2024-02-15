@@ -92,6 +92,7 @@ public class C_LongNotUpSubSeq {
         }
 
         result = result.reversed();
+        System.out.println(result.toString());
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return end;

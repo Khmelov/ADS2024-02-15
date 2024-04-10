@@ -111,20 +111,22 @@ public class A_Huffman {
 
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-    String encode(File file) throws FileNotFoundException {
+    public String encode(File file) throws FileNotFoundException {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
 
         //все комментарии от тестового решения были оставлены т.к. это задание A.
         //если они вам мешают их можно удалить
+
+
         Map<Character, Integer> count = new HashMap<>();
         for(int i=0;i<s.length();i++) {
             char key = s.charAt(i);
             count.merge(key, 1, (a, b)  ->  a + b);
         }
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
-            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
+        //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
@@ -137,13 +139,11 @@ public class A_Huffman {
             priorityQueue.add(el);
         }
 
-
-
-
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
+
         while(priorityQueue.size() > 1)
         {
             fir = priorityQueue.peek();
@@ -153,8 +153,6 @@ public class A_Huffman {
             parn = new InternalNode(fir,sec);
             priorityQueue.add(parn);
         }
-
-
 
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
@@ -176,7 +174,6 @@ public class A_Huffman {
             System.out.println(codes.get(key));
         }
         System.out.println(sb);
-
         return sb.toString();
         //01001100100111
         //01001100100111

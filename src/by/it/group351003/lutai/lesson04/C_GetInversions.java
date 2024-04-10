@@ -28,7 +28,6 @@ Sample Output:
 Докажите рост производительности замерами времени.
 Большой тестовый массив можно прочитать свой или сгенерировать его программно.
 */
-
 public class C_GetInversions {
 
     int calc(InputStream stream) {

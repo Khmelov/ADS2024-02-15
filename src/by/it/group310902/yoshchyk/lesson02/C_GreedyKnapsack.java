@@ -14,9 +14,7 @@ package by.it.group310902.yoshchyk.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
-
 import java.util.Arrays;
-
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -42,11 +40,7 @@ public class C_GreedyKnapsack {
             //тут может быть ваш компаратор
 
 
-
-            return Double.compare((double) o.cost / o.weight, (double) this.cost / this.weight);
-
             return 0;
-
         }
     }
 
@@ -67,53 +61,34 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
-<<<<<<< HEAD
-
-=======
         double result = 0;
->>>>>>> origin/main
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
 
-<<<<<<< HEAD
-        Arrays.sort(items);
+        Arrays.sort(items, (a2, a1)->{
+            return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
+        });
 
-        double result = 0;
-        int currentWeight = 0;
-
-        for (Item item : items) {
-            if (currentWeight + item.weight <= W) {
-                result += item.cost;
-                currentWeight += item.weight;
-            } else {
-                double remainingWeight = W - currentWeight;
-                result += item.cost * ((double) remainingWeight / item.weight);
+        for (int i = n-1; i >= 0; i--) {
+            if (W == 0) {
                 break;
             }
-        }
-
-        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
-        return result;
-=======
-
-
-
-
-        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
-        return result;
-        Arrays.sort(items);
-        for (int i = 0; i < items.length && W != 0; i++){
-            while (items[i].weight > W) {
-                items[i].cost -= items[i].cost / items[i].weight;
-                items[i].weight--;
+            if (items[i].weight <= W) {
+                result += items[i].cost;
+                W -= items[i].weight;
+            } else {
+                result += (double) items[i].cost * W / items[i].weight;
+                W = 0;
             }
-            W -= items[i].weight;
-            result += items[i].cost;
         }
->>>>>>> origin/main
+
+
+
+        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
+        return result;
     }
 
     public static void main(String[] args) throws FileNotFoundException {

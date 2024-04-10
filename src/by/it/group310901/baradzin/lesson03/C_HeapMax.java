@@ -39,10 +39,10 @@ import java.util.Scanner;
 public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = STR."\{System.getProperty("user.dir")}/src/";
-        InputStream stream = new FileInputStream(STR."\{root}by/it/group310901/baradzin/lesson03/heapData.txt");
+        var root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group310901/baradzin/lesson03/heapData.txt");
         var instance = new C_HeapMax();
-        System.out.println(STR."MAX=\{instance.findMaxValue(stream)}");
+        System.out.println("MAX=" + instance.findMaxValue(stream));
     }
 
     /**

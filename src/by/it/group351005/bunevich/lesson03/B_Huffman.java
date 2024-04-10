@@ -50,13 +50,15 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         Map<String,Character> letter =new HashMap<>();
+
         for (int i = 0; i < count; i++) {
             Character symbol = scanner.next().charAt(0);
+            //закидываем все симовлы различные в словарь c их кодами
             letter.put(scanner.next(), symbol);
         }
         String code = scanner.next();
         String symbolCode = "";
-        // change symbols
+        // меняем код на символы
         for (int i = 0; i < length; i++) {
             symbolCode += code.charAt(i);
             if (code.charAt(i) == '0'){

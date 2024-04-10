@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+
 /*
 В первой строке источника данных даны:
         - целое число 1<=n<=100000 (размер массива)

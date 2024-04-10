@@ -17,7 +17,6 @@ Sample Input:
 Sample Output:
 2 2 3 9 9
 */
-
 public class B_MergeSort {
 
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {

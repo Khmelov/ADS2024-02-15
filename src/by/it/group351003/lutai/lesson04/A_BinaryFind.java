@@ -22,7 +22,6 @@ import java.util.Scanner;
         3 1 -1 1 -1
 (!) Обратите внимание на смещение начала индекса массивов JAVA относительно условий задачи
 */
-
 public class A_BinaryFind {
     int[] findIndex(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных

@@ -115,21 +115,18 @@ public class A_Huffman {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
-
-        //все комментарии от тестового решения были оставлены т.к. это задание A.
-        //если они вам мешают их можно удалить
-
+        //создаем словарь (ключ char, значения целые)
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
         for (int i = 0; i < s.length(); i++) {
-            char tempChar = s.charAt(i);
-            if (!count.containsKey(tempChar)) {
+            char tempChar = s.charAt(i);                                //значение по указанному индексу
+            if (!count.containsKey(tempChar)) {                         //tckb символа нет в сллвре в качнестве ключа
                 count.put(tempChar, 0);
             }
+            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
             count.replace(tempChar, count.get(tempChar) + 1);
         }
-
-        //2. перенесем все символы в приоритетную очередь в виде листьев
+                                //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         for (var elem : count.entrySet()){
             priorityQueue.add(new LeafNode(elem.getValue(),elem.getKey()));
@@ -138,19 +135,16 @@ public class A_Huffman {
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-        while (priorityQueue.size() > 1)
-        {
+        while (priorityQueue.size() > 1) {
             Node first = priorityQueue.poll();
             Node second = priorityQueue.poll();
-            InternalNode internalNode =
-                    (first.compareTo(second) == 1) ?
-                            new InternalNode(second,first) :
-                            new InternalNode(first,second);
+            InternalNode internalNode = (first.compareTo(second) == 1) ? new InternalNode(second,first) : new InternalNode(first,second);
             priorityQueue.add(internalNode);
         }
+        StringBuilder sb = new StringBuilder();
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
-        StringBuilder sb = new StringBuilder();
+
         priorityQueue.poll().fillCodes("");
         //.....
         for (int i = 0; i < s.length(); i++)

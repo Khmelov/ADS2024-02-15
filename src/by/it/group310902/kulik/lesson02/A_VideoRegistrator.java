@@ -27,16 +27,16 @@ public class A_VideoRegistrator {
         int i=0;
 
         //i - это индекс события events[i]
-        while(i < events.length){
-            if(time >= events[i]){
-                i++;
-            }else{
-                result.add(events[i]);
-                time += workDuration;
-
-            }
-
-        }
+//        while(i < events.length){
+//            if(time >= events[i]){
+//                i++;
+//            }else{
+//                result.add(events[i]);
+//                time += workDuration;
+//
+//            }
+//
+//        }
 
 
 

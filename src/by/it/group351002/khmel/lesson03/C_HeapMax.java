@@ -123,6 +123,7 @@ public class C_HeapMax {
         C_HeapMax instance = new C_HeapMax();
         System.out.println("MAX="+instance.findMaxValue(stream));
     }
+
     // РЕМАРКА. Это задание исключительно учебное.
     // Свои собственные кучи нужны довольно редко.
     // "В реальном бою" все существенно иначе. Изучите и используйте коллекции

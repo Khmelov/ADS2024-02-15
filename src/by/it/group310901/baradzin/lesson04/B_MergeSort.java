@@ -7,21 +7,20 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * Реализуйте сортировку слиянием для одномерного массива. Сложность алгоритма должна быть не хуже, чем O(n log n)
- *
+ * <p>Реализуйте сортировку слиянием для одномерного массива. Сложность алгоритма должна быть не хуже, чем O(n log n)
+ * </p>
  * <ol>
- *     <li>Первая строка содержит число 1<=n<=10000,</li>
- *     <li>вторая - массив A[1…n], содержащий натуральные числа, не превосходящие 10E9.</li>
+ * <li>Первая строка содержит число 1<=n<=10000,</li>
+ * <li>вторая - массив A[1…n], содержащий натуральные числа, не превосходящие 10E9.</li>
  * </ol>
- * <p>
- * Необходимо отсортировать полученный массив.
+ * <p>Необходимо отсортировать полученный массив.</p>
  * <p>
  * Sample Input:<br/>
  * 5<br/>
- * 2 3 9 2 9
- * <p>
+ * 2 3 9 2 9<br/>
  * Sample Output:<br/>
- * 2 2 3 9 9
+ * 2 2 3 9 9<br/>
+ * </p>
  */
 
 public class B_MergeSort {
@@ -37,7 +36,7 @@ public class B_MergeSort {
             System.out.print(index + " ");
     }
 
-    int[] getMergeSort(InputStream stream) throws FileNotFoundException {
+    int[] getMergeSort(InputStream stream) {
         var scanner = new Scanner(stream);
         var a = new int[scanner.nextInt()];
         for (var i = 0; i < a.length; i++) {

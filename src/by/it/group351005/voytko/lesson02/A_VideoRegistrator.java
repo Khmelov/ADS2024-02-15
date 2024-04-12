@@ -1,6 +1,7 @@
 package by.it.group351005.voytko.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -29,7 +30,11 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
-
+        Arrays.sort(events);
+        result.add(events[0]);
+        for (i = 1; i < events.length; i++)
+            if (events[i] > result.get(result.size() - 1) + 1)
+                result.add(events[i]);
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
         //и запомним время старта видеокамеры

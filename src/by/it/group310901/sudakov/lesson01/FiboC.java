@@ -6,6 +6,9 @@ package by.it.group310901.sudakov.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FiboC {
 
     private final long startTime = System.currentTimeMillis();
@@ -25,27 +28,23 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        if (n <= 1) {
-            return n % m;
+        long x = 0, y = 1;
+        long i = 0;
+        do {
+            y = x + y;
+            x = y - x;
+            y = y % m;
+            i++;
+        } while (!(x == 0 && y == 1));
+        long j = n % i;
+        x = 0;
+        y = 1;
+        for (int k = 0; k < j; k++){
+            y = x + y;
+            x = y - x;
+            y = y % m;
         }
-
-        long prev = 0;
-        long curr = 1;
-
-        for (long i = 2; i <= n; i++) {
-            long temp = (prev + curr) % m;
-            prev = curr;
-            curr = temp;
-            if (prev == 0 && curr == 1) {
-                long period = i - 1;
-                n %= period;
-                prev = 0;
-                curr = 1;
-                i = 2;
-            }
-        }
-
-        return curr;
+        return x;
     }
 
 }

@@ -30,7 +30,6 @@ public class A_VideoRegistrator {
 
         double time;
         //C*(n log n) + C1*n = O(n log n)
-        Arrays.sort(events);
         while (i < events.length){
             result.add(events[i]);
             time = events[i] + workDuration;

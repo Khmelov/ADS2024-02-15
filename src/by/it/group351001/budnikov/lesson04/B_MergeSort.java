@@ -21,29 +21,49 @@ Sample Output:
 */
 public class B_MergeSort {
 
-    int[] getMergeSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
-        Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+    int[] Merge(int[] a) {
+        if (a.length == 1) {
+            return a;
+        }
 
-        //размер массива
+        int[] b = new int[a.length / 2];
+        int[] c = new int[a.length - b.length];
+        int[] res = new int[a.length];
+
+        System.arraycopy(a, 0, b, 0, b.length);
+        System.arraycopy(a, b.length, c, 0, c.length);
+
+        b = Merge(b);
+        c = Merge(c);
+
+        int b_k=0, c_k=0, res_k=0;
+        while(b_k < b.length || c_k < c.length) {
+            if (c_k >= c.length || (b_k < b.length && b[b_k] < c[c_k])) {
+                res[res_k] = b[b_k];
+                res_k++;
+                b_k++;
+            }
+            else {
+                res[res_k] = c[c_k];
+                res_k++;
+                c_k++;
+            }
+        }
+        return res;
+
+    }
+    int[] getMergeSort(InputStream stream) throws FileNotFoundException {
+        Scanner scanner = new Scanner(stream);
+
         int n = scanner.nextInt();
-        //сам массив
         int[] a=new int[n];
+
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
             System.out.println(a[i]);
         }
 
-        // тут ваше решение (реализуйте сортировку слиянием)
-        // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-
-
-
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return a;
+        return Merge(a);
     }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

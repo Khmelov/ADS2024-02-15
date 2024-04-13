@@ -1,54 +1,107 @@
 package by.it.group351005.bitno.lesson02;
 
-import org.junit.Test;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Scanner;
 
-import java.io.File;
-import java.util.List;
+/*
+Рассчитать число инверсий одномерного массива.
+Сложность алгоритма должна быть не хуже, чем O(n log n)
 
-import static org.junit.Assert.assertTrue;
+Первая строка содержит число 1<=n<=10000,
+вторая - массив A[1…n], содержащий натуральные числа, не превосходящие 10E9.
+Необходимо посчитать число пар индексов 1<=i<j<n, для которых A[i]>A[j].
 
-public class Lesson02Test {
-    /*
-    для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
-    Поля:
-    Name:               Test a_khmelev (тут ваша фамилия)
-    Test kind:          All in package
-    Package:            by.it.a_khmelev (тут ваша фамилия)
-    Search for test:    In whole project
-    */
+    (Такая пара элементов называется инверсией массива.
+    Количество инверсий в массиве является в некотором смысле
+    его мерой неупорядоченности: например, в упорядоченном по неубыванию
+    массиве инверсий нет вообще, а в массиве, упорядоченном по убыванию,
+    инверсию образуют каждые (т.е. любые) два элемента.
+    )
+
+Sample Input:
+5
+2 3 9 2 9
+Sample Output:
+2
+
+Головоломка (т.е. не обязательно).
+Попробуйте обеспечить скорость лучше, чем O(n log n) за счет многопоточности.
+Докажите рост производительности замерами времени.
+Большой тестовый массив можно прочитать свой или сгенерировать его программно.
+*/
 
 
-    @Test(timeout = 2000)
-    public void A_VideoRegistrator() {
-        A_VideoRegistrator instance=new A_VideoRegistrator();
-        double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
-        boolean ok=starts.toString().equals("[1.0, 2.2, 3.7, 5.5, 8.1]");
-        assertTrue("slowA failed", ok);
+public class C_GetInversions {
+    private static int mergeAndCount(int[] arr, int[] left, int[] right, int l) {
+        int i = 0, j = 0, k = l;
+        int count = 0;
+        int m = left.length - 1;
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j])
+                arr[k++] = left[i++];
+            else {
+                arr[k++] = right[j++];
+                count += (m - l + 1) - i;
+            }
+        }
+
+        while (i < left.length)
+            arr[k++] = left[i++];
+
+        while (j < right.length)
+            arr[k++] = right[j++];
+
+        return count;
     }
 
-    @Test(timeout = 2000)
-    public void B_Sheduler() {
-        B_Sheduler instance = new B_Sheduler();
-        B_Sheduler.Event[] events = {new B_Sheduler.Event(0, 3), new B_Sheduler.Event(0, 1), new B_Sheduler.Event(1, 2), new B_Sheduler.Event(3, 5),
-                new B_Sheduler.Event(1, 3), new B_Sheduler.Event(1, 3), new B_Sheduler.Event(1, 3), new B_Sheduler.Event(3, 6),
-                new B_Sheduler.Event(2, 7), new B_Sheduler.Event(2, 3), new B_Sheduler.Event(2, 7), new B_Sheduler.Event(7, 9),
-                new B_Sheduler.Event(3, 5), new B_Sheduler.Event(2, 4), new B_Sheduler.Event(2, 3), new B_Sheduler.Event(3, 7),
-                new B_Sheduler.Event(4, 5), new B_Sheduler.Event(6, 7), new B_Sheduler.Event(6, 9), new B_Sheduler.Event(7, 9),
-                new B_Sheduler.Event(8, 9), new B_Sheduler.Event(4, 6), new B_Sheduler.Event(8, 10), new B_Sheduler.Event(7, 10)
-        };
+    private static int mergeSortAndCount(int[] arr, int l, int r) {
+        int count = 0;
 
-        List<B_Sheduler.Event> starts = instance.calcStartTimes(events, 0, 10);  //рассчитаем оптимальное заполнение аудитории
-        boolean ok=starts.toString().equals("[(0:1), (1:2), (2:3), (3:5), (6:7), (7:9)]");
-        assertTrue("B_Sheduler failed", ok);
-    }
-    @Test(timeout = 2000)
-    public void C_GreedyKnapsack() throws Exception {
-        String root=System.getProperty("user.dir")+"/src/";
-        File file=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
-        double costFinal=new C_GreedyKnapsack().calc(file);
-        boolean ok=costFinal==200;
-        assertTrue("B_Sheduler failed", ok);
+        if (l < r) {
+            int m = (l + r) / 2;
+
+            int[] left = new int[m - l + 1];
+            int[] right = new int[r - m];
+
+            System.arraycopy(arr, l, left, 0, m - l + 1);
+            System.arraycopy(arr, m + 1, right, 0, r - m);
+
+            count += mergeSortAndCount(arr, l, m);
+            count += mergeSortAndCount(arr, m + 1, r);
+            count += mergeAndCount(arr, left, right, l);
+        }
+
+        return count;
     }
 
+    int calc(InputStream stream) throws FileNotFoundException {
+        //подготовка к чтению данных
+        Scanner scanner = new Scanner(stream);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!
+        //размер массива
+        int n = scanner.nextInt();
+        //сам массив
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scanner.nextInt();
+        }
+        int result = 0;
+        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
+        result = mergeSortAndCount(a, 0, n - 1);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result;
+    }
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataC.txt");
+        C_GetInversions instance = new C_GetInversions();
+        //long startTime = System.currentTimeMillis();
+        int result = instance.calc(stream);
+        //long finishTime = System.currentTimeMillis();
+        System.out.print(result);
+    }
 }

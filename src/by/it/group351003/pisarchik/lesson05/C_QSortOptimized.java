@@ -1,10 +1,10 @@
 package by.it.group351003.pisarchik.lesson05;
 
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
-import java.util.Arrays;
 
 /*
 Видеорегистраторы и площадь 2.
@@ -47,22 +47,34 @@ public class C_QSortOptimized {
         public int compareTo(Object o) {
             //подумайте, что должен возвращать компаратор отрезков
             Segment other = (Segment) o;
-
-            if (this.start < other.start)
-                return -1;
-            else if (this.start > other.start)
-                return 1;
-            else {
-                if (this.stop < other.stop)
-                    return -1;
-                else if (this.stop > other.stop)
-                    return 1;
-                else
-                    return 0;
-            }
+            return Integer.compare(start, other.start);
         }
     }
 
+    void swap(Segment[] arr, int i, int j) {
+        Segment temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+    int partition(Segment[] arr, int l, int r) {
+        Segment x = arr[r];
+        int j = l;
+        for (int i = l; i < r; i++)
+            if (arr[i].compareTo(x) <= 0) {
+                swap(arr, j, i);
+                j++;
+            }
+        swap(arr, j, r);
+        return j;
+    }
+
+    void quickSort(Segment[] arr, int l, int r) {
+        if (l >= r)
+            return;
+        int m = partition(arr, l, r);
+        quickSort(arr, l, m - 1);
+        quickSort(arr, m + 1, r);
+    }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -87,41 +99,30 @@ public class C_QSortOptimized {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        // Сортируем отрезки по начальной точке
-        Arrays.sort(segments);
+        quickSort(segments, 0, segments.length - 1);
 
-        // Ищем подходящие отрезки для каждой точки
         for (int i = 0; i < m; i++) {
-            int point = points[i];
-            int count = 0;
-
-            // Бинарный поиск первого отрезка, содержащего точку
+            result[i] = 0;// бинарный поиск для первого отрезка решения
             int left = 0;
             int right = n - 1;
+            int middle = 0;
             while (left <= right) {
-                int mid = left + (right - left) / 2;
-                if (segments[mid].start <= point && point <= segments[mid].stop) {
-                    count++;
+                middle = (left + right) / 2;
+                if ((points[i] >= segments[middle].start) && (points[i] <= segments[middle].stop)) {
+                    result[i]++;
                     left++;
                     break;
-                } else if (segments[mid].start > point) {
-                    right = mid - 1;
-                } else {
-                    left = mid + 1;
-                }
+                } else if (points[i] > segments[middle].start)
+                    left = middle + 1;
+                else
+                    right = middle - 1;
             }
-
-            // Поиск остальных подходящих отрезков
-            if (count > 0) {
-                for (int j = left; j < n; j++) {
-                    if (segments[j].start <= point && point <= segments[j].stop)
-                        count++;
-                    else
-                        break;
-                }
+            int j = left;
+            while ((i < segments.length) && (segments[j].start <= points[i])) {
+                if (segments[j].stop >= points[i])
+                    result[i]++;
+                j++;
             }
-
-            result[i] = count;
         }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

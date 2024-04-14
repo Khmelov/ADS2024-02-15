@@ -2,8 +2,6 @@ package by.it.group310902.najmiddinzoda.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -52,24 +50,20 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-        Map<String, Character> codes = new HashMap<>();
-        for (int i = 0; i < count; i++) {
-            Character ch = scanner.next().toCharArray()[0];
-            String temp = scanner.next();
-            codes.put(temp, ch);
-        }
-        String toEncode = scanner.next();
-        int i = 0;
-        String temp = "";
-        while (i < toEncode.length()){
-            temp += toEncode.charAt(i);
-            if (codes.containsKey(temp)){
-                result.append(codes.get(temp));
-                temp = "";
-            }
-            i++;
-        }
+char[] charArr = new char[count];
+for (int i = 0; i < count; i++) {
+    String tempStr = scanner.next()+scanner.next();
+    charArr[i] = tempStr.charAt(0);
+}
+String resultStr = scanner.next(); // считывание закодированной строки из файла.
 
+int i = 0;
+int zeroStep = 0;
+do {
+    if (resultStr.charAt(i) == '0') result.append(charArr[zeroStep]);
+    zeroStep = resultStr.charAt(i) == '0' ? 0 : ++zeroStep;
+} while (++i <resultStr.length());
+if (zeroStep != 0) result.append(charArr[zeroStep]);
 
 
 

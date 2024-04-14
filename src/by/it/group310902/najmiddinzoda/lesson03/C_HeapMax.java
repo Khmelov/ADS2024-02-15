@@ -42,31 +42,32 @@ public class C_HeapMax {
         //тут запишите ваше решение.
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
+private void swap (int i,int j) {
+    Long temp = heap.get(j);
+    heap.set(j,heap.get(i));
+    heap.set(i,temp);
 
+
+}
         int siftDown(int i) { //просеивание вверх
-            while ( 2 * i + 1 < heap.size()) {
-                int left = 2 * i + 1;
-                int right = 2 * i + 2;
-                int j = left;
-                if (right < heap.size() && heap.get(right) > heap.get(left)) {
-                    j = right;
-                }
-                if (heap.get(i) >= heap.get(j))
-                    break;
-                long tmp = heap.get(i);
-                heap.set(i, heap.get(j));
-                heap.set(j, tmp);
-                i = j;
-            }
+while (2*i+1 < heap.size()) {
+    int left = 2*i+1;
+    int right = 2*i+2;
+    int max = left;
+    if ((right < heap.size()) && (heap.get(right) > heap.get(left)))
+        max = right;
+    if (i == max)
+        break;
+    swap(i, max);
+    i = max;
+}
             return i;
         }
 
         int siftUp(int i) { //просеивание вниз
-            while (heap.get(i) > heap.get((i - 1)/2)) {
-                long tmp = heap.get(i);
-                heap.set(i, heap.get((i-1)/2));
-                heap.set((i-1)/2, tmp);
-                i = (i-1)/2;
+            while (heap.get(i) > heap.get((i - 1) / 2)) {
+                swap(i, (i - 1) / 2);
+                i = (i - 1) / 2;
             }
             return i;
         }
@@ -77,9 +78,9 @@ public class C_HeapMax {
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = heap.get(0);
-            heap.set(0, heap.get(heap.size()-1));
-            heap.remove(heap.size()-1);
+            Long result = null;
+            result = heap.get(0);
+            heap.remove(0);
             siftDown(0);
             return result;
         }

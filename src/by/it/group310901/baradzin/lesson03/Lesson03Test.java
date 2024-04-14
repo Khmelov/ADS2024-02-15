@@ -38,5 +38,4 @@ public class Lesson03Test {
         var ok = (res == 500);
         assertTrue("C failed", ok);
     }
-
 }

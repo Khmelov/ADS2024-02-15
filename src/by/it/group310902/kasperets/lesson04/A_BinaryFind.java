@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson04;
+package by.it.group310902.kasperets.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

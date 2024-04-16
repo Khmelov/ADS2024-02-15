@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson04;
+package by.it.group310902.kasperets.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -92,8 +92,6 @@ public class C_GetInversions {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-
         mergeSort(a, 0, a.length - 1);
 
 

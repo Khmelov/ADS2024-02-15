@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +36,8 @@ public class Lesson6Test {
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
         int result=instance.getNotUpSeqSize(stream);
-        boolean ok=(result==4);
+        int[] indexes = instance.GetIndexes();
+        boolean ok=(result==4) && Arrays.equals(indexes,new int[]{1,3,4,5});
         assertTrue("C failed", ok);
     }
 

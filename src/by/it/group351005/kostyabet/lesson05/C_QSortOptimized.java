@@ -50,31 +50,24 @@ public class C_QSortOptimized {
         }
     }
 
-    void sortElems(LinkedList<Segment> arr) {
-        if (arr.size() > 1) {
-            LinkedList<Segment> equal = new LinkedList<>();
-            LinkedList<Segment> bigger = new LinkedList<>();
-            LinkedList<Segment> smaller = new LinkedList<>();
-            equal.add(arr.removeFirst());
-            Segment compSegm = equal.getFirst();
-            while (!arr.isEmpty()) {
-                int diff = compSegm.compareTo(arr.getFirst());
-                if (diff > 0) {
-                    smaller.add(arr.removeFirst());
-                }
-                else if (diff < 0) {
-                    bigger.add(arr.removeFirst());
-                }
-                else {
-                    equal.add(arr.removeFirst());
-                }
-            }
-            sortElems(bigger);
-            sortElems(smaller);
-            arr.addAll(smaller);
-            arr.addAll(equal);
-            arr.addAll(bigger);
+    void sortElements(LinkedList<Segment> arr) {
+        if (arr.size() <= 1) return;
+        LinkedList<Segment> equal = new LinkedList<>();
+        LinkedList<Segment> smaller = new LinkedList<>();
+        LinkedList<Segment> bigger = new LinkedList<>();
+        equal.add(arr.removeFirst());
+        Segment compSegment = equal.getFirst();
+        while (!arr.isEmpty()) {
+            int diff = compSegment.compareTo(arr.getFirst());
+            if (diff > 0) smaller.add(arr.removeFirst());
+            else if (diff < 0) bigger.add(arr.removeFirst());
+            else equal.add(arr.removeFirst());
         }
+        sortElements(bigger);
+        sortElements(smaller);
+        arr.addAll(equal);
+        arr.addAll(smaller);
+        arr.addAll(bigger);
     }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
@@ -91,43 +84,29 @@ public class C_QSortOptimized {
 
         //читаем сами отрезки
         LinkedList<Segment> arr = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
             //читаем начало и конец каждого отрезка
             arr.add(new Segment(scanner.nextInt(), scanner.nextInt()));
-        }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
             points[i]=scanner.nextInt();
-        }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        sortElems(arr);
+        sortElements(arr);
         for (int i = 0; i < m; i++) {
-            int freq = 0;
             int stop = n-1;
             if (points[i] < arr.get(stop).start) {
                 int start = 0;
-                if (n > 2)
-                    while (stop - start > 1) {
-                        int mid = (start + stop) / 2;
-                        if (points[i] > arr.get(mid).start)
-                            start = mid;
-                        else
-                            stop = mid;
-                    }
-                else
-                    if (arr.get(stop).start > points[i])
-                        if (arr.get(start).start >= points[i])
-                            stop = -1;
-                        else
-                            stop = start;
+                while ((n > 2) && stop - start > 1) {
+                    start = points[i] > arr.get((start + stop) / 2).start ? (start + stop) / 2 : start;
+                    stop = points[i] > arr.get((start + stop) / 2).start ? (start + stop) / 2 : stop;
+                }
+                if (!(n > 2) && arr.get(stop).start > points[i])
+                    stop = arr.get(start).start >= points[i] ? -1 : start;
             }
             for (int j = 0; (j <= stop); j++)
-                if (arr.get(j).stop >= points[i])
-                    freq++;
-            result[i] = freq;
+                result[i] += arr.get(j).stop >= points[i] ? 1 : 0;
         }
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

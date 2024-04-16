@@ -58,31 +58,24 @@ public class A_QSort {
         }
     }
 
-    void sortElems(LinkedList<Segment> arr) {
-        if (arr.size() > 1) {
-            LinkedList<Segment> equal = new LinkedList<>();
-            LinkedList<Segment> bigger = new LinkedList<>();
-            LinkedList<Segment> smaller = new LinkedList<>();
-            equal.add(arr.removeFirst());
-            Segment compSegm = equal.getFirst();
-            while (!arr.isEmpty()) {
-                int diff = compSegm.compareTo(arr.getFirst());
-                if (diff > 0) {
-                    smaller.add(arr.removeFirst());
-                }
-                else if (diff < 0) {
-                    bigger.add(arr.removeFirst());
-                }
-                else {
-                    equal.add(arr.removeFirst());
-                }
-            }
-            sortElems(bigger);
-            sortElems(smaller);
-            arr.addAll(smaller);
-            arr.addAll(equal);
-            arr.addAll(bigger);
+    void sortElements(LinkedList<Segment> arr) {
+        if (arr.size() <= 1) return;
+        LinkedList<Segment> equal = new LinkedList<>();
+        LinkedList<Segment> smaller = new LinkedList<>();
+        LinkedList<Segment> bigger = new LinkedList<>();
+        equal.add(arr.removeFirst());
+        Segment compSegment = equal.getFirst();
+        while (!arr.isEmpty()) {
+            int diff = compSegment.compareTo(arr.getFirst());
+            if (diff > 0) smaller.add(arr.removeFirst());
+            else if (diff < 0) bigger.add(arr.removeFirst());
+            else equal.add(arr.removeFirst());
         }
+        sortElements(bigger);
+        sortElements(smaller);
+        arr.addAll(equal);
+        arr.addAll(smaller);
+        arr.addAll(bigger);
     }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
@@ -97,27 +90,19 @@ public class A_QSort {
         int[] result=new int[m];
 
         //читаем сами отрезки
-        LinkedList<Segment> arr = new LinkedList<>();
-        for (int i = 0; i < n; i++) {
+        LinkedList<Segment> listOfCamers = new LinkedList<>();
+        for (int i = 0; i < n; i++)
             //читаем начало и конец каждого отрезка
-            arr.add(new Segment(scanner.nextInt(), scanner.nextInt()));
-        }
+            listOfCamers.add(new Segment(scanner.nextInt(), scanner.nextInt()));
         //читаем точки
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < m; i++)
             points[i] = scanner.nextInt();
-        }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        sortElems(arr);
-        for (int i = 0; i < m; i++) {
-            int freq = 0;
-            for (int j = 0; (j < n) && (arr.get(j).start <= points[i]); j++) {
-                if (arr.get(j).stop >= points[i]) {
-                    freq++;
-                }
-            }
-            result[i]=freq;
-        }
+        sortElements(listOfCamers);
+        for (int i = 0; i < m; ++i)
+            for (int j = 0; j < n && listOfCamers.get(j).start <= points[i]; j++)
+                result[i] += (listOfCamers.get(j).stop >= points[i]) ? 1 : 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

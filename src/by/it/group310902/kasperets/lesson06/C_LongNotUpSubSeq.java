@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson06;
+package by.it.group310902.kasperets.lesson06;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -36,7 +36,22 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
+    int getMax(int[] sequence){
+        int n = sequence.length;
+        int[] dp = new int[n];
+        int maxLength = 1;
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (sequence[i] <= sequence[j]) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            maxLength = Math.max(maxLength, dp[i]);
+        }
 
+        return maxLength;
+    }
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
@@ -56,7 +71,7 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int result = getMax(m);
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

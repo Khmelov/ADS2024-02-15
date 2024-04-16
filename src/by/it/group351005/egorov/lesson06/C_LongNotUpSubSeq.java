@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Stack;
 
 /*
 Задача на программирование: наибольшая невозростающая подпоследовательность
@@ -38,6 +39,33 @@ import java.util.Scanner;
 
 public class C_LongNotUpSubSeq {
 
+    int[] temp;
+    int[] prev;
+
+    int[] GetIndexes(){
+        int max = 0;
+        int j = 0;
+        for (int i = 0; i < temp.length; i++) {
+            if (max < temp[i]) {
+                max = temp[i];
+                j = i;
+            }
+        }
+        Stack<Integer> tempIndexes = new Stack<>();
+        // вывод информации
+        while (prev[j] != -1){
+            tempIndexes.push(j + 1);
+            j = prev[j];
+        }
+        tempIndexes.push(j + 1);
+        int size = tempIndexes.size();
+        int[] indexes = new int[size];
+        for (int i = 0; i < size; i++) {
+            indexes[i] = tempIndexes.pop();
+        }
+        return indexes;
+    }
+
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -50,20 +78,39 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+        temp =  new int[n];
+        prev =  new int[n];
+        for (int i = 0; i < n; i++) {
+            temp[i] = 1;
+            prev[i] = -1;
+            for (int j = 0; j < i; j++) {
+                if (m[j] >= m[i] && temp[i] < temp[j] + 1){
+                    temp[i] = temp[j] + 1;
+                    prev[i] = j;
+                }
+            }
+        }
         int result = 0;
-
-
+        for (int i = 0; i < n; i++) {
+            if (result < temp[i]) {
+                result = temp[i];
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
         int result = instance.getNotUpSeqSize(stream);
-        System.out.print(result);
+        int[] indexes = instance.GetIndexes();
+        System.out.println(result);
+        for (int index : indexes){
+            System.out.print(index + " ");
+        }
+        System.out.println();
     }
 
 }

@@ -1,9 +1,7 @@
 package by.it.group310902.yoshchyk.lesson02;
 
 import java.util.ArrayList;
-
 import java.util.Arrays;
-
 import java.util.List;
 /*
 Даны интервальные события events
@@ -26,9 +24,6 @@ public class B_Sheduler {
         @Override
         public String toString() {
             return "("+ start +":" + stop + ")";
-        }
-        public int compareTo(Event o) {
-            return this.stop - o.stop;
         }
     }
 
@@ -56,8 +51,13 @@ public class B_Sheduler {
         //ваше решение.
 
 
-        Arrays.sort(events, Event::compareTo);
-        int i = 0;
+        Arrays.sort(events, (o1, o2) ->{
+            if(o1.stop!=o2.stop){
+                return Integer.compare(o1.stop,o2.stop);
+            }else return Integer.compare(o1.start,o2.start);
+        });
+
+        int i =0;
         while(i < events.length) {
             result.add(events[i]);
             i++;
@@ -65,24 +65,6 @@ public class B_Sheduler {
                 i++;
             }
         }
-        for(int i = 0; i < events.length - 1; i++){
-            for(int j = i + 1; j < events.length; j++){
-                if(events[i].stop > events[j].stop){
-                    Event temp = events[i];
-                    events[i] = events[j];
-                    events[j] = temp;
-                }
-            }
-        }
-        int lastStop = from;
-        for(Event event : events){
-            if(event.start >= lastStop && event.stop <= to){
-                result.add(event);
-                lastStop = event.stop;
-            }
-        }
-
-
 
 
 

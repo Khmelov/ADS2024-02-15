@@ -19,7 +19,7 @@ public class FiboB {
 
         //вычисление чисел простым быстрым методом
         FiboB fibo = new FiboB();
-        int n = 55555;
+        int n = 555;
         System.out.printf("fastB(%d)=%d \n\t time=%d \n\n", n, fibo.fastB(n), fibo.time());
     }
 

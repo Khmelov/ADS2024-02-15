@@ -3,23 +3,19 @@ package by.it.group351005.kostyabet.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
 Видеорегистраторы и площадь 2.
 Условие то же что и в задаче А.
-
         По сравнению с задачей A доработайте алгоритм так, чтобы
         1) он оптимально использовал время и память:
-            - за стек отвечает элиминация хвостовой рекурсии,
+            - за стек отвечает элиминация хвостовой рекурсии
             - за сам массив отрезков - сортировка на месте
             - рекурсивные вызовы должны проводиться на основе 3-разбиения
-
         2) при поиске подходящих отрезков для точки реализуйте метод бинарного поиска
         для первого отрезка решения, а затем найдите оставшуюся часть решения
         (т.е. отрезков, подходящих для точки, может быть много)
-
     Sample Input:
     2 3
     0 5
@@ -27,14 +23,13 @@ import java.util.Scanner;
     1 6 11
     Sample Output:
     1 0 0
-
 */
 
 
 public class C_QSortOptimized {
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
@@ -44,30 +39,38 @@ public class C_QSortOptimized {
         }
 
         @Override
-        public int compareTo(Object o) {
-            //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+        public int compareTo(Segment o) {
+            if (this.start > o.start)
+                return 1;
+            else if (this.start == o.start)
+                return Integer.compare(this.stop, o.stop);
+            else
+                return -1;
         }
     }
 
-    void sortElements(LinkedList<Segment> arr) {
-        if (arr.size() <= 1) return;
-        LinkedList<Segment> equal = new LinkedList<>();
-        LinkedList<Segment> smaller = new LinkedList<>();
-        LinkedList<Segment> bigger = new LinkedList<>();
-        equal.add(arr.removeFirst());
-        Segment compSegment = equal.getFirst();
-        while (!arr.isEmpty()) {
-            int diff = compSegment.compareTo(arr.getFirst());
-            if (diff > 0) smaller.add(arr.removeFirst());
-            else if (diff < 0) bigger.add(arr.removeFirst());
-            else equal.add(arr.removeFirst());
+    public int Partition(Segment[] arr, int left, int right){
+        Segment pivot = arr[(left + right) / 2];
+        while (left <= right){
+            while (arr[left].compareTo(pivot) == -1)
+                left++;
+            while (arr[right].compareTo(pivot) == 1)
+                right--;
+            if (left <= right){
+                Segment temp = arr[left];
+                arr[left++] = arr[right];
+                arr[right--] = temp;
+            }
         }
-        sortElements(bigger);
-        sortElements(smaller);
-        arr.addAll(equal);
-        arr.addAll(smaller);
-        arr.addAll(bigger);
+        return left;
+    }
+
+    public void QuickSort(Segment[] arr, int left, int right) {
+        while (left < right) {
+            int pivot = Partition(arr,left,right);
+            QuickSort(arr, left, pivot - 1);
+            left = pivot;
+        }
     }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
@@ -83,30 +86,19 @@ public class C_QSortOptimized {
         int[] result=new int[m];
 
         //читаем сами отрезки
-        LinkedList<Segment> arr = new LinkedList<>();
         for (int i = 0; i < n; i++)
             //читаем начало и конец каждого отрезка
-            arr.add(new Segment(scanner.nextInt(), scanner.nextInt()));
+            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         //читаем точки
         for (int i = 0; i < n; i++)
             points[i]=scanner.nextInt();
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        sortElements(arr);
-        for (int i = 0; i < m; i++) {
-            int stop = n-1;
-            if (points[i] < arr.get(stop).start) {
-                int start = 0;
-                while ((n > 2) && stop - start > 1) {
-                    start = points[i] > arr.get((start + stop) / 2).start ? (start + stop) / 2 : start;
-                    stop = points[i] > arr.get((start + stop) / 2).start ? (start + stop) / 2 : stop;
-                }
-                if (!(n > 2) && arr.get(stop).start > points[i])
-                    stop = arr.get(start).start >= points[i] ? -1 : start;
-            }
-            for (int j = 0; (j <= stop); j++)
-                result[i] += arr.get(j).stop >= points[i] ? 1 : 0;
-        }
+        QuickSort(segments,0, segments.length - 1);
+        for (Segment segment : segments)
+            for (int i = 0; i < points.length; i++)
+                if (segment.stop < points[i]) break;
+                else result[i] += segment.start <= points[i] ? 1 : 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

@@ -47,7 +47,7 @@ public class B_CountSort {
             if (points[i] > max)
                 max = points[i];
         }
-
+        
         // Создаем массив для подсчета количества повторений каждого значения
         int[] countArray = new int[max - min + 1];
 

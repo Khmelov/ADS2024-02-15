@@ -48,26 +48,20 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Arrays.sort(events, new EventComparator());
-
-        int i = 0;
-        int time = 0;
-        while(i < events.length ){
-            if(time > events[i].start){
-                i++;
-            }else{
-                time = events[i].stop;
-                result.add(events[i]);
-
-            }
-
-        }
-
-
-
-
-
-
+//        Arrays.sort(events, new EventComparator());
+//
+//        int i = 0;
+//        int time = 0;
+//        while(i < events.length ){
+//            if(time > events[i].start){
+//                i++;
+//            }else{
+//                time = events[i].stop;
+//                result.add(events[i]);
+//
+//            }
+//
+//        }
         return result;          //вернем итог
     }
 }

@@ -37,6 +37,20 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
+    int max(int x, int y){
+    if(x>y) return x;
+    else return y;
+    }
+    int BinarySearch(int[] d,int n, int val){
+        int l = 0;
+        int r = n-1;
+        while(l<r){
+            int mid = (l+r)/2;
+            if(d[mid] >= val) l = mid + 1;
+            else r = mid - 1;
+        }
+        return l;
+    }
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -50,9 +64,27 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+        int INF = (int) 1e9;
         int result = 0;
-
-
+        int[] d = new int[n];
+        int[] pos = new int[n];
+        int[] prev = new int[n];
+        d[0] = INF;
+        int length=0;
+        for (int i = 1; i < n; ++i)
+            d[i] = -INF;
+        for (int i = 0; i < n; ++i)
+        {
+            int j = BinarySearch(d,n,m[i]);
+            if(d[j-1] > m[i] && m[i] > d[j]){
+                d[j]=m[i];
+                pos[j]=i;
+                prev[i]=pos[j-1];
+                length=max(length,j);
+            }
+        }
+        for (int i = 0;i<n;++i)
+            System.out.print(d[i] + " ");
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

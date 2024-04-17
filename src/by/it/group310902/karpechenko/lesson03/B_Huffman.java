@@ -1,8 +1,8 @@
 package by.it.group310902.karpechenko.lesson03;
 
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -45,7 +45,7 @@ import java.util.Scanner;
 
 public class B_Huffman {
 
-    String decode(File file) throws FileNotFoundException {
+    String decode(InputStream file) throws FileNotFoundException {
         StringBuilder result=new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
@@ -74,10 +74,9 @@ public class B_Huffman {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
+        InputStream inputStream = B_Huffman.class.getResourceAsStream("dataB.txt");
         B_Huffman instance = new B_Huffman();
-        String result = instance.decode(f);
+        String result = instance.decode(inputStream);
         System.out.println(result);
     }
 

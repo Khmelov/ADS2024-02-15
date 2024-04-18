@@ -17,28 +17,34 @@ import java.util.Scanner;
 
 public class B_CountSort {
 
-
     int[] countSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //размер массива
+
         int n = scanner.nextInt();
-        int[] points=new int[n];
+        int[] points = new int[n];
 
-        //читаем точки
         for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
+            points[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи с применением сортировки подсчетом
 
 
+        int[] count = new int[11];
+        for (int i = 0; i < n; i++) {
+            count[points[i]]++;
+        }
 
+        int[] sortedPoints = new int[n];
+        int currentSortedIndex = 0;
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                sortedPoints[currentSortedIndex++] = i;
+                count[i]--;
+            }
+        }
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return points;
+        return sortedPoints;
     }
+
 
 
     public static void main(String[] args) throws FileNotFoundException {

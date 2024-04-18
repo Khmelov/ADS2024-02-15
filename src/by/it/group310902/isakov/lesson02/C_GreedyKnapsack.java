@@ -17,7 +17,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
-    private static class Item implements Comparable<Item> {
+    private static class Item implements Comparable<by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item> {
         int cost;
         int weight;
 
@@ -35,40 +35,62 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item o) {
+        public int compareTo(by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item o) {
             //тут может быть ваш компаратор
 
 
             return 0;
         }
     }
+    by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item[] itemsSort(by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item[] items) {
+        int gap = items.length/2;
+        while (gap>0){
+            for (int i = 0; i< items.length-gap; i++){
+                int j=i;
+                by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item temp = items[j+gap];
+                while (j>= 0 && temp.cost/temp.weight> items[j].cost/items[j].weight){
+                    items[j+gap]= items[j];
+                    items[j]=temp;
+                    j-= gap;
+                }
+            }
+            gap/=2;
+        }
+        return items;
+    }
 
+    double getMaximumPackage(by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item[] items, int W){
+        double result = 0;
+        int i= 0;
+        double tempWeight=0;
+        while (i<items.length && tempWeight < W){
+            if (tempWeight + items[i].weight<W){
+                result += items[i].cost;
+                tempWeight += items[i].weight;
+            }
+            else{
+                result+=items[i].cost*((W-tempWeight)/items[i].weight);
+                tempWeight=W;
+            }
+            i++;
+        }
+        return result;
+    }
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);
         int n = input.nextInt();      //сколько предметов в файле
         int W = input.nextInt();      //какой вес у рюкзака
-        Item[] items = new Item[n];   //получим список предметов
+        by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item[] items = new by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item[n];   //получим список предметов
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
-            items[i] = new Item(input.nextInt(), input.nextInt());
+            items[i] = new by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item(input.nextInt(), input.nextInt());
         }
         //покажем предметы
-        for (Item item:items) {
+        for (by.it.group310902.isakov.lesson02.C_GreedyKnapsack.Item item:items) {
             System.out.println(item);
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
-
-        //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
-        //вещи можно резать на кусочки (непрерывный рюкзак)
-        double result = 0;
-        //тут реализуйте алгоритм сбора рюкзака
-        //будет особенно хорошо, если с собственной сортировкой
-        //кроме того, можете описать свой компаратор в классе Item
-
-        //ваше решение.
-
-
-
+        items= itemsSort(items);
+        double result = getMaximumPackage(items, W);
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
@@ -79,7 +101,7 @@ public class C_GreedyKnapsack {
         long startTime = System.currentTimeMillis();
         String root=System.getProperty("user.dir")+"/src/";
         File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
-        double costFinal=new C_GreedyKnapsack().calc(f);
+        double costFinal=new by.it.group310902.isakov.lesson02.C_GreedyKnapsack().calc(f);
         long finishTime = System.currentTimeMillis();
         System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);
     }

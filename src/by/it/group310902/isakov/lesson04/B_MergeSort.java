@@ -21,31 +21,49 @@ Sample Output:
 */
 public class B_MergeSort {
 
-    int[] getMergeSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
-        Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+    private int[] merge(int[] a, int[] b) {
+        int[] result = new int[a.length + b.length];
+        int i = 0, j = 0, r = 0;
+        while (i < a.length && j < b.length) {
+            if (a[i] <= b[j]) {
+                result[r++] = a[i++];
+            } else {
+                result[r++] = b[j++];
+            }
+        }
+        while (i < a.length) {
+            result[r++] = a[i++];
+        }
+        while (j < b.length) {
+            result[r++] = b[j++];
+        }
+        return result;
+    }
 
-        //размер массива
+    private int[] mergeSort(int[] a) {
+        if (a.length <= 1) {
+            return a;
+        }
+        int mid = a.length / 2;
+        int[] left = new int[mid];
+        int[] right = new int[a.length - mid];
+        System.arraycopy(a, 0, left, 0, mid);
+        System.arraycopy(a, mid, right, 0, a.length - mid);
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
+    int[] getMergeSort(InputStream stream) throws FileNotFoundException {
+        Scanner scanner = new Scanner(stream);
+
         int n = scanner.nextInt();
-        //сам массив
-        int[] a=new int[n];
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
-            System.out.println(a[i]);
         }
 
-        // тут ваше решение (реализуйте сортировку слиянием)
-        // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-
-
-
-
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return a;
+        return mergeSort(a);
     }
+
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");
@@ -57,6 +75,4 @@ public class B_MergeSort {
             System.out.print(index+" ");
         }
     }
-
-
 }

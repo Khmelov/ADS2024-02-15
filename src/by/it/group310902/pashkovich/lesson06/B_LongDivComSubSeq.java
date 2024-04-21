@@ -49,7 +49,19 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+
+        int[] a = new int[n];
         int result = 0;
+
+        for (int i = 0; i < n; i++) {
+            a[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (m[ i] %m[j] == 0 && a[j] + 1 > a[i]){
+                    a[i] = a[j] + 1;
+                }
+            }
+            result = Math.max(result, a[i]);
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

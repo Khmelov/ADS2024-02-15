@@ -4,34 +4,34 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/*
- * Восстановите строку по её коду и беспрефиксному коду символов
- *
- * В первой строке входного файла заданы два целых числа kk и ll через пробел — количество различных букв,
- * встречающихся в строке, и размер получившейся закодированной строки, соответственно.
- *
- * В следующих kk строках записаны коды букв в формате "letter: code". Ни один код не является префиксом другого.
+/**
+ * <p>Восстановите строку по её коду и беспрефиксному коду символов</p>
+ * <p>В первой строке входного файла заданы два целых числа kk и ll через пробел — количество различных букв,
+ * встречающихся в строке, и размер получившейся закодированной строки, соответственно.</p>
+ * <p>В следующих kk строках записаны коды букв в формате "letter: code". Ни один код не является префиксом другого.
  * Буквы могут быть перечислены в любом порядке. В качестве букв могут встречаться лишь строчные буквы латинского
  * алфавита; каждая из этих букв встречается в строке хотя бы один раз. Наконец, в последней строке записана
  * закодированная строка. Исходная строка и коды всех букв непустые. Заданный код таков, что закодированная строка
- * имеет минимальный возможный размер.
- *
- * Sample Input 1:
- * 1 1
- * a: 0
- * 0
- * Sample Output 1:
- * a
- *
- * Sample Input 2:
- * 4 14
- * a: 0
- * b: 10
- * c: 110
- * d: 111
- * 01001100100111
- * Sample Output 2:
- * abacabad
+ * имеет минимальный возможный размер.</p>
+ * <p>
+ * Sample Input 1:<br/>
+ * 1 1<br/>
+ * a: 0<br/>
+ * 0<br/>
+ * Sample Output 1:<br/>
+ * a<br/>
+ * </p>
+ * <p>
+ * Sample Input 2:<br/>
+ * 4 14<br/>
+ * a: 0<br/>
+ * b: 10<br/>
+ * c: 110<br/>
+ * d: 111<br/>
+ * 01001100100111<br/>
+ * Sample Output 2:<br/>
+ * abacabad<br/>
+ * </p>
  */
 
 public class B_Huffman {
@@ -64,17 +64,13 @@ public class B_Huffman {
         void push(String code, Character symbol) {
             var is1 = code.startsWith("1");
             if (code.length() == 1) {
-                if (is1)
-                    Node1 = new NodeChar(symbol);
-                else
-                    Node0 = new NodeChar(symbol);
+                if (is1) Node1 = new NodeChar(symbol);
+                else Node0 = new NodeChar(symbol);
             } else if (is1) {
-                if (Node1 == null)
-                    Node1 = new NodeNum();
+                if (Node1 == null) Node1 = new NodeNum();
                 Node1.push(code.substring(1), symbol);
             } else {
-                if (Node0 == null)
-                    Node0 = new NodeNum();
+                if (Node0 == null) Node0 = new NodeNum();
                 Node0.push(code.substring(1), symbol);
             }
         }

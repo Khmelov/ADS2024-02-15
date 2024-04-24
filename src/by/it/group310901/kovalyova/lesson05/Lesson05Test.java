@@ -8,6 +8,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertTrue;
 
 public class Lesson05Test {
+
     @Test
     public void checkA() {
         InputStream inputStream = A_QSort.class.getResourceAsStream("dataA.txt");

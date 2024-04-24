@@ -63,6 +63,7 @@ public class C_QSortOptimized {
             if (arr[i].compareTo(x) <= 0) {
                 j++;
                 Swap(arr, i, j);
+
             }
         Swap(arr, l, j);
         return j;

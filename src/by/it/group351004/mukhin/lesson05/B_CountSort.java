@@ -47,7 +47,6 @@ public class B_CountSort {
             //newArr[i]--;
         }
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }
 

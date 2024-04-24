@@ -89,7 +89,7 @@ public class C_QSortOptimized {
         var temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
-        //
+
     }
     int find(Segment[] arr, int target) {
         return find(arr, target, 0, arr.length - 1);

@@ -76,7 +76,7 @@ public class A_QSort {
     }
 
     int[] getAccessory(InputStream stream) {
-        //
+
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!НАЧАЛО ЗАДАЧИ!!!!!!!!!!!!!!!!!!!!!!!!!

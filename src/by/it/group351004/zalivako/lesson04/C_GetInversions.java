@@ -50,7 +50,7 @@ public class C_GetInversions {
                 arr[k++] = firstHalf[i++];
             else {
                 arr[k++] = secondHalf[j++];
-                count += (mid - left + 1) - i;
+                count += mid - left + 1 - i;
             }
         }
 
@@ -67,7 +67,6 @@ public class C_GetInversions {
 
         if (left < right) {
             int m = (left + right) / 2;
-
             count += mergeSortAndCount(arr, left, m);
             count += mergeSortAndCount(arr, m + 1, right);
             count += mergeAndCount(arr, left, m, right);

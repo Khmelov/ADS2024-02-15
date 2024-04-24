@@ -61,7 +61,6 @@ public class A_BinaryFind {
             }
             if (result[i] == 0)
                 result[i] = -1;
-
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

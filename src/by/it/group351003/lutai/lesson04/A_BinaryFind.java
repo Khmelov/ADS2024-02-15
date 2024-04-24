@@ -42,7 +42,6 @@ public class A_BinaryFind {
         nextValue:
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
-
             int left = 0;
             int right = a.length - 1;
             int mid;

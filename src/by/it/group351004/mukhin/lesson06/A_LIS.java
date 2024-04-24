@@ -40,11 +40,21 @@ public class A_LIS {
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
+        int[] subNumbers = new int[n];
         //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
+            subNumbers[i] = 1;
         }
         int result = 0;
+        for (int i = 0; i < subNumbers.length; i++) {
+            for (int j = 0; j < i; j++)
+                if (m[j] < m[i] && subNumbers[j] + 1 > subNumbers[i])
+                    subNumbers[i] = subNumbers[j] + 1;
+            result = Math.max(result, subNumbers[i]);
+        }
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

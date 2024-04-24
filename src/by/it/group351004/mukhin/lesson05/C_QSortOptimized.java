@@ -1,6 +1,5 @@
 package by.it.group351004.mukhin.lesson05;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -11,7 +10,7 @@ import java.util.Scanner;
 
         По сравнению с задачей A доработайте алгоритм так, чтобы
         1) он оптимально использовал время и память:
-            - за стек отвечает элиминация хвостовой рекурсии,
+            - за стек отвечает элиминация хвостовой рекурсии
             - за сам массив отрезков - сортировка на месте
             - рекурсивные вызовы должны проводиться на основе 3-разбиения
 
@@ -32,23 +31,14 @@ import java.util.Scanner;
 
 public class C_QSortOptimized {
 
-    //отрезок
-    private class Segment  implements Comparable{
-        int start;
-        int stop;
-
-        Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
-        }
-
-        @Override
-        public int compareTo(Object o) {
-            //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = C_QSortOptimized.class.getResourceAsStream("dataC.txt");
+        C_QSortOptimized instance = new C_QSortOptimized();
+        int[] result = instance.getAccessory2(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
-
 
     void Swap(Segment[] arr, int i, int j) {
         Segment temp = arr[i];
@@ -63,7 +53,6 @@ public class C_QSortOptimized {
             if (arr[i].compareTo(x) <= 0) {
                 j++;
                 Swap(arr, i, j);
-
             }
         Swap(arr, l, j);
         return j;
@@ -73,7 +62,7 @@ public class C_QSortOptimized {
         if (l >= r) return;
         while (l < r) {
             int m = Partition(arr, l, r);
-            QSort(arr, l, m - 1);
+            QSort(arr, l, m - 1); //элиминация хвостовой рекурсии
             l = m + 1;
         }
     }
@@ -81,7 +70,8 @@ public class C_QSortOptimized {
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //число отрезков отсортированного массива
         int n = scanner.nextInt();
         Segment[] segments=new Segment[n];
         //число точек
@@ -104,18 +94,24 @@ public class C_QSortOptimized {
         for (Segment segment : segments)
             for (int j = 0; j < points.length; j++)
                 result[j] += (segment.start <= points[j] && segment.stop >= points[j]) ? 1 : 0;
-
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    //отрезок
+    private class Segment implements Comparable {
+        int start;
+        int stop;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataC.txt");
-        C_QSortOptimized instance = new C_QSortOptimized();
-        int[] result=instance.getAccessory2(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        Segment(int start, int stop) {
+            this.start = start;
+            this.stop = stop;
+        }
+
+        @Override
+        public int compareTo(Object o) {
+            //подумайте, что должен возвращать компаратор отрезков
+            return 0;
         }
     }
 

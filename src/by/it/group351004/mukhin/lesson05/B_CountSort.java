@@ -1,6 +1,5 @@
 package by.it.group351004.mukhin.lesson05;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -17,6 +16,15 @@ import java.util.Scanner;
 
 public class B_CountSort {
 
+
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_CountSort.class.getResourceAsStream("dataB.txt");
+        B_CountSort instance = new B_CountSort();
+        int[] result = instance.countSort(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
+        }
+    }
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -47,18 +55,8 @@ public class B_CountSort {
             //newArr[i]--;
         }
 
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
-        B_CountSort instance = new B_CountSort();
-        int[] result=instance.countSort(stream);
-        for (int index:result){
-            System.out.print(index+" ");
-        }
     }
 
 }

@@ -1,6 +1,5 @@
 package by.it.group351004.mukhin.lesson05;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -37,25 +36,15 @@ import java.util.Scanner;
 
 public class A_QSort {
 
-    //отрезок
-    private class Segment  implements Comparable<Segment>{
-        int start;
-        int stop;
-
-        Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
-            //тут вообще-то лучше доделать конструктор на случай если
-            //концы отрезков придут в обратном порядке
-        }
-
-        @Override
-        public int compareTo(Segment o) {
-            //подумайте, что должен возвращать компаратор отрезков
-
-            return 0;
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = A_QSort.class.getResourceAsStream("dataA.txt");
+        A_QSort instance = new A_QSort();
+        int[] result = instance.getAccessory(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
+
     int Partition(Segment[] arr, int l, int r) {
         Segment x = arr[l];
         int j = l;
@@ -83,6 +72,8 @@ public class A_QSort {
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //число отрезков отсортированного массива
         int n = scanner.nextInt();
         Segment[] segments=new Segment[n];
         //число точек
@@ -109,14 +100,23 @@ public class A_QSort {
         return result;
     }
 
+    //отрезок
+    private class Segment implements Comparable<Segment> {
+        int start;
+        int stop;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataA.txt");
-        A_QSort instance = new A_QSort();
-        int[] result=instance.getAccessory(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        Segment(int start, int stop) {
+            this.start = start;
+            this.stop = stop;
+            //тут вообще-то лучше доделать конструктор на случай если
+            //концы отрезков придут в обратном порядке
+        }
+
+        @Override
+        public int compareTo(Segment o) {
+            //подумайте, что должен возвращать компаратор отрезков
+
+            return 0;
         }
     }
 

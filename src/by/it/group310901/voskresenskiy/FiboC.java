@@ -1,4 +1,4 @@
-package by.it.group310901.voskresenskiy.lesson01;
+package by.it.group310901.voskresenskiy;
 
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,

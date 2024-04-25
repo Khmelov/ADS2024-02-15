@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /*
 Видеорегистраторы и площадь 2.
@@ -28,115 +29,91 @@ import java.util.Scanner;
 
 public class C_QSortOptimized {
 
-    //отрезок
-    private class Segment  implements Comparable{
+    // Отрезок
+    private class Segment implements Comparable<Segment> {
         int start;
         int stop;
 
-        Segment(int start, int stop){
+        Segment(int start, int stop) {
             this.start = start;
             this.stop = stop;
         }
 
         @Override
-        public int compareTo(Object o) {
-            //подумайте, что должен возвращать компаратор отрезков
-            return 0;
-        }
-    }
-    public boolean CompareJ(Segment o, Segment comp) {
-        return o.start<comp.start;
-    }
-
-    public boolean CompareK(Segment o, Segment comp) {
-        return o.start>comp.start;
-    }
-    Segment[] QSort(Segment[] events, int lft, int rght){
-        Segment crl = events[(lft + rght) / 2];
-        int j=lft, k=rght;
-        while(j < k){
-            while (CompareJ(events[j],crl)) ++j;
-            while(CompareK(events[k],crl)) --k;
-            if(j<=k){
-                Segment temp = events[j];
-                events[j] = events[k];
-                events[k] = temp;
-                ++j;
-                --k;
-            }
-        }
-        if(lft < k)
-            events = QSort(events,lft,k);
-        if(j < rght)
-            events = QSort(events,j,rght);
-        return events;
-    }
-
-    boolean binsearch(int left,int right, int x) {
-        int l = left;
-        int r = right;
-        boolean fl = false;
-        while ((l <= r) && (!fl)) {
-            int c = (l + r) / 2;
-            if (c > x) {
-                r = c - 1;
+        public int compareTo(Segment other) {
+            // Компаратор для сравнения отрезков
+            if (this.start != other.start) {
+                return Integer.compare(this.start, other.start);
             } else {
-                l = c + 1;
-                if (c == x) {
-                    fl = true;
-                }
+                return Integer.compare(this.stop, other.stop);
             }
-
         }
-        return  fl;
     }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //число отрезков отсортированного массива
-        int n = scanner.nextInt();
-        Segment[] segments=new Segment[n];
-        //число точек
-        int m = scanner.nextInt();
-        int[] points=new int[m];
-        int[] result=new int[m];
 
-        //читаем сами отрезки
+        // Число отрезков отсортированного массива
+        int n = scanner.nextInt();
+        Segment[] segments = new Segment[n];
+
+        // Число точек
+        int m = scanner.nextInt();
+        int[] points = new int[m];
+        int[] result = new int[m];
+
+        // Читаем сами отрезки
         for (int i = 0; i < n; i++) {
-            //читаем начало и конец каждого отрезка
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            // Читаем начало и конец каждого отрезка
+            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
         }
-        //читаем точки
-        int k= 0;
-        QSort(segments,0,n-1);
-        for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
-            for (int j = 0; j < n; j++) {
-                if (binsearch(segments[j].start, segments[j].stop,points[i])) {
-                    result[k]++;
-                    k++;
+
+        // Читаем точки
+        for (int i = 0; i < m; i++) {
+            points[i] = scanner.nextInt();
+        }
+
+        // Сортируем отрезки по возрастанию
+        Arrays.sort(segments);
+
+        // Для каждой точки находим количество отрезков, которым она принадлежит
+        for (int i = 0; i < m; i++) {
+            int point = points[i];
+            int count = 0;
+
+            // Используем бинарный поиск для нахождения индексов начала и конца отрезков,
+            // содержащих данную точку
+            int left = 0;
+            int right = n - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                Segment segment = segments[mid];
+
+                if (point >= segment.start && point <= segment.stop) {
+                    count++;
+                    break;
+                } else if (point < segment.start) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
                 }
             }
+
+            result[i] = count;
         }
-        //тут реализуйте логику задачи с применением быстрой сортировки
-        //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataC.txt");
         C_QSortOptimized instance = new C_QSortOptimized();
-        int[] result=instance.getAccessory2(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        int[] result = instance.getAccessory2(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
-
 }

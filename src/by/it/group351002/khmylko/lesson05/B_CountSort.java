@@ -41,7 +41,8 @@ public class B_CountSort {
             count[point - min]++;
         }
 
-        // Восстанавливаем отсортированный массив
+
+        // Восстанавливаем  массив
         int index = 0;
         for (int i = 0; i < count.length; i++) {
             int frequency = count[i];

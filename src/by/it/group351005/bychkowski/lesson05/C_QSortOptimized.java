@@ -34,7 +34,7 @@ import java.util.Arrays;
 
 public class C_QSortOptimized {
 
-    //отрезок
+    //отреок
     private class Segment  implements Comparable{
         int start;
         int stop;

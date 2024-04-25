@@ -39,7 +39,7 @@ public class B_CountSort {
             ++tempArray[value];
         }
 
-        //Вставим элементы в исходный массив
+        //Вставим элеметы в исходный массив
         int b = 0;
         for (int i = 0; i < 10; ++i){
             for (int j = 0; j < tempArray[i]; ++j) {

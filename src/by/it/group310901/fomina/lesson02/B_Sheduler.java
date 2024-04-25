@@ -1,4 +1,4 @@
-package by.it.group310901.fomina.lesson02;
+package by.it.group310901.fomina.istg.lesson02.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,6 @@ public class B_Sheduler {
     }
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).
         //оптимизация проводится по наибольшему числу непересекающихся событий.
@@ -49,28 +48,23 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
-        Event temp;
 
-        for ( int i = 0; i <= events.length - 1; i++) {
-            for ( int j = 0; j < events.length - i - 1; j++) {
-                if ( events[j].stop > events[j+1].stop ) {
-                    temp = events[j];
-                    events[j] = events[j+1];
-                    events[j + 1] = temp;
+        for(int i = 0; i < events.length - 1; i++){
+            for(int j = i + 1; j < events.length; j++){
+                if(events[i].stop > events[j].stop){
+                    Event temp = events[i];
+                    events[i] = events[j];
+                    events[j] = temp;
                 }
             }
         }
-        int i = 0;
-        while (events[i].start < from)
-            i++;
-        while ((i < events.length) && (events[i].stop <= to)) {
-            int stopTime = events[i].stop;
-            result.add(events[i]);
-            while ((i < events.length) && (events[i].stop <= to) && (events[i].start < stopTime)) {
-                i++;
+        int lastStop = from;
+        for(Event event : events){
+            if(event.start >= lastStop && event.stop <= to){
+                result.add(event);
+                lastStop = event.stop;
             }
         }
-
 
 
 

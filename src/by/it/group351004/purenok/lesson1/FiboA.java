@@ -47,5 +47,5 @@ public class FiboA {
         return slowA(n-1).add(slowA(n-2));
     }
 
-
+    // экспоненциальная
 }

@@ -42,6 +42,4 @@ public class FiboC {
         }
         return list.get((int)(n % (list.size() - 2)));
     }
-
-
 }

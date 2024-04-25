@@ -28,7 +28,6 @@ public class B_CountSort {
 
     int[] countSort(InputStream stream) {
         //подготовка к чтению данных
-
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!НАЧАЛО ЗАДАЧИ!!!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива

@@ -1,4 +1,4 @@
-package by.it.group351003.efimenko.lesson04;
+package by.it.group351004.kadushko.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,40 +31,39 @@ public class A_BinaryFind {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
         //размер отсортированного массива
         int n = scanner.nextInt();
         //сам отсортированный массива
-        int[] arr = new int[n];
+        int[] a=new int[n];
         for (int i = 1; i <= n; i++) {
-            arr[i-1] = scanner.nextInt();
+            a[i-1] = scanner.nextInt();
         }
 
         //размер массива индексов
         int k = scanner.nextInt();
         int[] result=new int[k];
         for (int i = 0; i < k; i++) {
-            int value = scanner.nextInt();
-            result[i] = -1;
-            //тут реализуйте бинарный поиск индекса
-            int mid;
-            int first = 0;
-            int last = n - 1;
-            while(first <= last) {
-                mid = (first + last) / 2;
-                if(arr[mid] < value)
-                    first = mid + 1;
-                else if(arr[mid] > value)
-                    last = mid - 1;
-                else if(arr[mid] == value) {
-                    result[i] = mid + 1;
-                    break;
-                }
-            }
+            result[i] = BinarySearch(a, scanner.nextInt(), 0, a.length - 1);
+
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    public int BinarySearch(int[] a, int value, int left, int right)
+    {
+        if (left < right) {
+            int middle = (left + right) / 2;
+            if (value < a[middle])
+                return BinarySearch(a, value, left, middle - 1);
+            else if (value > a[middle])
+                return BinarySearch(a, value, middle + 1, right);
+            else if (value == a[middle])
+                return middle + 1; //Возврат индекса в массиве, а + 1 для элемента, начиная нумерацию с 1
+        }
+        return -1;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

@@ -1,4 +1,4 @@
-package by.it.group351003.efimenko.lesson04;
+package by.it.group351002.skubakov.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,14 +15,11 @@ import java.util.Scanner;
         - k натуральных чисел b1,...,bk не превышающих 10E9 (сами числа)
 Для каждого i от 1 до kk необходимо вывести индекс 1<=j<=n,
 для которого A[j]=bi, или -1, если такого j нет.
-
         Sample Input:
         5 1 5 8 12 13
         5 8 1 23 1 11
-
         Sample Output:
         3 1 -1 1 -1
-
 (!) Обратите внимание на смещение начала индекса массивов JAVA относительно условий задачи
 */
 
@@ -31,12 +28,13 @@ public class A_BinaryFind {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
         //размер отсортированного массива
         int n = scanner.nextInt();
         //сам отсортированный массива
-        int[] arr = new int[n];
+        int[] a=new int[n];
         for (int i = 1; i <= n; i++) {
-            arr[i-1] = scanner.nextInt();
+            a[i-1] = scanner.nextInt();
         }
 
         //размер массива индексов
@@ -44,22 +42,20 @@ public class A_BinaryFind {
         int[] result=new int[k];
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
-            result[i] = -1;
             //тут реализуйте бинарный поиск индекса
-            int mid;
-            int first = 0;
-            int last = n - 1;
-            while(first <= last) {
-                mid = (first + last) / 2;
-                if(arr[mid] < value)
-                    first = mid + 1;
-                else if(arr[mid] > value)
-                    last = mid - 1;
-                else if(arr[mid] == value) {
-                    result[i] = mid + 1;
-                    break;
-                }
+            result[i] = 0;
+            int j, l = 0, r = n - 1;
+            while (l <= r && result[i] == 0) {
+                j = (l + r) / 2;
+                if (a[j] == value)
+                    result[i] = j + 1;
+                else if (value > a[j])
+                    l = j + 1;
+                else
+                    r = j - 1;
             }
+            if (result[i] == 0)
+                result[i] = -1;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

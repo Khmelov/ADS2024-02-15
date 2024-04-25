@@ -1,4 +1,4 @@
-package by.it.group351003.efimenko.lesson04;
+package by.it.group351003.mashevskiy.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,12 +31,13 @@ public class A_BinaryFind {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
         //размер отсортированного массива
         int n = scanner.nextInt();
         //сам отсортированный массива
-        int[] arr = new int[n];
+        int[] a=new int[n];
         for (int i = 1; i <= n; i++) {
-            arr[i-1] = scanner.nextInt();
+            a[i-1] = scanner.nextInt();
         }
 
         //размер массива индексов
@@ -44,20 +45,22 @@ public class A_BinaryFind {
         int[] result=new int[k];
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
-            result[i] = -1;
+            int highIndex;
+            int lowIndex;
+            int middleIndex;
+            lowIndex = 0;
+            highIndex = a.length - 1;
             //тут реализуйте бинарный поиск индекса
-            int mid;
-            int first = 0;
-            int last = n - 1;
-            while(first <= last) {
-                mid = (first + last) / 2;
-                if(arr[mid] < value)
-                    first = mid + 1;
-                else if(arr[mid] > value)
-                    last = mid - 1;
-                else if(arr[mid] == value) {
-                    result[i] = mid + 1;
+            result[i] = -1;
+            while (lowIndex <= highIndex) {
+                middleIndex = lowIndex + (highIndex-lowIndex)/2;
+                if(a[middleIndex] == value){
+                    result[i] = middleIndex + 1;
                     break;
+                }else if(a[middleIndex] > value){
+                    highIndex = middleIndex - 1;
+                }else if(a[middleIndex] < value) {
+                    lowIndex = middleIndex + 1;
                 }
             }
         }

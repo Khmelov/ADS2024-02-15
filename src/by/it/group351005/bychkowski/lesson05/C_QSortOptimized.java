@@ -1,6 +1,5 @@
 package by.it.group351005.bychkowski.lesson05;
 
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 Видеорегистраторы и площадь 2.
 Условие то же что и в задаче А.
 
-        По сравнению с задачей A дорботайте алгоритм так, чтобы
+        По сравнению с задачей A доработайте алгоритм так, чтобы
         1) он оптимально использовал время и память:
             - за стек отвечает элиминация хвостовой рекурсии,
             - за сам массив отрезков - сортировка на месте
@@ -34,7 +33,7 @@ import java.util.Arrays;
 
 public class C_QSortOptimized {
 
-    //отреок
+    //отрезок
     private class Segment  implements Comparable{
         int start;
         int stop;

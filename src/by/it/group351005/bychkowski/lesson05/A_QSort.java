@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 /*
-Видеорегистраторы и площдь.
+Видеорегистраторы и площадь.
 На площади установлена одна или несколько камер.
 Известны данные о том, когда каждая из них включалась и выключалась (отрезки работы)
 Известен список событий на площади (время начала каждого события).
@@ -38,7 +38,7 @@ import java.util.Arrays;
 
 public class A_QSort {
 
-    //отреок
+    //отрезок
     private class Segment  implements Comparable<Segment>{
         int start;
         int stop;

@@ -1,4 +1,4 @@
-package by.it.group351005.AnastasiaGolubeva.lesson01;
+package by.it.group351005.golubeva.lesson01;
 
 import org.junit.Test;
 
@@ -13,6 +13,7 @@ public class Lesson01Test {
     Поля:
     Name:               Test a_khmelev (тут ваша фамилия)
     Test kind:          All in package
+    Package:            by.it.группа.a_khmelev (тут ваша фамилия)
     Package:            by.it.группа.a_khmelev (тут ваша фамилия)
     Search for test:    In whole project
     */

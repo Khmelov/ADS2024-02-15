@@ -4,35 +4,34 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-/*
- * Разработайте метод encode(File file) для кодирования строки (код Хаффмана)
- *
- * По данным файла (непустой строке ss длины не более 104104), состоящей из строчных букв латинского алфавита,
- * постройте оптимальный по суммарной длине беспрефиксный код.
- *
- * Используйте Алгоритм Хаффмана — жадный алгоритм оптимального безпрефиксного кодирования алфавита с минимальной
- * избыточностью.
- *
- * В первой строке выведите количество различных букв kk, встречающихся в строке, и размер получившейся
+/**
+ * <p>Разработайте метод encode(File file) для кодирования строки (код Хаффмана)</p>
+ * <p>По данным файла (непустой строке ss длины не более 104104), состоящей из строчных букв латинского алфавита,
+ * постройте оптимальный по суммарной длине беспрефиксный код.</p>
+ * <p>Используйте Алгоритм Хаффмана — жадный алгоритм оптимального безпрефиксного кодирования алфавита с минимальной
+ * избыточностью.</p>
+ * <p>В первой строке выведите количество различных букв kk, встречающихся в строке, и размер получившейся
  * закодированной строки. В следующих kk строках запишите коды букв в формате "letter: code". В последней строке
- * выведите закодированную строку. Примеры ниже
- *
- * Sample Input 1:
- * a
- * Sample Output 1:
- * 1 1
- * a: 0
- * 0
- *
- * Sample Input 2:
- * abacabad
- * Sample Output 2:
- * 4 14
- * a: 0
- * b: 10
- * c: 110
- * d: 111
- * 01001100100111
+ * выведите закодированную строку. Примеры ниже</p>
+ * <p>
+ * Sample Input 1:<br/>
+ * a<br/>
+ * Sample Output 1:<br/>
+ * 1 1<br/>
+ * a: 0<br/>
+ * 0<br/>
+ * </p>
+ * <p>
+ * Sample Input 2:<br/>
+ * abacabad<br/>
+ * Sample Output 2:<br/>
+ * 4 14<br/>
+ * a: 0<br/>
+ * b: 10<br/>
+ * c: 110<br/>
+ * d: 111<br/>
+ * 01001100100111<br/>
+ * </p>
  */
 
 public class A_Huffman {
@@ -65,9 +64,9 @@ public class A_Huffman {
         symbols.forEach((symbol, frequency) -> priorityQueue.add(new LeafNode(symbol, frequency)));
 
         while (priorityQueue.size() > 1)
-            priorityQueue.add(new InternalNode(priorityQueue.poll(), priorityQueue.poll()));
+            priorityQueue.add(new InternalNode(priorityQueue.poll(), Objects.requireNonNull(priorityQueue.poll())));
 
-        priorityQueue.poll().fillCodes("");
+        Objects.requireNonNull(priorityQueue.poll()).fillCodes("");
         var sb = new StringBuilder();
         input.chars().forEach(c -> sb.append(codes.get((char) c)));
         return sb.toString();
@@ -113,7 +112,9 @@ public class A_Huffman {
          */
         Node right;
 
-        // для этого дерева не существует внутренних узлов без обоих детей
+        /**
+         * Для этого дерева не существует внутренних узлов без обоих детей
+         */
         InternalNode(Node left, Node right) {
             super(left.frequency + right.frequency);
             this.left = left;
@@ -141,8 +142,6 @@ public class A_Huffman {
 
         @Override
         void fillCodes(String code) {
-            // Добрались до листа, значит рекурсия закончена, код уже готов и можно запомнить его в индексе для
-            // поиска кода по символу.
             codes.put(this.symbol, code);
         }
     }

@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson03;
+package by.it.group310902.kasperets.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,7 +37,6 @@ import java.util.*;
 //        c: 110
 //        d: 111
 //        01001100100111
-// Create by Alex Usov
 public class A_Huffman {
 
     //Изучите классы Node InternalNode LeafNode

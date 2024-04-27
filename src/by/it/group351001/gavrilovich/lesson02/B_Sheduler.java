@@ -1,7 +1,6 @@
 package by.it.group351001.gavrilovich.lesson02;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -10,6 +9,22 @@ import java.util.List;
 */
 
 public class B_Sheduler {
+    //событие у аудитории(два поля: начало и конец)
+    static class Event {
+        int start;
+        int stop;
+
+        public Event(int start, int stop) {
+            this.start = start;
+            this.stop = stop;
+        }
+
+        @Override
+        public String toString() {
+            return "("+ start +":" + stop + ")";
+        }
+    }
+
     public static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
         Event[] events = {new Event(0, 3), new Event(0, 1), new Event(1, 2), new Event(3, 5),
@@ -32,24 +47,28 @@ public class B_Sheduler {
         List<Event> result;
         result = new ArrayList<>();
         //ваше решение.
+        Arrays.sort(events, new Comparator<Event>() {
+            @Override
+            public int compare(Event o1, Event o2) {
+                return Integer.compare(o1.stop, o2.stop);
+            }
+        });
+        int i=0;
+        int r;
+        while(i<=events.length-1){
+            result.add(events[i]);
+            r = events[i].stop;
+            i=i+1;
+            while(i<=events.length-1 && events[i].start<r) {
+                i++;
+            }
+        }
+
+
+
+
 
 
         return result;          //вернем итог
-    }
-
-    //событие у аудитории(два поля: начало и конец)
-    static class Event {
-        int start;
-        int stop;
-
-        Event(int start, int stop) {
-            this.start = start;
-            this.stop = stop;
-        }
-
-        @Override
-        public String toString() {
-            return "(" + start + ":" + stop + ")";
-        }
     }
 }

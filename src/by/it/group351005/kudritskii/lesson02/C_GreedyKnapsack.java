@@ -74,12 +74,12 @@ public class C_GreedyKnapsack {
                 result += items[i].cost;
                 W -= items[i].weight;
             }
-            else if (W > 0){
+            else {
                 result += (items[i].cost * W / items[i].weight );
                 W = 0;
             }
         }
-        System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
+        System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
         return result;
     }
 

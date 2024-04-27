@@ -37,9 +37,9 @@ public class C_GetInversions {
     int res = 0;
 
     void swapELements(int a, int b) {
-        int temp = b;
-        b = a;
-        a = temp;
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
     }
 
     int[] MergeSort(int[] arr, int  left, int right) {
@@ -55,22 +55,24 @@ public class C_GetInversions {
         return arr;
     }
 
-    int[] Merge (int[] arr, int left, int middle, int right) {
-        int EF = left, ES = middle + 1, CE = 0;
-        while((EF <= middle) && (ES <= right)) {
-            if (arr[EF] < arr [ES])
-                arr[CE++] = arr[EF++];
-            else
-            {
-                arr[CE++] = arr[ES++];
-                res += middle - EF;
+    int[] Merge(int[] arr, int left, int middle, int right) {
+        int leftIndex = left;
+        int rightIndex = middle + 1;
+        int mergedIndex = 0;
+
+        while ((leftIndex <= middle) && (rightIndex <= right)) {
+            if (arr[leftIndex] < arr[rightIndex])
+                arr[mergedIndex++] = arr[leftIndex++];
+            else {
+                arr[mergedIndex++] = arr[rightIndex++];
+                res += middle - leftIndex;
             }
         }
 
-        while (EF <= middle)
-            arr[CE++] = arr[EF++];
-        while (ES <= right)
-            arr[CE++] = arr[ES++];
+        while (leftIndex <= middle)
+            arr[mergedIndex++] = arr[leftIndex++];
+        while (rightIndex <= right)
+            arr[mergedIndex++] = arr[rightIndex++];
 
         return arr;
     }

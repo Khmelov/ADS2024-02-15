@@ -109,63 +109,45 @@ public class A_Huffman {
     //индекс данных из листьев
     static private Map<Character, String> codes = new TreeMap<>();
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
     String encode(File file) throws FileNotFoundException {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
 
-        //все комментарии от тестового решения были оставлены т.к. это задание A.
-        //если они вам мешают их можно удалить
-
         Map<Character, Integer> count = new HashMap<>();
-        for(int i = 0;i < s.length();i++){
-            char c = s.charAt(i);
-            count.put(c, count.getOrDefault(c, 0) + 1);
-        }
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
         //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
 
+        for (char c : s.toCharArray()) {
+            count.put(c, count.getOrDefault(c, 0) + 1);
+        }
+
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        LeafNode addNode;
-        for(char c:count.keySet()){
-            addNode = new LeafNode(count.get(c),c);
-            priorityQueue.add(addNode);
-        }
-        Node fElem,sElem,tree;
-        while (priorityQueue.size() > 1){
-            fElem = priorityQueue.poll();
-            sElem = priorityQueue.poll();
-            tree = new InternalNode(fElem,sElem);
-            priorityQueue.add(tree);
+        for (Map.Entry<Character, Integer> entry : count.entrySet()) {
+            priorityQueue.add(new LeafNode(entry.getValue(), entry.getKey()));
         }
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-
+        while (priorityQueue.size() > 1) {
+            priorityQueue.add(new InternalNode(priorityQueue.poll(), priorityQueue.poll()));
+        }
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
+        Node root = priorityQueue.poll();
+        root.fillCodes("");
         StringBuilder sb = new StringBuilder();
-        //.....
-        tree = priorityQueue.poll();
-
-// Заполняем коды Хаффмана для каждого символа
-        tree.fillCodes("");
-
-// Проходим по входной строке и добавляем код Хаффмана каждого символа в StringBuilder
         for (char c : s.toCharArray()) {
             sb.append(codes.get(c));
         }
-
-// Возвращаем закодированную строку
         return sb.toString();
-        //01001100100111
-        //01001100100111
     }
-    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+
+    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
 
     public static void main(String[] args) throws FileNotFoundException {

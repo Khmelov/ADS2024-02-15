@@ -66,7 +66,6 @@ public class A_BinaryFind {
         return result;
     }
 
-
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataA.txt");

@@ -69,7 +69,6 @@ public class B_MergeSort {
         }
     }
 
-
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);

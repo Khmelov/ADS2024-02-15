@@ -42,6 +42,7 @@ public class B_Sheduler {
     }
 
 
+
     List<Event> calcStartTimes(Event[] events, int from, int to) {
         //Events - события которые нужно распределить в аудитории
         //в период [from, int] (включительно).

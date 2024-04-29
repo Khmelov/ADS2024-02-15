@@ -7,42 +7,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-/*
- * Построить max-кучу = пирамиду = бинарное сбалансированное дерево на массиве
- *
- * ВАЖНО! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ НИКАКИЕ КОЛЛЕКЦИИ, КРОМЕ ARRAYLIST (его можно, но только для массива)
- *
- * Проверка проводится по данным файла. Первая строка входа содержит число операций 1 ≤ n ≤ 100000. Каждая из
- * последующих nn строк задают операцию одного из следующих двух типов:
- *
- * Insert x, где 0 ≤ x ≤ 1000000000 — целое число. Добавляет число x в очередь с приоритетами
- * ExtractMax. Извлекает максимальное число и выводит его
- *
- * Sample Input:
- * 6
- * Insert 200
- * Insert 10
- * ExtractMax
- * Insert 5
- * Insert 500
- * ExtractMax
- * Sample Output:
- * 200
- * 500
- *
- * РЕМАРКА
- * Это задание исключительно учебное. Свои собственные кучи нужны довольно редко. "В реальном бою" все существенно
+/**
+ * <p>Построить max-кучу = пирамиду = бинарное сбалансированное дерево на массиве</p>
+ * <p>ВАЖНО! НЕЛЬЗЯ ИСПОЛЬЗОВАТЬ НИКАКИЕ КОЛЛЕКЦИИ, КРОМЕ ARRAYLIST (его можно, но только для массива)</p>
+ * <p>Проверка проводится по данным файла. Первая строка входа содержит число операций 1 ≤ n ≤ 100000. Каждая из
+ * последующих nn строк задают операцию одного из следующих двух типов:</p>
+ * <ul>
+ * <li>Insert x, где 0 ≤ x ≤ 1000000000 — целое число. Добавляет число x в очередь с приоритетами</li>
+ * <li>ExtractMax. Извлекает максимальное число и выводит его</li>
+ * </ul>
+ * <p>
+ * Sample Input:<br/>
+ * 6<br/>
+ * Insert 200<br/>
+ * Insert 10<br/>
+ * ExtractMax<br/>
+ * Insert 5<br/>
+ * Insert 500<br/>
+ * ExtractMax<br/>
+ * Sample Output:<br/>
+ * 200<br/>
+ * 500<br/>
+ * </p>
+ * <p>РЕМАРКА</p>
+ * <p>Это задание исключительно учебное. Свои собственные кучи нужны довольно редко. "В реальном бою" все существенно
  * иначе. Изучите и используйте коллекции TreeSet, TreeMap, PriorityQueue и т.д. с нужным CompareTo() для объекта
- * внутри.
+ * внутри.</p>
  */
 
 public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
-        var root = STR."\{System.getProperty("user.dir")}/src/";
-        InputStream stream = new FileInputStream(STR."\{root}by/it/group310901/baradzin/lesson03/heapData.txt");
+        var root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group310901/baradzin/lesson03/heapData.txt");
         var instance = new C_HeapMax();
-        System.out.println(STR."MAX=\{instance.findMaxValue(stream)}");
+        System.out.println("MAX=" + instance.findMaxValue(stream));
     }
 
     /**
@@ -51,7 +50,6 @@ public class C_HeapMax {
     Long findMaxValue(InputStream stream) {
         var maxValue = 0L;
         var heap = new MaxHeap();
-        // прочитаем строку для кодирования из тестового файла
         var scanner = new Scanner(stream);
         var count = scanner.nextInt();
         for (var i = 0; i < count; ) {
@@ -64,8 +62,7 @@ public class C_HeapMax {
             }
             if (s.contains(" ")) {
                 var p = s.split(" ");
-                if (p[0].equalsIgnoreCase("insert"))
-                    heap.insert(Long.parseLong(p[1]));
+                if (p[0].equalsIgnoreCase("insert")) heap.insert(Long.parseLong(p[1]));
                 i++;
             }
         }
@@ -95,8 +92,11 @@ public class C_HeapMax {
         void siftDown(int parent) {
             var right = 2 * parent + 1;
             var left = 2 * parent + 2;
-            var child = (heap.size() > right && heap.get(right) > heap.get(parent)) ? right :
-                    (heap.size() > left && heap.get(left) > heap.get(parent)) ? left : parent;
+            var child = (heap.size() > right && heap.get(right) > heap.get(parent))
+                    ? right
+                    : (heap.size() > left && heap.get(left) > heap.get(parent))
+                    ? left
+                    : parent;
 
             if (parent != child) {
                 swap(parent, child);

@@ -1,4 +1,4 @@
-package by.it.group310901.stashuk.lesson04;
+package lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -48,52 +48,6 @@ public class C_GetInversions {
         }
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-<<<<<<< HEAD
-        int[] tmp = new int[n];
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return mergeSort(a, tmp, 0, n - 1);
-    }
-
-    private static int merge(int[] arr, int[] tmp, int left, int mid, int right) {
-        int i = left, j = mid + 1, k = left;
-        int count = 0;
-
-        while (i <= mid && j <= right) {
-            if (arr[i] <= arr[j]) {
-                tmp[k++] = arr[i++];
-            } else {
-                tmp[k++] = arr[j++];
-                count += mid - i + 1; // добавляем количество инверсий
-            }
-        }
-
-        while (i <= mid) {
-            tmp[k++] = arr[i++];
-        }
-
-        while (j <= right) {
-            tmp[k++] = arr[j++];
-        }
-
-        for (i = left; i <= right; i++) {
-            arr[i] = tmp[i];
-        }
-
-        return count;
-    }
-
-    private static int mergeSort(int[] arr, int[] tmp, int left, int right) {
-        int count = 0;
-
-        if (left < right) {
-            int mid = (left + right) / 2;
-            count += mergeSort(arr, tmp, left, mid); // количество инверсий в левой половине
-            count += mergeSort(arr, tmp, mid + 1, right); // количество инверсий в правой половине
-            count += merge(arr, tmp, left, mid, right); // количество инверсий между двумя половинами
-        }
-
-        return count;
-=======
         int[] temp = new int[n];
         return mergeSort(a, temp, 0, n - 1);
 
@@ -115,7 +69,6 @@ public class C_GetInversions {
             inversions += merge(a, temp, left, mid, right);
         }
         return inversions;
->>>>>>> 6f7b5783 (Lesson 4, 5)
     }
 
     private int merge(int[] a, int[] temp, int left, int mid, int right) {

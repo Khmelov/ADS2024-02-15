@@ -71,9 +71,11 @@ public class A_QSort {
     public int Partition(Segment[] arr, int left,int right){
         Segment pivot = arr[(left + right) / 2];
         while (left <= right){
+            //пока старт меньше или же равен и конец меньше
             while (arr[left].compareTo(pivot) == -1){
                 left++;
             }
+            //пока старт больше или же равен и конец больше
             while (arr[right].compareTo(pivot) == 1){
                 right--;
             }

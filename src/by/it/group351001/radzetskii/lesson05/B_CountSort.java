@@ -24,16 +24,24 @@ public class B_CountSort {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива
         int n = scanner.nextInt();
-        int[] points=new int[n];
+        int[] points = new int[n];
 
         //читаем точки
         for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
+            points[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
+        int[] newArr = new int[10];
 
-
-
+        for (int i = 0; i < n; i++) {
+            newArr[points[i] - 1]++;
+        }
+        int b = 0;
+        for (int i = 0; i < 10; ++i){
+            for (int j = 0; j < newArr[i]; ++j) {
+                points[b++] = i+1;
+            }
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -45,9 +53,9 @@ public class B_CountSort {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
         B_CountSort instance = new B_CountSort();
-        int[] result=instance.countSort(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        int[] result = instance.countSort(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
 

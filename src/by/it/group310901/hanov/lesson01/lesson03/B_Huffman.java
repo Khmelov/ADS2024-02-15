@@ -1,9 +1,7 @@
-package by.it.group310902.belskiy.lesson03;
+package by.it.group310901.hanov.lesson01.lesson03;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -44,46 +42,41 @@ import java.util.Scanner;
 
 public class B_Huffman {
 
-    String decode(File file) throws FileNotFoundException {
+
+    String decode(InputStream inputStream) throws FileNotFoundException {
         StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(inputStream);
         int count = scanner.nextInt();
         int length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-        Map<String, Character> codes = new HashMap<>();
-
+        char[] chars = new char[count];
         for (int i = 0; i < count; i++) {
-            String letterCode = scanner.next();
-            char letter = letterCode.charAt(0);
-//            String code1 = scanner.next();
-            String code = scanner.next();
-            codes.put(code, letter);
+            String line = scanner.next() + scanner.next();
+            chars[i] = line.charAt(0);
         }
-
-        String codeString = scanner.next();
-        String tmp = "";
-        for(int i = 0; i < length; i++){
-            tmp = tmp + codeString.charAt(i);
-            if(codes.containsKey(tmp)){
-                result.append(codes.get(tmp));
-                tmp = "";
+        String encodedStr = scanner.next();
+        int indexOfChar = 0;
+        for (int i = 0; i < length; i++) {
+            if (encodedStr.charAt(i) == '0') {
+                result.append(chars[indexOfChar]);
+                indexOfChar = 0;
+            } else {
+                ++indexOfChar;
             }
         }
-
-
+        if (indexOfChar >= 0) {
+            result.append(chars[indexOfChar]);
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }
-
     public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
+        InputStream inputStream = B_Huffman.class.getResourceAsStream("dataB.txt");
         B_Huffman instance = new B_Huffman();
-        String result = instance.decode(f);
+        String result = instance.decode(inputStream);
         System.out.println(result);
     }
-
 
 }

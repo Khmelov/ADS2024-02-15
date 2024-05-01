@@ -14,12 +14,14 @@ package by.it.group351001.shevchenko.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import static java.lang.Integer.min;
 
 public class C_GreedyKnapsack {
-    private static class Item implements Comparable<Item> {
+    public static class Item implements Comparable<Item> {
         int cost;
         int weight;
 
@@ -38,9 +40,17 @@ public class C_GreedyKnapsack {
 
         @Override
         public int compareTo(Item o) {
-            return (o.cost/o.weight - this.cost/this.weight);
+            return ((this.cost * o.weight) - (o.cost * this.weight));
         }
     }
+
+    public static class ItemValueComparator implements Comparator<Item> {
+        @Override
+        public int compare(Item it1, Item it2) {
+            return Integer.compare((it2.cost * it1.weight), (it1.cost * it2.weight));
+        }
+    }
+
 
     void exchangeSort(Item[] items) {
         int index;
@@ -49,7 +59,7 @@ public class C_GreedyKnapsack {
             max = items[i];
             index = i;
             for (int j = i; j < items.length; j++) {
-                if (items[j].compareTo(max) < 0) {
+                if (items[j].compareTo(max) > 0) {
                     index = j;
                     max = items[j];
                 }
@@ -81,8 +91,10 @@ public class C_GreedyKnapsack {
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
-        exchangeSort(items);
-        //Arrays.sort(items);
+        ItemValueComparator comp = new ItemValueComparator();
+
+        //exchangeSort(items);
+        Arrays.sort(items, comp);
 
         for (Item item: items){
             if (W != 0) {
@@ -90,6 +102,19 @@ public class C_GreedyKnapsack {
                 W -= min(W, item.weight);
             }
         }
+
+//        for (Item item: items){
+//            if (W != 0) {
+//                if (W >= item.weight) {
+//                    result += item.cost;
+//                    W -= item.weight;
+//                }
+//                else {
+//                    result += W * (double) (item.cost / item. weight);
+//                    W = 0;
+//                }
+//            }
+//        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

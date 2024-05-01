@@ -1,7 +1,9 @@
-package by.it.group351002.stepanenko;
+package by.it.group351002.stepanenko.lesson01;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FiboC {
-
     private long startTime = System.currentTimeMillis();
 
     private long time() {
@@ -10,48 +12,32 @@ public class FiboC {
 
     public static void main(String[] args) {
         FiboC fibo = new FiboC();
-        long n = 10;
-        int m = 2;
-        System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
+        long n = 55555;
+        int m = 1000;
+        System.out.printf("fasterC(%d)=%d\n", n, fibo.fasterC(n, m));
     }
 
     long fasterC(long n, int m) {
-        long period = getPeriodLength(m);
-        long remainder = n % period;
-        long previous = 0;
-        long current = 1;
-
-        if (remainder == 0)
-            return 0;
-        else if (remainder == 1)
-            return 1;
-
-        for (int i = 2; i <= remainder; i++) {
-            long temp = (current + previous) % m;
-            previous = current;
-            current = temp;
-        }
-
-        return current;
+        List<Long> pisanoPeriod = getPisanoPeriod(m);
+        int periodLength = pisanoPeriod.size() - 2;
+        int remainderIndex = (int) (n % periodLength);
+        return pisanoPeriod.get(remainderIndex);
     }
 
-    private long getPeriodLength(int m) {
-        long previous = 0;
-        long current = 1;
-        long period = 0;
+    private List<Long> getPisanoPeriod(int m) {
+        List<Long> pisanoPeriod = new ArrayList<>();
+        pisanoPeriod.add(0L);
+        pisanoPeriod.add(1L);
 
-        for (int i = 0; i < m * m; i++) {
-            long temp = (current + previous) % m;
-            previous = current;
-            current = temp;
+        for (int i = 2; i <= m * 6; i++) {
+            long fibModM = (pisanoPeriod.get(i - 1) + pisanoPeriod.get(i - 2)) % m;
+            pisanoPeriod.add(fibModM);
 
-            if (previous == 0 && current == 1) {
-                period = i + 1;
+            if (fibModM == 1 && pisanoPeriod.get(i - 1) == 0) {
                 break;
             }
         }
 
-        return period;
+        return pisanoPeriod;
     }
 }
-

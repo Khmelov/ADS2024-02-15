@@ -1,4 +1,4 @@
-package by.it.group310902.Morov.lesson01;
+package by.it.group310902.morov.lesson01;
 
 import java.math.BigInteger;
 

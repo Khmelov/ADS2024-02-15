@@ -48,17 +48,50 @@ public class C_GetInversions {
         }
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
-
-
-
-
-
-
+        int[] tmp = new int[n];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return mergeSort(a, tmp, 0, n - 1);
+    }
+
+    private static int merge(int[] arr, int[] tmp, int left, int mid, int right) {
+        int i = left, j = mid + 1, k = left;
+        int count = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                tmp[k++] = arr[i++];
+            } else {
+                tmp[k++] = arr[j++];
+                count += mid - i + 1; // добавляем количество инверсий
+            }
+        }
+
+        while (i <= mid) {
+            tmp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            tmp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = tmp[i];
+        }
+
+        return count;
+    }
+
+    private static int mergeSort(int[] arr, int[] tmp, int left, int right) {
+        int count = 0;
+
+        if (left < right) {
+            int mid = (left + right) / 2;
+            count += mergeSort(arr, tmp, left, mid); // количество инверсий в левой половине
+            count += mergeSort(arr, tmp, mid + 1, right); // количество инверсий в правой половине
+            count += merge(arr, tmp, left, mid, right); // количество инверсий между двумя половинами
+        }
+
+        return count;
     }
 
 

@@ -24,31 +24,27 @@ public class B_CountSort {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива
         int n = scanner.nextInt();
-        int[] points = new int[n];
+        int[] points=new int[n];
 
         //читаем точки
         for (int i = 0; i < n; i++) {
-            points[i] = scanner.nextInt();
+            points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-
-        // Создаем массив для подсчета количества вхождений каждого числа
-        int[] count = new int[11]; // В задаче указано, что числа не превышают 10, поэтому размер массива 11 (0-10)
-
-        // Подсчитываем количество вхождений каждого числа
+        final int SIZE = 11;
+        int[] countArray = new int[SIZE];
         for (int i = 0; i < n; i++) {
-            count[points[i]]++;
+            countArray[points[i]]++;
         }
-
-        // Восстанавливаем упорядоченную последовательность чисел
-        int index = 0;
-        for (int i = 0; i < count.length; i++) {
-            for (int j = 0; j < count[i]; j++) {
-                points[index] = i;
-                index++;
+        // перезапись массива
+        int j = 0;
+        int i = 0;
+        while (i < n) {
+            for (int k = 0; k < countArray[j]; k++) {
+                points[i++] = j;
             }
+            j++;
         }
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }
@@ -58,9 +54,9 @@ public class B_CountSort {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
         B_CountSort instance = new B_CountSort();
-        int[] result = instance.countSort(stream);
-        for (int index : result) {
-            System.out.print(index + " ");
+        int[] result=instance.countSort(stream);
+        for (int index:result){
+            System.out.print(index+" ");
         }
     }
 

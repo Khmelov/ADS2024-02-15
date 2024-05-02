@@ -1,4 +1,4 @@
-package by.it.group351002.yarakhovich.lesson02;
+package by.it.group310902.nazarov.lesson01.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -65,7 +65,33 @@ public class C_GreedyKnapsack {
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
-        //ваше решение.
+        int i;
+        int ind;
+        Item tempItem;
+        for (i = 1; i < items.length; i++) {
+            ind = i;
+            while (ind > 0) {
+                if ((items[ind - 1].cost / items[ind - 1].weight) < (items[ind].cost / items[ind].weight)) {
+                    tempItem = items[ind - 1];
+                    items[ind - 1] = items[ind];
+                    items[ind] = tempItem;
+                }
+                ind--;
+            }
+        }
+        int leftSpace = W;
+        i = 0;
+        while ((i < items.length) && (leftSpace > 0)) {
+            if (items[i].weight < leftSpace) {
+                result += items[i].cost;
+                leftSpace -= items[i].weight;
+            }
+            else {
+                result += ((double) items[i].cost / items[i].weight) * leftSpace;
+                leftSpace = 0;
+            }
+            i++;
+        }
 
 
 

@@ -1,7 +1,7 @@
-package by.it.group351002.yarakhovich.lesson02;
+package by.it.group310902.nazarov.lesson01.lesson02;
 
 import org.junit.Test;
-import java.util.Arrays;
+
 import java.io.File;
 import java.util.List;
 

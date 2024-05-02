@@ -1,6 +1,5 @@
 package by.it.a_khmelev.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -31,6 +30,13 @@ import java.util.Scanner;
 public class B_LongDivComSubSeq {
 
 
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
+        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
+        int result = instance.getDivSeqSize(stream);
+        System.out.print(result);
+    }
+
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -48,15 +54,6 @@ public class B_LongDivComSubSeq {
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataB.txt");
-        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
-        int result = instance.getDivSeqSize(stream);
-        System.out.print(result);
     }
 
 }

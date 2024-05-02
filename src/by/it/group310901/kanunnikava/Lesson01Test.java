@@ -1,4 +1,4 @@
-package by.it.group310901.kanunnikava.lesson01;
+package by.it.group310901.kanunnikava;
 
 import org.junit.Test;
 

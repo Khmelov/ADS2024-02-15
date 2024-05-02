@@ -52,6 +52,29 @@ public class C_LongNotUpSubSeq {
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
 
+        int[] d = new int[n];
+        int[] prev = new int[n];
+        for (int i = 0; i < n; i++) {
+            d[i] = 1;
+            prev[i] = -1;
+            for (int j = 0; j < i; j++)
+                if ((m[i] <= m[j]) && (d[j] + 1 > d[i])) {
+                    d[i] = d[j] + 1;
+                    prev[i] = j;
+                }
+        }
+        int j = 0;
+        for (int i = 0; i < n; i++)
+            if (d[i] > result) {
+                result = d[i];
+                j = i;
+            }
+        int[] resultArr = new int[result];
+        resultArr[result - 1] = j + 1;
+        for (int i = result - 2; i >= 0; i--) {
+            resultArr[i] = prev[j] + 1;
+            j = prev[j];
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

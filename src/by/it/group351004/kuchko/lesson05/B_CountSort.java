@@ -43,7 +43,7 @@ public class B_CountSort {
         for (int val: points)
             tempArr[val]++;
         int b = 0;
-        for (int i = 0; i < 10; ++i){
+        for (int i = 0; i < 10; ++i) {
             for (int j = 0; j < tempArr[i]; ++j) {
                 points[b++] = i;
             }

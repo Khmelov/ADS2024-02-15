@@ -32,7 +32,7 @@ import java.util.Scanner;
 
 public class C_QSortOptimized {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main (String[] args) throws FileNotFoundException {
         InputStream stream = C_QSortOptimized.class.getResourceAsStream("dataC.txt");
         C_QSortOptimized instance = new C_QSortOptimized();
         int[] result = instance.getAccessory2(stream);

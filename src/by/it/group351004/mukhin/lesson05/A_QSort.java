@@ -1,6 +1,5 @@
 package by.it.group351004.mukhin.lesson05;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -37,26 +36,38 @@ import java.util.Scanner;
 
 public class A_QSort {
 
-    //отрезок
-    private class Segment  implements Comparable<Segment>{
-        int start;
-        int stop;
-
-        Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
-            //тут вообще-то лучше доделать конструктор на случай если
-            //концы отрезков придут в обратном порядке
-        }
-
-        @Override
-        public int compareTo(Segment o) {
-            //подумайте, что должен возвращать компаратор отрезков
-
-            return 0;
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = A_QSort.class.getResourceAsStream("dataA.txt");
+        A_QSort instance = new A_QSort();
+        int[] result = instance.getAccessory(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
         }
     }
 
+    int Partition(Segment[] arr, int l, int r) {
+        Segment x = arr[l];
+        int j = l;
+        for (int i = l + 1; i <= r; i++)
+            if (arr[i].compareTo(x) <= 0) {
+                j++;
+                Swap(arr, i, j);
+            }
+        Swap(arr, l, j);
+        return j;
+    }
+    void Swap(Segment[] arr, int i, int j) {
+        Segment temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    void QSort(Segment[] arr, int l, int r) {
+        if (l >= r) return;
+        int m = Partition(arr, l, r);
+        QSort(arr, l, m - 1);
+        QSort(arr, m + 1, r);
+    }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -81,22 +92,31 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
-
-
-
+        QSort(segments, 0, segments.length - 1);
+        for (Segment segment : segments)
+            for (int j = 0; j < points.length; j++)
+                result[j] += (segment.start <= points[j] && segment.stop >= points[j]) ? 1 : 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    //отрезок
+    private class Segment implements Comparable<Segment> {
+        int start;
+        int stop;
 
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataA.txt");
-        A_QSort instance = new A_QSort();
-        int[] result=instance.getAccessory(stream);
-        for (int index:result){
-            System.out.print(index+" ");
+        Segment(int start, int stop) {
+            this.start = start;
+            this.stop = stop;
+            //тут вообще-то лучше доделать конструктор на случай если
+            //концы отрезков придут в обратном порядке
+        }
+
+        @Override
+        public int compareTo(Segment o) {
+            //подумайте, что должен возвращать компаратор отрезков
+
+            return 0;
         }
     }
 

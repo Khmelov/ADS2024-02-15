@@ -1,7 +1,5 @@
 package by.it.group310902.verenich.lesson08;
 
-import by.it.a_khmelev.lesson07.A_EditDist;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;

@@ -3,6 +3,7 @@ package by.it.group351003.mashevskiy.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -44,19 +45,45 @@ public class A_LIS {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        int result = 0;
-        int[] seq = new int[n];
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        for (int i = 0; i < n; i++) {
-            seq[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (m[j] < m[i] && seq[j] + 1 > seq[i]) {
-                    seq[i] = seq[j] + 1;
+        int[] fArr = new int[n + 1];
+        fArr[0] = 0;
+        for(int i = 1;i < n + 1;i++){
+            fArr[i] = m[i - 1];
+        }
+        int[] sArr = Arrays.copyOf(m,n);
+        int l;
+        l = 0;
+        int lI;
+        int hI;
+        int mid;
+        int newL;
+        for(int i = 0;i < n - 1; i++){
+            lI = 1;
+            hI = l + 1;
+            while(lI < hI) {
+                mid = lI + (hI - lI) / 2;
+                if (m[fArr[mid]] < m[i]) {
+                    lI = mid + 1;
+                } else {
+                    hI = mid - 1;
                 }
             }
-            result = Math.max(result, seq[i]);
+            newL = lI;
+            sArr[i] = fArr[newL - 1];
+            fArr[newL] = i;
+            if(newL > l){
+                l = newL;
+            }
+        }
+        int[] s = new int[l];
+        int k = fArr[l];
+        for(int i = l - 1;i > 0;i--){
+            s[i] = m[k];
+            k = sArr[k];
         }
 
+        int result = s[s.length - 1];
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 

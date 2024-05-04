@@ -49,23 +49,19 @@ public class C_LongNotUpSubSeq {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
+        int[] sArr = new int[n];
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int[] seq = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            seq[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (m[i] <= m[j] && seq[j] + 1 > seq[i]) {
-                    seq[i] = seq[j] + 1;
+        for (int i = 0; i < m.length;i++){
+            sArr[i] = 1;
+            for(int j = 0;j < i;j++){
+                if(m[i] <= m[j] && sArr[j] + 1 > sArr[i]){
+                    sArr[i] = sArr[j] + 1;
                 }
             }
-            result = Math.max(result, seq[i]);
+            result = Math.max(result,sArr[i]);
         }
-
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 

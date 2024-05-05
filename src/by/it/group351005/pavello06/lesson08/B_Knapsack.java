@@ -1,6 +1,5 @@
 package by.it.group351005.pavello06.lesson08;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;

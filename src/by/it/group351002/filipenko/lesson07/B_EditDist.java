@@ -45,7 +45,8 @@ public class B_EditDist {
    private static int calcEditDist(String str1, String str2) {
         //int[][] matrix = new int[str1.length() + 1][str2.length() + 1];
         int[] currRow = new int[str2.length()+1];
-        int[] prevRow = new int[str2.length()+1];
+        int[] prevRow;
+
 
         for (int i = 0; i <= str1.length(); i++)
         {
@@ -64,18 +65,17 @@ public class B_EditDist {
                 }
 
                 else {
-                    //matrix[i][j] = minEdits(matrix[i - 1][j - 1]
-                    //                 + replacementNum(str1.charAt(i - 1),str2.charAt(j - 1)),
-                    //         matrix[i - 1][j] + 1,
-                    //        matrix[i][j - 1] + 1);
+                    /*   matrix[i][j] = minEdits(matrix[i - 1][j - 1]
+                                     + replacementNum(str1.charAt(i - 1),str2.charAt(j - 1)),
+                            matrix[i - 1][j] + 1,
+                            matrix[i][j - 1] + 1); */
                     currRow[j] = minEdits(prevRow[j-1]
-                                    + replacementNum(str1.charAt(i - 1),str2.charAt(j - 1)),
-                            prevRow[j] + 1,
-                            currRow[j-1] + 1);
+                                 + replacementNum(str1.charAt(i - 1),str2.charAt(j - 1)),
+                                 prevRow[j] + 1,
+                                 currRow[j-1] + 1);
                 }
             }
         }
-
         //return matrix[str1.length()][str2.length()];
         return currRow[str2.length()];
    }

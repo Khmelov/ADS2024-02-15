@@ -54,9 +54,9 @@ public class A_EditDist {
             substitutionCost = 1;
         }
 
-        var deletion = LevenshteinDistance(str1, length1 - 1, str2, length2) + 1;
-        var insertion = LevenshteinDistance(str1, length1, str2, length2 - 1) + 1;
-        var substitution = LevenshteinDistance(str1, length1 - 1, str2, length2 - 1) + substitutionCost;
+        int deletion = LevenshteinDistance(str1, length1 - 1, str2, length2) + 1;
+        int insertion = LevenshteinDistance(str1, length1, str2, length2 - 1) + 1;
+        int substitution = LevenshteinDistance(str1, length1 - 1, str2, length2 - 1) + substitutionCost;
 
         return Minimum(deletion, insertion, substitution);
 

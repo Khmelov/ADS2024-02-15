@@ -21,75 +21,50 @@ Sample Output:
 */
 public class B_MergeSort {
 
+    private int[] merge(int[] a, int[] b) {
+        int[] result = new int[a.length + b.length];
+        int i = 0, j = 0, r = 0;
+        while (i < a.length && j < b.length) {
+            if (a[i] <= b[j]) {
+                result[r++] = a[i++];
+            } else {
+                result[r++] = b[j++];
+            }
+        }
+        while (i < a.length) {
+            result[r++] = a[i++];
+        }
+        while (j < b.length) {
+            result[r++] = b[j++];
+        }
+        return result;
+    }
+
+    private int[] mergeSort(int[] a) {
+        if (a.length <= 1) {
+            return a;
+        }
+        int mid = a.length / 2;
+        int[] left = new int[mid];
+        int[] right = new int[a.length - mid];
+        System.arraycopy(a, 0, left, 0, mid);
+        System.arraycopy(a, mid, right, 0, a.length - mid);
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        //размер массива
         int n = scanner.nextInt();
-        //сам массив
-        int[] a=new int[n];
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
-            System.out.println(a[i]);
         }
 
-        // тут ваше решение (реализуйте сортировку слиянием)
-        // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-
-        a = sort(a);
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return a;
+        return mergeSort(a);
     }
 
-    public int[] sort(int[] arr) {
-        if (arr == null)
-            return null;
-        if (arr.length < 2)
-            return arr;
-
-        int[] arrA = new int[arr.length / 2];
-        System.arraycopy(arr, 0, arrA, 0, arrA.length);
-
-        int[] arrB = new int[arr.length - arrA.length];
-        System.arraycopy(arr, arrA.length, arrB, 0, arr.length - arrA.length);
-
-        arrA = sort(arrA);
-        arrB = sort(arrB);
-
-        return merge(arrA, arrB);
-    }
-
-    public int[] merge(int[] arrA, int[] arrB) {
-
-        int positionA = 0, positionB = 0;
-
-        int[] arr = new int[arrA.length + arrB.length];
-
-        for (int i = 0; i < arr.length; i++) {
-            if (positionA == arrA.length) {
-                arr[i] = arrB[positionB];
-                positionB++;
-
-            } else if (positionB == arrB.length) {
-                arr[i] = arrA[positionA];
-                positionA++;
-
-            } else if (arrA[positionA] < arrB[positionB]) {
-                arr[i] = arrA[positionA];
-                positionA++;
-
-            } else {
-                arr[i] = arrB[positionB];
-                positionB++;
-            }
-        }
-
-
-        return arr;
-    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

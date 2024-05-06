@@ -46,35 +46,22 @@ public class A_BinaryFind {
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
             //тут реализуйте бинарный поиск индекса
-
-            result[i] = -1;
-
-            int lowIndex = 0;
-            int highIndex = a.length - 1;
-            boolean found = false;
-            int middleIndex = 0;
-            while (lowIndex <= highIndex && !found) {
-                middleIndex = lowIndex + (highIndex - lowIndex) / 2;
-
-                if (value < a[middleIndex]) {
-
-                    highIndex = middleIndex - 1;
-
-                } else if (value > a[middleIndex]) {
-
-                    lowIndex = middleIndex + 1;
-
+            int left = 0, right = n - 1;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (a[mid] == value) {
+                    result[i] = mid + 1;
+                    break;
+                } else if (a[mid] < value) {
+                    left = mid + 1;
                 } else {
-                    result[i] = middleIndex;
-                    found = true;
+                    right = mid - 1;
                 }
             }
 
-            if (found)
-                result[i] = middleIndex + 1;
-            else
+            if (left > right) {
                 result[i] = -1;
-
+            }
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

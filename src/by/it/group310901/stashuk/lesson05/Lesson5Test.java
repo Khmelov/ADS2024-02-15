@@ -1,5 +1,4 @@
-package by.it.group310901.stashuk.lesson05;
-
+package lesson05;
 
 import org.junit.Test;
 

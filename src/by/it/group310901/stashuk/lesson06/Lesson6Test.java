@@ -1,7 +1,7 @@
-package by.it.group310901.stashuk.lesson06;
-
+package lesson06;
 
 import org.junit.Test;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 

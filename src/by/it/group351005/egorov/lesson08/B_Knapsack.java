@@ -2,6 +2,7 @@ package by.it.group351005.egorov.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -36,11 +37,21 @@ public class B_Knapsack {
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
-
-
-        int result = 0;
+        int[][] temp = new int[n+1][w];
+        for (int i = 0; i < n + 1; i++) {
+            for (int j = 0; j < w; j++) {
+                if (i==0) {
+                    temp[i][j] = 0;
+                }
+                else if (gold[i-1] <= j){
+                    temp[i][j] = Math.max(temp[i-1][j], temp[i-1][j-gold[i-1]]+gold[i-1]);
+                }
+                else
+                    temp[i][j] = temp[i-1][j];
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return temp[n][w-1];
     }
 
 

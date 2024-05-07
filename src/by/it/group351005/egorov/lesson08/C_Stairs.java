@@ -42,12 +42,17 @@ public class C_Stairs {
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         int result = 0;
-
-
-
-
+        int[] temp = new int[n+1];
+        temp[0] = 0;
+        for (int i = 1; i < n+1; i++) {
+            int temp1 = temp[i-1] + stairs[i-1];
+            if (temp1 > temp[i-1])
+                temp[i] = temp1;
+            else
+                temp[i] = temp[i-1];
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return temp[n];
     }
 
 

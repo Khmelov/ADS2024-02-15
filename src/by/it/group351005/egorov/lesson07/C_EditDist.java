@@ -50,11 +50,57 @@ public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-        String result = "";
+        int oneNewSize = one.length() + 1;
+        int twoNewSize = two.length() + 1;
+        int[][] temp = new int[oneNewSize][twoNewSize];
+        for (int i = 0; i < oneNewSize; i++) {
+            temp[i][0] = i;
+        }
+        for (int i = 1; i < twoNewSize; i++) {
+            temp[0][i] = i;
+        }
+        for (int i = 1; i < oneNewSize; i++) {
+            for (int j = 1; j < twoNewSize; j++) {
+                temp[i][j] = Math.min(Math.min(temp[i-1][j] + 1,temp[i][j-1] + 1),
+                        (temp[i-1][j-1] + ((one.charAt(i-1) != two.charAt(j-1)) ? 1 : 0)));
+            }
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = oneNewSize - 1;
+        int j = twoNewSize - 1;
+        while (i > 0 && j > 0)
+        {
+            int change = temp[i-1][j-1];
+            int delete = temp[i-1][j];
+            int insert = temp[i][j-1];
+            int min = Math.min(Math.min(change,delete),insert);
+            if (min == change){
+                if (two.charAt(j-1) == one.charAt(i-1)) {
+                    stringBuilder.append(",#");
+                }
+                else {
+                    stringBuilder.append(",").append(two.charAt(j - 1)).append("~");
+                }
+                i--;
+                j--;
+            }
+            else if (delete == min){
+                stringBuilder.append(",").append(one.charAt(i - 1)).append("-");
+                i--;
+            }
+            else{
+                stringBuilder.append(",").append(two.charAt(j - 1)).append("+");
+                j--;
+            }
+        }
+        if (i != 0){
+            stringBuilder.append(",").append(one.charAt(i - 1)).append("-");
+        }
+        else if (j != 0) {
+            stringBuilder.append(",").append(two.charAt(j - 1)).append("+");
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return stringBuilder.reverse().toString();
     }
 
 

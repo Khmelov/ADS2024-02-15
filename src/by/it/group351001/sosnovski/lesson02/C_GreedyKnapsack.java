@@ -14,7 +14,9 @@ package by.it.group351001.sosnovski.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Comparator;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -61,13 +63,22 @@ public class C_GreedyKnapsack {
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
+        int i = 0;
+        double min;
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
 
-
+        Arrays.sort(items, Comparator.comparingDouble(item -> (double) item.weight / item.cost));
+        while (i <= items.length && W > 0){
+            if (W > items[i].weight) min = items[i].weight;
+            else min = W;
+            result += min * items[i].cost / items[i].weight;
+            W -= min;
+            i++;
+        }
 
 
 

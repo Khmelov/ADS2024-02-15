@@ -1,4 +1,4 @@
-package by.it.group351005.kostyabet.lesson08;
+package by.it.group351005.zhuravski.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

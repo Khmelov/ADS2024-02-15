@@ -89,13 +89,13 @@ public class A_QSort {
         return i+1;
     }
 
-    public void qsorte(Segment[] arr, int low, int high, boolean mode)
+    public void qsort(Segment[] arr, int low, int high, boolean mode)
     {
         if (low < high)
         {
             int pi = partition(arr, low, high,mode);
-            qsorte(arr, low, pi-1,mode);
-            qsorte(arr, pi+1, high,mode);
+            qsort(arr, low, pi-1,mode);
+            qsort(arr, pi+1, high,mode);
         }
     }
 
@@ -156,8 +156,8 @@ public class A_QSort {
             points[i]=scanner.nextInt();
         }
 
-        qsorte(segments,0,n-1,true);
-        qsorte(seg2,0,n-1,false);
+        qsort(segments,0,n-1,true);
+        qsort(seg2,0,n-1,false);
         for(int i=0;i<m;i++) {
             res1 = upperbond(segments,points[i]);
             res2 = upper2(seg2,points[i]);

@@ -58,11 +58,16 @@ public class C_HeapMax {
             while (2*i + 1 < heap.size()) {
                 int left = 2 * i + 1;
                 int right = 2 * i + 2;
-                int max = left;
-                if((right < heap.size()) && (heap.get(right) > heap.get(left)))
+                int max = i;
+                if ((left < heap.size()) && (heap.get(left) > heap.get(max)))
+                    max = left;
+                if((right < heap.size()) && (heap.get(right) > heap.get(max)))
                     max = right;
                 if(i == max)
                     break;
+                Long temp = heap.get(i);
+                heap.set(i, heap.get(max));
+                heap.set(max, temp);
                 i = max;
             }
             return i;
@@ -107,9 +112,10 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-            System.out.println(heap); //debug
+            // System.out.println(heap); //debug
             }
         }
+        scanner.close();
         return maxValue;
     }
 

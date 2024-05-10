@@ -1,4 +1,4 @@
-package by.it.group351005.kostyabet.lesson07;
+package by.it.group351005.zhuravski.lesson07;
 
 import org.junit.Test;
 

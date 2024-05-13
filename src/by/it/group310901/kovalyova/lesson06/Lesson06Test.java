@@ -16,7 +16,6 @@ public class Lesson06Test {
         assertTrue("A failed", ok);
     }
 
-
     @Test
     public void checkB() throws Exception {
         InputStream inputStream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");

@@ -76,6 +76,7 @@ public class C_LongNotUpSubSeq {
                 curri = i;
             }
         }
+
         int[] a = new int[result];
         a[a.length-1] = curri+1;
         for (int i = a.length-2; i >= 0 ; i--){

@@ -50,6 +50,7 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
 
+
         int[] d = new int[n];
         for (int i = 0; i < n; i++){
             d[i] = 1;

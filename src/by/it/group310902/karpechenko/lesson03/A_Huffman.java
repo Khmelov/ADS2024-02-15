@@ -1,6 +1,7 @@
 package by.it.group310902.karpechenko.lesson03;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 //Lesson 3. A_Huffman.
@@ -110,7 +111,7 @@ public class A_Huffman {
 
 
     //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-    String encode(File file) throws FileNotFoundException {
+    String encode(InputStream file) throws FileNotFoundException {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
@@ -159,11 +160,10 @@ public class A_Huffman {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/dataHuffman.txt");
+        InputStream inputStream = A_Huffman.class.getResourceAsStream("dataA.txt");
         A_Huffman instance = new A_Huffman();
         long startTime = System.currentTimeMillis();
-        String result = instance.encode(f);
+        String result = instance.encode(inputStream);
         long finishTime = System.currentTimeMillis();
         System.out.printf("%d %d\n", codes.size(), result.length());
         for (Map.Entry<Character, String> entry : codes.entrySet()) {
@@ -171,5 +171,4 @@ public class A_Huffman {
         }
         System.out.println(result);
     }
-
 }

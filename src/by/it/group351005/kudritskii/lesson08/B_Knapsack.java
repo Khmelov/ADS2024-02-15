@@ -30,17 +30,27 @@ public class B_Knapsack {
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int W = scanner.nextInt(); // Вместимость рюкзака
+        int n = scanner.nextInt(); // Количество золотых слитков
+        int[] weights = new int[n]; // Веса золотых слитков
         for (int i = 0; i < n; i++) {
-            gold[i]=scanner.nextInt();
+            weights[i] = scanner.nextInt();
         }
 
+        // Создаем массив для хранения максимального веса золота для каждой вместимости рюкзака от 0 до W и первых j слитков
+        int[][] dp = new int[W + 1][n + 1];
 
-        int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        // Заполняем массив dp
+        for (int i = 1; i <= W; i++) {
+            for (int j = 1; j <= n; j++) {
+                dp[i][j] = dp[i][j - 1]; // Используем предыдущее значение для j-го слитка
+                if (weights[j - 1] <= i) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i - weights[j - 1]][j - 1] + weights[j - 1]); // Проверяем, можно ли добавить j-й слиток
+                }
+            }
+        }
+
+        return dp[W][n];
     }
 
 

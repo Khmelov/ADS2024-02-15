@@ -1,4 +1,4 @@
-package by.it.group351002.vorobei.lesson05;
+package by.it.group310901.dashkovskiy.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,6 +17,23 @@ import java.util.Scanner;
 
 public class B_CountSort {
 
+    public int[] csort(int[] arr, int min, int max) {
+        int[] count = new int[max - min + 1];
+
+        for (int i = 0; i < arr.length; i++) {
+            count[arr[i] - min]++;
+        }
+
+        int index = 0;
+
+        for (int i = 0; i < count.length; i++) {
+            for (int j = 0; j < count[i]; j++) {
+                arr[index++] = i + min;
+            }
+        }
+
+        return arr;
+    }
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -31,20 +48,17 @@ public class B_CountSort {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        final int SIZE = 11;
-        int[] countArray = new int[SIZE];
-        for (int i = 0; i < n; i++) {
-            countArray[points[i]]++;
+
+        int min = points[0];
+        int max = points[0];
+
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] < min) min = points[i];
+
+            if (points[i] > max) max = points[i];
         }
-        // перезапись массива
-        int j = 0;
-        int i = 0;
-        while (i < n) {
-            for (int k = 0; k < countArray[j]; k++) {
-                points[i++] = j;
-            }
-            j++;
-        }
+        csort(points, min, max);
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }

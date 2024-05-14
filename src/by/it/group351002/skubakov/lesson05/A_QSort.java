@@ -1,4 +1,4 @@
-package by.it.group351002.vorobei.lesson05;
+package by.it.group351002.skubakov.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,18 +11,14 @@ import java.util.Scanner;
 Известны данные о том, когда каждая из них включалась и выключалась (отрезки работы)
 Известен список событий на площади (время начала каждого события).
 Вам необходимо определить для каждого события сколько камер его записали.
-
 В первой строке задано два целых числа:
     число включений камер (отрезки) 1<=n<=50000
     число событий (точки) 1<=m<=50000.
-
 Следующие n строк содержат по два целых числа ai и bi (ai<=bi) -
 координаты концов отрезков (время работы одной какой-то камеры).
 Последняя строка содержит m целых чисел - координаты точек.
 Все координаты не превышают 10E8 по модулю (!).
-
 Точка считается принадлежащей отрезку, если она находится внутри него или на границе.
-
 Для каждой точки в порядке их появления во вводе выведите,
 скольким отрезкам она принадлежит.
     Sample Input:
@@ -32,7 +28,6 @@ import java.util.Scanner;
     1 6 11
     Sample Output:
     1 0 0
-
 */
 
 public class A_QSort {
@@ -52,52 +47,12 @@ public class A_QSort {
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            if (this.start > o.start) {
-                return 1;
+            if (this.start == o.start) {
+                return this.stop - o.stop;
             }
-            else if (this.start == o.start){
-                if (this.stop > o.stop) {
-                    return 1;
-                }
-                else if (this.stop == o.stop){
-                    return 0;
-                }
-                return -1;
-            }
-            return -1;
+            return this.start - o.start;
         }
     }
-
-    public int Partition(Segment[] arr, int left,int right){
-        Segment pivot = arr[(left + right) / 2];
-        while (left <= right){
-            //пока старт меньше или же равен и конец меньше
-            while (arr[left].compareTo(pivot) == -1){
-                left++;
-            }
-            //пока старт больше или же равен и конец больше
-            while (arr[right].compareTo(pivot) == 1){
-                right--;
-            }
-            if (left <= right){
-                Segment temp = arr[left];
-                arr[left] = arr[right];
-                arr[right] = temp;
-                left++;
-                right--;
-            }
-        }
-        return left;
-    }
-
-    public void QuickSort(Segment[] arr, int left, int right){
-        if (right <= left)
-            return;
-        int partition_index = Partition(arr, left, right);
-        QuickSort(arr,left,partition_index - 1);
-        QuickSort(arr,partition_index,right);
-    }
-
 
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
@@ -115,7 +70,7 @@ public class A_QSort {
         //читаем сами отрезки
         for (int i = 0; i < n; i++) {
             //читаем начало и конец каждого отрезка
-            segments[i] = new Segment(scanner.nextInt(),scanner.nextInt());
+            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
         for (int i = 0; i < m; i++) {
@@ -123,19 +78,20 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        QuickSort(segments,0, segments.length - 1);
-        int start = 0;
-        int end = 0;
-        for (Segment segment : segments){
-             start = segment.start;
-             end = segment.stop;
-             for (int i = 0; i < points.length; i++){
-                 if (end < points[i])
-                     break;
-                 if (start <= points[i])
-                     result[i]++;
-             }
+        java.util.Arrays.sort(segments);
+
+        for (int i = 0; i < m; i++) {
+            int count = 0;
+            for (Segment segment : segments) {
+                if (points[i] >= segment.start && points[i] <= segment.stop) {
+                    count++;
+                } else if (points[i] < segment.start) {
+                    break;
+                }
+            }
+            result[i] = count;
         }
+
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

@@ -3,6 +3,7 @@ package by.it.group310902.verenich.lesson06;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Stack;
 
 /*
 Задача на программирование: наибольшая невозростающая подпоследовательность
@@ -44,6 +45,21 @@ public class C_LongNotUpSubSeq {
         System.out.print(result);
     }
 
+    int max(int x, int y){
+        if(x>y) return x;
+        else return y;
+    }
+
+    int Binary(int[] d, int n, int val){
+        int l=0;
+        int r= n-1;
+        while(l<r){
+            int mid = (l+r)/2;
+            if(d[mid]>=val) l = mid+1;
+            if (d[mid]< val) r= mid;
+        }
+        return l;
+    }
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -56,9 +72,35 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+        int INF = (int) 1e9;
         int result = 0;
-
-
+        int[] d = new int[n];
+        int[] pos = new int[n];
+        int[] prev = new int[n];
+        d[0] = INF;
+        pos[0] = -1;
+        int length = 0;
+        for(int i = 1; i<n;++i)
+            d[i] = -INF;
+        for(int i= 0;i<n; ++i){
+            int j = Binary(d,n,m[i]);
+            if(d[j-1]>= m[i] && m[i]> d[j]){
+                d[j] = m[i];
+                pos[j]= i;
+                prev[i] = pos[j-1];
+                length = max(length, j);
+            }
+        }
+        for(int i = 0;i<n;++i){
+            System.out.print(d[i] + " ");
+        }
+        Stack<Integer> st = new Stack<>();
+        int p = pos[length];
+        while (!st.empty()){
+            System.out.print(st.pop() + " ");
+        }
+        result = length;
+        System.out.println();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

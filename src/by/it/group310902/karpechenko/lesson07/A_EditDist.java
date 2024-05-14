@@ -38,12 +38,21 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
+    public int dist(String s1, String s2, int i, int j){
+        if (i == -1 && j == -1)
+            return 0;
+        if (i > -1 && j == -1)
+            return i + 1;
+        if (j > -1 && i == -1)
+            return j + 1;
+        return Math.min(Math.min(dist(s1,s2, i,j-1) + 1, dist(s1,s2, i -1,j) + 1),dist(s1,s2,i-1,j-1)+ (s1.charAt(i) == s2.charAt(j)? 0:1));
 
+    }
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-        int result = 0;
+        int result = dist(one, two, one.length() - 1, two.length() - 1);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

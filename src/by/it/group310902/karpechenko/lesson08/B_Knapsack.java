@@ -36,9 +36,19 @@ public class B_Knapsack {
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
+        int[][] d = new int[n + 1][w + 1];
+        for (int i = 0; i <= w; i++)
+            d[0][i] = 0;
+        for (int i = 0; i <= n; i++)
+            d[i][0] = 0;                                               //Первые элементы приравниваем к 0
+        for (int k = 1; k <= n; k++)
+            for (int s = 1; s <= w; s++)                                            //Перебираем для каждого k все вместимости
+                if (s >= gold[k - 1])                                            //Если текущий предмет вмещается в рюкзак
+                    d[k][s] = Math.max(d[k - 1][s], d[k - 1][s - gold[k - 1]] + gold[k - 1]); //Выбираем класть его или нет
+                else
+                    d[k][s] = d[k - 1][s];
 
-
-        int result = 0;
+        int result = d[n][w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

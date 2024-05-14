@@ -50,9 +50,36 @@ public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-
         String result = "";
+        int[][] d = new int[one.length()+1][two.length()+1];
+        d[0][0] = 0;
+        for (int i = 1; i <= one.length(); i++)
+            d[i][0] = i;
+        for (int i = 1; i <= two.length(); i++)
+            d[0][i] = i;
+        for (int i = 1; i <= one.length(); i++)
+            for (int j = 1; j <= two.length(); j++) {
+                d[i][j] = Math.min(Math.min(d[i][j - 1] + 1, d[i - 1][j] + 1), d[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
+            }
+        int i = one.length();
+        int j = two.length();
+        while (i > 0 || j > 0){
+            if(i > 0 && j > 0 && one.charAt(i - 1) == two.charAt(j - 1)){
+                result = "#," + result;
+                i--;
+                j--;
+            } else if(i > 0 && d[i][j] == d[i - 1][j] + 1){
+                result = "-" + one.charAt(i - 1) + "," + result;
+                i--;
+            } else if (j > 0 && d[i][j] == d[i][j - 1] + 1){
+                result = "+" + two.charAt(j - 1) + "," + result;
+                j--;
+            } else if(i > 0 && j > 0 && d[i][j] == d[i - 1][j - 1] + 1){
+                result = "~" + two.charAt(j - 1) + "," + result;
+                i--;
+                j--;
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

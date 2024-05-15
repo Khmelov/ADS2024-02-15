@@ -2,9 +2,8 @@ package by.it.group351005.bychkowski.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
@@ -51,30 +50,24 @@ public class B_Huffman {
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        char letter;
-        String code;
+        //тут запишите ваше решение
         scanner.nextLine();
-        Map<String, Character> codes = new TreeMap<>();
+        Map<String, Character> codes = new HashMap<>();
         for (int i = 0; i < count; i++) {
-            String line = scanner.nextLine();
-            letter = line.charAt(0);
-            code = line.substring(3);
+            String[] codeParts = scanner.nextLine().split(": ");
+            char letter = codeParts[0].charAt(0);
+            String code = codeParts[1];
             codes.put(code, letter);
         }
-        String codedLine = scanner.nextLine();
-        int i = 0;
-        StringBuilder nextCode = new StringBuilder();
-        while (i < length) {
-            nextCode.append(codedLine.charAt(i));
-            if (codedLine.charAt(i) == '0') {
-                result.append(codes.get(nextCode.toString()));
-                nextCode = new StringBuilder();
+        String encodedString = scanner.nextLine();
+        StringBuilder currentCode = new StringBuilder();
+        for (char c : encodedString.toCharArray()) {
+            currentCode.append(c);
+            if (codes.containsKey(currentCode.toString())) {
+                result.append(codes.get(currentCode.toString()));
+                currentCode.setLength(0);
             }
-            i++;
         }
-        if (!nextCode.isEmpty())
-            result.append(codes.get(nextCode.toString()));
-
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -83,7 +76,7 @@ public class B_Huffman {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
+        File f = new File(root + "by/it/a_khmelev/lesson03/dataB.txt");
         B_Huffman instance = new B_Huffman();
         String result = instance.decode(f);
         System.out.println(result);
@@ -91,5 +84,3 @@ public class B_Huffman {
 
 
 }
-
-

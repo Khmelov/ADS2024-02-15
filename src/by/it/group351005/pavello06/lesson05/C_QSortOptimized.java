@@ -33,6 +33,7 @@ import java.util.Arrays;
 
 public class C_QSortOptimized {
 
+
     //отрезок
     private class Segment  implements Comparable{
         int start;
@@ -63,6 +64,39 @@ public class C_QSortOptimized {
         }
     }
 
+    static void swap(Segment segment1, Segment segment2) {
+        Segment temp = segment1;
+        segment1 = segment2;
+        segment2 = temp;
+    }
+
+    private static int partition(Segment[] segments, int low, int high) {
+        int middle = (low + high) / 2;
+        Segment pivot = segments[middle];
+        int leftIndex = low;
+        int rightIndex = high;
+        while (leftIndex <= rightIndex) {
+            while (segments[leftIndex].compareTo(pivot) == -1)
+                leftIndex++;
+            while (segments[rightIndex].compareTo(pivot) == 1)
+                rightIndex--;
+
+            if (leftIndex <= rightIndex) {
+                swap(segments[leftIndex], segments[rightIndex]);
+                leftIndex++;
+                rightIndex--;
+            }
+        }
+        return leftIndex;
+    }
+    static void quickSort(Segment[] segments, int low, int high) {
+        if (low < high) {
+            int pi = partition(segments, low, high);
+            quickSort(segments, low, pi - 1);
+            quickSort(segments, pi + 1, high);
+        }
+    }
+
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -88,7 +122,7 @@ public class C_QSortOptimized {
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
         // Сортируем отрезки по начальной точке
-        Arrays.sort(segments);
+        quickSort(segments, 0, n - 1);
 
         // Ищем подходящие отрезки для каждой точки
         for (int i = 0; i < m; i++) {
@@ -99,7 +133,7 @@ public class C_QSortOptimized {
             int left = 0;
             int right = n - 1;
             while (left <= right) {
-                int mid = left + (right - left) / 2;
+                int mid = (right + left) / 2;
                 if (segments[mid].start <= point && point <= segments[mid].stop) {
                     count++;
                     left++;

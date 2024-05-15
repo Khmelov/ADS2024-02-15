@@ -1,4 +1,4 @@
-package by.it.group310901.tit.lesson04;
+package by.it.group310901.usov.lesson04;
 
 import org.junit.Test;
 

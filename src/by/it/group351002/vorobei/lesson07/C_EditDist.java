@@ -70,9 +70,9 @@ public class C_EditDist {
         int j = twoNewSize - 1;
         while (i > 0 && j > 0)
         {
-            int change = temp[i-1][j-1];
-            int delete = temp[i-1][j];
-            int insert = temp[i][j-1];
+            int change = temp[i-1][j-1] + ((one.charAt(i-1) != two.charAt(j-1)) ? 1 : 0);
+            int delete = temp[i-1][j] + 1;
+            int insert = temp[i][j-1] + 1;
             int min = Math.min(Math.min(change,delete),insert);
             if (min == change){
                 if (two.charAt(j-1) == one.charAt(i-1)) {

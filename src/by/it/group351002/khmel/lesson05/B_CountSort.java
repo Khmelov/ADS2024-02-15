@@ -1,6 +1,5 @@
-package by.it.group351002.vorobei.lesson05;
+package by.it.group351002.khmel.lesson05;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -18,46 +17,38 @@ import java.util.Scanner;
 public class B_CountSort {
 
 
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_CountSort.class.getResourceAsStream("dataB.txt");
+        B_CountSort instance = new B_CountSort();
+        int[] result = instance.countSort(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
+        }
+    }
+
     int[] countSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива
         int n = scanner.nextInt();
-        int[] points=new int[n];
-
+        int[] points = new int[n];
+        int[] arr = new int [11];
         //читаем точки
         for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
+            points[i] = scanner.nextInt();
+            arr[points[i]]++;
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        final int SIZE = 11;
-        int[] countArray = new int[SIZE];
-        for (int i = 0; i < n; i++) {
-            countArray[points[i]]++;
-        }
-        // перезапись массива
-        int j = 0;
-        int i = 0;
-        while (i < n) {
-            for (int k = 0; k < countArray[j]; k++) {
-                points[i++] = j;
+        int num = 0;
+        for (int k = 0; k<10; k++) {
+            for (int i = 0; i<arr[k]; i++) {
+                points[num++] = k;
             }
-            j++;
         }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
-        B_CountSort instance = new B_CountSort();
-        int[] result=instance.countSort(stream);
-        for (int index:result){
-            System.out.print(index+" ");
-        }
     }
 
 }

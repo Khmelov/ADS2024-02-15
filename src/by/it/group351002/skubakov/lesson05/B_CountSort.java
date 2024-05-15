@@ -1,4 +1,5 @@
-package by.it.group351002.vorobei.lesson05;
+package by.it.group351002.skubakov.lesson05;
+
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,9 +9,7 @@ import java.util.Scanner;
 /*
 Первая строка содержит число 1<=n<=10000, вторая - n натуральных чисел, не превышающих 10.
 Выведите упорядоченную по неубыванию последовательность этих чисел.
-
 При сортировке реализуйте метод со сложностью O(n)
-
 Пример: https://karussell.wordpress.com/2010/03/01/fast-integer-sorting-algorithm-on/
 Вольный перевод: http://programador.ru/sorting-positive-int-linear-time/
 */
@@ -31,20 +30,32 @@ public class B_CountSort {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        final int SIZE = 11;
-        int[] countArray = new int[SIZE];
-        for (int i = 0; i < n; i++) {
-            countArray[points[i]]++;
-        }
-        // перезапись массива
-        int j = 0;
-        int i = 0;
-        while (i < n) {
-            for (int k = 0; k < countArray[j]; k++) {
-                points[i++] = j;
+        int min = points[0];
+        int max = points[0];
+        for (int i = 1; i < n; i++) {
+            if (points[i] < min) {
+                min = points[i];
             }
-            j++;
+            if (points[i] > max) {
+                max = points[i];
+            }
         }
+        int[] count = new int[max - min + 1];
+        for (int i = 0; i < n; i++) {
+            count[points[i] - min]++;
+        }
+        int index = 0;
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                points[index] = i + min;
+                index++;
+                count[i]--;
+            }
+        }
+
+
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }

@@ -40,25 +40,23 @@ public class A_Knapsack {
         Scanner scanner = new Scanner(stream);
         int w=scanner.nextInt();
         int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
-        int[][] temp = new int[n+1][w];
-        for (int i = 0; i < n + 1; i++) {
-            for (int j = 0; j < w; j++) {
-                if (i==0) {
-                    temp[i][j] = 0;
+        int[] temp = new int[w + 1];
+        for (int i = 0; i <= w; i++) {
+            temp[i] = 0;
+        }
+        for (int i = 1; i <= w; i++) {
+            for (int j = 0; j < n; j++) {
+                if (gold[j] <= i){
+                    temp[i] = Math.max(temp[i], temp[i-gold[j]] + gold[j]);
                 }
-                else if (gold[i-1] <= j){
-                    temp[i][j] = Math.max(temp[i-1][j], temp[i][j-gold[i-1]]+gold[i-1]);
-                }
-                else
-                    temp[i][j] = temp[i-1][j];
             }
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return temp[n][w-1];
+        return temp[w];
     }
 
 

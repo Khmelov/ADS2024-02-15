@@ -56,4 +56,4 @@ public class C_Stairs {
         System.out.println(res);
     }
 
-}//sdf
+}

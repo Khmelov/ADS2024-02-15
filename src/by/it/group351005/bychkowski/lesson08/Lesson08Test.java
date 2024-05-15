@@ -1,5 +1,6 @@
 package by.it.group351005.bychkowski.lesson08;
 
+
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -22,7 +23,6 @@ public class Lesson08Test {
         int res=instance.getMaxWeight(stream);
         assertEquals("B failed", res, 9);
     }
-    //sdfsdf
 
     @Test
     public void C() throws Exception {

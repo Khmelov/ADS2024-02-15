@@ -22,7 +22,7 @@ public class Lesson08Test {
         int res=instance.getMaxWeight(stream);
         assertEquals("B failed", res, 9);
     }
-
+    //
     @Test
     public void C() throws Exception {
         InputStream stream = C_Stairs.class.getResourceAsStream("dataC.txt");

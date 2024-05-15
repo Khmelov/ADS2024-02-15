@@ -35,8 +35,7 @@ public class FiboB {
 =======
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         return BigInteger.valueOf(-1L);
-      
+
     }
 
 }
-

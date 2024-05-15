@@ -30,7 +30,7 @@ Sample Input 2:
 2 8 16
 Sample Output 2:
 14
-//
+
 */
 
 public class A_Knapsack {

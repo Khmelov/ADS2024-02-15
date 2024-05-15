@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson05;
+package by.it.group310901.kapuza.lesson05;
 
 import org.junit.Test;
 

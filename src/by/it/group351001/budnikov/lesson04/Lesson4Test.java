@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson04;
+package by.it.group351001.budnikov.lesson04;
 
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class Lesson4Test {
     @Test
     public void A() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/group310901/usov/lesson04/dataA.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/budnikov/lesson04/dataA.txt");
         A_BinaryFind instance = new A_BinaryFind();
         //long startTime = System.currentTimeMillis();
         int[] result=instance.findIndex(stream);
@@ -29,7 +29,7 @@ public class Lesson4Test {
     @Test
     public void B() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/group310901/usov/lesson04/dataB.txt");
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");
         B_MergeSort instance = new B_MergeSort();
         //long startTime = System.currentTimeMillis();
         int[] result=instance.getMergeSort(stream);
@@ -48,7 +48,7 @@ public class Lesson4Test {
     @Test
     public void C() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/group310901/usov/lesson04/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/budnikov/lesson04/dataC.txt");
         C_GetInversions instance = new C_GetInversions();
         //long startTime = System.currentTimeMillis();
         int result = instance.calc(stream);

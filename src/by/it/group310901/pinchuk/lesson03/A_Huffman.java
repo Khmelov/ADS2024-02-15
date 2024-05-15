@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson03;
+package by.it.group310901.pinchuk.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -35,17 +35,22 @@ Sample Output 2:
 
 public class A_Knapsack {
 
-    int getMaxWeight(InputStream stream ) {  // Метод для нахождения максимального веса золота
+    int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        Scanner scanner = new Scanner(stream);  // Создание объекта Scanner для чтения входных данных
-        int w=scanner.nextInt();  // Считывание вместимости рюкзака
-        int n=scanner.nextInt();  // Считывание количества вариантов золотых слитков
-        int gold[]=new int[n];  // Создание массива для хранения весов слитков
-        for (int i = 0; i < n; i++) {  // Цикл для считывания весов слитков
-            gold[i]=scanner.nextInt();
+        // Создаем объект Scanner для считывания входных данных
+        Scanner scanner = new Scanner(stream);
+        // Считываем вместимость рюкзака
+        int w = scanner.nextInt();
+        // Считываем количество вариантов золотых слитков
+        int n = scanner.nextInt();
+        // Создаем массив для хранения весов слитков
+        int gold[] = new int[n];
+        // Заполняем массив весами слитков
+        for (int i = 0; i < n; i++) {
+            gold[i] = scanner.nextInt();
         }
 
-        // Сортировка весов слитков по убыванию
+        // Сортируем веса слитков по убыванию
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
                 if (gold[i] < gold[j]) {
@@ -55,19 +60,20 @@ public class A_Knapsack {
                 }
             }
         }
-        // Переменная для хранения результата
+
         int result = 0;
-        // Перебор слитков и добавление их в рюкзак, пока есть свободное место
-        for(int i = 0; i < n; i++) {
-            if(w >= gold[i]) {
+
+        // Перебираем слитки и добавляем их в рюкзак, пока есть свободное место
+        for (int i = 0; i < n; i++) {
+            if (w >= gold[i]) {
                 w -= gold[i];
                 result += gold[i];
                 i--;
             }
         }
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;// Возвращаем максимальный вес золота
+    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result;
     }
 
 

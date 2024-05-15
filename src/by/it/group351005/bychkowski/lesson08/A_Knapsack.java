@@ -28,7 +28,7 @@ Sample Output 2:
 */
 
 public class A_Knapsack {
-
+//sdfs
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);

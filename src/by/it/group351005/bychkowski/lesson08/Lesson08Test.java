@@ -22,6 +22,7 @@ public class Lesson08Test {
         int res=instance.getMaxWeight(stream);
         assertEquals("B failed", res, 9);
     }
+    //sdfsdf
 
     @Test
     public void C() throws Exception {

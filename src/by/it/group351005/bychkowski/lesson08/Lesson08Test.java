@@ -1,6 +1,5 @@
 package by.it.group351005.bychkowski.lesson08;
 
-
 import org.junit.Test;
 
 import java.io.InputStream;

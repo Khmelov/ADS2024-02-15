@@ -1,6 +1,5 @@
 package by.it.group351005.bychkowski.lesson08;
 
-
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;

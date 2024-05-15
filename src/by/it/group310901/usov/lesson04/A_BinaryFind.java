@@ -1,5 +1,6 @@
-package by.it.group351002.valinskiy.lesson04;
+package by.it.group310901.usov.lesson04;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -26,17 +27,6 @@ import java.util.Scanner;
 */
 
 public class A_BinaryFind {
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = A_BinaryFind.class.getResourceAsStream("dataA.txt");
-        A_BinaryFind instance = new A_BinaryFind();
-        //long startTime = System.currentTimeMillis();
-        int[] result = instance.findIndex(stream);
-        //long finishTime = System.currentTimeMillis();
-        for (int index : result) {
-            System.out.print(index + " ");
-        }
-    }
-
     int[] findIndex(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -45,33 +35,54 @@ public class A_BinaryFind {
         //размер отсортированного массива
         int n = scanner.nextInt();
         //сам отсортированный массива
-        int[] a = new int[n];
+        int[] a=new int[n];
         for (int i = 1; i <= n; i++) {
-            a[i - 1] = scanner.nextInt();
+            a[i-1] = scanner.nextInt();
         }
 
         //размер массива индексов
         int k = scanner.nextInt();
-        int[] result = new int[k];
+        int[] result=new int[k];
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
             //тут реализуйте бинарный поиск индекса
-
-            int cur=((n)/2)-1;
-            int pred=n-1;
-
-            while (Math.abs(pred-cur)>1){
-
-                int h=Math.abs(pred-cur)/2;
-                pred=cur;
-                if (value>a[cur]) cur=cur+h;
-                if (value<a[cur]) cur=cur-h;
+            int left = 0;
+            int right = n - 1;
+            while (left <= right) {
+                int middle = (left + right) / 2;
+                if (a[middle] == value) {
+                    result[i] = middle + 1;
+                    break;
+                } else if (a[middle] > value) {
+                    right = middle - 1;
+                    result[i] = -1;
+                } else {
+                    left = middle + 1;
+                    result[i] = -1;
+                }
             }
-            result[i] = cur+1;
-            if (a[cur]!=value) result[i]=-1;
+
+
+
+
+
+
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
+    }
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/group310901/usov/lesson04/dataA.txt");
+        A_BinaryFind instance = new A_BinaryFind();
+        //long startTime = System.currentTimeMillis();
+        int[] result=instance.findIndex(stream);
+        //long finishTime = System.currentTimeMillis();
+        for (int index:result){
+            System.out.print(index+" ");
+        }
     }
 
 }

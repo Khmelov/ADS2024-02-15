@@ -28,7 +28,7 @@ Sample Input 3:
 -1 2 1
 Sample Output 3:
 3
-//
+
 */
 
 public class C_Stairs {

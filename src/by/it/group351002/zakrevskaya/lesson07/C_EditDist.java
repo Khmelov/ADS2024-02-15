@@ -1,4 +1,4 @@
-package by.it.group351002.zakrevskaya.lesson07;//
+package by.it.group351002.zakrevskaya.lesson07;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

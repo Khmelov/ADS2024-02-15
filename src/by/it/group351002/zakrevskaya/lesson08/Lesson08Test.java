@@ -1,4 +1,4 @@
-package by.it.group351002.zakrevskaya.lesson08;
+package by.it.group351002.zakrevskaya.lesson08;//
 
 import org.junit.Test;
 

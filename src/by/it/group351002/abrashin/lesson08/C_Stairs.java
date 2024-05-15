@@ -41,7 +41,15 @@ public class C_Stairs {
             stairs[i]=scanner.nextInt();
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int result = 0;
+
+        int [] d = new int[n];
+        d[0] = stairs[0];
+        d[1] = Integer.max(d[0]+stairs[1], stairs[1]);
+        for (int i = 2; i < n; i++){
+            d[i] = Integer.max(d[i-2], d[i-1])+stairs[i];
+        }
+
+        int result = d[n-1];
 
 
 

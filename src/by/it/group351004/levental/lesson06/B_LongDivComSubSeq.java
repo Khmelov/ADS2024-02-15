@@ -1,6 +1,5 @@
 package by.it.group351004.levental.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -29,7 +28,29 @@ import java.util.Scanner;
 */
 
 public class B_LongDivComSubSeq {
+    public static  int findLengthLMS(int[] sequence) {
+        int[] lengthsMS = new int[sequence.length];
+        for (int i = 0; i < lengthsMS.length; i++) {
+            lengthsMS[i] = 1;
+            for (int j = 0; j < i; j++)
+                if (sequence[i] % sequence[j] == 0 && lengthsMS[j] + 1 > lengthsMS[i])
+                    lengthsMS[i] = lengthsMS[j] + 1;
+        }
 
+        int lengthLMS = 0;
+        for (int i = 0; i < lengthsMS.length; i++)
+            if (lengthsMS[i] > lengthLMS)
+                lengthLMS = lengthsMS[i];
+
+        return lengthLMS;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
+        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
+        int result = instance.getDivSeqSize(stream);
+        System.out.print(result);
+    }
 
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -43,20 +64,11 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int result = findLengthLMS(m);
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataB.txt");
-        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
-        int result = instance.getDivSeqSize(stream);
-        System.out.print(result);
     }
 
 }

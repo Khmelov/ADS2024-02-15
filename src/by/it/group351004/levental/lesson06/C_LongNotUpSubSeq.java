@@ -1,6 +1,5 @@
 package by.it.group351004.levental.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -37,6 +36,43 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
+    public static int[] findLDS(int[] sequence) {
+        int[] lengthsDS = new int[sequence.length];
+        int[] previousIndices = new int[sequence.length];
+        for (int i = 0; i < lengthsDS.length; i++) {
+            lengthsDS[i] = 1;
+            previousIndices[i] = -1;
+            for (int j = 0; j < i; j++)
+                if (sequence[j] >= sequence[i] && lengthsDS[j] + 1 > lengthsDS[i]) {
+                    lengthsDS[i] = lengthsDS[j] + 1;
+                    previousIndices[i] = j;
+                }
+        }
+
+        int lengthLDS = 0;
+        int endIndex = 0;
+        for (int i = 0; i < lengthsDS.length; i++)
+            if (lengthsDS[i] > lengthLDS) {
+                lengthLDS = lengthsDS[i];
+                endIndex = i;
+            }
+
+        int[] LDS = new int[lengthLDS];
+        int currentIndex = lengthLDS - 1;
+        while (endIndex >= 0) {
+            LDS[currentIndex] = sequence[endIndex];
+            currentIndex--;
+            endIndex = previousIndices[endIndex];
+        }
+
+        return LDS;
+    }
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");
+        C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
+        int result = instance.getNotUpSeqSize(stream);
+        System.out.print(result);
+    }
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -50,20 +86,11 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int result = findLDS(m).length;
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
-        C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
-        int result = instance.getNotUpSeqSize(stream);
-        System.out.print(result);
     }
 
 }

@@ -8,7 +8,7 @@ package by.it.group351004.sapeshko.lesson01;
 
 public class FiboC {
 
-    private final long startTime = System.currentTimeMillis();
+    private long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;

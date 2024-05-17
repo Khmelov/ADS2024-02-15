@@ -86,8 +86,18 @@ public class A_QSort {
 
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        for (int i = 0; i < m; i++) {
+            int point = points[i];
+            int count = 0;
 
-
+            for (int j = 0; j < n; j++) {
+                if (point >= segments[j].start && point <= segments[j].stop) {
+                    count++;
+                    break;
+                }
+            }
+            result[i] = count;
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -95,10 +105,10 @@ public class A_QSort {
     }
 
    private void QuickSort(Segment [] segments,int l,int r){
-        while (l<r){
+        if (l<r){
             int m=partitions(segments, l, r);
             QuickSort(segments, l, m-1);
-            l=m+1;
+            QuickSort(segments,m+1,r);
         }
    }
    private int partitions (Segment [] segments,int l,int r){

@@ -49,14 +49,15 @@ public class FiboC {
         }
     }
 
-    long fasterC(long n, int m) {
-        long[][] mtr = new long[2][2];
-        mtr[0][0] = 1;
-        mtr[0][1] = 1;
-        mtr[1][0] = 1;
-        mtr[1][1] = 0;
-        return binPowMatrix(mtr, n, m)[0][1];
-=======
+//    long fasterC(long n, int m) {
+//        long[][] mtr = new long[2][2];
+//        mtr[0][0] = 1;
+//        mtr[0][1] = 1;
+//        mtr[1][0] = 1;
+//        mtr[1][1] = 0;
+//        return binPowMatrix(mtr, n, m)[0][1];
+//    }
+
     private long time() {
         return System.currentTimeMillis() - startTime;
     }

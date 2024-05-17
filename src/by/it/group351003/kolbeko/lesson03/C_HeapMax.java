@@ -1,6 +1,5 @@
 package by.it.group351003.kolbeko.lesson03;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,6 +35,38 @@ import java.util.Scanner;
 
 
 public class C_HeapMax {
+
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = C_HeapMax.class.getResourceAsStream("dataC.txt");
+        C_HeapMax instance = new C_HeapMax();
+        System.out.println("MAX=" + instance.findMaxValue(stream));
+    }
+
+    //эта процедура читает данные из файла, ее можно не менять.
+    Long findMaxValue(InputStream stream) {
+        Long maxValue = 0L;
+        MaxHeap heap = new MaxHeap();
+        //прочитаем строку для кодирования из тестового файла
+        Scanner scanner = new Scanner(stream);
+        Integer count = scanner.nextInt();
+        for (int i = 0; i < count; ) {
+            String s = scanner.nextLine();
+            if (s.equalsIgnoreCase("extractMax")) {
+                Long res = heap.extractMax();
+                if (res != null && res > maxValue) maxValue = res;
+                System.out.println();
+                i++;
+            }
+            if (s.contains(" ")) {
+                String[] p = s.split(" ");
+                if (p[0].equalsIgnoreCase("insert"))
+                    heap.insert(Long.parseLong(p[1]));
+                i++;
+                //System.out.println(heap); //debug
+            }
+        }
+        return maxValue;
+    }
 
     private class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -103,41 +134,8 @@ public class C_HeapMax {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }
 
-    //эта процедура читает данные из файла, ее можно не менять.
-    Long findMaxValue(InputStream stream) {
-        Long maxValue=0L;
-        MaxHeap heap = new MaxHeap();
-        //прочитаем строку для кодирования из тестового файла
-        Scanner scanner = new Scanner(stream);
-        Integer count = scanner.nextInt();
-        for (int i = 0; i < count; ) {
-            String s = scanner.nextLine();
-            if (s.equalsIgnoreCase("extractMax")) {
-                Long res=heap.extractMax();
-                if (res!=null && res>maxValue) maxValue=res;
-                System.out.println();
-                i++;
-            }
-            if (s.contains(" ")) {
-                String[] p = s.split(" ");
-                if (p[0].equalsIgnoreCase("insert"))
-                    heap.insert(Long.parseLong(p[1]));
-                i++;
-            //System.out.println(heap); //debug
-            }
-        }
-        return maxValue;
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
-        C_HeapMax instance = new C_HeapMax();
-        System.out.println("MAX="+instance.findMaxValue(stream));
-    }
-
     // РЕМАРКА. Это задание исключительно учебное.
     // Свои собственные кучи нужны довольно редко.
-    // "В реальном бою" все существенно иначе. Изучите и используйте коллекции
+    // В реальном приложении все иначе. Изучите и используйте коллекции
     // TreeSet, TreeMap, PriorityQueue и т.д. с нужным CompareTo() для объекта внутри.
 }

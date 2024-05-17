@@ -39,8 +39,6 @@ public class C_HeapMax {
 
     private class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вниз
@@ -68,7 +66,7 @@ public class C_HeapMax {
             return i;
         }
 
-        int siftUp(int i) { //просеивание вверх
+        int siftUp(int i) { //просеивание вверх(при добавлении)
             int parent = (i - 1) / 2;
             while (i > 0 && heap.get(i) > heap.get(parent)){
                 // swapping

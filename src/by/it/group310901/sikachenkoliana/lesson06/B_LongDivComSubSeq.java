@@ -30,7 +30,7 @@ import java.util.Scanner;
 */
 
 public class B_LongDivComSubSeq {
-
+    // наибольшая невозрастающая последовательность
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
@@ -62,7 +62,6 @@ public class B_LongDivComSubSeq {
                 }
             }
         }
-
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

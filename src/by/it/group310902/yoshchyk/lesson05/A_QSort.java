@@ -35,7 +35,6 @@ import java.util.Scanner;
 */
 
 public class A_QSort {
-
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_QSort.class.getResourceAsStream("dataA.txt");
         A_QSort instance = new A_QSort();

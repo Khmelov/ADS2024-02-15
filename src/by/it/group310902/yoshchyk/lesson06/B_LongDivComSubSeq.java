@@ -29,7 +29,6 @@ import java.util.Scanner;
 
 public class B_LongDivComSubSeq {
 
-
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
         B_LongDivComSubSeq instance = new B_LongDivComSubSeq();

@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 public class B_CountSort {
 
-
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_CountSort.class.getResourceAsStream("dataB.txt");
         B_CountSort instance = new B_CountSort();

@@ -63,7 +63,6 @@ public class A_Knapsack {
         return result;
     }
 
-
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_Knapsack.class.getResourceAsStream("dataA.txt");
         A_Knapsack instance = new A_Knapsack();

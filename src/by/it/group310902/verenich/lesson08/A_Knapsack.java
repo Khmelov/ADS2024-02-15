@@ -45,9 +45,17 @@ public class A_Knapsack {
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
+        int[] dp = new int[w + 1];
 
+        dp[0] = 0;
+        for(int i=1;i<=w;i++)
+        {
+            dp[i] = dp[i-1];
+            for (int j=0;j<n && gold[j]<=i;j++)
+                dp[i] = Math.max(dp[i],gold[j]+dp[i-gold[j]]);
+        }
 
-        int result = 0;
+        int result = dp[w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

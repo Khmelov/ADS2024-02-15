@@ -2,6 +2,7 @@ package by.it.group351001.golovko_r.lesson07;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -39,13 +40,26 @@ import java.util.Scanner;
 public class A_EditDist {
 
 
+    int min(int... numbers) {
+        return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
+    }
+
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        if (one.isEmpty()) {
+            return two.length();
+        }
 
+        if (two.isEmpty()) {
+            return one.length();
+        }
 
-        int result = 0;
+        int substitution = getDistanceEdinting(one.substring(1), two.substring(1)) + (one.charAt(0) == two.charAt(0) ? 0 : 1);
+        int insertion = getDistanceEdinting(one, two.substring(1)) + 1;
+        int deletion = getDistanceEdinting(one.substring(1), two) + 1;
+
+        return min(substitution, insertion, deletion);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
     }
 
 

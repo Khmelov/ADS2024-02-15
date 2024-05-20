@@ -5,6 +5,7 @@ import by.it.group351001.golovko_r.lesson07.A_EditDist;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -37,21 +38,30 @@ Sample Output 2:
 */
 
 public class A_Knapsack {
+    int max(int... numbers) {
+        return Arrays.stream(numbers).max().orElse(0);
+    }
 
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int W = scanner.nextInt();
+        int n = scanner.nextInt();
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
+        int [] D = new int[W + 1];
+        for (int w = 1; w <= W; w++) {
+            for (int i = 0; i < n; i++) {
+                if (gold[i] <= w) {
+                    D[w] = max(D[w], D[w-gold[i]] + gold[i]);
+                }
+            }
+        }
 
-
-        int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return D[W];
     }
 
 

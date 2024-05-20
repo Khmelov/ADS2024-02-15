@@ -1,4 +1,4 @@
-package by.it.group310901.voskresenskiy.lesson03;
+package by.it.group310901.poznyak.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,8 +6,7 @@ import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
-//
-// Create by ALEX USOV
+
 // В первой строке входного файла заданы два целых числа
 // kk и ll через пробел — количество различных букв, встречающихся в строке,
 // и размер получившейся закодированной строки, соответственно.
@@ -44,7 +43,7 @@ import java.util.Scanner;
 public class B_Huffman {
 
     String decode(File file) throws FileNotFoundException {
-        StringBuilder result = new StringBuilder();
+        StringBuilder result=new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         Integer count = scanner.nextInt();
@@ -52,29 +51,77 @@ public class B_Huffman {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
 
-        // Create By ALEX USOV
-        String[] codes = new String[count];
+        Node huffmanTree = NewNode('$');
+
         for (int i = 0; i < count; i++) {
-            String s = scanner.next();
-            char ch = s.charAt(0);
+
+            String z = scanner.next();
             String code = scanner.next();
-            codes[ch - 'a'] = code;
-        }
-        String s = scanner.next();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            sb.append(s.charAt(i));
-            for (int j = 0; j < count; j++) {
-                if (codes[j].equals(sb.toString())) {
-                    result.append((char) (j + 'a'));
-                    sb = new StringBuilder();
-                    break;
+            Node temp = huffmanTree;
+
+            for (int j = 0; j < code.length() - 1; j++) {
+                if (code.charAt(j) == '0') {
+                    if (temp.left == null)
+                        temp.left = NewNode('$');
+                    temp = temp.left;
+
+                } else {
+                    if (temp.right == null)
+                        temp.right = NewNode('$');
+                    temp = temp.right;
                 }
+            }
+
+            if (code.charAt(code.length() - 1) == '0')
+                temp.left = NewNode(z.charAt(0));
+            else
+                temp.right = NewNode(z.charAt(0));
+        }
+        String z = scanner.next();
+        Node temp = huffmanTree;
+        result = new StringBuilder();
+
+        for (int i = 0; i < z.length(); i++) {
+            if (z.charAt(i) == '0')
+                temp = temp.left;
+            else
+                temp = temp.right;
+
+            if ((temp.left == null) && (temp.right == null)) {
+                result.append(temp.chr);
+                temp = huffmanTree;
+
             }
         }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
+    }
+
+    public class Node {
+        Node left;
+        Node right;
+        Character chr;
+    }
+
+    Node NewNode(Character chr) {
+        Node a = new Node();
+        a.chr = chr;
+        a.left = null;
+        a.right = null;
+        return a;
+    }
+
+    void writeTree(Node a) {
+        if (a.left != null) {
+            System.out.print('0');
+            writeTree(a.left);
+        }
+        System.out.print(a.chr);
+        if (a.right != null) {
+            System.out.print('1');
+            writeTree(a.right);
+        }
     }
 
     public static void main(String[] args) throws FileNotFoundException {

@@ -1,4 +1,4 @@
-package lesson08;
+package by.it.group310901.pinchuk.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -22,45 +22,41 @@ Sample Input:
 1 4 8
 Sample Output:
 9
-
 */
 
 public class B_Knapsack {
 
-    int getMaxWeight(InputStream stream ) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+    int getMaxWeight(InputStream stream) {
+        // Считывание входных данных
         Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int W = scanner.nextInt(); // вместимость рюкзака
+        int n = scanner.nextInt(); // количество золотых слитков
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
-            gold[i]=scanner.nextInt();
+            gold[i] = scanner.nextInt();
         }
-        boolean[] temp = new boolean[w+1];
-        for (int i = 0; i<n; i++){
-            int j = gold[i];
-            int tempj = 0;
-            while (tempj<=w){
-                temp[j] = true;
-                tempj = tempj + j;
+
+        // Массив динамического программирования для хранения максимального веса
+        int[][] dp = new int[n + 1][W + 1];
+
+        // Заполнение массива dp
+        for (int i = 1; i <= n; i++) {
+            for (int w = 0; w <= W; w++) {
+                dp[i][w] = dp[i - 1][w]; // не берем текущий слиток
+                if (gold[i - 1] <= w) {
+                    dp[i][w] = Math.max(dp[i][w], dp[i - 1][w - gold[i - 1]] + gold[i - 1]); // берем текущий слиток
+                }
             }
         }
-        int i = w;
-        while (!temp[i]){
-            i--;
-        }
 
-        int result = i+1;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        // Максимальный вес для полной вместимости W будет в dp[n][W]
+        return dp[n][W];
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_Knapsack.class.getResourceAsStream("dataB.txt");
         B_Knapsack instance = new B_Knapsack();
-        int res=instance.getMaxWeight(stream);
+        int res = instance.getMaxWeight(stream);
         System.out.println(res);
     }
-
 }

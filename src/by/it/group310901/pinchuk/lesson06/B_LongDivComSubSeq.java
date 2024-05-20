@@ -1,5 +1,6 @@
 package by.it.group310901.pinchuk.lesson06;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -30,13 +31,6 @@ import java.util.Scanner;
 public class B_LongDivComSubSeq {
 
 
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
-        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
-        int result = instance.getDivSeqSize(stream);
-        System.out.print(result);
-    }
-
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -46,89 +40,37 @@ public class B_LongDivComSubSeq {
         int[] m = new int[n];
         //читаем всю последовательность
         for (int i = 0; i < n; i++) {
-            m[i] = scanner.nextInt();package by.it.group310901.sorochuk.lesson06;
+            m[i] = scanner.nextInt();
+        }
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Scanner;
+        int[] subMas = new int[n];
 
-/*
-Задача на программирование: наибольшая кратная подпоследовательность
-
-Дано:
-    целое число 1≤n≤1000
-    массив A[1…n] натуральных чисел, не превосходящих 2E9.
-
-Необходимо:
-    Выведите максимальное 1<=k<=n, для которого гарантированно найдётся
-    подпоследовательность индексов i[1]<i[2]<…<i[k] <= длины k,
-    для которой каждый элемент A[i[k]] делится на предыдущий
-    т.е. для всех 1<=j<k, A[i[j+1]] делится на A[i[j]].
-
-Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
-
-    Sample Input:
-    4
-    3 6 7 12
-
-    Sample Output:
-    3
-*/
-
-            public class B_LongDivComSubSeq {
-
-
-                public static void main(String[] args) throws FileNotFoundException {
-                    InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
-                    B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
-                    int result = instance.getDivSeqSize(stream);
-                    System.out.print(result);
-                }
-
-                int getDivSeqSize(InputStream stream) throws FileNotFoundException {
-                    //подготовка к чтению данных
-                    Scanner scanner = new Scanner(stream);
-                    //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-                    //общая длина последовательности
-                    int n = scanner.nextInt();
-                    int[] m = new int[n];
-                    //читаем всю последовательность
-                    for (int i = 0; i < n; i++) {
-                        m[i] = scanner.nextInt();
-                    }
-                    //тут реализуйте логику задачи методами динамического программирования (!!!)
-                    int[] с = new int[n];
-
-                    for (int i = 0; i < n; i++) {
-                        с[i] = 1;
-
-                        for (int j = 0; j < i; j++) {
-                            int temp = m[i] / m[j];
-
-                            if (temp * m[j] == m[i] && с[j] + 1 > с[i]) {
-                                с[i] = с[j] + 1;
-                            }
-                        }
-                    }
-
-                    int result = 0;
-                    for (int i = 0; i < n; i++) {
-                        if (result < с[i]) {
-                            result = с[i];
-                        }
-                    }
-                    //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-                    return result;
-                }
-
+        for (int i = 0; i < n; i++) {
+            subMas[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (subMas[i] < subMas[j] + 1 && m[i] % m[j] == 0)
+                    subMas[i] = subMas[j] + 1;
             }
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
 
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            if (subMas[i] > maxLen) {
+                maxLen = subMas[i];
+            }
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return maxLen;
+    }
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataB.txt");
+        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
+        int result = instance.getDivSeqSize(stream);
+        System.out.print(result);
     }
 
 }

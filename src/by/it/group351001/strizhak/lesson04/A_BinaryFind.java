@@ -43,30 +43,33 @@ public class A_BinaryFind {
         //размер массива индексов
         int k = scanner.nextInt();
         int[] result=new int[k];
-        nextN:
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
             //тут реализуйте бинарный поиск индекса
-           int left = 0;
-           int right = a.length - 1;
-           int mid;
-           while (left <= right) {
-               mid = (left + right) / 2;
-               if (value > a[mid]) {
-                   left = mid + 1;
-               } else if  (value < a[mid]) {
-                   right = mid - 1;
-               } else {
-                   result[i] = mid + 1;
-                   continue nextN;
-               }
-           }
-            result[i]= - 1;
+            result[i] = binarySearch(a, value);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    private int binarySearch(int[] array, int target) {
+        int left = 0;
+        int right = array.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (array[mid] == target) {
+                return mid + 1;  // Индексация в задаче начинается с 1, поэтому добавляем 1
+            } else if (array[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1;  // Если элемент не найден, возвращаем -1
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

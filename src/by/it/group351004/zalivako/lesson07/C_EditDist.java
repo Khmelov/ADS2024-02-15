@@ -93,7 +93,7 @@ public class C_EditDist {
                 i--;
                 j--;
             }
-            else {   //if (d[i][j] == d[i-1][j-1]+1)
+            else {
                 str.insert(0, "~"+two.charAt(i-1)+",");
                 i--;
                 j--;

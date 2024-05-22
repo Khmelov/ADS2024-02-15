@@ -1,6 +1,5 @@
 package by.it.a_khmelev.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -38,6 +37,13 @@ import java.util.Scanner;
 
 public class C_LongNotUpSubSeq {
 
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");
+        C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
+        int result = instance.getNotUpSeqSize(stream);
+        System.out.print(result);
+    }
+
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -55,15 +61,6 @@ public class C_LongNotUpSubSeq {
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
-        C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
-        int result = instance.getNotUpSeqSize(stream);
-        System.out.print(result);
     }
 
 }

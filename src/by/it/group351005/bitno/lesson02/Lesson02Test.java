@@ -20,10 +20,10 @@ public class Lesson02Test {
 
     @Test(timeout = 2000)
     public void A_VideoRegistrator() {
-        A_VideoRegistrator instance = new A_VideoRegistrator();
-        double[] events = new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
-        List<Double> starts = instance.calcStartTimes(events, 1); //рассчитаем моменты старта, с длинной сеанса 1
-        boolean ok = starts.toString().equals("[1.0, 2.2, 3.7, 5.5, 8.1]");
+        A_VideoRegistrator instance=new A_VideoRegistrator();
+        double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
+        List<Double> starts=instance.calcStartTimes(events,1); //рассчитаем моменты старта, с длинной сеанса 1
+        boolean ok=starts.toString().equals("[1.0, 2.2, 3.7, 5.5, 8.1]");
         assertTrue("slowA failed", ok);
     }
 
@@ -39,16 +39,15 @@ public class Lesson02Test {
         };
 
         List<B_Sheduler.Event> starts = instance.calcStartTimes(events, 0, 10);  //рассчитаем оптимальное заполнение аудитории
-        boolean ok = starts.toString().equals("[(0:1), (1:2), (2:3), (3:5), (6:7), (7:9)]");
+        boolean ok=starts.toString().equals("[(0:1), (1:2), (2:3), (3:5), (6:7), (7:9)]");
         assertTrue("B_Sheduler failed", ok);
     }
-
     @Test(timeout = 2000)
     public void C_GreedyKnapsack() throws Exception {
-        String root = System.getProperty("user.dir") + "/src/";
-        File file = new File(root + "by/it/a_khmelev/lesson02/greedyKnapsack.txt");
-        double costFinal = new C_GreedyKnapsack().calc(file);
-        boolean ok = costFinal == 200;
+        String root=System.getProperty("user.dir")+"/src/";
+        File file=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        double costFinal=new C_GreedyKnapsack().calc(file);
+        boolean ok=costFinal==200;
         assertTrue("B_Sheduler failed", ok);
     }
 

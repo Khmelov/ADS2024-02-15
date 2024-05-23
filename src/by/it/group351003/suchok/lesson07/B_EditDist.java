@@ -42,7 +42,7 @@ public class B_EditDist {
     static int Minimum(int a, int b, int c) {
         return Math.min(a, Math.min(b, c));
     }
-    int LevenshteinDistance(String str1, String str2) {
+    int LevenshteinDistance(String str1, String str2)  {
         int n = str1.length() + 1;
         int m = str2.length() + 1;
         int[][] matrixD = new int[n][m];

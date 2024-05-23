@@ -38,7 +38,7 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-    static int Minimum(int a, int b, int c) {
+    static int Minimum(int a, int b, int c)  {
         return Math.min(a, Math.min(b, c));
     }
     int LevenshteinDistance(String str1, int length1, String str2, int length2) {

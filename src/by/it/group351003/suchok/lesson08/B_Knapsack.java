@@ -33,7 +33,7 @@ public class B_Knapsack {
         int w=scanner.nextInt();
         int n=scanner.nextInt();
         int gold[]=new int[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)  {
             gold[i]=scanner.nextInt();
         }
 

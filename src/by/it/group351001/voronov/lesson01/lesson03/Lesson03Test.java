@@ -2,6 +2,8 @@ package by.it.group351001.voronov.lesson01.lesson03;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertTrue;
@@ -18,29 +20,31 @@ public class Lesson03Test {
 
 
     @Test
-    public void checkA() throws Exception {
-        InputStream inputStream = A_Huffman.class.getResourceAsStream("dataA.txt");
+    public void A() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        File f = new File(root + "by/it/a_khmelev/lesson03/dataHuffman.txt");
         A_Huffman instance = new A_Huffman();
-        String result = instance.encode(inputStream);
-        boolean ok = result.equals("01001100100111");
+        String result = instance.encode(f);
+        boolean ok=result.equals("01001100100111");
         assertTrue("A failed", ok);
     }
 
     @Test
-    public void checkB() throws Exception {
-        InputStream inputStream = B_Huffman.class.getResourceAsStream("dataB.txt");
+    public void B() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
         B_Huffman instance = new B_Huffman();
-        String result = instance.decode(inputStream);
-        boolean ok = result.equals("abacabad");
+        String result = instance.decode(f);
+        boolean ok=result.equals("abacabad");
         assertTrue("B failed", ok);
     }
-
     @Test
-    public void checkC() throws Exception {
-        InputStream inputStream = C_HeapMax.class.getResourceAsStream("dataC.txt");
+    public void C() throws Exception {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
         C_HeapMax instance = new C_HeapMax();
-        Long res = instance.findMaxValue(inputStream);
-        boolean ok = (res == 500);
+        Long res=instance.findMaxValue(stream);
+        boolean ok=(res==500);
         assertTrue("C failed", ok);
     }
 

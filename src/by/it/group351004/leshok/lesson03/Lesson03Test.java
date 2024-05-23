@@ -47,5 +47,4 @@ public class Lesson03Test {
         boolean ok=(res==500);
         assertTrue("C failed", ok);
     }
-
 }

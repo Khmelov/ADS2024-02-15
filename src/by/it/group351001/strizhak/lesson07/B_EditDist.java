@@ -38,16 +38,26 @@ import java.util.Scanner;
 
 public class B_EditDist {
 
-
-    int getDistanceEdinting(String one, String two) {
+    public int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-        int result = 0;
+        int oneNewSize = one.length() + 1;
+        int twoNewSize = two.length() + 1;
+        int[][] temp = new int[oneNewSize][twoNewSize];
+        for (int i = 0; i < oneNewSize; i++) {
+            temp[i][0] = i;
+        }
+        for (int i = 1; i < twoNewSize; i++) {
+            temp[0][i] = i;
+        }
+        for (int i = 1; i < oneNewSize; i++) {
+            for (int j = 1; j < twoNewSize; j++) {
+                temp[i][j] = Math.min(Math.min(temp[i-1][j] + 1,temp[i][j-1] + 1),
+                        (temp[i-1][j-1] + ((one.charAt(i-1) != two.charAt(j-1)) ? 1 : 0)));
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return temp[oneNewSize-1][twoNewSize-1];
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_EditDist.class.getResourceAsStream("dataABC.txt");

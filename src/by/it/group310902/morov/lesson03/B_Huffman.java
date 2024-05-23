@@ -1,4 +1,4 @@
-package by.it.group310902.morov.lesson03;
+package by.it.group310902.Morov.lesson03;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package by.it.group310902.morov.lesson02;
+package by.it.group310902.Morov.lesson02;
 
 import org.junit.Test;
 

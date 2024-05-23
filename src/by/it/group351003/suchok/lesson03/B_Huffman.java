@@ -47,13 +47,23 @@ public class B_Huffman {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
+        scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
+        char[] charArr = new char[count];
+        for (int i = 0; i < count; i++) {
+            String tempStr = scanner.next() + scanner.next();
+            charArr[i] = tempStr.charAt(0);
+        }
+        String resultStr = scanner.next();
 
-
-
-
+        int i = 0;
+        int zeroStep = 0;
+        do {
+            if (resultStr.charAt(i) == '0') result.append(charArr[zeroStep]);
+            zeroStep = resultStr.charAt(i) == '0' ? 0 : ++zeroStep;
+        } while (++i < resultStr.length());
+        if (zeroStep != 0) result.append(charArr[zeroStep]);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

@@ -15,6 +15,8 @@ package by.it.group310902.perova.lesson02;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
@@ -37,9 +39,8 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
+            return  (this.cost > o.cost) ? 1:((this.cost == o.cost) ? 0: -1);
 
-
-            return 0;
         }
     }
 
@@ -66,7 +67,20 @@ public class C_GreedyKnapsack {
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-
+        Comparator<Item> comparator = Comparator.comparing(obj -> obj.cost / obj.weight);
+        Arrays.sort(items, comparator);
+        n--;
+        while(W != 0 && n > 0){
+            if (W < items[n].weight){
+                result += items[n].cost * W / items[n].weight;
+                W = 0;
+            }
+            else{
+                result += items[n].cost;
+                W -= items[n].weight;
+            }
+            n--;
+        }
 
 
 

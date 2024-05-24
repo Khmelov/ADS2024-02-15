@@ -1,5 +1,6 @@
 package by.it.group351002.pisarik.lesson03;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,16 +37,69 @@ import java.util.Scanner;
 
 public class C_HeapMax {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = C_HeapMax.class.getResourceAsStream("dataC.txt");
-        C_HeapMax instance = new C_HeapMax();
-        System.out.println("MAX=" + instance.findMaxValue(stream));
+    private class MaxHeap {
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+        //тут запишите ваше решение.
+        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
+        private List<Long> heap = new ArrayList<>();
+
+        int siftDown(int i) { //просеивание вверх
+            int maxIndex = i;
+            int leftChild = 2 * i + 1;
+            int rightChild = 2 * i + 2;
+
+            if (leftChild < heap.size() && heap.get(leftChild) > heap.get(maxIndex))
+                maxIndex = leftChild;
+
+            if (rightChild < heap.size() && heap.get(rightChild) > heap.get(maxIndex))
+                maxIndex = rightChild;
+
+            if (maxIndex != i) {
+                swap(i, maxIndex);
+                siftDown(maxIndex);
+            }
+
+            return i;
+        }
+
+        int siftUp(int i) { //просеивание вниз
+            while (i > 0 && heap.get(i) > heap.get((i - 1) / 2)) {
+                swap(i, (i - 1) / 2);
+                i = (i - 1) / 2;
+            }
+
+            return i;
+        }
+
+        void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
+        }
+
+        Long extractMax() { //извлечение и удаление максимума
+            if (heap.isEmpty()) {
+                return null;
+            }
+            Long result = heap.get(0);
+            swap(0, heap.size() - 1);
+            heap.remove(heap.size() - 1);
+            siftDown(0);
+
+            return result;
+        }
+
+        private void swap(int i, int j) {
+            Long temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }
 
     //эта процедура читает данные из файла, ее можно не менять.
-    public Long findMaxValue(InputStream stream) {
+    Long findMaxValue(InputStream stream) {
         Long maxValue = 0L;
-        MaxHeap heap = new MaxHeap();
+        C_HeapMax.MaxHeap heap = new C_HeapMax.MaxHeap();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(stream);
         Integer count = scanner.nextInt();
@@ -68,35 +122,10 @@ public class C_HeapMax {
         return maxValue;
     }
 
-    private class MaxHeap {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение.
-        //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
-        private List<Long> heap = new ArrayList<>();
-
-        int siftDown(int i) { //просеивание вверх
-
-            return i;
-        }
-
-        int siftUp(int i) { //просеивание вниз
-
-            return i;
-        }
-
-        void insert(Long value) { //вставка
-        }
-
-        Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
-
-            return result;
-        }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
+        C_HeapMax instance = new C_HeapMax();
+        System.out.println("MAX=" + instance.findMaxValue(stream));
     }
-
-    // РЕМАРКА. Это задание исключительно учебное.
-    // Свои собственные кучи нужны довольно редко.
-    // В реальном приложении все иначе. Изучите и используйте коллекции
-    // TreeSet, TreeMap, PriorityQueue и т.д. с нужным CompareTo() для объекта внутри.
 }

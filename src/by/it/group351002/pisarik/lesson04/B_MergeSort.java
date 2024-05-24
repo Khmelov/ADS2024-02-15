@@ -1,5 +1,6 @@
 package by.it.group351002.pisarik.lesson04;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -20,14 +21,35 @@ Sample Output:
 */
 public class B_MergeSort {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = B_MergeSort.class.getResourceAsStream("dataB.txt");
-        B_MergeSort instance = new B_MergeSort();
-        //long startTime = System.currentTimeMillis();
-        int[] result = instance.getMergeSort(stream);
-        //long finishTime = System.currentTimeMillis();
-        for (int index : result) {
-            System.out.print(index + " ");
+    void merge(int[] a, int l1, int r1, int l2, int r2) {
+        int i1 = l1, i2 = l2;
+        int[] merged = new int[r2 - l1 + 1];
+        int k = 0;
+
+        while (i1 <= r1 && i2 <= r2) {
+            if (a[i1] <= a[i2])
+                merged[k++] = a[i1++];
+            else
+                merged[k++] = a[i2++];
+        }
+
+        while (i1 <= r1)
+            merged[k++] = a[i1++];
+
+        while (i2 <= r2)
+            merged[k++] = a[i2++];
+
+        for (int i = l1, j = 0; i <= r2; i++, j++)
+            a[i] = merged[j];
+    }
+    void mergeSort(int[] a, int l, int r) {
+        if (l < r) {
+            int m = (l + r) / 2;
+
+            mergeSort(a, l, m);
+            mergeSort(a, m + 1, r);
+
+            merge(a, l, m, m + 1, r);
         }
     }
 
@@ -39,7 +61,7 @@ public class B_MergeSort {
         //размер массива
         int n = scanner.nextInt();
         //сам массив
-        int[] a = new int[n];
+        int[] a=new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
             System.out.println(a[i]);
@@ -47,10 +69,20 @@ public class B_MergeSort {
 
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-
-
+        mergeSort(a, 0, n - 1);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
+    }
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");
+        B_MergeSort instance = new B_MergeSort();
+        //long startTime = System.currentTimeMillis();
+        int[] result=instance.getMergeSort(stream);
+        //long finishTime = System.currentTimeMillis();
+        for (int index:result){
+            System.out.print(index+" ");
+        }
     }
 
 

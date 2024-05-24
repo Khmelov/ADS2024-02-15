@@ -1,7 +1,8 @@
 package by.it.group351002.pisarik.lesson03;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.util.*;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -42,26 +43,45 @@ import java.util.Scanner;
 
 public class B_Huffman {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStream = B_Huffman.class.getResourceAsStream("dataB.txt");
-        B_Huffman instance = new B_Huffman();
-        String result = instance.decode(inputStream);
-        System.out.println(result);
+
+    String decode(File file) throws FileNotFoundException {
+            StringBuilder result=new StringBuilder();
+            //прочитаем строку для кодирования из тестового файла
+            Scanner scanner = new Scanner(file);
+            Integer count = scanner.nextInt();
+            Integer length = scanner.nextInt();
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+            //тут запишите ваше решение
+            scanner.nextLine();
+            Map<String, Character> codes = new HashMap<>();
+            for (int i = 0; i < count; i++) {
+                String[] codeParts = scanner.nextLine().split(": ");
+                char letter = codeParts[0].charAt(0);
+                String code = codeParts[1];
+                codes.put(code, letter);
+            }
+            String encodedString = scanner.nextLine();
+            StringBuilder currentCode = new StringBuilder();
+            for (char c : encodedString.toCharArray()) {
+                currentCode.append(c);
+                if (codes.containsKey(currentCode.toString())) {
+                    result.append(codes.get(currentCode.toString()));
+                    currentCode.setLength(0);
+                }
+            }
+
+
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+            return result.toString(); //01001100100111
+        }
+
+        public static void main(String[] args) throws FileNotFoundException {
+            String root = System.getProperty("user.dir") + "/src/";
+            File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
+            B_Huffman instance = new B_Huffman();
+            String result = instance.decode(f);
+            System.out.println(result);
+        }
+
+
     }
-
-    public String decode(InputStream inputStream) throws FileNotFoundException {
-        StringBuilder result = new StringBuilder();
-        //прочитаем строку для кодирования из тестового файла
-        Scanner scanner = new Scanner(inputStream);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        return result.toString(); //01001100100111
-    }
-
-
-}

@@ -1,9 +1,7 @@
-package by.it.group351005.zhuravski.lesson05;
+package by.it.group351002.golovko.lesson05;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -19,58 +17,39 @@ import java.util.Scanner;
 public class B_CountSort {
 
 
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_CountSort.class.getResourceAsStream("dataB.txt");
+        B_CountSort instance = new B_CountSort();
+        int[] result = instance.countSort(stream);
+        for (int index : result) {
+            System.out.print(index + " ");
+        }
+    }
+
     int[] countSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива
         int n = scanner.nextInt();
-        int[] points=new int[n];
+        int[] points = new int[n];
 
+        int[] buf = new int[11];
         //читаем точки
         for (int i = 0; i < n; i++) {
             points[i] = scanner.nextInt();
+            buf[points[i]]++;
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        LinkedList<Integer>[] nums = new LinkedList[10];
-        for (int i = 0; i < 10; i++) {
-            nums[i] = new LinkedList<>();
-        }
-        for (int i = 0; i < n; i++) {
-            nums[points[i] % 10].add(points[i]);
-        }
-        int iter = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < nums[i].size(); j++) {
-                points[iter] = nums[i].get(j);
-                iter++;
+        int num = 0;
+        for (int j = 0; j<10; j++) {
+            for (int i = 0; i<buf[j]; i++) {
+                points[num++] = j;
             }
-            nums[i] = new LinkedList<>();
         }
-        for (int i = 0; i < n; i++) {
-            nums[points[i] / 10].add(points[i]);
-        }
-        iter = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < nums[i].size(); j++) {
-                points[iter] = nums[i].get(j);
-                iter++;
-            }
-            nums[i] = new LinkedList<>();
-        }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
-        B_CountSort instance = new B_CountSort();
-        int[] result=instance.countSort(stream);
-        for (int index:result){
-            System.out.print(index+" ");
-        }
     }
 
 }

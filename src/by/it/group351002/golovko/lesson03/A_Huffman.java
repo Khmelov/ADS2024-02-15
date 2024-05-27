@@ -1,4 +1,4 @@
-package by.it.group351005.zhuravski.lesson03;
+package by.it.group351002.golovko.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -120,21 +120,21 @@ public class A_Huffman {
         //если они вам мешают их можно удалить
 
         Map<Character, Integer> count = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            if (count.containsKey(s.charAt(i))) {
-                count.put(s.charAt(i), count.get(s.charAt(i)) + 1);
-            }
-            else {
-                count.put(s.charAt(i), 1);
-            }
-        }
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
             //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
+        for (int i = 0; i < s.length(); i++) {
+            char key = s.charAt(i);
+            if (!count.containsKey(key)) {
+                count.put(key, 1);
+            } else {
+                count.put(key, count.get(key) + 1);
+            }
+        }
 
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for (Map.Entry<Character, Integer> entry : count.entrySet()) {
-            priorityQueue.add(new LeafNode(entry.getValue(), entry.getKey()));
+        for (char key : count.keySet()) {
+            priorityQueue.add(new LeafNode(count.get(key), key));
         }
 
         //3. вынимая по два узла из очереди (для сборки родителя)
@@ -142,20 +142,17 @@ public class A_Huffman {
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
         while (priorityQueue.size() > 1) {
-            Node left = priorityQueue.poll();
-            Node right = priorityQueue.poll();
-            priorityQueue.add(new InternalNode(left, right));
+            Node node = new InternalNode(priorityQueue.poll(), priorityQueue.poll());
+            priorityQueue.add(node);
         }
 
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
-        Node root = priorityQueue.poll();
-        root.fillCodes("");//
         StringBuilder sb = new StringBuilder();
-        //.....
-        for (int i = 0; i < s.length(); i++) {
+        Node root = priorityQueue.poll();
+        root.fillCodes("");
+        for (int i = 0; i < s.length(); i++)
             sb.append(codes.get(s.charAt(i)));
-        }
         return sb.toString();
         //01001100100111
         //01001100100111

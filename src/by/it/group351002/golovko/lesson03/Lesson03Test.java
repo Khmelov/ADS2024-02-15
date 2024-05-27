@@ -1,4 +1,4 @@
-package by.it.group310901.usov.lesson03;
+package by.it.group351002.golovko.lesson03;
 
 import org.junit.Test;
 

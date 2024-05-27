@@ -1,4 +1,4 @@
-package by.it.group351005.brezgunov.lesson03;
+package by.it.group351002.golovko.lesson03;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,43 +42,59 @@ public class C_HeapMax {
         //тут запишите ваше решение.
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
-        private void swap(int i, int j) {
-            Long temp = heap.get(j);
-            heap.set(j, heap.get(i));
-            heap.set(i, temp);
-        }
+
         int siftDown(int i) { //просеивание вверх
-            while (2 * i + 1 < heap.size()) {
-                int left = 2 * i + 1;
-                int right = 2 * i + 2;
-                int max = left;
-                if ((right < heap.size()) && (heap.get(right) > heap.get(left)))
-                    max = right;
-                if (i == max)
-                    break;
-                swap(i, max);
-                i = max;
+            long left = heap.get(2*i + 1);
+            long right = left;
+            if (heap.size() > 2) {
+                right = heap.get(2 * i + 2);
+            }
+            while (i < heap.size() && (heap.get(i) < left || heap.get(i) < right)) {
+                int indexMax = left >= right ? 2*i + 1 : 2*i + 2;
+                long buff = heap.get(indexMax);
+                heap.add(indexMax, heap.get(i));
+                heap.remove(indexMax+1);
+                heap.add(i, buff);
+                heap.remove(i+1);
+                i = indexMax;
+                if (heap.size() >= 2*i+1) {
+                    left = heap.get(2*i + 1);
+                    right = left;
+                    if (heap.size() >= 2*i+2) {
+                        right = heap.get(2 * i + 2);
+                    }
+                } else {
+                    left = -1;
+                    right = -1;
+                }
             }
             return i;
         }
 
         int siftUp(int i) { //просеивание вниз
-            while (heap.get(i) > heap.get((i - 1) / 2)) {
-                swap(i, (i - 1) / 2);
-                i = (i - 1) / 2;
+            while (i > 0 && heap.get((i)/2) < heap.get(i)) {
+                long buff = heap.remove(i);
+                heap.add(i, heap.get((i)/2));
+                heap.add((i)/2, buff);
+                heap.remove((i)/2+1);
+                i = (i)/2;
             }
             return i;
         }
 
         void insert(Long value) { //вставка
-            heap.add(value);
-            siftUp(heap.size() - 1);
+            heap.addLast(value);
+            if (heap.size() > 1)
+                siftUp(heap.size()-1);
         }
+
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
-            result = heap.get(0);
-            heap.remove(0);
-            siftDown(0);
+            Long result = heap.remove(0);
+            heap.addFirst(heap.removeLast());
+            if (heap.size() > 1)
+                siftDown(0);
+
+
             return result;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

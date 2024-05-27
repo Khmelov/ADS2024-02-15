@@ -1,14 +1,13 @@
-package by.it.group310902.belskiy.lesson03;
+package by.it.group310902.tichonenko.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
-
+//
+// Create by ALEX USOV
 // В первой строке входного файла заданы два целых числа
 // kk и ll через пробел — количество различных букв, встречающихся в строке,
 // и размер получившейся закодированной строки, соответственно.
@@ -45,33 +44,34 @@ import java.util.Scanner;
 public class B_Huffman {
 
     String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
+        StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        int count = scanner.nextInt();
-        int length = scanner.nextInt();
+        Integer count = scanner.nextInt();
+        Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-        Map<String, Character> codes = new HashMap<>();
 
+        // Create By ALEX USOV
+        String[] codes = new String[count];
         for (int i = 0; i < count; i++) {
-            String letterCode = scanner.next();
-            char letter = letterCode.charAt(0);
-//            String code1 = scanner.next();
+            String s = scanner.next();
+            char ch = s.charAt(0);
             String code = scanner.next();
-            codes.put(code, letter);
+            codes[ch - 'a'] = code;
         }
-
-        String codeString = scanner.next();
-        String tmp = "";
-        for(int i = 0; i < length; i++){
-            tmp = tmp + codeString.charAt(i);
-            if(codes.containsKey(tmp)){
-                result.append(codes.get(tmp));
-                tmp = "";
+        String s = scanner.next();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            for (int j = 0; j < count; j++) {
+                if (codes[j].equals(sb.toString())) {
+                    result.append((char) (j + 'a'));
+                    sb = new StringBuilder();
+                    break;
+                }
             }
         }
-
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111

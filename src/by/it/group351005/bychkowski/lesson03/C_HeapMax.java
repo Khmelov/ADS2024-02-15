@@ -44,60 +44,53 @@ public class C_HeapMax {
         private List<Long> heap = new ArrayList<>();
 
         int siftDown(int i) { //просеивание вверх
-            long left = heap.get(2*i + 1);
-            long right = left;
-            if (heap.size() > 2) {
-                right = heap.get(2 * i + 2);
-            }
-            while (i < heap.size() && (heap.get(i) < left || heap.get(i) < right)) {
-                int indexMax = left >= right ? 2*i + 1 : 2*i + 2;
-                long buff = heap.get(indexMax);
-                heap.add(indexMax, heap.get(i));
-                heap.remove(indexMax+1);
-                heap.add(i, buff);
-                heap.remove(i+1);
-                i = indexMax;
-                if (heap.size() >= 2*i+1) {
-                    left = heap.get(2*i + 1);
-                    right = left;
-                    if (heap.size() >= 2*i+2) {
-                        right = heap.get(2 * i + 2);
-                    }
-                } else {
-                    left = -1;
-                    right = -1;
-                }
+            int maxIndex = i;
+            int leftChild = 2 * i + 1;
+            int rightChild = 2 * i + 2;
+
+            if (leftChild < heap.size() && heap.get(leftChild) > heap.get(maxIndex))
+                maxIndex = leftChild;
+
+            if (rightChild < heap.size() && heap.get(rightChild) > heap.get(maxIndex))
+                maxIndex = rightChild;
+
+            if (maxIndex != i) {
+                swap(i, maxIndex);
+                siftDown(maxIndex);
             }
 
             return i;
         }
 
         int siftUp(int i) { //просеивание вниз
-            while (i > 0 && heap.get((i)/2) < heap.get(i)) {
-                long buff = heap.remove(i);
-                heap.add(i, heap.get((i)/2));
-                heap.add((i)/2, buff);
-                heap.remove((i)/2+1);
-                i = (i)/2;
+            while (i > 0 && heap.get(i) > heap.get((i - 1) / 2)) {
+                swap(i, (i - 1) / 2);
+                i = (i - 1) / 2;
             }
 
             return i;
         }
 
-        void insert(Long value) {
-            //вставка
-            heap.addLast(value);
-            if (heap.size() > 1)
-                siftUp(heap.size()-1);
+        void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = heap.remove(0);
-            heap.addFirst(heap.removeLast());
-            if (heap.size() > 1)
-                siftDown(0);
+            if (heap.isEmpty()) {
+                return null;
+            }
+            Long result = heap.get(0);
+            swap(0, heap.size() - 1);
+            heap.remove(heap.size() - 1);
+            siftDown(0);
 
             return result;
+        }
+        private void swap(int i, int j) {
+            Long temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }
@@ -122,7 +115,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-                System.out.println(heap); //debug
+                //System.out.println(heap); //debug
             }
         }
         return maxValue;
@@ -130,7 +123,7 @@ public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/dataC.txt");
         C_HeapMax instance = new C_HeapMax();
         System.out.println("MAX="+instance.findMaxValue(stream));
     }

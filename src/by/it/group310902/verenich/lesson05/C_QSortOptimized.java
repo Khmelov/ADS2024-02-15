@@ -33,7 +33,7 @@ import java.util.Scanner;
 public class C_QSortOptimized {
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
@@ -43,9 +43,36 @@ public class C_QSortOptimized {
         }
 
         @Override
-        public int compareTo(Object o) {
+        public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+            return (this.start == o.start ? this.stop - o.stop : this.start - o.start);
+        }
+    }
+    int partition(Segment[] a, int l, int r){
+        int m = (l+r)/2;
+        Segment mid = a[m];
+        int i =l;
+        int j =r;
+        while(i<=j){
+            while(a[i].compareTo(mid)<0)
+                i++;
+            while (a[j].compareTo(mid)>=0 && j>l)
+                j--;
+            if(i>=j)
+                break;
+            Segment t = a[i];
+            a[i] = a[j];
+            a[j] = t;
+        }
+        return  j;
+    }
+    void quickSort(Segment[] a, int l, int r) {
+        if (l < r) {
+            int q1 = partition(a, l, r);
+            int q2 = partition(a, q1, r);
+            quickSort(a, l, q1);
+            quickSort(a, q1 + 1, q2);
+            quickSort(a, q2 + 1, r);
         }
     }
 
@@ -68,11 +95,35 @@ public class C_QSortOptimized {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
         }
+        quickSort(segments, 0, 0);
+        for(int i = 0; i < n; ++i)
+            System.out.println(segments[i].start + " " + segments[i].stop);
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        for(int i = 0; i < m; i++){
+            int c = 0;
+            int l = 0;
+            int r = n-1;
+            while (l<r){
+                int mid = (l+r)/2;
+                if(points[i] >= segments[mid].start && points[i] <= segments[mid].stop){
+                    c++;
+                    break;
+                }
+                if(points[i] < segments[mid].start)
+                    r = m-1;
+                else
+                    l = m+1;
+            }
+            for(int j = l+1; j<n; j++){
+                if (points[i] >= segments[j].start && points[i] <= segments[j].stop)
+                    c++;
+            }
+            result[i] = c;
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

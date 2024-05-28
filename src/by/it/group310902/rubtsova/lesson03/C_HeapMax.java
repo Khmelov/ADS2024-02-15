@@ -66,7 +66,7 @@ public class C_HeapMax {
           }
         }
 
-        void insert(Long value) { //вставка
+        void insert(Long value) { //вставка элемента в кучу
         heap.add(value);
         siftUp(heap.size()-1);
         }

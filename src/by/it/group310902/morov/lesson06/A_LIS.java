@@ -1,5 +1,6 @@
 package by.it.group310902.Morov.lesson06;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -42,7 +43,7 @@ public class A_LIS {
     int getSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!  НАЧАЛО ЗАДАЧИ  !!!!!!!!!!!!!!!!!!!!!!!!!
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
@@ -50,8 +51,21 @@ public class A_LIS {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
+        int [] a = new int[n];
         int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
+        for (int i = 0; i < n; i++) {
+            a[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (m[j] < m[i] && a[j] + 1 > a[i]) {
+                    a[i] = a[j] + 1;
+                }
+
+            }
+            result = Math.max(result, a[i]);
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!КОНЕЦ ЗАДАЧИ!!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
+
 }

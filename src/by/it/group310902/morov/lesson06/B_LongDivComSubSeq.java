@@ -1,9 +1,9 @@
 package by.it.group310902.Morov.lesson06;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
-
 /*
 Задача на программирование: наибольшая кратная подпоследовательность
 
@@ -40,7 +40,7 @@ public class B_LongDivComSubSeq {
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!    НАЧАЛО ЗАДАЧИ    !!!!!!!!!!!!!!!!!!!!!!!!!
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
@@ -49,10 +49,20 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+
+        int[] a = new int[n];
         int result = 0;
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        for (int i = 0; i < n; i++) {
+            a[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (m[ i] %m[j] == 0 && a[j] + 1 > a[i]){
+                    a[i] = a[j] + 1;
+                }
+            }
+            result = Math.max(result, a[i]);
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!   КОНЕЦ ЗАДАЧИ   !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 

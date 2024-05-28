@@ -39,7 +39,7 @@ public class B_Knapsack {
 
         int[][] dp = new int[n + 1][w + 1]; // Таблица динамического программирования
 
-        // Заполнение таблицы
+
         for (int i = 1; i <= n; i++)
         {
             for (int j = 0; j <= w; j++)

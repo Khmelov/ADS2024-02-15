@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class Lesson07Test {
+
     @Test
     public void A() throws Exception {
         A_EditDist instance = new A_EditDist();

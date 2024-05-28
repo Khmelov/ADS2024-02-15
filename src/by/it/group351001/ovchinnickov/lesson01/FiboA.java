@@ -29,32 +29,31 @@ public class FiboA {
     }
 
     private int calc(int n) {
-
-        int First = 1;
-        int Second = 1;
-        int Sum = 0;
-        for (int i = 3; i <= n; i++) {
-
-            Sum = First + Second;
-            First = Second;
-            Second = Sum;
-
-        }
         //здесь простейший вариант, в котором код совпадает
         //с математическим определением чисел Фибоначчи
         //время O(2^n)
-        return Sum;
+        if (n > 2){
+            return calc(n - 1 ) + calc( n - 2);
+        }
+        return n;
     }
 
 
     BigInteger slowA(Integer n) {
-
         //рекурсия
         //здесь нужно реализовать вариант без ограничения на размер числа,
         //в котором код совпадает с математическим определением чисел Фибоначчи
         //время O(2^n)
-
-        return n == 0 ? BigInteger.ZERO : (n == 1 ? BigInteger.ONE : slowA(n - 1).add(slowA(n - 2)));
+        if (n >= 2) {
+            return slowA(n - 1).add(slowA(n -2));
+        }
+        if (n == 0) {
+            return BigInteger.ZERO;
+        }
+        if (n == 1) {
+            return BigInteger.ONE;
+        }
+        return BigInteger.ZERO;
     }
 
 

@@ -6,6 +6,8 @@ package by.it.group351001.ovchinnickov.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.math.BigInteger;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -21,56 +23,40 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    public static long pisano(long m)
-    {
-        long prev = 0;
-        long curr = 1;
-        long res = 0;
-        long temp = 0;
-
-        for(int i = 0; i < m * 6; i++)
-        {
-            temp = curr;
-            curr = (prev + curr) % m;
-            prev = temp;
-
-            if (prev == 0 && curr == 1)
-                res = i + 1;
-        }
-        return res;
-    }
-
     long fasterC(long n, int m) {
-
-
-
-        long pisanoPeriod = pisano(m);
-
-        n = n % pisanoPeriod;
-
-        long prev = 0;
-        long curr = 1;
-
-        if (n == 0)
-            return 0;
-        else if (n == 1)
-            return 1;
-
-        for(int i = 0; i < n - 1; i++)
-        {
-            long temp = 0;
-            temp = curr;
-            curr = (prev + curr) % m;
-            prev = temp;
-        }
-        return curr % m;
-
-
-
-
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
+        //см. период Пизано{
+        BigInteger M = BigInteger.valueOf(m);
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
+        BigInteger sum = BigInteger.ZERO;
+
+        long period = 2;
+        for (int i = 1; i <= m * m - 1; i++) {
+            sum = a.add(b);
+            if ((sum.mod(M).equals(BigInteger.ONE) && (i != 1) && (b.mod(M).equals(BigInteger.ONE)) && (a.mod(M).equals(BigInteger.ZERO)))) {
+                period = i;
+                break;
+            }
+            a = b;
+            b = sum;
+        }
+        period = n % period;
+
+        long otvet = 1;
+
+        a = BigInteger.ZERO;
+        b = BigInteger.ONE;
+
+        if (n > 2)
+            for (int i = 1; i <= period; i++) {
+                otvet = sum.mod(M).intValue();
+                sum = a.add(b);
+                a = b;
+                b = sum;
+            }
+        return otvet;
     }
 
 

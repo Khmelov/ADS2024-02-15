@@ -1,4 +1,4 @@
-package by.it.group351002.vorobei.lesson05;
+package by.it.group310901.dashkovskiy.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,10 +10,14 @@ import java.util.Scanner;
 Условие то же что и в задаче А.
 
         По сравнению с задачей A доработайте алгоритм так, чтобы
-        он оптимально использовал время и память:
+        1) он оптимально использовал время и память:
             - за стек отвечает элиминация хвостовой рекурсии,
             - за сам массив отрезков - сортировка на месте
             - рекурсивные вызовы должны проводиться на основе 3-разбиения
+
+        2) при поиске подходящих отрезков для точки реализуйте метод бинарного поиска
+        для первого отрезка решения, а затем найдите оставшуюся часть решения
+        (т.е. отрезков, подходящих для точки, может быть много)
 
     Sample Input:
     2 3
@@ -29,7 +33,7 @@ import java.util.Scanner;
 public class C_QSortOptimized {
 
     //отрезок
-    private class Segment  implements Comparable<Segment>{
+    private class Segment  implements Comparable{
         int start;
         int stop;
 
@@ -39,50 +43,56 @@ public class C_QSortOptimized {
         }
 
         @Override
-        public int compareTo(Segment o) {
-            if (this.start > o.start) {
-                return 1;
-            }
-            else if (this.start == o.start){
-                if (this.stop > o.stop) {
-                    return 1;
-                }
-                else if (this.stop == o.stop){
-                    return 0;
-                }
-                return -1;
-            }
-            return -1;
+        public int compareTo(Object o) {
+            //подумайте, что должен возвращать компаратор отрезков
+            return 0;
         }
     }
-
-    public int Partition(Segment[] arr, int left, int right){
-        Segment pivot = arr[(left + right) / 2];
-        while (left <= right){
-            while (arr[left].compareTo(pivot) == -1){
-                left++;
-            }
-            while (arr[right].compareTo(pivot) == 1){
-                right--;
-            }
-            if (left <= right){
-                Segment temp = arr[left];
-                arr[left] = arr[right];
-                arr[right] = temp;
-                left++;
-                right--;
-            }
-        }
-        return left;
+    public boolean CompareJ(Segment o, Segment comp) {
+        return o.start<comp.start;
     }
 
-    public void QuickSort(Segment[] arr, int left, int right){
-        // с учетом элиминации хвостовой рекурсии
-        while (left < right){
-            int pivot = Partition(arr,left,right);
-            QuickSort(arr, left, pivot - 1);
-            left = pivot;
+    public boolean CompareK(Segment o, Segment comp) {
+        return o.start>comp.start;
+    }
+    Segment[] QSort(Segment[] events, int lft, int rght){
+        Segment crl = events[(lft + rght) / 2];
+        int j=lft, k=rght;
+        while(j < k){
+            while (CompareJ(events[j],crl)) ++j;
+            while(CompareK(events[k],crl)) --k;
+            if(j<=k){
+                Segment temp = events[j];
+                events[j] = events[k];
+                events[k] = temp;
+                ++j;
+                --k;
+            }
         }
+        if(lft < k)
+            events = QSort(events,lft,k);
+        if(j < rght)
+            events = QSort(events,j,rght);
+        return events;
+    }
+
+    boolean binsearch(int left,int right, int x) {
+        int l = left;
+        int r = right;
+        boolean fl = false;
+        while ((l <= r) && (!fl)) {
+            int c = (l + r) / 2;
+            if (c > x) {
+                r = c - 1;
+            } else {
+                l = c + 1;
+                if (c == x) {
+                    fl = true;
+                }
+            }
+
+        }
+        return  fl;
     }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
@@ -103,24 +113,20 @@ public class C_QSortOptimized {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
+        int k= 0;
+        QSort(segments,0,n-1);
         for (int i = 0; i < n; i++) {
             points[i]=scanner.nextInt();
+            for (int j = 0; j < n; j++) {
+                if (binsearch(segments[j].start, segments[j].stop,points[i])) {
+                    result[k]++;
+                    k++;
+                }
+            }
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        QuickSort(segments,0, segments.length - 1);
-        int start = 0;
-        int end = 0;
-        for (Segment segment : segments){
-            start = segment.start;
-            end = segment.stop;
-            for (int i = 0; i < points.length; i++){
-                if (end < points[i])
-                    break;
-                if (start <= points[i])
-                    result[i]++;
-            }
-        }
+
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

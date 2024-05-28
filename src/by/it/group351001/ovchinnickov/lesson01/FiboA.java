@@ -7,8 +7,6 @@ import java.math.BigInteger;
  */
 
 public class FiboA {
-
-
     private long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {
@@ -18,7 +16,7 @@ public class FiboA {
 
         //вычисление чисел фибоначчи медленным методом (рекурсией)
         fibo = new FiboA();
-        n = 34;
+        n = 5;
         System.out.printf("slowA(%d)=%d \n\t time=%d \n\n", n, fibo.slowA(n), fibo.time());
     }
 
@@ -32,10 +30,13 @@ public class FiboA {
         //здесь простейший вариант, в котором код совпадает
         //с математическим определением чисел Фибоначчи
         //время O(2^n)
-        if (n > 2){
-            return calc(n - 1 ) + calc( n - 2);
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else {
+            return calc(n - 1) + calc(n - 2);
         }
-        return n;
     }
 
 
@@ -44,18 +45,13 @@ public class FiboA {
         //здесь нужно реализовать вариант без ограничения на размер числа,
         //в котором код совпадает с математическим определением чисел Фибоначчи
         //время O(2^n)
-        if (n >= 2) {
-            return slowA(n - 1).add(slowA(n -2));
-        }
         if (n == 0) {
             return BigInteger.ZERO;
-        }
-        if (n == 1) {
+        } else if (n == 1) {
             return BigInteger.ONE;
+        } else {
+            return slowA(n - 1).add(slowA(n - 2));
         }
-        return BigInteger.ZERO;
     }
-
-
 }
 

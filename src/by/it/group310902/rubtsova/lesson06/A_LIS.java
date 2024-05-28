@@ -30,13 +30,9 @@ import java.util.Scanner;
 */
 
 public class A_LIS {
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
-        A_LIS instance = new A_LIS();
-        int result = instance.getSeqSize(stream);
-        System.out.print(result);
+    int max(int x, int y) {
+        if (x > y) return x;
+        else return y;
     }
 
     int getSeqSize(InputStream stream) throws FileNotFoundException {
@@ -51,7 +47,23 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
         int result = 0;
+        int[] dp = new int[n];
+        for (int i = 0; i < n; ++i) {
+            dp[i] = 1;
+            for (int j = i - 1; j >= 0; --j) {
+                if (m[j] < m[i]) dp[i] = max(dp[i], dp[j] + 1);
+            }
+        }
+        for (int i = 0; i < n; ++i)
+            result = max(result, dp[i]);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
+        A_LIS instance = new A_LIS();
+        int result = instance.getSeqSize(stream);
+        System.out.print(result);
     }
 }

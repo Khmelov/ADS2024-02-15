@@ -40,6 +40,7 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
+    // наибольшая кратная последовательность
     int binarySearch(int[] a, int length, int x) {
         int l = 0;
         int r = length;
@@ -66,10 +67,10 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int[] dp = new int[n]; // Array for dynamic prog
-        int[] p = new int[n]; // Parents array
-        int length = 1; // Length of array right now
-        int last = 0; // Last element of the biggest subsequence
+        int[] dp = new int[n]; // массив для хранения наибольших кратных послед
+        int[] p = new int[n];
+        int length = 1;
+        int last = 0;
         dp[0] = m[0];
         p[0] = -1;
         for (int i = 1; i < n; i++) {

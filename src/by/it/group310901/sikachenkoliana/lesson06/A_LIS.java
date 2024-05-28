@@ -32,7 +32,7 @@ import java.util.Scanner;
 */
 
 public class A_LIS {
-
+    // наибольшая возрастающая последовательность
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");

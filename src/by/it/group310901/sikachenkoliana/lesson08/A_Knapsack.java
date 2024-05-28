@@ -5,66 +5,64 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 /*
-Задача на программирование: рюкзак без повторов
+Задача на программирование: рюкзак с повторами
 
 Первая строка входа содержит целые числа
     1<=W<=100000     вместимость рюкзака
-    1<=n<=300        число золотых слитков
-                    (каждый можно использовать только один раз).
-Следующая строка содержит n целых чисел, задающих веса каждого из слитков:
+    1<=n<=300        сколько есть вариантов золотых слитков
+                     (каждый можно использовать множество раз).
+Следующая строка содержит n целых чисел, задающих веса слитков:
   0<=w[1]<=100000 ,..., 0<=w[n]<=100000
 
 Найдите методами динамического программирования
 максимальный вес золота, который можно унести в рюкзаке.
 
+
 Sample Input:
 10 3
 1 4 8
 Sample Output:
-9
+10
+
+Sample Input 2:
+
+15 3
+2 8 16
+Sample Output 2:
+14
 
 */
 
-public class B_Knapsack {
+public class A_Knapsack {
 
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
+        int w = scanner.nextInt();
+        int n = scanner.nextInt();
         int[] G = new int[n];
         for (int i = 0; i < n; i++) {
-            G[i]=scanner.nextInt();
+            G[i] = scanner.nextInt();
         }
 
-        int[][] maxW = new int[w + 1][n + 1];
+        int[] maxW = new int[w + 1];
 
-        for (int i = 0; i <= w; i++){
-            maxW[i][0] = 0;
-        }
-        for (int i = 0; i <= n; i++){
-            maxW[0][i] = 0;
-        }
-
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= w; j++) {
-                maxW[j][i] = maxW[j][i - 1];
-                if (G[i - 1] <= j){
-                    maxW[j][i] = Math.max(maxW[j][i], maxW[j - G[i - 1]][i - 1] + G[i - 1]);
+        for (int i = 1; i <= w; i++) {
+            for (int j = 0; j < n; j++) {
+                if (G[j] <= i) {
+                    maxW[i] = Math.max(maxW[i], G[j] + maxW[i - G[j]]);
                 }
             }
         }
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return maxW[w][n];
+        return maxW[w];
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = B_Knapsack.class.getResourceAsStream("dataB.txt");
-        B_Knapsack instance = new B_Knapsack();
+        InputStream stream = A_Knapsack.class.getResourceAsStream("dataA.txt");
+        A_Knapsack instance = new A_Knapsack();
         int res=instance.getMaxWeight(stream);
         System.out.println(res);
     }
-
 }

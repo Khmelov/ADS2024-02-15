@@ -32,7 +32,6 @@ import java.util.Scanner;
 
 public class B_EditDist {
 
-
     int getDistanceEdinting(String one, String two) {
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

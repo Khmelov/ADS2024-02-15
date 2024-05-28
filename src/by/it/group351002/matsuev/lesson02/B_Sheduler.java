@@ -10,7 +10,6 @@ import java.util.List;
 */
 
 public class B_Sheduler {
-
     //событие у аудитории(два поля: начало и конец)
     static class Event {
         int start;
@@ -48,21 +47,12 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        while (from < to){
-            Event choice = null;
-            for (int i = 0; i < events.length; i++){
-                if (events[i].start == from && (choice == null||events[i].stop < choice.stop)){
-                    choice = events[i];
-                }
-            }
-            if (choice != null) {
-                result.add(choice);
-                from = choice.stop;
-            }
-            else{
-                from++;
-            }
-        }
+        //ваше решение.
+
+
+
+
+
 
         return result;          //вернем итог
     }

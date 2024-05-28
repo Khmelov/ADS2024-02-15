@@ -7,7 +7,6 @@ import java.util.Scanner;
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
 //
-// Create by ALEX USOV
 // В первой строке входного файла заданы два целых числа
 // kk и ll через пробел — количество различных букв, встречающихся в строке,
 // и размер получившейся закодированной строки, соответственно.
@@ -50,9 +49,7 @@ public class B_Huffman {
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-
-        // Create By ALEX USOV
+        //тут запишите ваше решениt
         String[] codes = new String[count];
         for (int i = 0; i < count; i++) {
             String s = scanner.next();

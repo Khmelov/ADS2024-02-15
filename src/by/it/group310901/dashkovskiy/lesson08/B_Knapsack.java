@@ -1,4 +1,4 @@
-package lesson08;
+package by.it.group310901.dashkovskiy.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -36,21 +36,26 @@ public class B_Knapsack {
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
-        boolean[] temp = new boolean[w+1];
-        for (int i = 0; i<n; i++){
-            int j = gold[i];
-            int tempj = 0;
-            while (tempj<=w){
-                temp[j] = true;
-                tempj = tempj + j;
+        int result = 0;
+
+        for(int i = 0; i < n; i++) {
+            for(int j = i; j < n; j++) {
+                if(gold[i] < gold[j]) {
+                    int temp = gold[i];
+                    gold[i] = gold[j];
+                    gold[j] = temp;
+                }
             }
         }
-        int i = w;
-        while (!temp[i]){
-            i--;
+        for(int i = 0; i < n; i++) {
+            if(w >= gold[i]) {
+                w -= gold[i];
+                result += gold[i];
+            }
         }
 
-        int result = i+1;
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

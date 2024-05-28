@@ -37,7 +37,6 @@ import java.util.*;
 //        c: 110
 //        d: 111
 //        01001100100111
-// Create by Alex Usov
 public class A_Huffman {
 
     //Изучите классы Node InternalNode LeafNode
@@ -88,7 +87,6 @@ public class A_Huffman {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
-    // Create by ALEX USOV
     //расширение базового класса до листа дерева
     private class LeafNode extends Node {
         //лист
@@ -119,7 +117,6 @@ public class A_Huffman {
 
         //все комментарии от тестового решения были оставлены т.к. это задание A.
         //если они вам мешают их можно удалить
-        // create by Alex Usov
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
         //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.

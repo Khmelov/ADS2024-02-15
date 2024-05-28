@@ -16,38 +16,46 @@ public class FiboC {
     }
 
     public static void main(String[] args) {
-        FiboC fibo = new FiboC();
+        by.it.group351004.sapeshko.lesson01.FiboC fibo = new by.it.group351004.sapeshko.lesson01.FiboC();
         int n = 10;
         int m = 2;
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
-        if (n <= 1) return n;
-        long a = 0;
-        long b = 1;
-        long c;
-        long period = 0;
-        for (int i = 0; i < m * 6; i++) {
-            c = (a + b) % m;
-            a = b;
-            b = c;
-            if (a == 0 && b == 1) {
-                period = i + 1;
-                break;
-            }
+    int searchperiod(int m) {
+        int period= 0;
+        int prev=0;
+        int curr=1;
+        int next;
+
+
+        for(int i=0; i<m*6; i++) {
+            next = (prev+curr) % m;
+            prev=curr;
+            curr=next;
+            if (prev==0 && curr==1)
+                period=i+1;
+
         }
-        n %= period;
-        a = 0;
-        b = 1;
-        for (int i = 2; i <= n; i++) {
-            c = (a + b) % m;
-            a = b;
-            b = c;
-        }
-        return b % m;
+        return period;
     }
+    long fasterC(long n, int m)
+    {
+        int period=searchperiod(m);
+        long res= n % period;
+        int prev=0;
+        int curr=1;
+        int next=0;
+        if (n==0) return 0;
+        if (n==1) return 1;
+        else
+            for (int i=0; i<res-1; i++ ) {
+                next = (prev+curr) % m;
+                prev=curr;
+                curr=next;
+            }
+        return curr % m;
+    }
+
+
 }

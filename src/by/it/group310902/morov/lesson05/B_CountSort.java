@@ -1,5 +1,6 @@
 package by.it.group310902.Morov.lesson05;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -32,13 +33,26 @@ public class B_CountSort {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива
         int n = scanner.nextInt();
-        int[] points = new int[n];
+        int[] points=new int[n];
 
         //читаем точки
         for (int i = 0; i < n; i++) {
-            points[i] = scanner.nextInt();
+            points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
+        int[] tempArray = new int[10];
+
+        for (int value : points) {
+            ++tempArray[value];
+        }
+
+        int b = 0;
+        for (int i = 0; i < 10; ++i){
+            for (int j = 0; j < tempArray[i]; ++j) {
+                points[b++] = i;
+            }
+        }
+
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

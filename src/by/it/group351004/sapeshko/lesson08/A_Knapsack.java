@@ -29,6 +29,7 @@ Sample Output 2:
 */
 
 public class A_Knapsack {
+
     int getMaxWeight(InputStream stream ) {
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

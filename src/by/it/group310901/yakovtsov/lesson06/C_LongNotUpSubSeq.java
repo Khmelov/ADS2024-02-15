@@ -36,7 +36,7 @@ import java.util.Scanner;
 */
 
 
-public class C_LongNotUpSubSeq {
+public class  C_LongNotUpSubSeq {
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных

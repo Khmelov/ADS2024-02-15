@@ -16,7 +16,7 @@ import java.util.Scanner;
 Вольный перевод: http://programador.ru/sorting-positive-int-linear-time/
 */
 
-public class B_CountSort {
+public class  B_CountSort {
 
 
     int[] countSort(InputStream stream) throws FileNotFoundException {

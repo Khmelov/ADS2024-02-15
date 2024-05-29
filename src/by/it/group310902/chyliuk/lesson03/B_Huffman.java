@@ -1,4 +1,4 @@
-package by.it.group310902.chyliuk.lesson03;
+package lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;

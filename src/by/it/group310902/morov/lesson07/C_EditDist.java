@@ -50,14 +50,54 @@ import java.util.Scanner;
 public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
+        int n = one.length();
+        int m = two.length();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        int[][] d = new int[n + 1][m + 1];
+
+        for (int i = 0; i <= n; i++) {
+            d[i][0] = i;
+        }
+        for (int j = 0; j <= m; j++) {
+            d[0][j] = j;
+        }
 
 
-        String result = "";
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                int eq = (one.charAt(i - 1) == two.charAt(j - 1)) ? 0 : 1;
+                d[i][j] = Math.min(d[i - 1][j] + 1, Math.min(d[i][j - 1] + 1, d[i - 1][j - 1] + eq));
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        int i = n;
+        int j = m;
+        while (i > 0 || j > 0) {
+
+            if (i > 0 && d[i - 1][j] + 1 == d[i][j]) {
+                result.insert(0, "-" + one.charAt(i - 1) + ",");
+                i--;
+            } else if (j > 0 && d[i][j - 1] + 1 == d[i][j]) {
+                result.insert(0, "+" + two.charAt(j - 1) + ",");
+                j--;
+            } else if (i > 0 && j > 0 && d[i - 1][j - 1] + ((one.charAt(i - 1) == two.charAt(j - 1)) ? 0 : 1) == d[i][j]) {
+
+                if (one.charAt(i - 1) == two.charAt(j - 1)) {
+                    result.insert(0, "#,");
+                } else {
+                    result.insert(0, "~" + two.charAt(j - 1) + ",");
+                }
+
+                i--;
+                j--;
+            }
+        }
+
+        return result.toString();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = C_EditDist.class.getResourceAsStream("dataABC.txt");

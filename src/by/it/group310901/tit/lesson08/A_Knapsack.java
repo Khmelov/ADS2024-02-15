@@ -50,6 +50,7 @@ public class A_Knapsack {
             }
         }
 
+
         int result = 0;
 
         for(int i = 0; i < n; i++) {

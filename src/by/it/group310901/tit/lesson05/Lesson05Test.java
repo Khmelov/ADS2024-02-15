@@ -18,6 +18,7 @@ public class Lesson05Test {
     }
 
 
+
     @Test
     public void checkB() throws Exception {
         InputStream inputStream = B_CountSort.class.getResourceAsStream("dataB.txt");

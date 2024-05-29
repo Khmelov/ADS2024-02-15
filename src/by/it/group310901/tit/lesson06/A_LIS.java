@@ -66,6 +66,9 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
         int result = getLongest(m);
+
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

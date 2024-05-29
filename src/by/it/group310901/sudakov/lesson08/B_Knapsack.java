@@ -46,7 +46,7 @@ public class B_Knapsack {
             for (int w = 1; w <= W; w++) {
                 if (weights[i - 1] <= w) {
                     int weightWithItem = maxWeights[i - 1][w - weights[i - 1]] + weights[i - 1];
-                    maxWeights[i][w] = Math.max(weightWithItem, maxWeights[i - 1][w]); //
+                    maxWeights[i][w] = Math.max(weightWithItem, maxWeights[i - 1][w]);
                 } else {
                     maxWeights[i][w] = maxWeights[i - 1][w];
                 }

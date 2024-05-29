@@ -16,7 +16,7 @@ public class Lesson08Test {
     }
 
     @Test
-    public void B() throws Exception { //
+    public void B() throws Exception {
         InputStream stream = B_Knapsack.class.getResourceAsStream("dataB.txt");
         B_Knapsack instance = new B_Knapsack();
         int res=instance.getMaxWeight(stream);

@@ -47,7 +47,7 @@ public class A_EditDist {
         if (two.length() == 0) {
             return one.length();
         }
-//
+
         int result = 0;
         if (one.charAt(0) == two.charAt(0)) {
             result = getDistanceEdinting(one.substring(1), two.substring(1));

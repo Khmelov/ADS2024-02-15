@@ -62,7 +62,7 @@ public class A_Knapsack {
         }
 
         // Возвращение максимального веса золота в рюкзаке
-        return maxWeights[W]; //
+        return maxWeights[W];
     }
 
 

@@ -14,7 +14,7 @@ public class Lesson06Test {
         int result = instance.getSeqSize(inputStream);
         boolean ok = (result == 3);
         assertTrue("A failed", ok);
-    }//
+    }
 
 
     @Test

@@ -58,7 +58,7 @@ public class C_LongNotUpSubSeq {
             dp[i] = 1;
         }
 
-        int maxLen = 1;
+        int maxLen = 1;//
 
         for (int i = 1; i < n; i++) {
             for (int j = 0; j < i; j++) {

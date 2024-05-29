@@ -45,7 +45,7 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         int[] dp = new int[n];
-        int maxSeqLength = 0;
+        int maxSeqLength = 0;//
         for (int i = 0; i < n; i++) {
             dp[i] = 1;
             for (int j = 0; j < i; j++) {

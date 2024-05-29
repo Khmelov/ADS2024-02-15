@@ -14,7 +14,7 @@ public class Lesson07Test {
     }
 
 
-    @Test
+    @Test //
     public void B() throws Exception {
         B_EditDist instance = new B_EditDist();
         assertEquals("B1 failed", instance.getDistanceEdinting("ab","ab"),0);

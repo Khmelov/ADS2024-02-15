@@ -1,5 +1,7 @@
 package by.it.group351005.pavello06.lesson05;
 
+import by.it.group351005.pavello06.lesson02.B_Sheduler;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -38,6 +40,39 @@ import java.util.Arrays;
 
 public class A_QSort {
 
+    static void swap(Segment segment1, Segment segment2) {
+        Segment temp = segment1;
+        segment1 = segment2;
+        segment2 = temp;
+    }
+
+    private static int partition(Segment[] segments, int low, int high) {
+        int middle = (low + high) / 2;
+        Segment pivot = segments[middle];
+        int leftIndex = low;
+        int rightIndex = high;
+        while (leftIndex <= rightIndex) {
+            while (segments[leftIndex].compareTo(pivot) == -1)
+                leftIndex++;
+            while (segments[rightIndex].compareTo(pivot) == 1)
+                rightIndex--;
+
+            if (leftIndex <= rightIndex) {
+                swap(segments[leftIndex], segments[rightIndex]);
+                leftIndex++;
+                rightIndex--;
+            }
+        }
+        return leftIndex;
+    }
+    static void quickSort(Segment[] segments, int low, int high) {
+        if (low < high) {
+            int pi = partition(segments, low, high);
+            quickSort(segments, low, pi - 1);
+            quickSort(segments, pi + 1, high);
+        }
+    }
+
     //отрезок
     private class Segment  implements Comparable<Segment>{
         int start;
@@ -53,8 +88,12 @@ public class A_QSort {
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-
-            return Integer.compare(this.start, o.start);
+            if (this.start == o.start && this.stop == o.stop)
+                return 0;
+            else if (this.start > o.start || this.start == o.start && this.stop > o.stop)
+                return 1;
+            else
+                return -1;
         }
     }
 
@@ -83,7 +122,7 @@ public class A_QSort {
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
-        Arrays.sort(segments);
+        quickSort(segments, 0, n - 1);
 
         // Для каждой точки определяем количество отрезков, которым она принадлежит
         for (int i = 0; i < m; i++) {
@@ -94,7 +133,7 @@ public class A_QSort {
             int left = 0;
             int right = n - 1;
             while (left <= right) {
-                int mid = left + (right - left) / 2;
+                int mid = (right + left) / 2;
 
                 if (segments[mid].start <= point && point <= segments[mid].stop) {
                     count++;

@@ -38,7 +38,7 @@ public class C_Stairs {
         }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int[] Sum = new int[n + 1];
+        int Sum[] = new int[n + 1];
         Sum[0] = 0;
         Sum[1] = stairs[0];
 

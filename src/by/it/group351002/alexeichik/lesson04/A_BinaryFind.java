@@ -67,8 +67,9 @@ public class A_BinaryFind {
                 if (value>a[cur]) cur=cur+h;
                 if (value<a[cur]) cur=cur-h;
             }
-            result[i] = cur+1;
+            result[i]=cur+1;
             if (a[cur]!=value) result[i]=-1;
+
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

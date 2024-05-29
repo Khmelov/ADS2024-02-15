@@ -38,29 +38,60 @@ import java.util.Scanner;
 public class C_LongNotUpSubSeq {
 
     public static void main(String[] args) throws FileNotFoundException {
+        // Загружаем входные данные из файла "dataC.txt"
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
+        // Вызываем метод getNotUpSeqSize, чтобы получить результат
         int result = instance.getNotUpSeqSize(stream);
         System.out.print(result);
     }
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Подготавливаемся к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //общая длина последовательности
+        // Получаем длину последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
-        //читаем всю последовательность
+        int[] d = new int[n];
+        // Читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
+            d[i] = 1;
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
+        // Реализуем логику задачи, используя методы динамического программирования (!!!)
         int result = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                // Если текущий элемент больше или равен предыдущему элементу, и длина последовательности, заканчивающейся на предыдущем элементе, плюс один больше, чем длина последовательности, заканчивающейся на текущем элементе
+                if ((m[j]>=m[i])&&(d[j]+1>d[i])){
+                    d[i] = d[j] + 1;
+                    if (d[i]>result){
+                        result = i;
+                    }
+                }
+            }
+        }
 
+        // Восстанавливаем самую длинную невозрастающую подпоследовательность
+        int[] res = new int[d[result]];
+        res[d[result]-1] = m[result];
+        int tempres = d[result]-2;
+
+        for (int i = result-1; i >= 0; i--) {
+            if ((d[i]==tempres+1) && (m[i]>=res[tempres+1])) {
+                res[tempres] = m[i];
+                tempres--;
+            }
+        }
+
+        System.out.println(d[result]);
+        for (int i = 0; i < d[result]; i++) {
+            System.out.print(res[i] + " ");
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return d[result];
     }
 
 }

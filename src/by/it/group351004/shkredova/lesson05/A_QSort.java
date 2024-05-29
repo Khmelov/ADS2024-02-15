@@ -52,7 +52,6 @@ public class A_QSort {
 
         @Override
         public int compareTo(Segment o) {
-            //подумайте, что должен возвращать компаратор отрезков
             if (this.start != o.start) {
                 return Integer.compare(this.start, o.start);
             } else {
@@ -88,15 +87,30 @@ public class A_QSort {
 
         Arrays.sort(segments);
 
+        // Для каждой точки определяем количество отрезков, которым она принадлежит
         for (int i = 0; i < m; i++) {
-            for (Segment segment : segments) {
-                if (points[i] >= segment.start && points[i] <= segment.stop) {
-                    result[i]++;
-                } else if (points[i] < segment.start) {
+            int point = points[i];
+            int count = 0;
+
+            // Используем бинарный поиск для определения количества отрезков
+            int left = 0;
+            int right = n - 1;
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+
+                if (segments[mid].start <= point && point <= segments[mid].stop) {
+                    count++;
                     break;
+                } else if (point < segments[mid].start) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
                 }
             }
+
+            result[i] = count;
         }
+
 
 
 

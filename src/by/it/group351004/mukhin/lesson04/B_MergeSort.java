@@ -22,9 +22,9 @@ Sample Output:
 public class B_MergeSort {
 
     void swapElements(int a, int b){
-        int temp = b;
-        b = a;
-        a = temp;
+        a = a ^ b;
+        b = a ^ b;
+        a = a ^ b;
     }
 
     int[] MergeSort(int[] arr, int  left, int right){
@@ -40,21 +40,25 @@ public class B_MergeSort {
         return arr;
     }
 
-    int[] Merge (int[] arr, int left, int middle, int right){
-        int EF = left;
-        int ES = middle + 1;
-        int CE = 0;
+    int[] Merge(int[] arr, int left, int middle, int right) {
+        int leftIndex = left;
+        int rightIndex = middle + 1;
+        int mergedIndex = 0;
+        int[] mergedArray = new int[right - left + 1];
 
-        while((EF <= middle) && (ES <= right))
-            if (arr[EF] < arr [ES])
-                arr[CE++] = arr[EF++];
+        while (leftIndex <= middle && rightIndex <= right) {
+            if (arr[leftIndex] < arr[rightIndex])
+                mergedArray[mergedIndex++] = arr[leftIndex++];
             else
-                arr[CE++] = arr[ES++];
+                mergedArray[mergedIndex++] = arr[rightIndex++];
+        }
 
-        while (EF<= middle)
-            arr[CE++] = arr[EF++];
-        while (ES <= right)
-            arr[CE++] = arr[ES++];
+        while (leftIndex <= middle)
+            mergedArray[mergedIndex++] = arr[leftIndex++];
+        while (rightIndex <= right)
+            mergedArray[mergedIndex++] = arr[rightIndex++];
+
+        System.arraycopy(mergedArray, 0, arr, left, mergedArray.length);
 
         return arr;
     }

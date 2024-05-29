@@ -3,7 +3,9 @@ package by.it.group310902.karpechenko.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 /*
 Задача на программирование: наибольшая невозростающая подпоследовательность
@@ -37,6 +39,20 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
+    int max(int x, int y){
+    if(x>y) return x;
+    else return y;
+    }
+    int BinarySearch(int[] d,int n, int val){
+        int l = 0;
+        int r = n-1;
+        while(l<r){
+            int mid = (l+r)/2;
+            if(d[mid] >= val) l = mid + 1;
+            if(d[mid] < val) r = mid;
+        }
+        return l;
+    }
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -50,9 +66,39 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
+        int INF = (int) 1e9;
         int result = 0;
-
-
+        int[] d = new int[n];
+        int[] pos = new int[n];
+        int[] prev = new int[n];
+        d[0] = INF;
+        pos[0] = -1;
+        int length=0;
+        for (int i = 1; i < n; ++i)
+            d[i] = -INF;
+        for(int i = 0; i < n; ++i) {
+            int j = BinarySearch(d, n, m[i]);
+            if (d[j - 1] >= m[i] && m[i] > d[j]) {
+                d[j] = m[i];
+                pos[j] = i;
+                prev[i] = pos[j - 1];
+                length = max(length, j);
+            }
+        }
+        for (int i = 0;i<n;++i)
+            System.out.print(d[i] + " ");
+        Stack<Integer> st=new Stack<>();
+        int p = pos[length];
+        while(p!=-1){
+            st.push(m[p]);
+            p=prev[p];
+        }
+        System.out.println();
+        while(!st.empty()){
+            System.out.print(st.pop() + " ");
+        }
+        result=length;
+        System.out.println();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
@@ -60,7 +106,7 @@ public class C_LongNotUpSubSeq {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group310902/karpechenko/lesson06/dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
         int result = instance.getNotUpSeqSize(stream);
         System.out.print(result);

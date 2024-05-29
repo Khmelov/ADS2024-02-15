@@ -5,7 +5,6 @@ import java.math.BigInteger;
 /*
  * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
  */
-
 public class FiboA {
 
 
@@ -29,22 +28,28 @@ public class FiboA {
     }
 
     private int calc(int n) {
-        //здесь простейший вариант, в котором код совпадает
-        //с математическим определением чисел Фибоначчи
-        //время O(2^n)
-        if (n<2) return n;
-        return calc(n-1) + calc(n-2);
+        int fib1=0;
+        int fib2=1;
+        int result=0;
+        for(int i=0; i<n-2; i++){
+            result=fib1+fib2;
+            fib1=fib2;
+            fib2=result;
+        }
+        return result;
     }
 
 
     BigInteger slowA(Integer n) {
-        //рекурсия
-        //здесь нужно реализовать вариант без ограничения на размер числа,
-        //в котором код совпадает с математическим определением чисел Фибоначчи
-        //время O(2^n)
-        if (n==0) return BigInteger.ZERO;
-        if (n==1) return BigInteger.ONE;
-        return slowA(n-1).add(slowA(n-2));
+        if (n == 0){
+            return BigInteger.valueOf(0);
+        }
+        if (n == 1){
+            return BigInteger.valueOf(1);
+        }
+        else{
+            return slowA(n - 1).add(slowA(n - 2));
+        }
     }
 
 

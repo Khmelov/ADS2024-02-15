@@ -21,40 +21,19 @@ public class FiboC {
         System.out.printf("fasterC(%d)=%d \n\t time=%d \n\n", n, fibo.fasterC(n, m), fibo.time());
     }
 
-    int searchperiod(int m) {
-        int period= 0;
-        int prev=0;
-        int curr=1;
-        int next;
-
-
-        for(int i=0; i<m*6; i++) {
-            next = (prev+curr) % m;
-            prev=curr;
-            curr=next;
-            if (prev==0 && curr==1)
-                period=i+1;
-
+    long fasterC(long n, int m) {
+        long[] mas;
+        long result;
+        mas = new long[100];
+        mas[0]=0;
+        mas[1]=1;
+        int i=2;
+        while(!(mas[i-2]==0 && mas[i-1]==1) || i<=2){
+            mas[i]=(mas[i-2]+mas[i-1])%m;
+            i+=1;
         }
-        return period;
-    }
-    long fasterC(long n, int m)
-    {
-
-        int period=searchperiod(m);
-        long res= n % period;
-        int prev=0;
-        int curr=1;
-        int next=0;
-        if (n==0) return 0;
-        if (n==1) return 1;
-        else
-            for (int i=0; i<res-1; i++ ) {
-                next = (prev+curr) % m;
-                prev=curr;
-                curr=next;
-            }
-        return curr % m;
+        result = mas[(int) (n%(i-2))];
+        return result;
     }
 
 

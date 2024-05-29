@@ -1,4 +1,4 @@
-package by.it.group310901.dashkovskiy.lesson01;
+package by.it.group351004.leshok.lesson01;
 
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class Lesson01Test {
     Name:               Test a_khmelev (тут ваша фамилия)
     Test kind:          All in package
     Package:            by.it.группа.a_khmelev (тут ваша фамилия)
-    SSearch for test:    In whole project
+    Search for test:    In whole project
     */
 
     @Test(timeout = 2000)

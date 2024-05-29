@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson01;
+package by.it.group310902.nazarov.lesson01;
 
 import java.math.BigInteger;
 
@@ -29,23 +29,15 @@ public class FiboA {
     }
 
     private int calc(int n) {
-        if (n < 2)
-            return n;
-        else
-            return calc(n - 1) + calc(n - 2);
+        if (n<2) return n;
+        return calc(n-1) + calc(n-2);
     }
 
 
     BigInteger slowA(Integer n) {
-        if (n == 0)
-            return BigInteger.ZERO;
-        else if (n == 1)
-            return BigInteger.ONE;
-        else
-            return slowA(n - 1).add(slowA(n - 2));
-
-
-
+        if (n==0) return BigInteger.ZERO;
+        if (n==1) return BigInteger.ONE;
+        return slowA(n-1).add(slowA(n-2));
     }
 
 

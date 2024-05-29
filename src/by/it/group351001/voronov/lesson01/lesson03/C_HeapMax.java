@@ -1,4 +1,4 @@
-package by.it.Group351001.voronov.lesson01.lesson3.lesson03;
+package by.it.group351001.voronov.lesson01.lesson03;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -87,7 +87,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-            //System.out.println(heap); //debug
+                //System.out.println(heap); //debug
             }
         }
         return maxValue;

@@ -1,5 +1,4 @@
-package by.it.Group351001.voronov.lesson01.lesson3.lesson03;
-
+package by.it.group351001.voronov.lesson01.lesson03;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;

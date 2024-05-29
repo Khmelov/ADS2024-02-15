@@ -1,4 +1,4 @@
-package by.it.group351001.voronov.lesson01.lesson02.lesson02;
+package by.it.group351001.voronov.lesson01.lesson02;
 /*
 Даны
 1) объем рюкзака 4
@@ -112,7 +112,7 @@ public class C_GreedyKnapsack {
                 if (high_value < items[i].cost / items[i].weight) {
                     high_value = items[i].cost / items[i].weight;
                     index = i;
-                }
+                } //Предметы сортируются по убыванию стоимости за единицу веса
             }
             total_weight += items[index].weight;
             total_cost += items[index].cost;

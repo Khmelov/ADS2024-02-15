@@ -1,4 +1,4 @@
-package by.it.Group351001.voronov.lesson01.lesson3.lesson03;
+package by.it.group351001.voronov.lesson01.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +121,7 @@ public class A_Huffman {
 
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
-            //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
+        //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
         char c;
         for (int i = 0; i < s.length(); i++) {
             c = s.charAt(i);

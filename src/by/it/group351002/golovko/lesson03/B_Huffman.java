@@ -1,10 +1,10 @@
-package by.it.group351005.zhuravski.lesson03;
+package by.it.group351002.golovko.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
@@ -48,31 +48,36 @@ public class B_Huffman {
         StringBuilder result=new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt();//lettersAm
+        Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-        char[] syms = new char[count];
-        String line;
+        char letter;
+        String code;
         scanner.nextLine();
+        Map<String, Character> codes = new TreeMap<>();
         for (int i = 0; i < count; i++) {
-            line = scanner.nextLine();//
-            syms[i] = line.charAt(0);
+            String line = scanner.nextLine();
+            letter = line.charAt(0);
+            code = line.substring(3);
+            codes.put(code, letter);
         }
-        String encodedStr = scanner.next();
-        int curLet = 0;
-        for (int i = 0; i < encodedStr.length(); i++) {
-            if (encodedStr.charAt(i) == '0') {
-                result.append(syms[curLet]);
-                curLet = 0;
+        String codedLine = scanner.nextLine();
+        int i = 0;
+        StringBuilder nextCode = new StringBuilder();
+        while (i < length) {
+            nextCode.append(codedLine.charAt(i));
+            if (codedLine.charAt(i) == '0') {
+                result.append(codes.get(nextCode.toString()));
+                nextCode = new StringBuilder();
             }
-            else {
-                curLet++;
-            }
+            i++;
         }
-        if (curLet > 0) {
-            result.append(syms[curLet]);
-        }
+        if (!nextCode.isEmpty())
+            result.append(codes.get(nextCode.toString()));
+
+
+
+
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1

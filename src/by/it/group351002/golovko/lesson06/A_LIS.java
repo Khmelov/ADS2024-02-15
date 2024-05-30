@@ -1,9 +1,7 @@
-package by.it.group351005.zhuravski.lesson06;
+package by.it.group351002.golovko.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -18,14 +16,14 @@ import java.util.Scanner;
 Необходимо:
     Выведите максимальное 1<=k<=n, для которого гарантированно найдётся
     подпоследовательность индексов i[1]<i[2]<…<i[k] <= длины k,
-    для которой каждый элемент A[i[k]]больше любого предыдущего
+    где каждый элемент A[i[k]] больше любого предыдущего
     т.е. для всех 1<=j<k, A[i[j]]<A[i[j+1]].
 
 Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
 
     Sample Input:
     5
-    1 3 3 2 6;
+    1 3 3 2 6
 
     Sample Output:
     3
@@ -34,45 +32,35 @@ import java.util.Scanner;
 public class A_LIS {
 
 
-    int getSeqSize(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
-        Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //общая длина последовательности
-        int n = scanner.nextInt();
-        int[] m = new int[n];
-        //читаем всю последовательность
-        for (int i = 0; i < n; i++) {
-            m[i] = scanner.nextInt();
-        }
-        int result = 0;
-        int[] dests = new int[n + 1];
-        dests[0] = -1;
-        int topDest = 0;
-        for (int i = 0; i < n; i++) {
-            int curDest = topDest;
-            while (m[i] <= dests[curDest]) {
-                curDest--;
-            }
-            curDest++;
-            if ((curDest > topDest) || (m[i] < dests[curDest])) {
-                dests[curDest] = m[i];
-                if (curDest > topDest) {
-                    topDest = curDest;
-                }
-            }
-        }
-        result = topDest;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
-    }
-
-
     public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataA.txt");
+        InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
         A_LIS instance = new A_LIS();
         int result = instance.getSeqSize(stream);
         System.out.print(result);
+    }
+
+    int getSeqSize(InputStream stream) throws FileNotFoundException {
+        Scanner scanner = new Scanner(stream);
+        int n = scanner.nextInt();
+        int[] m = new int[n];
+        for (int i = 0; i < n; i++) {
+            m[i] = scanner.nextInt();
+        }
+
+        int[] dp = new int[n];
+        int result = 0;
+
+        for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (m[j] < m[i] && dp[j] + 1 > dp[i]) {
+                    dp[i] = dp[j] + 1;
+                }
+            }
+            result = Math.max(result, dp[i]);
+        }
+
+        return result;
+
     }
 }

@@ -1,4 +1,4 @@
-package lesson02;
+package by.it.group310902.chyliuk.lesson02;
 
 import java.util.Arrays;
 import java.util.Comparator;

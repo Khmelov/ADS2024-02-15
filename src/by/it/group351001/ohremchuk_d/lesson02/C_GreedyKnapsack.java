@@ -1,4 +1,4 @@
-package lesson02;
+package by.it.group351001.ohremchuk_d.lesson02;
 /*
 Даны
 1) объем рюкзака 4

@@ -50,35 +50,47 @@ public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //создаём массив для заполнения
         int[][]dp=new int[one.length()+1][two.length()+1];
 
+        // заполняем первую колонку и первую строку (расстояние от пустой строки до другой строки)
         for (int i = 0; i <= one.length(); i++) {
             dp[i][0] = i;
         }
         for (int j = 0; j <= two.length(); j++) {
             dp[0][j] = j;
         }
+        //заполняем оставшийся массив
         for(int i=1;i<=one.length();++i){
             for (int j = 1; j <= two.length(); j++){
+                // если символы совпадают, то вес = 0
                 int s=(one.charAt(i-1)==two.charAt(j-1))?0:1;
+                //считаем минимальный вес
                 dp[i][j]=Math.min(Math.min(dp[i-1][j]+1,dp[i][j-1]+1),dp[i-1][j-1]+s);
             }
         }
 
+        // строка для редакционных предписаний
         String result = "";
+        //индексы строк
         int i = one.length();
         int j = two.length();
 
+        //идём от правого нижнего угла
         while (i > 0 || j > 0) {
+            // если сверху меньше, то удаляем
             if (i > 0 && dp[i][j] == dp[i - 1][j] + 1) {
                 result = "-" + one.charAt(i - 1) + "," + result;
                 i--;
+                // если слева меньше, то вставляем
             } else if (j > 0 && dp[i][j] == dp[i][j - 1] + 1) {
                 result = "+" + two.charAt(j - 1) + "," + result;
                 j--;
             } else {
+                // если символы не совпадают, то замена
                 if (one.charAt(i - 1) != two.charAt(j - 1)) {
                     result = "~" + two.charAt(j - 1) + "," + result;
+                    // если символы совпадают, то копируем
                 } else {
                     result = "#," + result;
                 }
@@ -91,6 +103,7 @@ public class C_EditDist {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
     }
+
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = C_EditDist.class.getResourceAsStream("dataABC.txt");
         C_EditDist instance = new C_EditDist();

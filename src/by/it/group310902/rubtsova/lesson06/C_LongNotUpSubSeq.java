@@ -39,73 +39,48 @@ import java.io.IOException;
 
 
 public class C_LongNotUpSubSeq {
-    int max(int x, int y) {
-        if (x > y) return x;
-        else return y;
-    }
-
-    int BinarySearch(int[] d, int n, int val) {
-        int l = 0;
-        int r = n - 1;
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (d[mid] >= val) l = mid + 1;
-            if (d[mid] < val) r = mid;
-        }
-        return l;
-    }
-
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Создаем сканнер для чтения данных из потока ввода
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //общая длина последовательности
+
+        // Читаем количество элементов (n) из ввода
         int n = scanner.nextInt();
+
+        // Создаем массив для хранения элементов
         int[] m = new int[n];
-        //читаем всю последовательность
+
+        // Заполняем массив данными из ввода
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int INF = (int) 1e9;
+
+        // Массив для хранения длин LIS, инициализируем каждый элемент значением 1
+        int[] dp = new int[n];
+
+        // Переменная для хранения длины наибольшей LIS
         int result = 0;
-        int[] d = new int[n];
-        int[] pos = new int[n];
-        int[] prev = new int[n];
-        d[0] = INF;
-        pos[0] = -1;
-        int length = 0;
-        for (int i = 1; i < n; ++i)
-            d[i] = -INF;
-        for (int i = 0; i < n; ++i) {
-            int j = BinarySearch(d, n, m[i]);
-            if (d[j - 1] >= m[i] && m[i] > d[j]) {
-                d[j] = m[i];
-                pos[j] = i;
-                prev[i] = pos[j - 1];
-                length = max(length, j);
+
+        // Перебираем все элементы массива m
+        for (int i = 0; i < n; i++) {
+            // Инициализируем длину LIS для текущего элемента как 1
+            dp[i] = 1;
+
+            // Проходим по всем предыдущим элементам, чтобы определить LIS для текущего элемента
+            for (int j = 0; j < i; j++) {
+                // Если текущий элемент меньше или равен предыдущему и LIS для предыдущего элемента (dp[j]) увеличивает LIS для текущего элемента
+                if (m[i] <= m[j] && dp[j] + 1 > dp[i]) {
+                    // Обновляем длину LIS для текущего элемента
+                    dp[i] = dp[j] + 1;
+                }
             }
-        }
-        for (int i = 0; i < n; ++i)
-            System.out.print(d[i] + " ");
-        Stack<Integer> st = new Stack<>();
-        int p = pos[length];
-        while (p != -1) {
-            st.push(m[p]);
-            p = prev[p];
-        }
-            System.out.println();
-            while (!st.empty()) {
-                System.out.print(st.pop() + " ");
-            }
-            result = length;
-            System.out.println();
 
-
-            //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-            return result;
+            // Обновляем переменную result с учетом текущей длины LIS
+            result = Math.max(result, dp[i]);
         }
 
+        // Возвращаем длину наибольшей LIS
+        return result;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");

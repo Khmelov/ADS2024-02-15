@@ -15,68 +15,43 @@ import java.util.Scanner;
 */
 
 public class B_CountSort {
-    public static int[] sort(int[] array) {
-        int min, max = min = array[0];
-// тупо находим максимальное и минимальное значение
-        for (int i = 1; i < array.length; i++) {
-            if (array[i] < min) {
-                min = array[i];
-            }
-            if (array[i] > max) {
-                max = array[i];
-            }
-        }
-// понеслась
-        return sort(array, min, max);
-    }
-
-    static int[] sort(int[] array, int min, int max) {
-        // счетчик это такой массив в котором мы будем считать, как часто встречаются
-        // числа в сортируемом массиве.
-        // допустим массив равен = 10,2,1,5,1}, min = 0, max = 5
-        // счетчик = count [0]....count [5]
-        int[] count = new int[max - min + 1];
-        for (int i = 0; i < array.length; i++) {
-            // подсчитываем сколько раз встречается число,
-            // встретилось +1 к счетчику
-            count[array[i] - min]++;
-        }
-        // например. count [0]=1, count [1]=2, count[3]=0, count [4]=0, count [5]=1
-        int idx = 0;
-        // теперь все готово
-        // пробегаем по всему счетчику (от 0 до 5)
-        // count [1] - показывает сколько раз встречается то или иное число
-        for (int i = 0; i < count.length; i++) {
-            // count [0]=1, значит аггу[0]=0;
-            // count [1]=2, значит вставляем два раза аггау[1]=аггу [2]=1;
-            // count [2]=1, опять только один раз. аггау[3]=2;
-            // count [3]=0, значит ничего не вставляем и т.д.
-            for (int j = 0; j < count[i]; j++) {
-                array[idx++] = i + min;
-            }
-        }
-        return array;
-    }
-
-
     int[] countSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Создаем сканнер для чтения данных из потока ввода
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //размер массива
-        int n = scanner.nextInt();
-        int[] points = new int[n];
 
-        //читаем точки
+        // Читаем количество элементов в массиве (n)
+        int n = scanner.nextInt();
+        int[] points = new int[n]; // Создаем массив для хранения элементов
+
+        // Читаем элементы массива и сохраняем их в points
         for (int i = 0; i < n; i++) {
             points[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи с применением сортировки подсчетом
-        points = sort(points);
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return points;
+        // Создаем массив для подсчета количества элементов каждого значения (от 0 до 10)
+        int[] count = new int[11];
+
+        // Подсчитываем количество вхождений каждого элемента в массиве points
+        for (int i = 0; i < n; i++) {
+            count[points[i]]++;
+        }
+
+        // Создаем массив для отсортированных элементов
+        int[] sortedPoints = new int[n];
+        int currentSortedIndex = 0;
+
+        // Проходим по массиву count и добавляем каждый элемент в отсортированный массив sortedPoints
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                sortedPoints[currentSortedIndex++] = i;
+                count[i]--;
+            }
+        }
+
+        // Возвращаем отсортированный массив
+        return sortedPoints;
     }
+
 
 
     public static void main(String[] args) throws FileNotFoundException {

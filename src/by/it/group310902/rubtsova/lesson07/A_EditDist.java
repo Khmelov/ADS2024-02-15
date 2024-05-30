@@ -41,26 +41,33 @@ public class A_EditDist {
 
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        // проверяем на пустоты
         if (one.length()==0){
             return two.length();
         }else if(two.length()==0){
             return one.length();
         }
+        //создаём массив для заполнения
         int[][]dp=new int[one.length()+1][two.length()+1];
 
+        // заполняем первую колонку и первую строку
         for (int i = 0; i <= one.length(); i++) {
             dp[i][0] = i;
         }
         for (int j = 0; j <= two.length(); j++) {
             dp[0][j] = j;
         }
+        //заполняем оставшийся массив
         for(int i=1;i<=one.length();++i){
             for (int j = 1; j <= two.length(); j++){
+                // если символы совпадают, то вес = 0
                 int s=(one.charAt(i-1)==two.charAt(j-1))?0:1;
+                //считаем минимальный вес
                 dp[i][j]=Math.min(Math.min(dp[i-1][j]+1,dp[i][j-1]+1),dp[i-1][j-1]+s);
             }
         }
 
+        // вес редактирования
         int result = dp[one.length()][two.length()];
 
 

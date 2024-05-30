@@ -20,71 +20,74 @@ Sample Output:
 2 2 3 9 9
 */
 public class B_MergeSort {
-int count=0;
-int[] mergeSort(int[] arr, int left, int right) {
-    if (arr.length == 2) {
-        if (arr[left] > arr[right]) {
-            int temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
-            count++;
+    private int[] merge(int[] a, int[] b) {
+        // Создаем массив result для хранения объединенного массива.
+        int[] result = new int[a.length + b.length];
+        // Индексы для массивов a (i) и b (j), а также для массива result (r).
+        int i = 0, j = 0, r = 0;
+        // Проходим по обоим массивам a и b и сравниваем элементы на каждой позиции.
+        while (i < a.length && j < b.length) {
+            // Если элемент в массиве a меньше или равен элементу в массиве b,
+            // то добавляем элемент из a в result и увеличиваем i и r.
+            if (a[i] <= b[j]) {
+                result[r++] = a[i++];
+            } else {
+                // Иначе добавляем элемент из b в result и увеличиваем j и r.
+                result[r++] = b[j++];
+            }
         }
-        return arr;
-    }
-    if (left == right) {
-        return arr;
+        // Добавляем оставшиеся элементы из массива a в result, если они есть.
+        while (i < a.length) {
+            result[r++] = a[i++];
+        }
+        // Добавляем оставшиеся элементы из массива b в result, если они есть.
+        while (j < b.length) {
+            result[r++] = b[j++];
+        }
+        // Возвращаем объединенный и отсортированный массив result.
+        return result;
     }
 
-    int mid = (left + right) / 2;
-    int[] leftArr = mergeSort(arr, left, mid);
-    int[] rightArr = mergeSort(arr, mid + 1, right);
-    int[] result = new int[right - left + 1];
-    int i = left;
-    int j = mid + 1;
-    int k = 0;
-    while (i <= mid && j <= right) {
-        if (leftArr[i] <= rightArr[j]) {
-            result[k++] = leftArr[i++];
-        } else {
-            result[k++] = rightArr[i++];
-            count++;
+    // Метод mergeSort выполняет сортировку слиянием для заданного массива a.
+    private int[] mergeSort(int[] a) {
+        // Если массив содержит 1 элемент или менее, то он уже отсортирован.
+        if (a.length <= 1) {
+            return a;
         }
+        // Находим средний индекс массива.
+        int mid = a.length / 2;
+        // Создаем два подмассива: левый и правый.
+        int[] left = new int[mid];
+        int[] right = new int[a.length - mid];
+        // Копируем элементы из массива a в подмассивы left и right.
+        System.arraycopy(a, 0, left, 0, mid);
+        System.arraycopy(a, mid, right, 0, a.length - mid);
+        // Рекурсивно вызываем mergeSort для подмассивов left и right.
+        // Затем объединяем их с помощью метода merge.
+        return merge(mergeSort(left), mergeSort(right));
     }
-    while (i <= mid) {
-        result[k++] = leftArr[i++];
-    }
-    while (j <= right) {
-        result[k++] = rightArr[j++];
-        count++;
-    }
-    for (int l = 0; l < result.length; l++) {
-        arr[l] = result[l];
-    }
-    return arr;
-}
 
+    // Метод getMergeSort считывает входные данные из потока stream и возвращает
+// отсортированный массив, используя алгоритм сортировки слиянием.
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        //размер массива
+        // Считываем количество элементов в массиве.
         int n = scanner.nextInt();
-        //сам массив
+        // Создаем массив a для хранения элементов.
         int[] a = new int[n];
+        // Считываем элементы массива из входного потока.
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
-            System.out.println(a[i]);
         }
 
-        // тут ваше решение (реализуйте сортировку слиянием)
-        // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-         a = mergeSort(a,0, a.length-1);
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return a;
+        // Выполняем сортировку слиянием для массива a и возвращаем результат.
+        return mergeSort(a);
     }
-    public static void main(String[] args) throws FileNotFoundException {
+
+
+
+public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");
         B_MergeSort instance = new B_MergeSort();

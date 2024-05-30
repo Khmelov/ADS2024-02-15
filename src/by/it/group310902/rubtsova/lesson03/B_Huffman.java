@@ -1,11 +1,10 @@
 package by.it.group310902.rubtsova.lesson03;
 
-import java.io.File;
-import java.io.Console;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
-import java.util.Map;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
@@ -44,44 +43,47 @@ import java.util.HashMap;
 //        abacabad
 
 public class B_Huffman {
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream inputStream = B_Huffman.class.getResourceAsStream("dataB.txt");
+        B_Huffman instance = new B_Huffman();
+        String result = instance.decode(inputStream);
+        System.out.println(result);
+    }
 
-    String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
+    String decode(InputStream inputStream) throws FileNotFoundException {
+        StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
-        Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt(); //count представляет количество символов и их кодов в индексе
+        Scanner scanner = new Scanner(inputStream);
+        Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-        Map<String,Character> chars=new HashMap<>();
-        for (int i= 0; i<count; ++i){
-            char c = scanner.next().charAt(0);
-            String s = scanner.next();
-            chars.put(s,c);//все пары символов и кодов из файла, и они добавляются в chars
+        //создаем мапу для хранения кодов и символов
+        Map<String, Character> map = new HashMap<>();
+        //читаем коды и символы из файла и заполняем мапу
+        for (int i = 0; i < count; ++i) {
+            char letter = scanner.next().charAt(0);
+            String str = scanner.next();
+            map.put(str, letter);
         }
-        String cin=scanner.next();
-        String buff="";
-        for (int i=0; i<cin.length(); ++i){
-            buff += cin.charAt(i);
-            if (chars.get(buff) != null){
-                result.append(chars.get(buff));
-                buff = "";
+        //читаем закодированную строку из файла
+        String cin = scanner.next();
+        //переменная для хранения частично собранного кода
+        String temp = "";
+        //перебираем символы закодированной строки
+        for (int i = 0; i < cin.length(); ++i) {
+            //добавляем очередной символ к частично собранному коду
+            temp += cin.charAt(i);
+            //если в мапе есть код, соответствующий частично собранному коду
+            if (map.get(temp) != null) {
+                //добавляем к результату соответствующий символ
+                result.append(map.get(temp));
+                //обнуляем частично собранный код
+                temp = "";
             }
         }
-        //проходим посимволам, добавляем их в буфер buff, проверяем есть ли в char соотв код buff
-        //если да, то добавляем символ в result и сбрасываем буфер buff
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
-        B_Huffman instance = new B_Huffman();
-        String result = instance.decode(f);
-        System.out.println(result);
-    }
-
-
 }

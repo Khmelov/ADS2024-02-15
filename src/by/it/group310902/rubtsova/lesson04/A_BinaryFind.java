@@ -27,61 +27,43 @@ import java.util.Scanner;
 */
 
 public class A_BinaryFind {
-    int binarySearch(int[] array, int key, int low, int high){
-        int middle = low + (high-low)/2;
-        if(high<=low){
-            return -1;
-        }
-        if (key==array[middle]){
-            return middle;
-        } else if (key < array[middle]){
-            return binarySearch(array, key, low, middle-1);
-        } else {
-            return binarySearch(array, key, middle+1, high);
-        }
-    }
-
     int[] findIndex(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
-        Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        Scanner scanner = new Scanner(stream); // Создание объекта Scanner для чтения входных данных
 
-        //размер отсортированного массива
-        int n = scanner.nextInt();
-        //сам отсортированный массива
-        int[] a = new int[n];
+        int n = scanner.nextInt(); // Считывание размера массива
+        int[] a = new int[n]; // Создание массива для хранения элементов
         for (int i = 1; i <= n; i++) {
-            a[i - 1] = scanner.nextInt();
+            a[i - 1] = scanner.nextInt(); // Заполнение массива элементами из входных данных
         }
 
-        //размер массива индексов
-        int k = scanner.nextInt();
-        int[] result = new int[k];
+        int k = scanner.nextInt(); // Считывание количества значений для поиска
+        int[] result = new int[k]; // Создание массива для хранения результатов
         for (int i = 0; i < k; i++) {
-            int value = scanner.nextInt();
-            //тут реализуйте бинарный поиск индекса
-            int left = 0;
-            int right = n-1;
-            while(left<=right){
-                int middle =(left+right)/2;
-                if(a[middle]==value){
-                    result[i]=middle+1;
+            int value = scanner.nextInt(); // Считывание значения для поиска
+
+            // Бинарный поиск
+            int left = 0, right = n - 1; // Инициализация границ поиска
+            while (left <= right) {
+                int mid = left + (right - left) / 2; // Вычисление среднего индекса
+                if (a[mid] == value) {
+                    result[i] = mid + 1; // Добавление найденного индекса в результат (+1, так как индексация в задаче начинается с 1)
                     break;
-                }
-                else if(a[middle]>value){
-                    right=middle-1;
-                    result[i]=-1;
-                }
-                else {
-                    left=middle+1;
-                    result[i]=-1;
+                } else if (a[mid] < value) {
+                    left = mid + 1; // Сужение интервала поиска
+                } else {
+                    right = mid - 1; // Сужение интервала поиска
                 }
             }
 
+            if (left > right) {
+                result[i] = -1; // Значение не найдено, записываем -1
+            }
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+
+        return result; // Возвращаем массив с индексами или -1, если значение не найдено
     }
+
+
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataA.txt");

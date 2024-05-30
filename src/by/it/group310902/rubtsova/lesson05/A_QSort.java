@@ -1,8 +1,11 @@
 package by.it.group310902.rubtsova.lesson05;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /*
 Видеорегистраторы и площадь.
@@ -36,99 +39,81 @@ import java.util.Scanner;
 
 public class A_QSort {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = A_QSort.class.getResourceAsStream("dataA.txt");
-        A_QSort instance = new A_QSort();
-        int[] result = instance.getAccessory(stream);
-        for (int index : result) {
-            System.out.print(index + " ");
-        }
-    }
-
-    int[] getAccessory(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
-        Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        //число отрезков отсортированного массива
-        int n = scanner.nextInt();
-        Segment[] segments = new Segment[n];
-        //число точек
-        int m = scanner.nextInt();
-        int[] points = new int[m];
-        int[] result = new int[m];
-
-        //читаем сами отрезки
-        for (int i = 0; i < n; i++) {
-            //читаем начало и конец каждого отрезка
-            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
-        }
-        //читаем точки
-        for (int i = 0; i < m; i++) {
-            points[i] = scanner.nextInt();
-        }
-        //тут реализуйте логику задачи с применением быстрой сортировки
-        //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        for (int i = 0; i < points.length; i++) {
-            int j = 0;
-            int k = 0;
-            while (1 < segments.length && points[i] >= segments[j].start) {
-                if (points[i] <= segments[i].stop) {
-                    k++;
-                }
-                i++;
-            }
-            result[i] = k;
-        }
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
-    }
-
-    void quickSort(Segment[] segments, int l, int r) {
-        if (l >= r) return;
-        int pivot = partOfQuickSort(segments, l, r);
-        quickSort(segments, l, pivot - 1);
-        quickSort(segments, pivot, r);
-    }
-
-    int partOfQuickSort(Segment[] segments, int l, int r) {
-        int pivot = (l + r)/ 2;
-        while (l <= r) {
-            while (segments[l].compareTo (segments[pivot]) < 0) l++;
-            while (segments[r].compareTo(segments [pivot]) > 0) r--;
-            if (l <= r) {
-              Segment temp = segments[l];
-              segments[l] = segments[r];
-              segments[r] = segments[l];
-              l++;
-              r--;
-            }
-        }
-        return l;
-    }
-    //отрезок
-    private class Segment implements Comparable<Segment> {
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
-        Segment(int start, int stop) {
-            if(start>stop){
-                int temp=start;
-                start=stop;
-                stop=temp;
-            }
+        Segment(int start, int stop){
             this.start = start;
             this.stop = stop;
-            //тут вообще-то лучше доделать конструктор на случай если
-            //концы отрезков придут в обратном порядке
         }
 
         @Override
         public int compareTo(Segment o) {
-            //подумайте, что должен возвращать компаратор отрезков
-
-            return this.start - o.start;
+            if (this.start != o.start) {
+                return Integer.compare(this.start, o.start);
+            } else {
+                return Integer.compare(o.stop, this.stop);
+            }
         }
     }
 
-}
+    int[] getAccessory(InputStream stream) throws FileNotFoundException {
+        // Создаем сканнер для чтения данных из потока ввода
+        Scanner scanner = new Scanner(stream);
+
+        // Читаем количество отрезков (n) и количество точек (m)
+        int n = scanner.nextInt(); // Количество отрезков
+        Segment[] segments = new Segment[n]; // Создаем массив отрезков
+        int m = scanner.nextInt(); // Количество точек
+        int[] points = new int[m]; // Создаем массив точек
+        int[] result = new int[m]; // Создаем массив для хранения результата
+
+        // Читаем координаты начала и конца каждого отрезка и сохраняем их в массив отрезков
+        for (int i = 0; i < n; i++) {
+            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
+        }
+
+        // Читаем координаты каждой точки и сохраняем их в массив точек
+        for (int i = 0; i < m; i++) {
+            points[i] = scanner.nextInt();
+        }
+
+        // Сортируем массив отрезков по начальным координатам
+        Arrays.sort(segments);
+
+        // Проходим по каждой точке и проверяем, сколько отрезков она пересекает
+        for (int i = 0; i < m; i++) {
+            for (Segment segment : segments) {
+                // Если точка находится внутри отрезка, увеличиваем счетчик
+                if (points[i] >= segment.start && points[i] <= segment.stop) {
+                    result[i]++;
+                }
+                // Если точка лежит перед текущим отрезком, выходим из цикла
+                else if (points[i] < segment.start) {
+                    break;
+                }
+            }
+        }
+
+        // Возвращаем массив с результатом
+        return result;
+    }
+
+
+        public static void main(String[] args) throws FileNotFoundException {
+            InputStream stream = A_QSort.class.getResourceAsStream("dataA.txt");
+            A_QSort instance = new A_QSort();
+            int[] result = instance.getAccessory(stream);
+            for (int index : result) {
+                System.out.print(index + " ");
+            }
+
+        }
+    }
+
+
+
+
+
+

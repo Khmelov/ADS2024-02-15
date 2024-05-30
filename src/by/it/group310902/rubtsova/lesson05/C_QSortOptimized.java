@@ -3,6 +3,7 @@ package by.it.group310902.rubtsova.lesson05;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /*
 Видеорегистраторы и площадь 2.
@@ -32,102 +33,88 @@ import java.util.Scanner;
 public class  C_QSortOptimized {
 
 
-    private class Segment implements Comparable {
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
-        Segment(int start, int stop) {
+        Segment(int start, int stop){
             this.start = start;
             this.stop = stop;
         }
 
         @Override
-        public int compareTo(Object o) {
-            //подумайте, что должен возврацать компаратор отрезков
-            Segment other = (Segment) o;
-            return Integer.compare(start, other.start);
+        public int compareTo(Segment o) {
+            if (this.start != o.start) {
+                return Integer.compare(this.start, o.start);
+            } else {
+                return Integer.compare(o.stop, this.stop);
+            }
         }
     }
 
-    void swap(Segment[] arr, int i, int j) {
-        Segment temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-
-    int partition(Segment[] arr, int l, int r) {
-        Segment x = arr[r];
-        int j = l;
-        for (int i = l; i < r; i++)
-            if (arr[i].compareTo(x) <= 0) {
-                swap(arr, j, i);
-                i++;
-            }
-        swap(arr, j, r);
-        return j;
-    }
-
-    void quickSort(Segment[] arr, int l, int r) {
-        if (l >= r)
-            return;
-        int m = partition(arr, l, r);
-        quickSort(arr, l, m - 1);
-        quickSort(arr, m + 1, r);
-    }
-
-
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
-        //подготовка к чтению данных
+        // Создаем сканнер для чтения данных из потока ввода
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!
-        //число отрезков отсортированного массива
+
+        // Читаем количество сегментов (n) и создаем массив сегментов
         int n = scanner.nextInt();
         Segment[] segments = new Segment[n];
-        //число точек
+
+        // Читаем количество точек (m)
         int m = scanner.nextInt();
+
+        // Создаем массив для хранения точек и массив для хранения результатов
         int[] points = new int[m];
         int[] result = new int[m];
 
-        //читаем сами отрезки
+        // Заполняем массив сегментов данными из ввода
         for (int i = 0; i < n; i++) {
-            //читаем начало и конец каждого отрезка
             segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
         }
-        //читаем точки
+
+        // Заполняем массив точек данными из ввода
         for (int i = 0; i < m; i++) {
             points[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи с применением быстрой сортировки
-        //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        quickSort(segments, 0, segments.length - 1);
 
+        // Сортируем массив сегментов
+        Arrays.sort(segments);
+
+        // Проходим по каждой точке и ищем количество пересечений с сегментами
         for (int i = 0; i < m; i++) {
-            result[i] = 0;// бинарный поиск для первого отрезка решения
-            int left = 0;
-            int right = n - 1;
-            int middle = 0;
+            int point = points[i];
+            int left = 0, right = n - 1;
             while (left <= right) {
-                middle = (left + right) / 2;
-                if ((points[i] >= segments[middle].start) && (points[1] <= segments[middle].stop)) {
+                int mid = left + (right - left) / 2;
+                if (segments[mid].start <= point && point <= segments[mid].stop) {
+                    // Если точка находится внутри сегмента, увеличиваем счетчик пересечений
                     result[i]++;
-                    left++;
+                    int j = mid;
+                    // Проверяем сегменты слева от найденного сегмента
+                    while (--j >= 0 && segments[j].start <= point && point <= segments[j].stop) {
+                        result[i]++;
+                    }
+                    j = mid;
+                    // Проверяем сегменты справа от найденного сегмента
+                    while (++j < n && segments[j].start <= point && point <= segments[j].stop) {
+                        result[i]++;
+                    }
                     break;
-                } else if (points[i] > segments[middle].start)
-                    left = middle + 1;
-                else
-                    right = middle - 1;
-            }
-            int j = left;
-            while ((i < segments.length) && (segments[j].start <= points[i])) {
-                if (segments[j].stop >= points[i])
-                    result[i]++;
-                j++;
+                } else if (segments[mid].start > point) {
+                    // Если точка слева от текущего сегмента, обновляем правую границу поиска
+                    right = mid - 1;
+                } else {
+                    // Если точка справа от текущего сегмента, обновляем левую границу поиска
+                    left = mid + 1;
+                }
             }
         }
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        // Возвращаем массив результатов
         return result;
     }
+
+
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = C_QSortOptimized.class.getResourceAsStream("dataC.txt");

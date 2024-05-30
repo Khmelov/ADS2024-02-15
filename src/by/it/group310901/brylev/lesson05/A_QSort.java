@@ -37,22 +37,55 @@ import java.util.Scanner;
 
 public class A_QSort {
 
+    private void quickSort(Segment[] segments, int left, int right) {
+        if (left < right) {
+            int m = partition(segments, left, right);
+            quickSort(segments, left, m - 1);
+            quickSort(segments, m + 1, right);
+        }
+    }
+    private int partition(Segment[] segments, int left, int right) {
+        Segment x = segments[left];
+        int j = left;
+        for (int i = left + 1; i <= right; i++) {
+            if (segments[i].compareTo(x) <= 0) {
+                j++;
+                Segment tmp = segments[j];
+                segments[j] = segments[i];
+                segments[i] = tmp;
+            }
+        }
+        Segment tmp = segments[j];
+        segments[j] = segments[left];
+        segments[left] = tmp;
+        return j;
+    }
+
+
     //отрезок
     private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
         Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
-            //тут вообще-то лучше доделать конструктор на случай если
-            //концы отрезков придут в обратном порядке
+            if(start > stop){
+                this.start = stop;
+                this.stop = start;
+            }else{
+                this.start = start;
+                this.stop = stop;
+            }
         }
 
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-
+            if(this.start > o.start){
+                return 1;
+            }
+            if(this.start < o.start){
+                return -1;
+            }
             return 0;
         }
     }
@@ -81,8 +114,16 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
-
+        quickSort(segments, 0, segments.length - 1);
+        for(int i = 0 ; i < m; i++){
+            int count = 0;
+            for(int j = 0; j < n; j++){
+                if(segments[j].start <= points[i] && segments[j].stop >= points[i]){
+                    count++;
+                }
+            }
+            result[i] = count;
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

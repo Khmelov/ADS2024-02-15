@@ -6,6 +6,8 @@ package by.it.group351001.polozkov.lesson01;
  * время расчета должно быть не более 2 секунд
  */
 
+import java.math.BigInteger;
+
 public class FiboC {
 
     private long startTime = System.currentTimeMillis();
@@ -25,9 +27,38 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        return 0L;
+        BigInteger M = BigInteger.valueOf(m);
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
+        BigInteger sum = BigInteger.ZERO;
+
+        long period = 2;
+        for (int i = 1; i <= m * m - 1; i++) {
+
+            if ((i != 1) && (b.mod(M).equals(BigInteger.ONE)) && (a.mod(M).equals(BigInteger.ZERO))) {
+                period = i;
+                break;
+            }
+            sum = a.add(b);
+            a = b;
+            b = sum;
+        }
+        period = n % period;
+
+
+
+        a = BigInteger.ZERO;
+        b = BigInteger.ONE;
+        long resultat = 1;
+        if (n > 2)
+            for (int i = 1; i <= period - 1; i++) {
+
+                sum = a.add(b);
+                a = b;
+                b = sum;
+                resultat = sum.mod(M).intValue();
+            }
+        return resultat;
     }
-
-
 }
 

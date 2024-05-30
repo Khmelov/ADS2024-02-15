@@ -14,6 +14,8 @@ import java.util.Scanner;
 Вольный перевод: http://programador.ru/sorting-positive-int-linear-time/
 */
 
+//диапозон Макс і Мін создаю
+//Во второй массив я записывают повторения
 public class B_CountSort {
 
 

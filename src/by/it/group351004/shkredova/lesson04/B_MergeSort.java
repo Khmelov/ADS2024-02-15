@@ -49,10 +49,10 @@ public class B_MergeSort {
         if (left < right) {
             int mid = (left + right) / 2;
             // Рекурсивно сортируем левую и правую половины массива
-            mergeSort(arr, left, mid);
-            mergeSort(arr, mid + 1, right);
+                mergeSort(arr, left, mid);
+                mergeSort(arr, mid + 1, right);
             // Объединяем отсортированные половины
-            merge(arr, left, mid, right);
+                merge(arr, left, mid, right);
         }
     }
 

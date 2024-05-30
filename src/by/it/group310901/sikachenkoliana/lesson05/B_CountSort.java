@@ -45,10 +45,8 @@ public class B_CountSort {
             j++;
         }
 
-
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return points;
+        return result;
     }
 
 

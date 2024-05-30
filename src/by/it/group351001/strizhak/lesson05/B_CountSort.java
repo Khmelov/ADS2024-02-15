@@ -31,11 +31,20 @@ public class B_CountSort {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-
-
-
-
-
+        final int SIZE = 11;
+        int[] countArray = new int[SIZE];
+        for (int i = 0; i < n; i++) {
+            countArray[points[i]]++;
+        }
+        // перезапись массива
+        int j = 0;
+        int i = 0;
+        while (i < n) {
+            for (int k = 0; k < countArray[j]; k++) {
+                points[i++] = j;
+            }
+            j++;
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }

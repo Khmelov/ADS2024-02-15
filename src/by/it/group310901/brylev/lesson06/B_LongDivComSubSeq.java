@@ -1,6 +1,5 @@
 package by.it.group310901.brylev.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -30,6 +29,28 @@ import java.util.Scanner;
 
 public class B_LongDivComSubSeq {
 
+    int getLongest(int[] arr) {
+
+        int n = arr.length;
+        int[] array = new int[n];
+        int maxLen = 1;
+        for (int i = 0; i < n; i++) {
+            array[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (arr[i] %arr[j] == 0) {
+                    array[i] = Math.max(array[i], array[j] + 1);
+                }
+            }
+            maxLen = Math.max(maxLen, array[i]);
+        }
+        return maxLen;
+    }
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
+        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
+        int result = instance.getDivSeqSize(stream);
+        System.out.print(result);
+    }
 
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -43,20 +64,11 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
+        int result = getLongest(m);
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataB.txt");
-        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
-        int result = instance.getDivSeqSize(stream);
-        System.out.print(result);
     }
 
 }

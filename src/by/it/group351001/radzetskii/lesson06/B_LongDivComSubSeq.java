@@ -44,13 +44,33 @@ public class B_LongDivComSubSeq {
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
-
+        result=findHugeCount(m);
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    int findHugeCount(int[] m) {
+        int count = 0;
 
+        int[] counts = new int[m.length];
+        for (int i = 0; i < m.length; i++) {
+
+            counts[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if(((counts[j]+1)>counts[i]) && (m[i]%m[j]==0)){
+                    counts[i]=counts[j]+1;
+
+                }
+            }
+        }
+        count=counts[0];
+        for (int i=0;i<m.length;i++){
+            if(counts[i]>count)
+                count=counts[i];
+        }
+        return count;
+    }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataB.txt");

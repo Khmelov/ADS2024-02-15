@@ -1,6 +1,5 @@
 package by.it.group310901.brylev.lesson06;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -17,7 +16,7 @@ import java.util.Scanner;
 Необходимо:
     Выведите максимальное 1<=k<=n, для которого гарантированно найдётся
     подпоследовательность индексов i[1]<i[2]<…<i[k] <= длины k,
-    для которой каждый элемент A[i[k]]больше любого предыдущего
+    где каждый элемент A[i[k]] больше любого предыдущего
     т.е. для всех 1<=j<k, A[i[j]]<A[i[j+1]].
 
 Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
@@ -32,6 +31,28 @@ import java.util.Scanner;
 
 public class A_LIS {
 
+    int getLongest(int[] arr) {
+
+        int n = arr.length;
+        int[] array = new int[n];
+        int maxLen = 1;
+        for (int i = 0; i < n; i++) {
+            array[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    array[i] = Math.max(array[i], array[j] + 1);
+                }
+            }
+            maxLen = Math.max(maxLen, array[i]);
+        }
+        return maxLen;
+    }
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
+        A_LIS instance = new A_LIS();
+        int result = instance.getSeqSize(stream);
+        System.out.print(result);
+    }
 
     int getSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -44,17 +65,8 @@ public class A_LIS {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        int result = 0;
+        int result = getLongest(m);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataA.txt");
-        A_LIS instance = new A_LIS();
-        int result = instance.getSeqSize(stream);
-        System.out.print(result);
     }
 }

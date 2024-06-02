@@ -27,12 +27,11 @@ public class A_VideoRegistrator {
         result = new ArrayList<>();
         Arrays.sort(events);
         result.add(events[0]);
-        int i = 1;
-        double distance = events[0];
-        for (i = 1; i < events.length; i++){
-            if (!(events[i] - distance <= workDuration)) {
+        double duration = events[0];
+        for (int i = 1; i < events.length; i++){
+            if (events[i] > duration + workDuration) {
                 result.add(events[i]);
-                distance = events[i];
+                duration = events[i];
             }
         }
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.

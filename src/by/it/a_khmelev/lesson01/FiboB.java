@@ -24,18 +24,8 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
-
-
-        BigInteger[] FiboArr = new BigInteger[n];
-        FiboArr[0] = BigInteger.ONE;
-        FiboArr[1] = BigInteger.ONE;
-        for (int i = 2; i < n; i++)
-            FiboArr[i] = FiboArr[i - 1].add(FiboArr[i - 2]);
-        return FiboArr[n - 1];
-=======
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
         return BigInteger.valueOf(-1L);
-      
     }
 
 }

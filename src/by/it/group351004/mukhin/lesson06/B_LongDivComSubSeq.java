@@ -38,18 +38,24 @@ public class B_LongDivComSubSeq {
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
+        int[] subNumbers = new int[n];
         //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
+            subNumbers[i] = 1;
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
+        for (int i = 0; i < subNumbers.length; i++) {
+            for (int j = 0; j < i; j++)
+                if (m[i] > m[j] && m[i] % m[j] == 0 && subNumbers[j] + 1 > subNumbers[i])
+                    subNumbers[i] = subNumbers[j] + 1;
+            result = Math.max(result, subNumbers[i]);
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
-
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

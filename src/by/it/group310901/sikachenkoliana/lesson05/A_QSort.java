@@ -36,7 +36,7 @@ import java.util.Scanner;
 */
 
 public class A_QSort {
-
+    //сколькоми отрезками принадлежит каждая из заданных точек на плоскочти
     //отрезок
     private class Segment  implements Comparable<Segment>{
         int start;

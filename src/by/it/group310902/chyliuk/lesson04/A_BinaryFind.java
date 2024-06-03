@@ -1,4 +1,4 @@
-package lesson04;
+package by.it.group310902.chyliuk.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,40 +28,41 @@ import java.util.Scanner;
 
 public class A_BinaryFind {
     int[] findIndex(InputStream stream) throws FileNotFoundException {
-        Scanner scanner = new Scanner(stream);
+        Scanner scanner = new Scanner(stream); // Создание объекта Scanner для чтения входных данных
 
-        int n = scanner.nextInt();
-        int[] a = new int[n];
+        int n = scanner.nextInt(); // Считывание размера массива
+        int[] a = new int[n]; // Создание массива для хранения элементов
         for (int i = 1; i <= n; i++) {
-            a[i-1] = scanner.nextInt();
+            a[i - 1] = scanner.nextInt(); // Заполнение массива элементами из входных данных
         }
 
-        int k = scanner.nextInt();
-        int[] result = new int[k];
+        int k = scanner.nextInt(); // Считывание количества значений для поиска
+        int[] result = new int[k]; // Создание массива для хранения результатов
         for (int i = 0; i < k; i++) {
-            int value = scanner.nextInt();
+            int value = scanner.nextInt(); // Считывание значения для поиска
 
-            // Binary search
-            int left = 0, right = n - 1;
+            // Бинарный поиск
+            int left = 0, right = n - 1; // Инициализация границ поиска
             while (left <= right) {
-                int mid = left + (right - left) / 2;
+                int mid = left + (right - left) / 2; // Вычисление среднего индекса
                 if (a[mid] == value) {
-                    result[i] = mid + 1;  // Adding 1 because array index in the problem starts from 1
+                    result[i] = mid + 1; // Добавление найденного индекса в результат (+1, так как индексация в задаче начинается с 1)
                     break;
                 } else if (a[mid] < value) {
-                    left = mid + 1;
+                    left = mid + 1; // Сужение интервала поиска
                 } else {
-                    right = mid - 1;
+                    right = mid - 1; // Сужение интервала поиска
                 }
             }
 
             if (left > right) {
-                result[i] = -1;  // Value not found
+                result[i] = -1; // Значение не найдено, записываем -1
             }
         }
 
-        return result;
+        return result; // Возвращаем массив с индексами или -1, если значение не найдено
     }
+
 
 
     public static void main(String[] args) throws FileNotFoundException {

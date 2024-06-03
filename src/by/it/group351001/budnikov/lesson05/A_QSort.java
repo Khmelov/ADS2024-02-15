@@ -43,20 +43,54 @@ public class A_QSort {
         int stop;
 
         Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
+            if (start <= stop) {
+                this.start = start;
+                this.stop = stop;
+            }
+            else {
+                this.start = stop;
+                this.stop = start;
+            }
             //тут вообще-то лучше доделать конструктор на случай если
             //концы отрезков придут в обратном порядке
         }
 
         @Override
         public int compareTo(Segment o) {
-            //подумайте, что должен возвращать компаратор отрезков
-
-            return 0;
+            if ( this.stop < o.stop ) return -1;
+            else if ( this.stop == o.stop ) return 0;
+            else return 1;
         }
     }
+    static void qSort(Segment[] a, int l, int r){
+        if (l<r) {
+            int m = (int) (Math.random()*(r-l+1)+l);
 
+            int cur = l;
+            Segment num = a[m];
+
+            Segment temp = a[l];
+            a[l] = a[m];
+            a[m] = temp;
+
+            for (int i = l+1; i <= r; i++){
+                if (a[i].start <= num.start){
+                    temp = a[i];
+                    a[i] = a[++cur];
+                    a[cur] = temp;
+                }
+            }
+
+            temp = a[l];
+            a[l] = a[cur];
+            a[cur] = temp;
+
+            m = cur;
+
+            qSort(a, l, m-1);
+            qSort(a, m+1, r);
+        }
+    }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -81,8 +115,15 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+        qSort(segments, 0, segments.length-1);
 
-
+        for(int k = 0; k < points.length; k++){
+            for (int i = 0; i<segments.length && segments[i].start<=points[k]; i++){
+                if (segments[i].stop>=points[k]){
+                    result[k]++;
+                }
+            }
+        }
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

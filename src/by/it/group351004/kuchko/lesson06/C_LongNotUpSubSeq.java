@@ -43,6 +43,26 @@ public class C_LongNotUpSubSeq {
         int result = instance.getNotUpSeqSize(stream);
         System.out.print(result);
     }
+    static int[] findMax(int[] arr) {
+        int[] nowArr = new int[arr.length];
+        for (int i = 0; i < nowArr.length; i++) {
+            nowArr[i] = 1;
+            for (int j = 0; j < i; j++)
+                if (arr[j] >= arr[i] && nowArr[j] + 1 > nowArr[i])
+                    nowArr[i] = nowArr[j] + 1;
+        }
+        int maxLen = 0;
+        int lastPos = 0;
+        for (int i = 0; i < nowArr.length; i++)
+            if (nowArr[i] > maxLen) {
+                maxLen = nowArr[i];
+                lastPos = i;
+            }
+        int[] outArr = new int[maxLen];
+        for(int i = 0; i < maxLen; i++)
+            outArr[maxLen - 1 - i] = arr[lastPos - i];
+        return outArr;
+    }
 
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -56,11 +76,10 @@ public class C_LongNotUpSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = 0;
-
+        int[] result = findMax(m);
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return result.length;
     }
 
 }

@@ -3,7 +3,7 @@ package by.it.group310901.pinchuk.lesson01;
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.
- * Время расчета должно быть не более 2 секунд
+ * время расчета должно быть не более 2 секунд
  */
 
 public class FiboC {
@@ -22,45 +22,31 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
+        long pisanoPeriod = getPisanoPeriod(m);
+        long remainder = n % pisanoPeriod;
 
-        long prev = 0;
-        long curr = 1;
-        long temp;
-        long pizanoPeriod = 0;
+        long[] fibMod = new long[(int) (pisanoPeriod + 1)];
+        fibMod[0] = 0;
+        fibMod[1] = 1;
 
-        for(int i = 0; i < m * m; i++)
-        {
-            temp = curr;
-            curr = (prev + curr) % m;
-            prev = temp;
-
-            if (prev == 0 && curr == 1)
-                pizanoPeriod = i + 1;
+        for (int i = 2; i <= pisanoPeriod; i++) {
+            fibMod[i] = (fibMod[i - 1] + fibMod[i - 2]) % m;
         }
 
-        n = n % pizanoPeriod;
-
-        if (n == 0){
-            return 0;
-        }
-        else if(n == 1){
-            return 1;
-        }
-        else
-
-        prev = 0;
-        curr = 1;
-        for(int i = 0; i < n - 1; i++)
-        {
-
-            temp = curr;
-            curr = (prev + curr) % m;
-            prev = temp;
-        }
-        return curr % m;
+        return fibMod[(int) remainder];
     }
+
+    long getPisanoPeriod(long m) {
+        long a = 0, b = 1, c = a + b;
+        for (long i = 0; i < m * m; i++) {
+            c = (a + b) % m;
+            a = b;
+            b = c;
+            if (a == 0 && b == 1) return i + 1;
+        }
+        return -1;
+    }
+
+
 }
 

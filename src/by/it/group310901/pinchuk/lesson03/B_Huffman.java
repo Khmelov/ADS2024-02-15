@@ -2,13 +2,12 @@ package by.it.group310901.pinchuk.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
 // Восстановите строку по её коду и беспрефиксному коду символов.
-
+//
+// Create by ALEX USOV
 // В первой строке входного файла заданы два целых числа
 // kk и ll через пробел — количество различных букв, встречающихся в строке,
 // и размер получившейся закодированной строки, соответственно.
@@ -45,7 +44,7 @@ import java.util.Scanner;
 public class B_Huffman {
 
     String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
+        StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         Integer count = scanner.nextInt();
@@ -53,22 +52,24 @@ public class B_Huffman {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
 
-        Map<String, Character> countmap = new HashMap<>();
-        for(int i = 0; i < count; i++){
-            String letcode = scanner.next();
-            char letter = letcode.charAt(0);
+        // Create By ALEX USOV
+        String[] codes = new String[count];
+        for (int i = 0; i < count; i++) {
+            String s = scanner.next();
+            char ch = s.charAt(0);
             String code = scanner.next();
-            countmap.put(code, letter);
+            codes[ch - 'a'] = code;
         }
-
-        String inputline = scanner.next();
-        String temp = "";
-
-        for(int i = 0; i < inputline.length(); i++){
-            temp += inputline.charAt(i);
-            if (countmap.containsKey(temp)) {
-                result.append(countmap.get(temp));
-                temp = "";
+        String s = scanner.next();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            for (int j = 0; j < count; j++) {
+                if (codes[j].equals(sb.toString())) {
+                    result.append((char) (j + 'a'));
+                    sb = new StringBuilder();
+                    break;
+                }
             }
         }
 

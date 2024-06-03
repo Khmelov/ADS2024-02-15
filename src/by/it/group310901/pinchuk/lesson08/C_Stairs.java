@@ -35,21 +35,31 @@ public class C_Stairs {
 
     int getMaxSum(InputStream stream ) {
         Scanner scanner = new Scanner(stream);
-        int n = scanner.nextInt();
-
-        int[] stairs = new int[n];
-        for (int i = 0; i < n; i++)
+        int n=scanner.nextInt();
+        int stairs[]=new int[n];
+        for (int i = 0; i < n; i++) {
             stairs[i]=scanner.nextInt();
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int[] sum = new int[n + 1];
-        sum[0] = 0;
-        sum[1] = stairs[0];
-        for (int i = 2; i <= n; i++)
-            sum[i] = stairs[i - 1] + Math.max(sum[i - 1], sum[i  - 2]);
-
+        int result = 0;
+        int[] sum = new int[n];
+        if (n == 1) {
+            return stairs[0];
+        }
+        if (n == 2) {
+            return stairs[0] + stairs[1];
+        }
+        sum[0] = stairs[0];
+        sum[1] = stairs[0] + stairs[1];
+        sum[2] = Math.max(stairs[0] + stairs[2], stairs[1] + stairs[2]);
+        for (int i = 3; i < n; i++) {
+            sum[i] = Math.max(sum[i - 2] + stairs[i], sum[i - 3] + stairs[i - 1] + stairs[i]);
+        }
+        result = sum[n - 1];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return sum[n];
+        return result;
     }
+
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = C_Stairs.class.getResourceAsStream("dataC.txt");

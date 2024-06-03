@@ -1,5 +1,4 @@
 package by.it.group310901.pinchuk.lesson04;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -20,7 +19,51 @@ Sample Output:
 2 2 3 9 9
 */
 public class B_MergeSort {
+    int count = 0;
+    int[] mergeSort(int[] arr, int left ,int right ){
+        if(arr.length == 2){
+            if(arr[left] > arr[right]){
+                int temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+                count++;
+            }
+            return arr;
+        }
+        if(left == right){
+            return arr;
+        }
 
+
+        int mid = (left + right) / 2;
+        int[] leftArr = mergeSort(arr, left, mid);
+        int[] rightArr = mergeSort(arr, mid + 1, right);
+
+        int[] result = new int[right - left + 1];
+        int i = left;
+        int j = mid + 1;
+        int k = 0;
+        while(i <= mid && j<= right){
+            if(leftArr[i] <= rightArr[j]){
+                result[k++] = leftArr[i++];
+            }else{
+                result[k++] = rightArr[j++];
+                /*count += mid - i + 1;*/
+                count++;
+            }
+        }
+        while(i <= mid){
+            result[k++] = leftArr[i++];
+        }
+        while(j <= right){
+            result[k++] = rightArr[j++];
+            count++;
+        }
+        for(int l = 0; l < result.length; l++){
+            arr[l] = result[l];
+        }
+        return arr;
+    }
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -38,57 +81,14 @@ public class B_MergeSort {
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
 
-        mergeSort(a, 0, a.length-1);
+
+        a = mergeSort(a, 0, a.length - 1);
+
+
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
-    }
-    private void mergeSort(int[] a, int l, int r) {
-        if (l < r) {
-            int m = (l + r) / 2;
-            mergeSort(a, l, m);
-            mergeSort(a, m + 1, r);
-            merge(a, l, m, r);
-        }
-    }
-
-    private void merge(int[] a, int l, int m, int r) {
-        int n1 = m - l + 1;
-        int n2 = r - m;
-
-        int[] L = new int[n1];
-        int[] R = new int[n2];
-
-        for (int i = 0; i < n1; ++i) {
-            L[i] = a[l + i];
-        }
-        for (int j = 0; j < n2; ++j) {
-            R[j] = a[m + 1 + j];
-        }
-
-        int i = 0, j = 0;
-        int k = l;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                a[k] = L[i];
-                i++;
-            } else {
-                a[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-
-        while (i < n1) {
-            a[k] = L[i];
-            i++;
-            k++;
-        }
-
-        while (j < n2) {
-            a[k] = R[j];
-            j++;
-            k++;
-        }
     }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

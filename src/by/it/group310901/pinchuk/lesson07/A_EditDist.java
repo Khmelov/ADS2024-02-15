@@ -38,34 +38,27 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-    int min(int n1, int n2, int n3){
-        if (n1>n2){
-            n1 = n2;
-        }
-        if (n1>n3){
-            n1 = n3;
-        }
-        return n1;
-    }
-    int getDistanceEdinting(String one, String two) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+    int getDistanceEdinting(String one, String two) {
+        if (one.length() == 0) {
+            return two.length();
+        }
+
+        if (two.length() == 0) {
+            return one.length();
+        }
+
+        int result = 0;
+        if (one.charAt(0) == two.charAt(0)) {
+            result = getDistanceEdinting(one.substring(1), two.substring(1));
+        } else {
+            int insert = getDistanceEdinting(one, two.substring(1));
+            int delete = getDistanceEdinting(one.substring(1), two);
+            int replace = getDistanceEdinting(one.substring(1), two.substring(1));
+            result = 1 + Math.min(Math.min(insert, delete), replace);
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return GDR(one, two);
-    }
-    int GDR(String s1, String s2){
-        if (s1.length() == 0){
-            return s2.length();
-        }
-        else if (s2.length() == 0){
-            return s1.length();
-        }
-        else if (s1.charAt(0) == s2.charAt(0)){
-            return GDR(s1.substring(1), s2.substring(1));
-        }
-        else{
-            return min(GDR(s1.substring(1), s2), GDR(s1, s2.substring(1)), GDR(s1.substring(1), s2.substring(1)))+1;
-        }
+        return result;
     }
 
 

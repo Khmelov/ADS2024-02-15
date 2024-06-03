@@ -38,52 +38,32 @@ import java.util.Scanner;
 
 public class B_EditDist {
 
-    int min(int n1, int n2, int n3){
-        if (n1>n2){
-            n1 = n2;
-        }
-        if (n1>n3){
-            n1 = n3;
-        }
-        return n1;
-    }
 
-    int m(int i0, int j0, String s1, String s2){
-        i0--;
-        j0--;
-        if (s1.charAt(i0) == s2.charAt(j0)){
-            return 0;
-        }
-        else{
-            return 1;
-        }
-    }
     int getDistanceEdinting(String one, String two) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int n = one.length();
-        int m = two.length();
-        int[][] matrix = new int[n+1][m+1];
-        for (int i = 0; i<=n; i++){
-            for (int j = 0; j<=m; j++){
-                if ((i == 0) && (j == 0)){
-                    matrix[i][j] = 0;
-                }
-                else if (j == 0){
-                    matrix[i][j] = i;
-                }
-                else if (i == 0){
-                    matrix[i][j] = j;
-                }
-                else{
-                    matrix[i][j] = min(matrix[i][j-1]+1, matrix[i-1][j]+1, matrix[i-1][j-1]+m(i, j, one, two));
-                }
+        int m = one.length();
+        int n = two.length();
 
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= n; j++) {
+            dp[0][j] = j;
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (one.charAt(i - 1) == two.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                }
             }
         }
 
-        int result = matrix[n][m];
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        // Возвращаем значение из правой нижней ячейки матрицы
+        return dp[m][n];
     }
 
 

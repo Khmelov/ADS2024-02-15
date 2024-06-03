@@ -1,4 +1,3 @@
-
 package by.it.group310901.pinchuk.lesson07;
 
 import java.io.FileNotFoundException;
@@ -48,84 +47,54 @@ import java.util.Scanner;
 
 
 public class C_EditDist {
-    int m(int i0, int j0, String s1, String s2){
-        i0--;
-        j0--;
-        if (s1.charAt(i0) == s2.charAt(j0)){
-            return 0;
-        }
-        else{
-            return 1;
-        }
-    }
-    int min(int n1, int n2, int n3){
-        if (n1>n2){
-            n1 = n2;
-        }
-        if (n1>n3){
-            n1 = n3;
-        }
-        return n1;
-    }
 
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int n = one.length();
-        int m = two.length();
-        int[][] matrix = new int[n+1][m+1];
-        for (int i = 0; i<=n; i++){
-            for (int j = 0; j<=m; j++){
-                if ((i == 0) && (j == 0)){
-                    matrix[i][j] = 0;
-                }
-                else if (j == 0){
-                    matrix[i][j] = i;
-                }
-                else if (i == 0){
-                    matrix[i][j] = j;
-                }
-                else{
-                    matrix[i][j] = min(matrix[i][j-1]+1, matrix[i-1][j]+1, matrix[i-1][j-1]+m(i, j, one, two));
-                }
+        int m = one.length();
+        int n = two.length();
+        int[][] a = new int[m + 1][n + 1];
 
+        for (int i = 0; i <= m; i++) {
+            a[i][0] = i;
+        }
+        for (int j = 0; j <= n; j++) {
+            a[0][j] = j;
+        }
+
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (one.charAt(i - 1) == two.charAt(j - 1)) {
+                    a[i][j] = a[i - 1][j - 1];
+                } else {
+                    a[i][j] = 1 + Math.min(Math.min(a[i - 1][j], a[i][j - 1]), a[i - 1][j - 1]);
+                }
             }
         }
-
-
-        String result = "";
-        int i = n, j = m;
-        while (i > 0 && j > 0) {
-            if (one.charAt(i - 1) == two.charAt(j - 1)) {
-                result = "#" + ","+result;
+        StringBuilder result = new StringBuilder();
+        int i = m, j = n;
+        while (i > 0 || j > 0) {
+            if (i > 0 && j > 0 && one.charAt(i - 1) == two.charAt(j - 1)) {
+                result.insert(0, "#,");
                 i--;
                 j--;
-            } else if (matrix[i][j] == matrix[i - 1][j - 1] + 1) {
-                result = "~" + two.charAt(j - 1) + ","+result;
-                i--;
-                j--;
-            } else if (matrix[i][j] == matrix[i - 1][j] + 1) {
-                result = "-" + one.charAt(i - 1) + ","+result;
-                i--;
-            } else if (matrix[i][j] == matrix[i][j - 1] + 1) {
-                result = "+" + two.charAt(j - 1) + ","+result;
-                j--;
+            } else {
+                if (i > 0 && j > 0 && a[i - 1][j - 1] < a[i - 1][j] && a[i - 1][j - 1] < a[i][j - 1]) {
+                    result.insert(0, "~" + two.charAt(j - 1) + ",");
+                    i--;
+                    j--;
+                } else if (j > 0 && (i == 0 || a[i][j - 1] <= a[i - 1][j])) {
+                    result.insert(0, "+" + two.charAt(j - 1) + ",");
+                    j--;
+                } else {
+                    result.insert(0, "-" + one.charAt(i - 1) + ",");
+                    i--;
+                }
             }
         }
-/*
-        while (i > 0) {
-            result = "-" + one.charAt(i - 1) + ","+result;
-            i--;
-        }
-
-        while (j > 0) {
-            result = "+" + two.charAt(j - 1) + ","+result;
-            j--;
-        }*/
-
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return result.toString();
     }
 
 

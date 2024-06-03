@@ -43,53 +43,46 @@ public class A_QSort {
         int stop;
 
         Segment(int start, int stop){
-            if (stop >= start) {
-                this.start = start;
-                this.stop = stop;
-            } else {
-                this.start = stop;
-                this.stop = start;
-            }
+            this.start = start;
+            this.stop = stop;
+            //тут вообще-то лучше доделать конструктор на случай если
+            //концы отрезков придут в обратном порядке
         }
 
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            if (this.start > o.start) return 1;
-
-            if (this.start < o.start) return -1;
 
             return 0;
         }
     }
+    public boolean CompareJ(Segment o, Segment comp) {
+        return o.start<comp.start;
+    }
 
-    public void qsort(Segment[] segments, int start, int end) {
-        int i = start;
-        int j = end;
+    public boolean CompareK(Segment o, Segment comp) {
+        return o.start>comp.start;
+    }
 
-        Segment middle = segments[start + (end - start) / 2];
-
-        do {
-            while (segments[i].compareTo(middle) < 0) {
-                i++;
+    Segment[] QSort(Segment[] events, int lft, int rght){
+        Segment crl = events[(lft + rght) / 2];
+        int j=lft, k=rght;
+        while(j < k){
+            while (CompareJ(events[j],crl)) ++j;
+            while(CompareK(events[k],crl)) --k;
+            if(j<=k){
+                Segment temp = events[j];
+                events[j] = events[k];
+                events[k] = temp;
+                ++j;
+                --k;
             }
-            while (segments[j].compareTo(middle) > 0) {
-                j--;
-            }
-            if (i <= j) {
-                Segment temp = segments[i];
-                segments[i] = segments[j];
-                segments[j] = temp;
-                i++;
-                j--;
-            }
-        } while (i <= j);
-
-        if (j > start)
-            qsort(segments, start, j);
-
-        if (i < end)
-            qsort(segments, i, end);
+        }
+        if(lft < k)
+            events = QSort(events,lft,k);
+        if(j < rght)
+            events = QSort(events,j,rght);
+        return events;
     }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
@@ -110,32 +103,19 @@ public class A_QSort {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
+        QSort(segments,0,n-1);
+        int     k = 0;
         for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
+            int j=0;
+            while ((j<n) && (segments[j].start<=points[i])) {
+                if (segments[j].stop>points[i]) result[k]++;
+                j++;
+            }
+            k++;
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        qsort(segments, 0, n - 1);
-
-        for (int i = 0; i < m; i++) {
-
-            result[i] = 0;
-
-            int j = 0;
-
-            while ((j < n) && segments[j].stop < points[i]) {
-                j++;
-            }
-
-            while (j < n && segments[j].start <= points[i]) {
-                if (segments[j].stop >= points[i]) result[i]++;
-
-                j++;
-            }
-        }
-
-
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

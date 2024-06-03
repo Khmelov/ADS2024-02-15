@@ -15,7 +15,7 @@ public class Lesson06Test {
         boolean ok = (result == 3);
         assertTrue("A failed", ok);
     }
-
+//
 
     @Test
     public void checkB() throws Exception {

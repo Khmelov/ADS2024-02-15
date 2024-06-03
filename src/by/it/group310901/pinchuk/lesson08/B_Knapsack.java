@@ -2,6 +2,7 @@ package by.it.group310901.pinchuk.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -28,25 +29,27 @@ Sample Output:
 public class B_Knapsack {
 
     int getMaxWeight(InputStream stream ) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
-        int gold[]=new int[n];
+        int w = scanner.nextInt();
+        int n = scanner.nextInt();
+        int gold[] = new int[n];
         for (int i = 0; i < n; i++) {
-            gold[i]=scanner.nextInt();
+            gold[i] = scanner.nextInt();
         }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        boolean[] d = new boolean[w + 1];
 
-        int[][] d = new int[w + 1][n + 1];
-        for (int i = 1; i <= n; i++)
-            for (int j = 1; j <= w; j++)
-                if (gold[i - 1] <= j)
-                    d[j][i] = Math.max(d[j][i], d[j - gold[i - 1]][i - 1] + gold[i - 1]);
-                else
-                    d[j][i] = d[j][i - 1];
+        Arrays.fill(d, false);
+        d[0] = true;
 
+        for (int i = 0; i < n; i++)
+            for (int k = w - gold[i]; k >= 0; k--)
+                d[k + gold[i]] |= d[k];
+
+        for (int i = w; true; i--)
+            if (d[i])
+                return i;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return d[w][n];
     }
 
 

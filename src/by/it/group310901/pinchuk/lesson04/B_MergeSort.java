@@ -3,7 +3,6 @@ package by.it.group310901.pinchuk.lesson04;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -22,86 +21,51 @@ Sample Output:
 */
 public class B_MergeSort {
 
+    private int[] merge(int[] a, int[] b) {
+        int[] result = new int[a.length + b.length];
+        int i = 0, j = 0, r = 0;
+        while (i < a.length && j < b.length) {
+            if (a[i] <= b[j]) {
+                result[r++] = a[i++];
+            } else {
+                result[r++] = b[j++];
+            }
+        }
+        while (i < a.length) {
+            result[r++] = a[i++];
+        }
+        while (j < b.length) {
+            result[r++] = b[j++];
+        }
+        return result;
+    }
+
+    private int[] mergeSort(int[] a) {
+        if (a.length <= 1) {
+            return a;
+        }
+        int mid = a.length / 2;
+        int[] left = new int[mid];
+        int[] right = new int[a.length - mid];
+        System.arraycopy(a, 0, left, 0, mid);
+        System.arraycopy(a, mid, right, 0, a.length - mid);
+        return merge(mergeSort(left), mergeSort(right));
+    }
+
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        //размер массива
         int n = scanner.nextInt();
-        //сам массив
-        int[] a=new int[n];
-        for (int i = 0; i < n; i++) {//3 5 //2 4  //2 3 4 5
-            a[i] = scanner.nextInt();
-            System.out.println(a[i]);
-        }
-
-        // тут ваше решение (реализуйте сортировку слиянием)
-        // https://ru.wikipedia.org/wiki/Сортировка_слиянием
-        LinkedList<LinkedList<Integer>> parts = new LinkedList<LinkedList<Integer>>();
-        LinkedList<Integer> curPart = new LinkedList<Integer>();
-        curPart.add(a[0]);
-        parts.add(curPart);
-        for (int i = 1; i < n; i++) {
-            curPart = parts.getLast();
-            if (curPart.getLast() < a[i]) {
-                curPart.add(a[i]);
-            }
-            else {
-                curPart = new LinkedList<Integer>();
-                curPart.add(a[i]);
-                parts.add(curPart);
-            }
-        }
-        LinkedList<LinkedList<Integer>> newParts;
-        LinkedList<Integer> merge1;
-        LinkedList<Integer> merge2;
-        Integer it1;
-        Integer it2;
-        while (parts.size() > 1) {
-            newParts = new LinkedList<LinkedList<Integer>>();
-            if (parts.size() % 2 == 1) {
-                newParts.add(parts.getLast());
-                parts.removeLast();
-            }
-            while (!parts.isEmpty()) {
-                merge1 = parts.getFirst();
-                parts.removeFirst();
-                merge2 = parts.getFirst();
-                parts.removeFirst();
-                curPart = new LinkedList<Integer>();
-                while (!merge1.isEmpty() && !merge2.isEmpty()) {
-                    it1 = merge1.getFirst();
-                    it2 = merge2.getFirst();
-                    if (it1 < it2) {
-                        curPart.add(it1);
-                        merge1.removeFirst();
-                    }
-                    else {
-                        curPart.add(it2);
-                        merge2.removeFirst();
-                    }
-                }
-                if (!merge1.isEmpty()) {
-                    curPart.addAll(merge1);
-                }
-                if (!merge2.isEmpty()) {
-                    curPart.addAll(merge2);
-                }
-                newParts.add(curPart);
-            }
-            parts = newParts;
-        }
-        curPart = parts.getFirst();
+        int[] a = new int[n];
         for (int i = 0; i < n; i++) {
-            a[i] = curPart.getFirst();
-            curPart.removeFirst();
+            a[i] = scanner.nextInt();
         }
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return a;
+        return mergeSort(a);
     }
+
+
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");

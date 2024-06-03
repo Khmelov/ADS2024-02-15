@@ -3,7 +3,6 @@ package by.it.group310901.pinchuk.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -16,8 +15,25 @@ import java.util.Scanner;
 Вольный перевод: http://programador.ru/sorting-positive-int-linear-time/
 */
 
-public class  B_CountSort {
+public class B_CountSort {
 
+    public int[] csort(int[] arr, int min, int max) {
+        int[] count = new int[max - min + 1];
+
+        for (int i = 0; i < arr.length; i++) {
+            count[arr[i] - min]++;
+        }
+
+        int index = 0;
+
+        for (int i = 0; i < count.length; i++) {
+            for (int j = 0; j < count[i]; j++) {
+                arr[index++] = i + min;
+            }
+        }
+
+        return arr;
+    }
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -29,35 +45,20 @@ public class  B_CountSort {
 
         //читаем точки
         for (int i = 0; i < n; i++) {
-            points[i] = scanner.nextInt();
+            points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        LinkedList<Integer>[] nums = new LinkedList[10];
-        for (int i = 0; i < 10; i++) {
-            nums[i] = new LinkedList<>();
+
+        int min = points[0];
+        int max = points[0];
+
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] < min) min = points[i];
+
+            if (points[i] > max) max = points[i];
         }
-        for (int i = 0; i < n; i++) {
-            nums[points[i] % 10].add(points[i]);
-        }
-        int iter = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < nums[i].size(); j++) {
-                points[iter] = nums[i].get(j);
-                iter++;
-            }
-            nums[i] = new LinkedList<>();
-        }
-        for (int i = 0; i < n; i++) {
-            nums[points[i] / 10].add(points[i]);
-        }
-        iter = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < nums[i].size(); j++) {
-                points[iter] = nums[i].get(j);
-                iter++;
-            }
-            nums[i] = new LinkedList<>();
-        }
+        csort(points, min, max);
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;
     }

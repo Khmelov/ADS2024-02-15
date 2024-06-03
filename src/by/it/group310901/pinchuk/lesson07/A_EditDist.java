@@ -38,27 +38,25 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-    int getLevensteinDist(int i, int j,  String one, String two) {
-        if (i == 0 && j == 0)
-            return 0;
-        else if (i == 0 && j > 0)
-            return j;
-        else if (j == 0 && i > 0)
-            return i;
-        else {
-            int diff = one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1;
-            return Math.min(Math.min(getLevensteinDist(i, j - 1, one, two) + 1,
-                            getLevensteinDist(i - 1, j, one, two) + 1),
-                    getLevensteinDist(i - 1, j - 1, one, two) + diff);
-        }
-    }
-
 
     int getDistanceEdinting(String one, String two) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        if (one.length() == 0) {
+            return two.length();
+        }
 
+        if (two.length() == 0) {
+            return one.length();
+        }
 
-        int result = getLevensteinDist(one.length(), two.length(), one, two);
+        int result = 0;
+        if (one.charAt(0) == two.charAt(0)) {
+            result = getDistanceEdinting(one.substring(1), two.substring(1));
+        } else {
+            int insert = getDistanceEdinting(one, two.substring(1));
+            int delete = getDistanceEdinting(one.substring(1), two);
+            int replace = getDistanceEdinting(one.substring(1), two.substring(1));
+            result = 1 + Math.min(Math.min(insert, delete), replace);
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

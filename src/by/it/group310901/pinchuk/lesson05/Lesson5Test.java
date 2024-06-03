@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertTrue;
 
-public class  Lesson5Test {
+public class Lesson5Test {
     @Test
     public void A() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";

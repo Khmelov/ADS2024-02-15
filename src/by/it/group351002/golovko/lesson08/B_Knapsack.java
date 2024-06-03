@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson08;
+package by.it.group351002.golovko.lesson08;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,15 +33,30 @@ public class B_Knapsack {
         Scanner scanner = new Scanner(stream);
         int w=scanner.nextInt();
         int n=scanner.nextInt();
-        int gold[]=new int[n];
+
+        int[] gold = new int[n];
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
 
+        int[][] temp = new int[w + 1][n + 1];
+        for (int i = 0; i <= w; i++) {
+            temp[i][0] = 0;
+        }
+        for (int i = 0; i <= n; i++) {
+            temp[0][i] = 0;
+        }
 
-        int result = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= w; j++) {
+                temp[j][i] = temp[j][i - 1];
+                if (gold[i - 1] <= j){
+                    temp[j][i] = Math.max(temp[j][i], temp[j - gold[i - 1]][i - 1] + gold[i - 1]);
+                }
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return temp[w][n];
     }
 
 

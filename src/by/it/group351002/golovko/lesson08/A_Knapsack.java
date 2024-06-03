@@ -1,8 +1,5 @@
-package by.it.a_khmelev.lesson08;
+package by.it.group351002.golovko.lesson08;
 
-import by.it.a_khmelev.lesson07.A_EditDist;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -48,10 +45,21 @@ public class A_Knapsack {
             gold[i]=scanner.nextInt();
         }
 
+        int[] temp = new int[w + 1];
+        for (int i = 0; i <= w; i++) {
+            temp[i] = 0;
+        }
 
-        int result = 0;
+        for (int i = 1; i <= w; i++) {
+            for (int j = 0; j < n; j++) {
+                if (gold[j] <= i){
+                    temp[i] = Math.max(temp[i], temp[i-gold[j]] + gold[j]);
+                }
+            }
+        }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return temp[w];
     }
 
 

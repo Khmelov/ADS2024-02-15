@@ -85,23 +85,26 @@ public class C_HeapMax {
     }
 
     Long findMaxValue(InputStream stream) {
-        long maxValue = 0L;
-        MaxHeap heap = new MaxHeap();
-        Scanner scanner = new Scanner(stream);
-        int count = scanner.nextInt();
-        scanner.nextLine();
+        long maxValue = 0L; // Инициализация переменной для хранения максимального значения
+        MaxHeap heap = new MaxHeap(); // Создание экземпляра кучи
+        Scanner scanner = new Scanner(stream); // Создание сканнера для чтения входных данных
+        int count = scanner.nextInt(); // Считывание количества операций
+        scanner.nextLine(); // Переход на следующую строку после чтения числа операций
+
+        // Цикл обработки каждой операции
         for (int i = 0; i < count; i++) {
-            String s = scanner.nextLine();
-            if (s.startsWith("Insert")) {
-                Long value = Long.parseLong(s.split(" ")[1]);
-                heap.insert(value);
-            } else if (s.equalsIgnoreCase("ExtractMax")) {
-                Long res = heap.extractMax();
-                if (res != null && res > maxValue) maxValue = res;
+            String s = scanner.nextLine(); // Считывание следующей операции
+            if (s.startsWith("Insert")) { // Если операция - вставка
+                Long value = Long.parseLong(s.split(" ")[1]); // Получение значения для вставки
+                heap.insert(value); // Вставка значения в кучу
+            } else if (s.equalsIgnoreCase("ExtractMax")) { // Если операция - извлечение максимального элемента
+                Long res = heap.extractMax(); // Извлечение максимального элемента из кучи
+                if (res != null && res > maxValue) maxValue = res; // Обновление максимального значения, если необходимо
             }
         }
-        return maxValue;
+        return maxValue; // Возвращение максимального значения
     }
+
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

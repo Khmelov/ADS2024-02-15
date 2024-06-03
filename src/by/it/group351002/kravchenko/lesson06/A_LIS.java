@@ -1,5 +1,4 @@
 package by.it.group351002.kravchenko.lesson06;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -11,6 +10,7 @@ import java.util.Scanner;
         https://en.wikipedia.org/wiki/Longest_increasing_subsequence
 
 Дано:
+
     целое число 1≤n≤1000
     массив A[1…n] натуральных чисел, не превосходящих 2E9.
 
@@ -45,6 +45,20 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
         int result = 0;
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++){
+            arr[i] = 1;
+            for(int j = 0; j < i; j++){
+                if (m[j] < m[i] && arr[i] < arr[j] + 1) arr[i] = arr[j] + 1;
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > result){
+                result = arr[i];
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

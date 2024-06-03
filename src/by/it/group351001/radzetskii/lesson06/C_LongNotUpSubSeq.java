@@ -51,13 +51,43 @@ public class C_LongNotUpSubSeq {
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
-
+        result=findHugeCount(m);
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
-
+    int findHugeCount(int[] m) {
+        int count = 0;
+        int[] p = new int[m.length];
+        int[] counts = new int[m.length];
+        for (int i = 0; i < m.length; i++) {
+            p[i] = -1;
+            counts[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if(((counts[j]+1)>counts[i]) && (m[j]>=m[i])){
+                    counts[i]=counts[j]+1;
+                    p[i]=j;
+                }
+            }
+        }
+        count=counts[0];
+        int iMax=0;
+        for (int i=0;i<m.length;i++){
+            if(counts[i]>count)
+                count=counts[i];
+                iMax=i;
+        }
+        int[] outArr= new int [count];
+        outArr[count-1]=iMax;
+        for (int i= count-2; i>=0;i--){
+             outArr[i]=p[outArr[i+1]];
+        }
+        for (int i=0;i<count; i++)
+            System.out.print(outArr[i]+1+" ");
+        System.out.println();
+        return count;
+    }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");

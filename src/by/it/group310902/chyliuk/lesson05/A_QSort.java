@@ -1,4 +1,4 @@
-package lesson05;
+package by.it.group310902.chyliuk.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -58,32 +58,44 @@ public class A_QSort {
     }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
+        // Создаем сканнер для чтения данных из потока ввода
         Scanner scanner = new Scanner(stream);
-        int n = scanner.nextInt();
-        Segment[] segments=new Segment[n];
-        int m = scanner.nextInt();
-        int[] points=new int[m];
-        int[] result=new int[m];
 
+        // Читаем количество отрезков (n) и количество точек (m)
+        int n = scanner.nextInt(); // Количество отрезков
+        Segment[] segments = new Segment[n]; // Создаем массив отрезков
+        int m = scanner.nextInt(); // Количество точек
+        int[] points = new int[m]; // Создаем массив точек
+        int[] result = new int[m]; // Создаем массив для хранения результата
+
+        // Читаем координаты начала и конца каждого отрезка и сохраняем их в массив отрезков
         for (int i = 0; i < n; i++) {
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
-        }
-        for (int i = 0; i < m; i++) {
-            points[i]=scanner.nextInt();
+            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
         }
 
+        // Читаем координаты каждой точки и сохраняем их в массив точек
+        for (int i = 0; i < m; i++) {
+            points[i] = scanner.nextInt();
+        }
+
+        // Сортируем массив отрезков по начальным координатам
         Arrays.sort(segments);
 
+        // Проходим по каждой точке и проверяем, сколько отрезков она пересекает
         for (int i = 0; i < m; i++) {
             for (Segment segment : segments) {
+                // Если точка находится внутри отрезка, увеличиваем счетчик
                 if (points[i] >= segment.start && points[i] <= segment.stop) {
                     result[i]++;
-                } else if (points[i] < segment.start) {
+                }
+                // Если точка лежит перед текущим отрезком, выходим из цикла
+                else if (points[i] < segment.start) {
                     break;
                 }
             }
         }
 
+        // Возвращаем массив с результатом
         return result;
     }
 

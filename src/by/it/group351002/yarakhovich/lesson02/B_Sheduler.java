@@ -2,6 +2,7 @@ package by.it.group351002.yarakhovich.lesson02;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /*
 Даны интервальные события events
 реализуйте метод calcStartTimes, так, чтобы число принятых к выполнению
@@ -47,12 +48,20 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        //ваше решение.
-
-
-
-
-
+        while (from < to){
+            Event choice = null;
+            for (Event event : events)
+                if (event.start == from && (choice == null || event.stop < choice.stop)) {
+                    choice = event;
+                }
+            if (choice != null) {
+                result.add(choice);
+                from = choice.stop;
+            }
+            else{
+                from++;
+            }
+        }
 
         return result;          //вернем итог
     }

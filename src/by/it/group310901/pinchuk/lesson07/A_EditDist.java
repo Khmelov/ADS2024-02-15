@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 Дано:
     Две данных непустые строки длины не более 100, содержащие строчные буквы латинского алфавита.
-    CREATE BY ALEX USOV
+
 Необходимо:
     Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
     Рекурсивно вычислить расстояние редактирования двух данных непустых строк
@@ -38,31 +38,26 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-    private int getDistanceEditingRecursive(String one, String two, int m, int n) {
-        if (m == 0) {
-            return n;
-        }
-        if (n == 0) {
-            return m;
-        }
-        if (one.charAt(m - 1) == two.charAt(n - 1)) {
-            return getDistanceEditingRecursive(one, two, m - 1, n - 1);
-        }
-        return 1 + Math.min(
-                getDistanceEditingRecursive(one, two, m - 1, n - 1), // Replace
-                Math.min(
-                        getDistanceEditingRecursive(one, two, m, n - 1), // Insert
-                        getDistanceEditingRecursive(one, two, m - 1, n) // Delete
-                )
-        );
-    }
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return getDistanceEditingRecursive(one, two, one.length(), two.length());
+        int[][] dp = new int[one.length() + 1][two.length() + 1];
+
+        for (int i = 0; i <= one.length(); i++) {
+            for (int j = 0; j <= two.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]) + 1, dp[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
+                }
+            }
+        }
+
+        return dp[one.length()][two.length()];
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     }
-
 
 
     public static void main(String[] args) throws FileNotFoundException {

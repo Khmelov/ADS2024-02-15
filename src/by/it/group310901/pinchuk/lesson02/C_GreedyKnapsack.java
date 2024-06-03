@@ -12,6 +12,7 @@ package by.it.group310901.pinchuk.lesson02;
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -36,11 +37,11 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item o) {
+        public int compareTo(Item other) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            double thisCostPerWeight = ((double) cost) / weight;
+            double otherCostPerWeight = ((double) other.cost) / other.weight;
+            return Double.compare(otherCostPerWeight, thisCostPerWeight);
         }
     }
 
@@ -51,7 +52,6 @@ public class C_GreedyKnapsack {
         Item[] items = new Item[n];   //получим список предметов
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
             items[i] = new Item(input.nextInt(), input.nextInt());
-
         }
         //покажем предметы
         for (Item item:items) {
@@ -59,19 +59,19 @@ public class C_GreedyKnapsack {
         }
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
-
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
+
+
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
-
-        Arrays.sort(items, (a2,a1)->{
-           return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
+        Arrays.sort(items, (a2, a1)->{
+            return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
         });
 
         for (int i = n-1; i >= 0; i--) {
@@ -97,6 +97,6 @@ public class C_GreedyKnapsack {
         File f=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
         double costFinal=new C_GreedyKnapsack().calc(f);
         long finishTime = System.currentTimeMillis();
-        System.out.printf("Main cost %f (время %d)",costFinal,finishTime - startTime);
+        System.out.printf("Общая стоимость %f (время %d)",costFinal,finishTime - startTime);
     }
 }

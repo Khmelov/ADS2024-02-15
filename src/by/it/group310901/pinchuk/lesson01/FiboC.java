@@ -8,7 +8,7 @@ package by.it.group310901.pinchuk.lesson01;
 
 public class FiboC {
 
-    private long startTime = System.currentTimeMillis();
+    private final long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -22,31 +22,41 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        long pisanoPeriod = getPisanoPeriod(m);
-        long remainder = n % pisanoPeriod;
-
-        long[] fibMod = new long[(int) (pisanoPeriod + 1)];
-        fibMod[0] = 0;
-        fibMod[1] = 1;
-
-        for (int i = 2; i <= pisanoPeriod; i++) {
-            fibMod[i] = (fibMod[i - 1] + fibMod[i - 2]) % m;
+        //Решение сложно найти интуитивно
+        //возможно потребуется дополнительный поиск информации
+        //см. период Пизано
+        long period = PisanoPeriod(m);
+        long remainderIndex = n % period;
+        long current = 0;
+        long next = 1;
+        long newNum = 0;
+        if (remainderIndex == 0) {
+            return 0;
+        } else if (remainderIndex == 1) {
+            return 1;
+        } else {
+            for (int i = 1; i < remainderIndex; i++) {
+                newNum = (current + next) % m;
+                current = next;
+                next = newNum;
+            }
         }
-
-        return fibMod[(int) remainder];
+        return newNum;
     }
 
-    long getPisanoPeriod(long m) {
-        long a = 0, b = 1, c = a + b;
-        for (long i = 0; i < m * m; i++) {
-            c = (a + b) % m;
-            a = b;
-            b = c;
-            if (a == 0 && b == 1) return i + 1;
+    long PisanoPeriod(int m)
+    {
+        long a=0, b=1, c;
+        for(int i=0;i<m*m; i++)
+        {
+            c=(a+b)%m;
+            a=b;
+            b=c;
+            if(a==0 && b==1)
+                return i+1;
         }
-        return -1;
+        return 0;
     }
-
-
 }
+
 

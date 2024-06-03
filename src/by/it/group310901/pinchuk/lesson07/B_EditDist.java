@@ -39,28 +39,25 @@ import java.util.Scanner;
 public class B_EditDist {
 
 
+
+
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int n = two.length();
-        int m = one.length();
-        int[] prevRow = new int[n + 1];
-        int[] currRow = new int[n + 1];
-        for (int j = 0; j <= n; j++) {
-            prevRow[j] = j;
-        }
-        for (int i = 1; i <= m; i++) {
-            currRow[0] = i;
-            for (int j = 1; j <= n; j++) {
-                if (one.charAt(i - 1) == two.charAt(j - 1)) {
-                    currRow[j] = prevRow[j - 1];
+        int[][] dp = new int[one.length() + 1][two.length() + 1];
+
+        for (int i = 0; i <= one.length(); i++) {
+            for (int j = 0; j <= two.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
                 } else {
-                    currRow[j] = Math.min(Math.min(prevRow[j], currRow[j - 1]), prevRow[j - 1]) + 1;
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]) + 1, dp[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
                 }
             }
-            System.arraycopy(currRow, 0, prevRow, 0, n + 1);
         }
-        return currRow[n];
 
+        return dp[one.length()][two.length()];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
@@ -75,8 +72,3 @@ public class B_EditDist {
     }
 
 }
-
-
-
-
-// CREATE BY ALEX USOV

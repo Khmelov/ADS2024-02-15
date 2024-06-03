@@ -43,13 +43,14 @@ import java.util.Scanner;
     + I (англ. insert) — вставить,
     ~ R (replace) — заменить,
     # M (match) — совпадение.
-    CREATE BY ALEX USOV
 */
 
 
 public class C_EditDist {
 
+
     String getDistanceEdinting(String one, String two) {
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         int[][] dp = new int[one.length() + 1][two.length() + 1];
 
         for (int i = 0; i <= one.length(); i++) {
@@ -65,35 +66,38 @@ public class C_EditDist {
         }
 
         int i = one.length(), j = two.length();
-        String result = "";
+        StringBuilder result = new StringBuilder();
+
         while (i > 0 && j > 0) {
             if (one.charAt(i - 1) == two.charAt(j - 1)) {
-                result+= "#,";
+                result.append("#,");
                 i--;
                 j--;
             } else if (dp[i][j] == dp[i - 1][j - 1] + 1) {
-                result+="~"+two.charAt(j - 1) + ",";
+                result.append("~").append(two.charAt(j - 1)).append(",");
                 i--;
                 j--;
             } else if (dp[i][j] == dp[i][j - 1] + 1) {
-                result+= "+" + two.charAt(j - 1)+ ",";
+                result.append("+").append(two.charAt(j - 1)).append(",");
                 j--;
             } else {
-                result+="-"+one.charAt(i - 1)+",";
+                result.append("-").append(one.charAt(i - 1)).append(",");
                 i--;
             }
         }
 
         while (i > 0) {
-            result+="-"+one.charAt(i - 1)+",";
+            result.append("-").append(one.charAt(i - 1)).append(",");
             i--;
         }
 
         while (j > 0) {
-            result+="+"+two.charAt(j - 1)+",";
+            result.append("+").append(two.charAt(j - 1)).append(",");
             j--;
         }
-        return result;
+
+        return result.toString();
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 

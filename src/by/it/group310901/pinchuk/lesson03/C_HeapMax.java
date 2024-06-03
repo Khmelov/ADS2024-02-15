@@ -50,6 +50,7 @@ public class C_HeapMax {
             }
             return i;
         }
+
         int siftDown(int i) { //просеивание вниз
             while (2*i + 1 < heap.size()) {
                 int left = 2 * i + 1;

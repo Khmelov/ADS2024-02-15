@@ -36,6 +36,7 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
+
     int getLongest(int[] arr) {
 
         int n = arr.length;
@@ -52,6 +53,7 @@ public class C_LongNotUpSubSeq {
         }
         return maxLen;
     }
+
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");
         C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();

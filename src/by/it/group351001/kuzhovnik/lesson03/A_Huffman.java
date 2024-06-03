@@ -127,7 +127,6 @@ public class A_Huffman {
             count.merge(key, 1, Integer::sum);
         }
         //2. перенесем все символы в приоритетную очередь в виде листьев
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         PriorityQueue<Node> prio = new PriorityQueue<>();
         LeafNode el;
         Node fir,sec;
@@ -178,7 +177,7 @@ public class A_Huffman {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/dataHuffman.txt");
+        File f = new File(root + "by/it/a_khmelev/lesson03/dataA.txt");
         A_Huffman instance = new A_Huffman();
         long startTime = System.currentTimeMillis();
         String result = instance.encode(f);

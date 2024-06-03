@@ -61,9 +61,11 @@ public class A_QSort {
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
+        // Создаем сканнер для чтения данных из потока ввода
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!
         //число отрезков отсортированного массива
+        // Читаем количество отрезков (n) и количество точек (m)
         int n = scanner.nextInt();
         Segment[] segments=new Segment[n];
         //число точек
@@ -72,18 +74,20 @@ public class A_QSort {
         int[] result=new int[m];
 
         //читаем сами отрезки
+        // Читаем координаты начала и конца каждого отрезка и сохраняем их в массив отрезков
         for (int i = 0; i < n; i++) {
             //читаем начало и конец каждого отрезка
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
+        // Читаем координаты каждой точки и сохраняем их в массив точек
         for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
         Arrays.sort(segments);
-
+// Проходим по каждой точке и проверяем, сколько отрезков она пересекает
         for (int i = 0; i < m; i++) {
             int point = points[i];
             int count = 0;
@@ -93,11 +97,11 @@ public class A_QSort {
             int right = n - 1;
             while (left <= right) {
                 int mid = left + (right - left) / 2;
-
+// Если точка находится внутри отрезка, увеличиваем счетчик
                 if (segments[mid].start <= point && point <= segments[mid].stop) {
                     count++;
                     break;
-
+// Если точка лежит перед текущим отрезком, выходим из цикла
                 } else if (point < segments[mid].start) {
                     right = mid - 1;
 

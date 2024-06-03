@@ -36,7 +36,8 @@ public class B_CountSort {
         for (int value : points) {
             ++tempArray[value];
         }
-
+//  В цикле  мы увеличиваем значение в  для каждого числа из .tempArray 1
+        // заполняем исходный массив  отсортированными числами
         int b = 0;
         for (int i = 0; i < 10; ++i){
             for (int j = 0; j < tempArray[i]; ++j) {

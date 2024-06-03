@@ -44,6 +44,7 @@ public class B_Knapsack {
                 }
             }
         }
+        //sad
 
         int result = maxWeight[n][w];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

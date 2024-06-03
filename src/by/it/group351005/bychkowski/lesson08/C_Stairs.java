@@ -47,6 +47,7 @@ public class C_Stairs {
         for (int i = 2; i < max.length; i++) {
             max[i] = Math.max(max[i-2], max[i-1]) + stairs[i-2];
         }
+        //asdas
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return max[n+1];

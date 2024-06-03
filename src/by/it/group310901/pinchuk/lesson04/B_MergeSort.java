@@ -3,7 +3,7 @@ package by.it.group310901.pinchuk.lesson04;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -31,57 +31,76 @@ public class B_MergeSort {
         int n = scanner.nextInt();
         //сам массив
         int[] a=new int[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {//3 5 //2 4  //2 3 4 5
             a[i] = scanner.nextInt();
             System.out.println(a[i]);
         }
-        long startTime=System.currentTimeMillis();
-        mergeSortCall(a);
-        long finishTime=System.currentTimeMillis();
-        System.out.println(finishTime-startTime);
+
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
+        LinkedList<LinkedList<Integer>> parts = new LinkedList<LinkedList<Integer>>();
+        LinkedList<Integer> curPart = new LinkedList<Integer>();
+        curPart.add(a[0]);
+        parts.add(curPart);
+        for (int i = 1; i < n; i++) {
+            curPart = parts.getLast();
+            if (curPart.getLast() < a[i]) {
+                curPart.add(a[i]);
+            }
+            else {
+                curPart = new LinkedList<Integer>();
+                curPart.add(a[i]);
+                parts.add(curPart);
+            }
+        }
+        LinkedList<LinkedList<Integer>> newParts;
+        LinkedList<Integer> merge1;
+        LinkedList<Integer> merge2;
+        Integer it1;
+        Integer it2;
+        while (parts.size() > 1) {
+            newParts = new LinkedList<LinkedList<Integer>>();
+            if (parts.size() % 2 == 1) {
+                newParts.add(parts.getLast());
+                parts.removeLast();
+            }
+            while (!parts.isEmpty()) {
+                merge1 = parts.getFirst();
+                parts.removeFirst();
+                merge2 = parts.getFirst();
+                parts.removeFirst();
+                curPart = new LinkedList<Integer>();
+                while (!merge1.isEmpty() && !merge2.isEmpty()) {
+                    it1 = merge1.getFirst();
+                    it2 = merge2.getFirst();
+                    if (it1 < it2) {
+                        curPart.add(it1);
+                        merge1.removeFirst();
+                    }
+                    else {
+                        curPart.add(it2);
+                        merge2.removeFirst();
+                    }
+                }
+                if (!merge1.isEmpty()) {
+                    curPart.addAll(merge1);
+                }
+                if (!merge2.isEmpty()) {
+                    curPart.addAll(merge2);
+                }
+                newParts.add(curPart);
+            }
+            parts = newParts;
+        }
+        curPart = parts.getFirst();
+        for (int i = 0; i < n; i++) {
+            a[i] = curPart.getFirst();
+            curPart.removeFirst();
+        }
+
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
-    }
-
-    public static void mergeSortCall(int[] arr) {
-        int[] supArr = Arrays.copyOf(arr, arr.length);
-        int left=0;
-        int right = arr.length-1;
-        mergeSort (arr, supArr, left, right);
-    }
-
-    public static void mergeSort(int[] arr, int[] supArr, int left, int right) {
-        if(left>=right) {
-            return;
-        }
-        int mid=left+(right-left)/2;
-        mergeSort(arr, supArr, left, mid);
-        mergeSort(arr, supArr, mid+1, right);
-        merge(arr, supArr, left, mid, mid+1,right);
-    }
-
-    public static void merge(int [] arr,int[] supArr, int left1, int right1, int left2, int right2) {
-        System.arraycopy(arr, left1, supArr, left1, right2 + 1 - left1);
-        int l = left1;
-        int r = left2;
-        for (int i = left1; i <= right2; i++) {
-            if (l > right1) {
-                arr[i] = supArr[r];
-                r += 1;
-            } else if (r > right2) {
-                arr[i] = supArr[l];
-                l += 1;
-            } else if (supArr[l] < supArr[r]) {
-                arr[i] = supArr[l];
-                l += 1;
-            } else {
-                arr[i] = supArr[r];
-                r += 1;
-            }
-        }
     }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

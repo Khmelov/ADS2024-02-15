@@ -3,6 +3,7 @@ package by.it.group310901.pinchuk.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -15,7 +16,7 @@ import java.util.Scanner;
 Вольный перевод: http://programador.ru/sorting-positive-int-linear-time/
 */
 
-public class B_CountSort {
+public class  B_CountSort {
 
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
@@ -27,25 +28,38 @@ public class B_CountSort {
         int[] points=new int[n];
 
         //читаем точки
-        int[] helper=new int[10];
         for (int i = 0; i < n; i++) {
-            points[i]=scanner.nextInt();
-            helper[points[i]-1]++;
+            points[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        int[] result =new int[n];
-        int i = 0;
-        int j = 0;
-        while (i < n) {
-            while (j < 10 && i < n && helper[j] != 0) {
-                result[i] = j + 1;
-                helper[j]--;
-                i++;
+        LinkedList<Integer>[] nums = new LinkedList[10];
+        for (int i = 0; i < 10; i++) {
+            nums[i] = new LinkedList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            nums[points[i] % 10].add(points[i]);
+        }
+        int iter = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < nums[i].size(); j++) {
+                points[iter] = nums[i].get(j);
+                iter++;
             }
-            j++;
+            nums[i] = new LinkedList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            nums[points[i] / 10].add(points[i]);
+        }
+        iter = 0;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < nums[i].size(); j++) {
+                points[iter] = nums[i].get(j);
+                iter++;
+            }
+            nums[i] = new LinkedList<>();
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return points;
     }
 
 

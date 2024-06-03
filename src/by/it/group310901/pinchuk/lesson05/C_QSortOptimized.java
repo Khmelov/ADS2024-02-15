@@ -3,6 +3,7 @@ package by.it.group310901.pinchuk.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -33,7 +34,7 @@ import java.util.Scanner;
 public class C_QSortOptimized {
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
@@ -43,56 +44,37 @@ public class C_QSortOptimized {
         }
 
         @Override
-        public int compareTo(Object o) {
+        public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            return 0;
+            return start - o.start;
         }
     }
-    public boolean CompareJ(Segment o, Segment comp) {
-        return o.start<comp.start;
-    }
 
-    public boolean CompareK(Segment o, Segment comp) {
-        return o.start>comp.start;
-    }
-
-    Segment[] QSort(Segment[] events, int lft, int rght){
-        Segment crl = events[(lft + rght) / 2];
-        int j=lft, k=rght;
-        while(j < k){
-            while (CompareJ(events[j],crl)) ++j;
-            while(CompareK(events[k],crl)) --k;
-            if(j<=k){
-                Segment temp = events[j];
-                events[j] = events[k];
-                events[k] = temp;
-                ++j;
-                --k;
-            }
-        }
-        if(lft < k)
-            events = QSort(events,lft,k);
-        if(j < rght)
-            events = QSort(events,j,rght);
-        return events;
-    }
-    boolean binsearch(int left,int right, int x) {
-        int l = left;
-        int r = right;
-        boolean fl = false;
-        while ((l <= r) && (!fl)) {
-            int c = (l + r) / 2;
-            if (c > x) {
-                r = c - 1;
-            } else {
-                l = c + 1;
-                if (c == x) {
-                    fl = true;
+    void sortElems(LinkedList<Segment> arr) {
+        if (arr.size() > 1) {
+            LinkedList<Segment> equal = new LinkedList<>();
+            LinkedList<Segment> bigger = new LinkedList<>();
+            LinkedList<Segment> smaller = new LinkedList<>();
+            equal.add(arr.removeFirst());
+            Segment compSegm = equal.getFirst();
+            while (!arr.isEmpty()) {
+                int diff = compSegm.compareTo(arr.getFirst());
+                if (diff > 0) {
+                    smaller.add(arr.removeFirst());
+                }
+                else if (diff < 0) {
+                    bigger.add(arr.removeFirst());
+                }
+                else {
+                    equal.add(arr.removeFirst());
                 }
             }
-
+            sortElems(bigger);
+            sortElems(smaller);
+            arr.addAll(smaller);
+            arr.addAll(equal);
+            arr.addAll(bigger);
         }
-        return  fl;
     }
 
     int[] getAccessory2(InputStream stream) throws FileNotFoundException {
@@ -101,32 +83,58 @@ public class C_QSortOptimized {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //число отрезков отсортированного массива
         int n = scanner.nextInt();
-        Segment[] segments=new Segment[n];
+        //Segment[] segments=new Segment[n];
         //число точек
         int m = scanner.nextInt();
         int[] points=new int[m];
         int[] result=new int[m];
 
         //читаем сами отрезки
+        LinkedList<Segment> arr = new LinkedList<>();
         for (int i = 0; i < n; i++) {
             //читаем начало и конец каждого отрезка
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            arr.add(new Segment(scanner.nextInt(), scanner.nextInt()));
         }
         //читаем точки
-        int k= 0;
-        QSort(segments,0,n-1);
         for (int i = 0; i < n; i++) {
             points[i]=scanner.nextInt();
-            for (int j = 0; j < n; j++) {
-                if (binsearch(segments[j].start, segments[j].stop,points[i])) {
-                    result[k]++;
-                    k++;
-                }
-            }
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
+        sortElems(arr);
+        for (int i = 0; i < m; i++) {
+            int freq = 0;
+            int stop = n-1;
+            if (points[i] < arr.get(stop).start) {
+                int start = 0;
+                if (n > 2) {
+                    while (stop - start > 1) {
+                        int mid = (start + stop) / 2;
+                        if (points[i] > arr.get(mid).start) {
+                            start = mid;
+                        } else {
+                            stop = mid;
+                        }
+                    }
+                }
+                else {
+                    if (arr.get(stop).start > points[i]) {
+                        if (arr.get(start).start >= points[i]) {
+                            stop = -1;
+                        }
+                        else {
+                            stop = start;
+                        }
+                    }
+                }
+            }
+            for (int j = 0; (j <= stop); j++) {
+                if (arr.get(j).stop >= points[i]) {
+                    freq++;
+                }
+            }
+            result[i] = freq;
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

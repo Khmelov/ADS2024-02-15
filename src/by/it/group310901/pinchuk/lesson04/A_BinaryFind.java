@@ -17,7 +17,7 @@ import java.util.Scanner;
 для которого A[j]=bi, или -1, если такого j нет.
 
         Sample Input:
-        5 1 5 8 12 13
+        5 |1 5 8 12 13
         5 8 1 23 1 11
 
         Sample Output:
@@ -43,26 +43,31 @@ public class A_BinaryFind {
         //размер массива индексов
         int k = scanner.nextInt();
         int[] result=new int[k];
-        bynary:
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
-
             //тут реализуйте бинарный поиск индекса
-            int left = 0;
-            int right = a.length - 1;
+            int smallIndex = 0;
+            int bigIndex = n-1;
             int mid;
-            while (left <= right) {
-                mid = (left + right) / 2;
-                if (a[mid] > value) {
-                    right = mid - 1;
-                } else if (a[mid] < value) {
-                    left = mid + 1;
-                } else {
-                    result[i] = mid + 1;
-                    continue bynary;
+            while (smallIndex - bigIndex < -1) {
+                mid = (smallIndex + bigIndex) / 2;
+                if (value > a[mid]) {
+                    smallIndex = mid;
                 }
+                else {
+                    bigIndex = mid;
+                }
+            }
+            if (value == a[smallIndex]) {
+                result[i] = smallIndex + 1;
+            }
+            else if (value == a[bigIndex]) {
+                result[i] = bigIndex + 1;
+            }
+            else {
                 result[i] = -1;
             }
+
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

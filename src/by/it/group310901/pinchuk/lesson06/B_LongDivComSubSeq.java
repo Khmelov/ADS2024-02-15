@@ -1,5 +1,6 @@
 package by.it.group310901.pinchuk.lesson06;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -29,30 +30,6 @@ import java.util.Scanner;
 
 public class B_LongDivComSubSeq {
 
-    int getLongest(int[] arr) {
-
-        int n = arr.length;
-        int[] array = new int[n];
-        int maxLen = 1;
-        for (int i = 0; i < n; i++) {
-            array[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (arr[i] %arr[j] == 0) {
-                    array[i] = Math.max(array[i], array[j] + 1);
-                }
-            }
-            maxLen = Math.max(maxLen, array[i]);
-        }
-        return maxLen;
-    }
-
-
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
-        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
-        int result = instance.getDivSeqSize(stream);
-        System.out.print(result);
-    }
 
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -66,11 +43,36 @@ public class B_LongDivComSubSeq {
             m[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int result = getLongest(m);
-
+        int result = 0;
+        int[] dests = new int[n + 1];
+        dests[0] = -1;
+        int topDest = 0;
+        for (int i = 0; i < n; i++) {
+            int curDest = topDest;
+            while (m[i] % dests[curDest] != 0) {
+                curDest--;
+            }
+            curDest++;
+            if ((curDest > topDest) || (m[i] < dests[curDest])) {
+                dests[curDest] = m[i];
+                if (curDest > topDest) {
+                    topDest = curDest;
+                }
+            }
+        }
+        result = topDest;
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
+    }
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataB.txt");
+        B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
+        int result = instance.getDivSeqSize(stream);
+        System.out.print(result);
     }
 
 }

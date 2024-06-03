@@ -3,7 +3,7 @@ package by.it.group310901.pinchuk.lesson04;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 Sample Input:
 5
-2 3 9 2 9
+2 3 9 2 9    //1 6 3 7 6 3 6 3 2 7 8 3 6 4 3 6 ;0+0 0+0 |
 Sample Output:
 2
 
@@ -36,10 +36,10 @@ Sample Output:
 
 public class C_GetInversions {
 
-    long calc(InputStream stream) throws FileNotFoundException {
+    int calc(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-        //!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!
         //размер массива
         int n = scanner.nextInt();
         //сам массив
@@ -47,58 +47,73 @@ public class C_GetInversions {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        return getInversionsOptimal(a);
-    }
-        //!!!!!!!!!!!!!!!!!!!!!!!!тут ваше решение!!!!!!!!!!!!!!!!!!!!!!!!
-
-        public static long getInversionsNaive(int[] arr) {
-            long c = 0;
-            for (int i = 0; i < arr.length - 1; i++) {
-                for (int j = i + 1; j < arr.length; j++) {
-                    if (arr[i] > arr[j]) {
-                        c += 1;
+        int result = 0;
+        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
+        int invAm = 0;
+        LinkedList<LinkedList<Integer>> parts = new LinkedList<LinkedList<Integer>>();
+        LinkedList<Integer> curPart = new LinkedList<Integer>();
+        curPart.add(a[0]);
+        parts.add(curPart);
+        for (int i = 1; i < n; i++) {
+            curPart = parts.getLast();
+            if (curPart.getLast() < a[i]) {
+                curPart.add(a[i]);
+            }
+            else {
+                curPart = new LinkedList<Integer>();
+                curPart.add(a[i]);
+                parts.add(curPart);
+            }
+        }
+        LinkedList<LinkedList<Integer>> newParts;
+        LinkedList<Integer> merge1;
+        LinkedList<Integer> merge2;
+        Integer it1;
+        Integer it2;
+        while (parts.size() > 1) {
+            newParts = new LinkedList<LinkedList<Integer>>();
+            if (parts.size() % 2 == 1) {
+                newParts.add(parts.getLast());
+                parts.removeLast();
+            }
+            while (!parts.isEmpty()) {
+                merge1 = parts.getFirst();
+                parts.removeFirst();
+                merge2 = parts.getFirst();
+                parts.removeFirst();
+                curPart = new LinkedList<Integer>();
+                while (!merge1.isEmpty() && !merge2.isEmpty()) {
+                    it1 = merge1.getFirst();
+                    it2 = merge2.getFirst();
+                    if (it1 < it2) {
+                        curPart.add(it1);
+                        merge1.removeFirst();
+                    }
+                    else {
+                        curPart.add(it2);
+                        merge2.removeFirst();
+                        invAm++;
                     }
                 }
-            }
-            return c;
-        }
-
-        public static long getInversionsOptimal(int[] arr) {
-            return mergeSortAndCount(arr, 0, arr.length - 1);
-        }
-
-        static int mergeAndCount(int[] arr, int l, int m, int r) {
-            int[] left = Arrays.copyOfRange(arr, l, m + 1);
-            int[] right = Arrays.copyOfRange(arr, m + 1, r + 1);
-            int i = 0, j = 0, k = l, swaps = 0;
-            while (i < left.length && j < right.length) {
-                if (left[i] <= right[j])
-                    arr[k++] = left[i++];
-                else {
-                    arr[k++] = right[j++];
-                    swaps += (m + 1) - (l + i);
+                if (!merge1.isEmpty()) {
+                    curPart.addAll(merge1);
                 }
+                if (!merge2.isEmpty()) {
+                    curPart.addAll(merge2);
+                }
+                newParts.add(curPart);
             }
-            while (i < left.length)
-                arr[k++] = left[i++];
-            while (j < right.length)
-                arr[k++] = right[j++];
-            return swaps;
+            parts = newParts;
         }
 
-        public static long mergeSortAndCount(int[] arr, int l, int r) {
-            long count = 0;
 
-            if (l < r) {
-                int m = (l + r) / 2;
-                count += mergeSortAndCount(arr, l, m);
-                count += mergeSortAndCount(arr, m + 1, r);
-                count += mergeAndCount(arr, l, m, r);
-            }
-            return count;
-        }
+
+
+
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return invAm;
+    }
 
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -106,7 +121,7 @@ public class C_GetInversions {
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataC.txt");
         C_GetInversions instance = new C_GetInversions();
         //long startTime = System.currentTimeMillis();
-        long result = instance.calc(stream);
+        int result = instance.calc(stream);
         //long finishTime = System.currentTimeMillis();
         System.out.print(result);
     }

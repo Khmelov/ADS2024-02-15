@@ -48,56 +48,61 @@ import java.util.Scanner;
 
 public class C_EditDist {
 
-
     String getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int[][] dp = new int[one.length() + 1][two.length() + 1];
 
+
+        int[][] d = new int[one.length() + 1][two.length() + 1];
         for (int i = 0; i <= one.length(); i++) {
             for (int j = 0; j <= two.length(); j++) {
-                if (i == 0) {
-                    dp[i][j] = j;
-                } else if (j == 0) {
-                    dp[i][j] = i;
-                } else {
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
+                if (i == 0 && j == 0)
+                    d[i][j] = 0;
+                else if (i == 0 && j > 0)
+                    d[i][j] = j;
+                else if (j == 0 && i > 0)
+                    d[i][j] = i;
+                else {
+                    int diff = one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1;
+                    d[i][j] = Math.min(Math.min(d[i][j - 1] + 1,
+                            d[i - 1][j] + 1), d[i - 1][j - 1] + diff);
                 }
             }
         }
 
-        int i = one.length(), j = two.length();
         StringBuilder result = new StringBuilder();
 
+        int i = one.length();
+        int j = two.length();
         while (i > 0 && j > 0) {
-            if (one.charAt(i - 1) == two.charAt(j - 1)) {
-                result.append("#,");
+            int diff = one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1;
+            if (d[i - 1][j - 1] + diff == d[i][j]) {
+                if (diff == 0)
+                    result.insert(0, "#,");
+                else
+                    result.insert(0,"~" + two.charAt(j - 1) + ",");
                 i--;
                 j--;
-            } else if (dp[i][j] == dp[i - 1][j - 1] + 1) {
-                result.append("~").append(two.charAt(j - 1)).append(",");
-                i--;
-                j--;
-            } else if (dp[i][j] == dp[i][j - 1] + 1) {
-                result.append("+").append(two.charAt(j - 1)).append(",");
-                j--;
-            } else {
-                result.append("-").append(one.charAt(i - 1)).append(",");
+            }
+            else if (d[i - 1][j] + 1 == d[i][j]) {
+                result.insert(0,"-" + one.charAt(i - 1) + ",");
                 i--;
             }
+            else if (d[i][j - 1] + 1 == d[i][j]) {
+                result.insert(0, "+" + two.charAt(j - 1) + ",");
+                j--;
+            }
         }
-
         while (i > 0) {
-            result.append("-").append(one.charAt(i - 1)).append(",");
+            result.insert(0, "-" + one.charAt(i - 1) + ",");
             i--;
         }
-
         while (j > 0) {
-            result.append("+").append(two.charAt(j - 1)).append(",");
+            result.insert(0, "+" + two.charAt(j - 1) + ",");
             j--;
         }
 
-        return result.toString();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result.toString();
     }
 
 

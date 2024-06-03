@@ -3,6 +3,7 @@ package by.it.group310901.pinchuk.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 /*
@@ -53,36 +54,34 @@ public class A_QSort {
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
 
-            return 0;
+            return start - o.start;
         }
     }
-
-    public boolean CompareJ(Segment o, Segment comp){
-        return o.start< comp.start;
-    }
-    public boolean CompareK(Segment o, Segment comp){
-        return o.start> comp.start;
-    }
-
-    Segment[] QSort(Segment[] events, int lft, int rght){
-        Segment crl = events[(lft + rght) / 2];
-        int j=lft, k=rght;
-        while(j < k){
-            while (CompareJ(events[j],crl)) ++j;
-            while(CompareK(events[k],crl)) --k;
-            if(j<=k){
-                Segment temp = events[j];
-                events[j] = events[k];
-                events[k] = temp;
-                ++j;
-                --k;
+    void sortElems(LinkedList<Segment> arr) {
+        if (arr.size() > 1) {
+            LinkedList<Segment> equal = new LinkedList<>();
+            LinkedList<Segment> bigger = new LinkedList<>();
+            LinkedList<Segment> smaller = new LinkedList<>();
+            equal.add(arr.removeFirst());
+            Segment compSegm = equal.getFirst();
+            while (!arr.isEmpty()) {
+                int diff = compSegm.compareTo(arr.getFirst());
+                if (diff > 0) {
+                    smaller.add(arr.removeFirst());
+                }
+                else if (diff < 0) {
+                    bigger.add(arr.removeFirst());
+                }
+                else {
+                    equal.add(arr.removeFirst());
+                }
             }
+            sortElems(bigger);
+            sortElems(smaller);
+            arr.addAll(smaller);
+            arr.addAll(equal);
+            arr.addAll(bigger);
         }
-        if(lft < k)
-            events = QSort(events,lft,k);
-        if(j < rght)
-            events = QSort(events,j,rght);
-        return events;
     }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
@@ -95,28 +94,31 @@ public class A_QSort {
         //число точек
         int m = scanner.nextInt();
         int[] points=new int[m];
-        int[] result=new int[m];
+        int[] result=new int[m];//
 
         //читаем сами отрезки
+        LinkedList<Segment> arr = new LinkedList<>();
         for (int i = 0; i < n; i++) {
             //читаем начало и конец каждого отрезка
-            segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            //segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
+            arr.add(new Segment(scanner.nextInt(), scanner.nextInt()));
         }
         //читаем точки
-        QSort(segments,0,n-1);
-        int     k = 0;
         for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
-            int j=0;
-            while ((j<n) && (segments[j].start<=points[i])) {
-                if (segments[j].stop>points[i]) result[k]++;
-                j++;
-            }
-            k++;
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
+        sortElems(arr);
+        for (int i = 0; i < m; i++) {
+            int freq = 0;
+            for (int j = 0; (j < n) && (arr.get(j).start <= points[i]); j++) {
+                if (arr.get(j).stop >= points[i]) {
+                    freq++;
+                }
+            }
+            result[i]=freq;
+        }
 
 
 

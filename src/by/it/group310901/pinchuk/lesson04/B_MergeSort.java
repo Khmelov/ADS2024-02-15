@@ -21,51 +21,75 @@ Sample Output:
 */
 public class B_MergeSort {
 
-    private int[] merge(int[] a, int[] b) {
-        int[] result = new int[a.length + b.length];
-        int i = 0, j = 0, r = 0;
-        while (i < a.length && j < b.length) {
-            if (a[i] <= b[j]) {
-                result[r++] = a[i++];
-            } else {
-                result[r++] = b[j++];
-            }
-        }
-        while (i < a.length) {
-            result[r++] = a[i++];
-        }
-        while (j < b.length) {
-            result[r++] = b[j++];
-        }
-        return result;
-    }
-
-    private int[] mergeSort(int[] a) {
-        if (a.length <= 1) {
-            return a;
-        }
-        int mid = a.length / 2;
-        int[] left = new int[mid];
-        int[] right = new int[a.length - mid];
-        System.arraycopy(a, 0, left, 0, mid);
-        System.arraycopy(a, mid, right, 0, a.length - mid);
-        return merge(mergeSort(left), mergeSort(right));
-    }
-
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+        //размер массива
         int n = scanner.nextInt();
-        int[] a = new int[n];
+        //сам массив
+        int[] a=new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
+            System.out.println(a[i]);
         }
 
-        return mergeSort(a);
+        // тут ваше решение (реализуйте сортировку слиянием)
+        // https://ru.wikipedia.org/wiki/Сортировка_слиянием
+
+        mergeSort(a, 0, a.length-1);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return a;
+    }
+    private void mergeSort(int[] a, int l, int r) {
+        if (l < r) {
+            int m = (l + r) / 2;
+            mergeSort(a, l, m);
+            mergeSort(a, m + 1, r);
+            merge(a, l, m, r);
+        }
     }
 
+    private void merge(int[] a, int l, int m, int r) {
+        int n1 = m - l + 1;
+        int n2 = r - m;
 
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        for (int i = 0; i < n1; ++i) {
+            L[i] = a[l + i];
+        }
+        for (int j = 0; j < n2; ++j) {
+            R[j] = a[m + 1 + j];
+        }
+
+        int i = 0, j = 0;
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                a[k] = L[i];
+                i++;
+            } else {
+                a[k] = R[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            a[k] = L[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            a[k] = R[j];
+            j++;
+            k++;
+        }
+    }
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");

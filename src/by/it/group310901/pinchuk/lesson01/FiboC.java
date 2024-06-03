@@ -3,12 +3,12 @@ package by.it.group310901.pinchuk.lesson01;
 /*
  * Даны целые числа 1<=n<=1E18 и 2<=m<=1E5,
  * необходимо найти остаток от деления n-го числа Фибоначчи на m.
- * время расчета должно быть не более 2 секунд
+ * Время расчета должно быть не более 2 секунд
  */
 
 public class FiboC {
 
-    private final long startTime = System.currentTimeMillis();
+    private long startTime = System.currentTimeMillis();
 
     private long time() {
         return System.currentTimeMillis() - startTime;
@@ -25,26 +25,42 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        if (n <= 1){
-            return n%m;
-        }
+
         long prev = 0;
         long curr = 1;
-        long result = 0;
-        for (int i = 2; i <= n ; i++) {
-            result = (prev + curr)%m;
-            prev = curr;
-            curr = result;
-            if (prev == 0 && curr == 1){
-                long period = i - 1;
-                int remainder = (int) (n % period);
-                return fasterC(remainder, m);
-            }
+        long temp;
+        long pizanoPeriod = 0;
 
+        for(int i = 0; i < m * m; i++)
+        {
+            temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+
+            if (prev == 0 && curr == 1)
+                pizanoPeriod = i + 1;
         }
-        return result;
+
+        n = n % pizanoPeriod;
+
+        if (n == 0){
+            return 0;
+        }
+        else if(n == 1){
+            return 1;
+        }
+        else
+
+        prev = 0;
+        curr = 1;
+        for(int i = 0; i < n - 1; i++)
+        {
+
+            temp = curr;
+            curr = (prev + curr) % m;
+            prev = temp;
+        }
+        return curr % m;
     }
-
-
 }
 

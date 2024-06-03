@@ -34,59 +34,58 @@ Sample Output:
 
 
 public class C_GetInversions {
+    private int numberInversions = 0;
+    private void mergeSort(int[] nums, int left, int right){
+        if (left == right)
+            return;
 
-    private long mergeAndCount(int[] arr, int l, int m, int r) {
-        int[] left = new int[m - l + 1];
-        int[] right = new int[r - m];
+        int mid = left + (right - left) / 2;
+        mergeSort(nums, left, mid);
+        mergeSort(nums, mid + 1, right);
+        merge(nums, left, mid, right);
+        return;
+    }
+    private void merge(int[] nums, int left, int mid, int right){
+        int[] sorted = new int[right+1];
+        int leftArrInd = left;
+        int rightArrInd = mid + 1;
+        int numsArrInd = 0;
 
-        System.arraycopy(arr, l, left, 0, m - l + 1);
-        System.arraycopy(arr, m + 1, right, 0, r - m);
-
-        int i = 0, j = 0, k = l;
-        long swaps = 0;
-
-        while (i < left.length && j < right.length) {
-            if (left[i] <= right[j])
-                arr[k++] = left[i++];
-            else {
-                arr[k++] = right[j++];
-                swaps += (m + 1) - (l + i);
+        while ((leftArrInd <= mid) && (rightArrInd <= right)){
+            if (nums[leftArrInd] <= nums[rightArrInd]) {
+                sorted[numsArrInd++] = nums[leftArrInd++];
+                numberInversions += rightArrInd - mid - 1;
             }
+            else
+                sorted[numsArrInd++] = nums[rightArrInd++];
         }
-
-        while (i < left.length)
-            arr[k++] = left[i++];
-
-        while (j < right.length)
-            arr[k++] = right[j++];
-
-        return swaps;
-    }
-
-    private long mergeSortAndCount(int[] arr, int l, int r) {
-        long count = 0;
-
-        if (l < r) {
-            int m = (l + r) / 2;
-
-            count += mergeSortAndCount(arr, l, m);
-            count += mergeSortAndCount(arr, m + 1, r);
-            count += mergeAndCount(arr, l, m, r);
+        while (leftArrInd <= mid) {
+            sorted[numsArrInd++] = nums[leftArrInd++];
+            numberInversions += rightArrInd - mid - 1;
         }
+        while (rightArrInd <= right)
+            sorted[numsArrInd++] = nums[rightArrInd++];
 
-        return count;
+        for (int i = left; i <= right; i++)
+            nums[i] = sorted[i - left];
+        return;
     }
-
     int calc(InputStream stream) throws FileNotFoundException {
+        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!
+        //размер массива
         int n = scanner.nextInt();
+        //сам массив
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
+        mergeSort(a, 0, a.length-1);
+        return numberInversions;
+        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        return (int) mergeSortAndCount(a, 0, a.length - 1);
     }
 
 

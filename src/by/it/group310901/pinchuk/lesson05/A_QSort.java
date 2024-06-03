@@ -82,9 +82,14 @@ public class A_QSort {
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            return this.start - o.start;
+            if(this.start > o.start){
+                return 1;
+            }
+            if(this.start < o.start){
+                return -1;
+            }
+            return 0;
         }
-
     }
 
 

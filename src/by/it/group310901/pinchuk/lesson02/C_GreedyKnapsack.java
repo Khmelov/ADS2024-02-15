@@ -14,6 +14,7 @@ package by.it.group310901.pinchuk.lesson02;
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -37,9 +38,7 @@ public class C_GreedyKnapsack {
         @Override
         public int compareTo(Item o) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            return o.cost*this.weight - this.cost*o.weight;
         }
     }
 
@@ -51,6 +50,7 @@ public class C_GreedyKnapsack {
         for (int i = 0; i < n; i++) { //создавая каждый конструктором
             items[i] = new Item(input.nextInt(), input.nextInt());
         }
+        Arrays.sort(items);
         //покажем предметы
         for (Item item:items) {
             System.out.println(item);
@@ -58,7 +58,7 @@ public class C_GreedyKnapsack {
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
         //тут реализуйте алгоритм сбора рюкзака
@@ -67,8 +67,15 @@ public class C_GreedyKnapsack {
 
         //ваше решение.
 
-
-
+        for(int i=0; i < items.length; i++){
+            if(W > items[i].weight){
+                W -= items[i].weight;
+                result += items[i].cost;
+            }else{
+                result += (W * items[i].cost) / (items[i].weight) ;
+                break;
+            }
+        }
 
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);

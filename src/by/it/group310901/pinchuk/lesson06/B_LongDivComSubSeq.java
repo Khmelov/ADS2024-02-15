@@ -29,7 +29,22 @@ import java.util.Scanner;
 
 public class B_LongDivComSubSeq {
 
+    int getLongest(int[] arr) {
 
+        int n = arr.length;
+        int[] array = new int[n];
+        int maxLen = 1;
+        for (int i = 0; i < n; i++) {
+            array[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (arr[i] %arr[j] == 0) {
+                    array[i] = Math.max(array[i], array[j] + 1);
+                }
+            }
+            maxLen = Math.max(maxLen, array[i]);
+        }
+        return maxLen;
+    }
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataB.txt");
         B_LongDivComSubSeq instance = new B_LongDivComSubSeq();
@@ -38,24 +53,22 @@ public class B_LongDivComSubSeq {
     }
 
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
+        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
+        //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        int[] dp = new int[n];
-        int maxSeqLength = 0;
-        for (int i = 0; i < n; i++) {
-            dp[i] = 1;
-            for (int j = 0; j < i; j++) {
-                if (m[i] % m[j] == 0) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
-            }
-            maxSeqLength = Math.max(maxSeqLength, dp[i]);
-        }
-        return maxSeqLength;
+        //тут реализуйте логику задачи методами динамического программирования (!!!)
+        int result = getLongest(m);
+
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result;
     }
 
 }

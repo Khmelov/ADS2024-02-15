@@ -6,31 +6,24 @@ import java.util.Scanner;
 
 /*
 Задача на программирование: рюкзак с повторами
-
 Первая строка входа содержит целые числа
     1<=W<=100000     вместимость рюкзака
     1<=n<=300        сколько есть вариантов золотых слитков
                      (каждый можно использовать множество раз).
 Следующая строка содержит n целых чисел, задающих веса слитков:
   0<=w[1]<=100000 ,..., 0<=w[n]<=100000
-
 Найдите методами динамического программирования
 максимальный вес золота, который можно унести в рюкзаке.
-
-
 Sample Input:
 10 3
 1 4 8
 Sample Output:
 10
-
 Sample Input 2:
-
 15 3
 2 8 16
 Sample Output 2:
 14
-
 */
 
 public class A_Knapsack {
@@ -38,25 +31,35 @@ public class A_Knapsack {
     int getMaxWeight(InputStream stream ) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int w = scanner.nextInt();
-        int n = scanner.nextInt();
-        int gold[] = new int[n];
+        int w=scanner.nextInt();
+        int n=scanner.nextInt();
+        int gold[]=new int[n];
+        for (int i = 0; i < n; i++) {
+            gold[i]=scanner.nextInt();
+        }
 
         for (int i = 0; i < n; i++) {
-            gold[i] = scanner.nextInt();
-        }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int d[] = new int[w + 1];
-        d[0] = 0;
-
-        for (int i = 1; i <= w; i++) {
-            d[i] = d[i - 1];
-            for (int k = 0; k < n && gold[k] <= i; k++)
-                d[i] = Math.max(d[i], gold[k] + d[i - gold[k]]);
+            for (int j = i; j < n; j++) {
+                if (gold[i] < gold[j]) {
+                    int temp = gold[i];
+                    gold[i] = gold[j];
+                    gold[j] = temp;
+                }
+            }
         }
 
-        return d[w];
+        int result = 0;
+
+        for(int i = 0; i < n; i++) {
+            if(w >= gold[i]) {
+                w -= gold[i];
+                result += gold[i];
+                i--;
+            }
+        }
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result;
     }
 
 

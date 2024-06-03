@@ -35,34 +35,27 @@ Sample Output 2:
 
 public class A_Knapsack {
 
-    int getMaxWeight(InputStream stream) {
+    int getMaxWeight(InputStream stream ) {
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         Scanner scanner = new Scanner(stream);
-        int W = scanner.nextInt(); // Вместимость рюкзака
-        int n = scanner.nextInt(); // Количество вариантов золотых слитков
-        int[] weights = new int[n]; // Веса слитков золота
-
-        // Заполнение массива весов слитков
+        int W=scanner.nextInt();
+        int n=scanner.nextInt();
+        int gold[]=new int[n];
         for (int i = 0; i < n; i++) {
-            weights[i] = scanner.nextInt();
+            gold[i]=scanner.nextInt();
         }
 
-        // Создание массива для хранения максимального веса золота в рюкзаке
-        int[] maxWeights = new int[W + 1];
 
-        // Вычисление максимального веса золота в рюкзаке
-        for (int w = 1; w <= W; w++) {
-            for (int i = 0; i < n; i++) {
-                if (weights[i] <= w) {
-                    int weightWithItem = maxWeights[w - weights[i]] + weights[i];
-                    if (weightWithItem > maxWeights[w]) {
-                        maxWeights[w] = weightWithItem;
-                    }
-                }
+        int[] dp = new int[W + 1];
+        for (int i = 0; i < n; i++) {
+            for (int w = gold[i]; w <= W; w++) {
+                dp[w] = Math.max(dp[w], dp[w - gold[i]] + gold[i]);
             }
         }
 
-        // Возвращение максимального веса золота в рюкзаке
-        return maxWeights[W];
+        return dp[W];
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
     }
 
 

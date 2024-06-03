@@ -56,12 +56,12 @@ public class A_QSort {
             return 0;
         }
     }
-    public boolean CompareJ(Segment o, Segment comp) {
-        return o.start<comp.start;
-    }
 
-    public boolean CompareK(Segment o, Segment comp) {
-        return o.start>comp.start;
+    public boolean CompareJ(Segment o, Segment comp){
+        return o.start< comp.start;
+    }
+    public boolean CompareK(Segment o, Segment comp){
+        return o.start> comp.start;
     }
 
     Segment[] QSort(Segment[] events, int lft, int rght){
@@ -116,6 +116,10 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
+
+
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

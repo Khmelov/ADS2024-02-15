@@ -39,31 +39,26 @@ import java.util.Scanner;
 public class B_EditDist {
 
 
+
+
     int getDistanceEdinting(String one, String two) {
-        int m = one.length();
-        int n = two.length();
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        int[][] dp = new int[one.length() + 1][two.length() + 1];
 
-        int[][] dp = new int[m + 1][n + 1];
-
-        for (int i = 0; i <= m; i++) {
-            dp[i][0] = i;
-        }
-        for (int j = 0; j <= n; j++) {
-            dp[0][j] = j;
-        }
-
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (one.charAt(i - 1) == two.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1];
+        for (int i = 0; i <= one.length(); i++) {
+            for (int j = 0; j <= two.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
                 } else {
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]) + 1, dp[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
                 }
             }
         }
 
-        // Возвращаем значение из правой нижней ячейки матрицы
-        return dp[m][n];
+        return dp[one.length()][two.length()];
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 

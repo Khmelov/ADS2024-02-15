@@ -55,6 +55,7 @@ public class C_QSortOptimized {
     public boolean CompareK(Segment o, Segment comp) {
         return o.start>comp.start;
     }
+
     Segment[] QSort(Segment[] events, int lft, int rght){
         Segment crl = events[(lft + rght) / 2];
         int j=lft, k=rght;
@@ -75,7 +76,6 @@ public class C_QSortOptimized {
             events = QSort(events,j,rght);
         return events;
     }
-
     boolean binsearch(int left,int right, int x) {
         int l = left;
         int r = right;

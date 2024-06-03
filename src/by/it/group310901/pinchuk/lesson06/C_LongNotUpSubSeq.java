@@ -59,6 +59,7 @@ public class C_LongNotUpSubSeq {
         System.out.print(result);
     }
 
+
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -72,6 +73,7 @@ public class C_LongNotUpSubSeq {
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = getLongest(m);
+
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

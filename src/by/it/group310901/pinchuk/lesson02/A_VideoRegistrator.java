@@ -3,6 +3,7 @@ package by.it.group310901.pinchuk.lesson02;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 /*
 Даны события events
 реализуйте метод calcStartTimes, так, чтобы число включений регистратора на
@@ -12,7 +13,10 @@ import java.util.List;
 */
 
 public class A_VideoRegistrator {
-
+    /*В методе main: Создается массив events, содержащий времена начала событий.Вызывается метод calcStartTimes
+     для расчета времени начала работы видеокамеры, чтобы покрыть все события с длительностью workDuration.
+     Результат выводится на экран.
+     */
     public static void main(String[] args) {
         A_VideoRegistrator instance=new A_VideoRegistrator();
         double[] events=new double[]{1, 1.1, 1.6, 2.2, 2.4, 2.7, 3.9, 8.1, 9.1, 5.5, 3.7};
@@ -20,39 +24,32 @@ public class A_VideoRegistrator {
         System.out.println(starts);                            //покажем моменты старта
     }
     //модификаторы доступа опущены для возможности тестирования
-    List<Double> calcStartTimes(double[] events, double workDuration){
-        //events - события которые нужно зарегистрировать
-        //timeWorkDuration время работы видеокамеры после старта
+    /*
+    В методе calcStartTimes: События сортируются по возрастанию времени начала. Итерируемся по отсортированным событиям:
+     - Устанавливаем время старта видеокамеры как время начала текущего события.
+     - Устанавливаем время окончания работы видеокамеры как время старта плюс длительность работы.
+     - Добавляем время старта в результат.
+     - Пропускаем все события, которые попадают в период работы видеокамеры (их время начала меньше или равно времени окончания работы).
+     - Переходим к следующему событию.
+     */
+    List<Double> calcStartTimes(double[] events, double workDuration) {
         List<Double> result;
-        result = new ArrayList<>(events.length);
-        // sort events
-        Arrays.sort(events);
-        int i=0;
+        result = new ArrayList<>();
+        Arrays.sort(events); // сортируем массив событий
 
-        while (i<events.length){
-            double start = events[i];
-            double stop = start+workDuration;
-            result.add(start);
-            while (i<events.length && events[i]<=stop){
+        int i = 0;
+        while (i < events.length) {
+            double start = events[i]; // время старта видеокамеры
+            double end = start + workDuration; // время окончания работы видеокамеры
+
+            result.add(start); // добавляем время старта в результат
+
+            // пропускаем все события, которые попадают в период работы видеокамеры
+            while (i < events.length && events[i] <= end) {
                 i++;
             }
         }
 
-        //i - это индекс события events[i]
-        //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.
-        //Подготовка к жадному поглощению массива событий
-        //hint: сортировка Arrays.sort обеспечит скорость алгоритма
-        //C*(n log n) + C1*n = O(n log n)
-
-
-        //пока есть незарегистрированные события
-        //получим одно событие по левому краю
-        //и запомним время старта видеокамеры
-        //вычислим момент окончания работы видеокамеры
-        //и теперь пропустим все покрываемые события
-        //за время до конца работы, увеличивая индекс
-
-        //вернем итог
         return result;
     }
 }

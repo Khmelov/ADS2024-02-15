@@ -9,7 +9,11 @@ import java.util.List;
 непересекающихся событий было максимально.
 Алгоритм жадный. Для реализации обдумайте надежный шаг.
 */
-
+/*
+В классе B_Sheduler определен вложенный класс Event, который представляет события с определенным временем начала и окончания.
+определен метод calcStartTimes, который принимает массив событий, начальное и конечное время и возвращает список событий,
+которые можно выполнить в указанный промежуток времени.
+ */
 public class B_Sheduler {
     //событие у аудитории(два поля: начало и конец)
     static class Event {
@@ -26,7 +30,11 @@ public class B_Sheduler {
             return "("+ start +":" + stop + ")";
         }
     }
-
+/*
+В методе main: Создается экземпляр класса B_Sheduler. Создается массив событий events.
+Вызывается метод calcStartTimes для расчета времени начала выполнения событий в указанном промежутке.
+Результат выводится на экран.
+ */
     public static void main(String[] args) {
         B_Sheduler instance = new B_Sheduler();
         Event[] events = {  new Event(0, 3),  new Event(0, 1), new Event(1, 2), new Event(3, 5),
@@ -40,36 +48,33 @@ public class B_Sheduler {
         List<Event> starts = instance.calcStartTimes(events,0,10);  //рассчитаем оптимальное заполнение аудитории
         System.out.println(starts);                                 //покажем рассчитанный график занятий
     }
+    /*
+    В методе calcStartTimes:События сортируются по времени окончания,
+    а при равенстве времени окончания - по времени начала. Проходится по отсортированным событиям
+    и добавляются в результат те, которые могут быть выполнены после окончания предыдущего события
+    и до указанного конечного времени.
+     */
 
     List<Event> calcStartTimes(Event[] events, int from, int to) {
-        //Events - события которые нужно распределить в аудитории
-        //в период [from, int] (включительно).
-        //оптимизация проводится по наибольшему числу непересекающихся событий.
-        //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        //ваше решение.
-
-        //сортировка массива событий по времени окончания
-        Arrays.sort(events, (o1,o2) ->{
-            if(o1.stop!=o2.stop){
-                return Integer.compare(o1.stop,o2.stop);
-            }else return Integer.compare(o1.start,o2.start);
+        // Сортируем события по времени окончания
+        Arrays.sort(events, (e1, e2) -> {
+            if (e1.stop == e2.stop) {
+                return e1.start - e2.start;
+            } else {
+                return e1.stop - e2.stop;
+            }
         });
 
-        int i =0;
-        while(i < events.length) {
-            result.add(events[i]);
-            i++;
-            while(i < events.length && events[i].start < result.get(result.size() - 1).stop){
-                i++;
+        int lastEventStop = from;
+        for (Event event : events) {
+            if (event.start >= lastEventStop && event.stop <= to) {
+                result.add(event);
+                lastEventStop = event.stop;
             }
         }
 
-
-
-
-
-        return result;          //вернем итог
+        return result;
     }
 }

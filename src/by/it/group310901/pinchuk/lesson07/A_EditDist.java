@@ -1,40 +1,35 @@
 package by.it.group310901.pinchuk.lesson07;
 
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
-
 /*
 Задача на программирование: расстояние Левенштейна
     https://ru.wikipedia.org/wiki/Расстояние_Левенштейна
     http://planetcalc.ru/1721/
-
 Дано:
     Две данных непустые строки длины не более 100, содержащие строчные буквы латинского алфавита.
-    CREATE BY ALEX USOV
 Необходимо:
     Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
     Рекурсивно вычислить расстояние редактирования двух данных непустых строк
-
     Sample Input 1:
     ab
     ab
     Sample Output 1:
     0
-
     Sample Input 2:
     short
     ports
     Sample Output 2:
     3
-
     Sample Input 3:
     distance
     editing
     Sample Output 3:
     5
-
 */
+
 
 public class A_EditDist {
 

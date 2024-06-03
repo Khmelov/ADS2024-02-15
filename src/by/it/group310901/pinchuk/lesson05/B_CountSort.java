@@ -15,6 +15,7 @@ import java.util.Scanner;
 Вольный перевод: http://programador.ru/sorting-positive-int-linear-time/
 */
 
+
 public class B_CountSort {
 
     public static int[] sort(int[] array) {

@@ -43,13 +43,13 @@ import java.util.Scanner;
     + I (англ. insert) — вставить,
     ~ R (replace) — заменить,
     # M (match) — совпадение.
-    CREATE BY ALEX USOV
 */
 
 
 public class C_EditDist {
 
     String getDistanceEdinting(String one, String two) {
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         int[][] dp = new int[one.length() + 1][two.length() + 1];
 
         for (int i = 0; i <= one.length(); i++) {
@@ -84,6 +84,9 @@ public class C_EditDist {
             }
         }
 
+
+
+
         while (i > 0) {
             result+="-"+one.charAt(i - 1)+",";
             i--;
@@ -93,6 +96,7 @@ public class C_EditDist {
             result+="+"+two.charAt(j - 1)+",";
             j--;
         }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 

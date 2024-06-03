@@ -110,6 +110,9 @@ public class A_QSort {
             //читаем начало и конец каждого отрезка
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
+
+
+
         //читаем точки
         for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();

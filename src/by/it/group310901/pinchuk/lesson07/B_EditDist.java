@@ -61,8 +61,10 @@ public class B_EditDist {
         }
         return currRow[n];
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!
     }
+
+
 
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -75,8 +77,3 @@ public class B_EditDist {
     }
 
 }
-
-
-
-
-// CREATE BY ALEX USOV

@@ -37,6 +37,7 @@ import java.util.*;
 //        c: 110
 //        d: 111
 //        01001100100111
+
 public class A_Huffman {
 
     //Изучите классы Node InternalNode LeafNode
@@ -87,7 +88,6 @@ public class A_Huffman {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
-    // Create by ALEX USOV
     //расширение базового класса до листа дерева
     private class LeafNode extends Node {
         //лист
@@ -115,50 +115,43 @@ public class A_Huffman {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
         String s = scanner.next();
-
+/* - Метод кодирует строку из файла, используя алгоритм Хаффмана.
+   - Считывает строку из файла и вычисляет частоту каждого символа, хранящуюся в карте count.
+   - Процесс рассмотрен только частично, включая подсчет частот символов,
+   что является важной частью алгоритма Хаффмана.*/
         //все комментарии от тестового решения были оставлены т.к. это задание A.
         //если они вам мешают их можно удалить
-        // create by Alex Usov
+
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
             //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-        for(int i = 0; i < s.length();i++){
+        for(int i = 0; i < s.length();i++) {
             char c = s.charAt(i);
-            count.put(c, count.getOrDefault(c,0) + 1);
+            count.put(c, count.getOrDefault(c, 0) + 1);
         }
-
-
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-
         for(Map.Entry<Character,Integer> entry : count.entrySet()){
             priorityQueue.add(new LeafNode(entry.getValue(),entry.getKey()));
         }
-
-
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-
         while (priorityQueue.size()>1){
             Node left = priorityQueue.poll();
             Node right = priorityQueue.poll();
             priorityQueue.add(new InternalNode(left,right));
         }
-
-
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
         StringBuilder sb = new StringBuilder();
         //.....
-
         priorityQueue.peek().fillCodes("");
 
         for(int i = 0; i < s.length();i++){
             sb.append(codes.get(s.charAt(i)));
         }
-
 
         return sb.toString();
         //01001100100111

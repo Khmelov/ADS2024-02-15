@@ -30,6 +30,9 @@ import java.util.Scanner;
 */
 
 
+
+
+
 public class C_QSortOptimized {
     private void quickSort(Segment[] segments, int left, int right) {
         if (left < right) {

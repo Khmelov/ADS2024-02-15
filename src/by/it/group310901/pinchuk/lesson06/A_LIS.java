@@ -30,7 +30,6 @@ import java.util.Scanner;
 */
 
 public class A_LIS {
-
     int getLongest(int[] arr) {
 
         int n = arr.length;
@@ -47,6 +46,7 @@ public class A_LIS {
         }
         return maxLen;
     }
+
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
         A_LIS instance = new A_LIS();
@@ -66,6 +66,9 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
         int result = getLongest(m);
+
+
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

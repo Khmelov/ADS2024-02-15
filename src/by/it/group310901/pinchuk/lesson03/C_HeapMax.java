@@ -36,51 +36,82 @@ import java.util.Scanner;
 
 
 public class C_HeapMax {
+    /*Данный код представляет собой реализацию
+    класса MaxHeap, который представляет структуру данных "Пирамида максимума" (Max Heap).*/
 
     private class MaxHeap {
+        /*Класс MaxHeap реализует структуру данных
+        "Пирамида максимума", где каждый элемент в вершине пирамиды является наибольшим.*/
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение.
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
+/*  - siftDown(int i): Процедура просеивания вниз для восстановления порядка пирамиды,
+ проверяя и корректируя позицию элементов.
+   - siftUp(int i): Процедура просеивания вверх для восстановления порядка пирамиды,
+    проверяя и корректируя позицию элементов.
+   - insert(Long value): Вставка элемента в пирамиду и последующее просеивание вверх
+   для поддержания свойств пирамиды.
+   - extractMax(): Извлечение и удаление максимального элемента из пирамиды,
+   последующее восстановление порядка с помощью просеивания вниз.
+   - colswap(int i, int j): Обмен значений между двумя элементами в пирамиде.*/
+        int siftDown(int i) { //просеивание вверх
+            int leftChild = 2 * i + 1;
+            int rightChild = 2 * i + 2;
+            int largest = i;
 
-        int siftUp(int i) { //просеивание вверх
-            while (heap.get(i) > heap.get((i - 1) / 2)){
-                swap(i, (i - 1) / 2);
-                i = (i - 1) / 2;
+            if (leftChild < heap.size() && heap.get(leftChild) > heap.get(largest)) {
+                largest = leftChild;
+            }
+
+            if (rightChild < heap.size() && heap.get(rightChild) > heap.get(largest)) {
+                largest = rightChild;
+            }
+
+            if (largest != i) {
+                colswap(i, largest);
+                siftDown(largest);
             }
             return i;
         }
-        int siftDown(int i) { //просеивание вниз
-            while (2*i + 1 < heap.size()) {
-                int left = 2 * i + 1;
-                int right = 2 * i + 2;
-                int max = left;
-                if((right < heap.size()) && (heap.get(right) > heap.get(left)))
-                    max = right;
-                if(i == max)
-                    break;
-                i = max;
+/* Пирамида максимума обеспечивает возможность эффективного
+ извлечения максимального элемента из коллекции.
+   - При вставке нового элемента он позиционируется так,
+   чтобы при последующей извлечении максимум был на вершине.
+   - Процедуры просеивания вниз и вверх обеспечивают поддержание
+    свойств пирамиды после добавления или удаления элементов.*/
+        int siftUp(int i) { //просеивание вниз
+            int parent = (i - 1) / 2;
+
+            while (i > 0 && heap.get(i) > heap.get(parent)) {
+                colswap(i, parent);
+                i = parent;
+                parent = (i - 1) / 2;
             }
             return i;
         }
 
-        void insert(Long value) { //вставка
+        void insert(Long value) {
             heap.add(value);
-            siftUp(heap.size()-1);
-        }
-
-        private void swap(int i, int j){
-            Long temp = heap.get(j);
-            heap.set(j, heap.get(i));
-            heap.set(i, temp);
+            siftUp(heap.size() - 1);//вставка
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
-            result = heap.get(0);
-            heap.remove(0);
+            if (heap.isEmpty()) {
+                return null;
+        }
+            Long max = heap.get(0);
+            heap.set(0, heap.get(heap.size() - 1));
+            heap.remove(heap.size() - 1);
             siftDown(0);
-            return result;
+
+            return max;
+        }
+
+        private void colswap(int i, int j) {
+            Long temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }

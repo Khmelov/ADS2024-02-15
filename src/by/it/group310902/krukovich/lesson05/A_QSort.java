@@ -1,4 +1,4 @@
-package by.it.group310902.mikhovich.lesson05;
+package by.it.group310902.krukovich.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,19 +7,25 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /*
-Видеорегистраторы и площадь 2.
-Условие то же что и в задаче А.
+Видеорегистраторы и площадь.
+На площади установлена одна или несколько камер.
+Известны данные о том, когда каждая из них включалась и выключалась (отрезки работы)
+Известен список событий на площади (время начала каждого события).
+Вам необходимо определить для каждого события сколько камер его записали.
 
-        По сравнению с задачей A доработайте алгоритм так, чтобы
-        1) он оптимально использовал время и память:
-            - за стек отвечает элиминация хвостовой рекурсии,
-            - за сам массив отрезков - сортировка на месте
-            - рекурсивные вызовы должны проводиться на основе 3-разбиения
+В первой строке задано два целых числа:
+    число включений камер (отрезки) 1<=n<=50000
+    число событий (точки) 1<=m<=50000.
 
-        2) при поиске подходящих отрезков для точки реализуйте метод бинарного поиска
-        для первого отрезка решения, а затем найдите оставшуюся часть решения
-        (т.е. отрезков, подходящих для точки, может быть много)
+Следующие n строк содержат по два целых числа ai и bi (ai<=bi) -
+координаты концов отрезков (время работы одной какой-то камеры).
+Последняя строка содержит m целых чисел - координаты точек.
+Все координаты не превышают 10E8 по модулю (!).
 
+Точка считается принадлежащей отрезку, если она находится внутри него или на границе.
+
+Для каждой точки в порядке их появления во вводе выведите,
+скольким отрезкам она принадлежит.
     Sample Input:
     2 3
     0 5
@@ -30,41 +36,30 @@ import java.util.Scanner;
 
 */
 
-
-public class C_QSortOptimized {
+public class A_QSort {
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
         Segment(int start, int stop){
             this.start = start;
             this.stop = stop;
+            //тут вообще-то лучше доделать конструктор на случай если
+            //концы отрезков придут в обратном порядке
         }
 
         @Override
-        public int compareTo(Object o) {
+        public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            Segment other = (Segment) o;
 
-            if (this.start < other.start)
-                return -1;
-            else if (this.start > other.start)
-                return 1;
-            else {
-                if (this.stop < other.stop)
-                    return -1;
-                else if (this.stop > other.stop)
-                    return 1;
-                else
-                    return 0;
-            }
+            return 0;
         }
     }
 
 
-    int[] getAccessory2(InputStream stream) throws FileNotFoundException {
+    int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -73,8 +68,8 @@ public class C_QSortOptimized {
         Segment[] segments=new Segment[n];
         //число точек
         int m = scanner.nextInt();
-        int[] points = new int[m];
-        int[] result = new int[m];
+        int[] points=new int[m];
+        int[] result=new int[m];
 
         //читаем сами отрезки
         for (int i = 0; i < n; i++) {
@@ -94,32 +89,24 @@ public class C_QSortOptimized {
             int count = 0;
 
             int left = 0;
+
             int right = n - 1;
             while (left <= right) {
                 int mid = left + (right - left) / 2;
+
                 if (segments[mid].start <= point && point <= segments[mid].stop) {
                     count++;
-                    left++;
                     break;
-                } else if (segments[mid].start > point) {
+
+                } else if (point < segments[mid].start) {
                     right = mid - 1;
+
                 } else {
                     left = mid + 1;
                 }
             }
-
-            if (count > 0) {
-                for (int j = left; j < n; j++) {
-                    if (segments[j].start <= point && point <= segments[j].stop)
-                        count++;
-                    else
-                        break;
-                }
-            }
-
             result[i] = count;
         }
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
@@ -127,9 +114,9 @@ public class C_QSortOptimized {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataC.txt");
-        C_QSortOptimized instance = new C_QSortOptimized();
-        int[] result=instance.getAccessory2(stream);
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataA.txt");
+        A_QSort instance = new A_QSort();
+        int[] result=instance.getAccessory(stream);
         for (int index:result){
             System.out.print(index+" ");
         }

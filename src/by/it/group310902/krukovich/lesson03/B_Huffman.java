@@ -1,4 +1,4 @@
-package by.it.group310902.mikhovich.lesson03;
+package by.it.group310902.krukovich.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;

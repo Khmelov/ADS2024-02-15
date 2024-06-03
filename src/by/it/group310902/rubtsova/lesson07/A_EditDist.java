@@ -38,7 +38,7 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-
+//созд матрица из двух слов, считается сколько разнадо изменить первое слово чтобы получить второе
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         // проверяем на пустоты
@@ -60,9 +60,9 @@ public class A_EditDist {
         //заполняем оставшийся массив
         for(int i=1;i<=one.length();++i){
             for (int j = 1; j <= two.length(); j++){
-                // если символы совпадают, то вес = 0
+                // если символы совпадают изменений нет
                 int s=(one.charAt(i-1)==two.charAt(j-1))?0:1;
-                //считаем минимальный вес
+                //считаем количество изменений
                 dp[i][j]=Math.min(Math.min(dp[i-1][j]+1,dp[i][j-1]+1),dp[i-1][j-1]+s);
             }
         }

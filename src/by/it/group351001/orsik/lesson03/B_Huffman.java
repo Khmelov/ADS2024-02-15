@@ -66,10 +66,13 @@ public class B_Huffman {
         //тут запишите ваше решение
         for(int i=0;i<length;i++)
         {
+
             sb.append(str.charAt(i));
+
             String key = sb.toString();
             if(mp.containsKey(key))
             {
+                System.out.println(sb);
                 result.append(mp.get(key));
                 sb = new StringBuilder();
             }

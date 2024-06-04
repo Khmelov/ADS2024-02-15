@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /*
 Задача на программирование: наибольшая невозростающая подпоследовательность
@@ -37,7 +38,19 @@ import java.util.Scanner;
 
 
 public class C_LongNotUpSubSeq {
-
+    int upSearch(int[] arr, int x) {
+        int l = 0;
+        int r = arr.length - 1;
+        while(r > l) {
+            int mid = (l + r) >> 1;
+            if (arr[mid] >= x) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -51,7 +64,34 @@ public class C_LongNotUpSubSeq {
         }
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
+        int[] longestIncreasing = new int[n + 1];
+        longestIncreasing[0] = 2000000000;
+        int[] pos = new int[n + 1];
+        int[] prev = new int[n + 1];
+        pos[0] = -1;
+        for(int i = 1; i <= n; i++) longestIncreasing[i] = -2000000000;
 
+        for(int i = 0; i < n; i++) {
+            int j = upSearch(longestIncreasing, m[i]);
+            if (longestIncreasing[j - 1] >= m[i] && longestIncreasing[j] < m[i]) {
+                longestIncreasing[j] = m[i];
+                pos[j] = i;
+                prev[i] = pos[j - 1];
+                result = Math.max(j, result);
+            }
+        }
+
+        ArrayList<Integer> answer = new ArrayList<Integer>();
+        int p = pos[result];
+        while (p != -1) {
+            answer.add(p);
+            p = prev[p];
+        }
+        for(int i = answer.size() - 1; i >= 0; i--) {
+            System.out.print((answer.get(i) + 1));
+            System.out.print(' ');
+        }
+        System.out.println();
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

@@ -1,0 +1,93 @@
+package by.it.group310901.lisovitskii.lesson06;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Scanner;
+
+/*
+Задача на программирование: наибольшая возрастающая подпоследовательность
+см.     https://ru.wikipedia.org/wiki/Задача_поиска_наибольшей_увеличивающейся_подпоследовательности
+        https://en.wikipedia.org/wiki/Longest_increasing_subsequence
+
+Дано:
+    целое число 1≤n≤1000
+    массив A[1…n] натуральных чисел, не превосходящих 2E9.
+
+Необходимо:
+    Выведите максимальное 1<=k<=n, для которого гарантированно найдётся
+    подпоследовательность индексов i[1]<i[2]<…<i[k] <= длины k,
+    где каждый элемент A[i[k]] больше любого предыдущего
+    т.е. для всех 1<=j<k, A[i[j]]<A[i[j+1]].
+
+Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
+
+    Sample Input:
+    5
+    1 3 3 2 6
+
+    Sample Output:
+    3
+*/
+//1. Метод getLongest(int[] arr):
+//   - Принимает массив целых чисел arr.
+//   - Создает массив array для хранения длин подпоследовательностей, индекс i в array содержит длину LIS, оканчивающейся в arr[i].
+//   - Инициализирует все значения в array как 1 (минимальная возможная длина подпоследовательности).
+//   - Для каждого элемента arr[i] проходит по всем предыдущим элементам arr[j] (где j < i) и обновляет значение в array[i], если это возможно.
+//   - Возвращает длину самой длинной возрастающей подпоследовательности.
+//
+//2. Метод main(String[] args):
+//   - Получает доступ к файлу данных dataA.txt.
+//   - Создает экземпляр класса A_LIS.
+//   - Вызывает метод getSeqSize(InputStream stream), чтобы получить результат и выводит его.
+//
+//3. Метод getSeqSize(InputStream stream):
+//   - Подготавливает Scanner для чтения данных из файла.
+//   - Считывает общую длину последовательности n и элементы последовательности в массив m.
+//   - Вызывает метод getLongest(int[] arr) для массива m.
+//   - Возвращает результат работы getLongest.
+//
+//4. Примечания:
+//   - Алгоритм использует динамическое программирование для нахождения длины LIS.
+//   - Входные данные для алгоритма предполагаются правильными и числами целыми числами.
+
+public class A_LIS {
+
+    int getLongest(int[] arr) {
+
+        int n = arr.length;
+        int[] array = new int[n];
+        int maxLen = 1;
+        for (int i = 0; i < n; i++) {
+            array[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    array[i] = Math.max(array[i], array[j] + 1);
+                }
+            }
+            maxLen = Math.max(maxLen, array[i]);
+        }
+        return maxLen;
+    }
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
+        A_LIS instance = new A_LIS();
+        int result = instance.getSeqSize(stream);
+        System.out.print(result);
+    }
+
+    int getSeqSize(InputStream stream) throws FileNotFoundException {
+        //подготовка к чтению данных
+        Scanner scanner = new Scanner(stream);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //общая длина последовательности
+        int n = scanner.nextInt();
+        int[] m = new int[n];
+        //читаем всю последовательность
+        for (int i = 0; i < n; i++) {
+            m[i] = scanner.nextInt();
+        }
+        int result = getLongest(m);
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result;
+    }
+}

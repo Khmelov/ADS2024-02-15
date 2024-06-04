@@ -1,4 +1,4 @@
-package lesson04;
+package by.it.group310902.chyliuk.lesson04;
 
 import org.junit.Test;
 

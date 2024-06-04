@@ -48,20 +48,12 @@ public class C_GetInversions {
         }
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-        sort(a);
-
-
-
-
-
-
-
-
+        sortA(a);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return inverseCount;
     }
 
-    public static int[] sort(int[] array) {
+    public static int[] sortA(int[] array) {
         inverseCount = 0;
         if (array == null) return null;
         if (array.length == 0) return array;

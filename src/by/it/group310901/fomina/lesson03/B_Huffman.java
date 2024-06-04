@@ -1,9 +1,7 @@
 package by.it.group310901.fomina.lesson03;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -44,45 +42,43 @@ import java.util.Scanner;
 
 public class B_Huffman {
 
-    String decode(File file) throws FileNotFoundException {
-        StringBuilder result=new StringBuilder();
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream inputStream = B_Huffman.class.getResourceAsStream("dataB.txt");
+        B_Huffman instance = new B_Huffman();
+        String result = instance.decode(inputStream);
+        System.out.println(result);
+    }
+
+    String decode(InputStream inputStream) throws FileNotFoundException {
+        StringBuilder result = new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
-        Scanner scanner = new Scanner(file);
+        Scanner scanner = new Scanner(inputStream);
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-        Map<Integer, Character> map = new HashMap<>();
-        char symbol;
-        for (int i = 1; i <= count; i++){
-            symbol = scanner.next().charAt(0);
-            Integer code = scanner.nextInt();
-            map.put(code, symbol);
+        String[] codes = new String[count];
+        for (int i = 0; i < count; i++) {
+            String s = scanner.next();
+            char ch = s.charAt(0);
+            String code = scanner.next();
+            codes[ch - 'a'] = code;
         }
-
-        String string = scanner.next();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < string.length(); i++){
-            stringBuilder.append(string.charAt(i));
-            int num = Integer.parseInt(stringBuilder.toString());
-            if (map.containsKey(num)){
-                result.append(map.get(num));
-                stringBuilder.setLength(0);
+        String s = scanner.next();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            sb.append(s.charAt(i));
+            for (int j = 0; j < count; j++) {
+                if (codes[j].equals(sb.toString())) {
+                    result.append((char) (j + 'a'));
+                    sb = new StringBuilder();
+                    break;
+                }
             }
         }
 
-
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/encodeHuffman.txt");
-        B_Huffman instance = new B_Huffman();
-        String result = instance.decode(f);
-        System.out.println(result);
     }
 
 

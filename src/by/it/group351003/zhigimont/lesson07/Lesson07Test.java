@@ -1,4 +1,4 @@
-package lesson07;
+package by.it.group351003.zhigimont.lesson07;
 
 import org.junit.Test;
 

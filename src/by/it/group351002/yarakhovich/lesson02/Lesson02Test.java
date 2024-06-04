@@ -1,7 +1,7 @@
 package by.it.group351002.yarakhovich.lesson02;
 
 import org.junit.Test;
-import java.util.Arrays;
+
 import java.io.File;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public class Lesson02Test {
     @Test(timeout = 2000)
     public void C_GreedyKnapsack() throws Exception {
         String root=System.getProperty("user.dir")+"/src/";
-        File file=new File(root+"by/it/a_khmelev/lesson02/greedyKnapsack.txt");
+        File file=new File(root+"by/it/group351002/yarakhovich/lesson02/greedyKnapsack.txt");
         double costFinal=new C_GreedyKnapsack().calc(file);
         boolean ok=costFinal==200;
         assertTrue("B_Sheduler failed", ok);

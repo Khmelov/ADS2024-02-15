@@ -5,7 +5,7 @@ import java.math.BigInteger;
  * Вам необходимо выполнить рекурсивный способ вычисления чисел Фибоначчи
  */
 
-public class fibuA {
+public class  fibuA {
     private long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) {

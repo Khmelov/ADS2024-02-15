@@ -52,9 +52,50 @@ public class A_QSort {
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-
-            return 0;
+            if (this.start > o.start) {
+                return 1;
+            }
+            else if (this.start == o.start){
+                if (this.stop > o.stop) {
+                    return 1;
+                }
+                else if (this.stop == o.stop){
+                    return 0;
+                }
+                return -1;
+            }
+            return -1;
         }
+    }
+
+    public int Partition(Segment[] arr, int left, int right){
+        Segment pivot = arr[(left + right) / 2];
+        while (left <= right){
+            //пока старт меньше или же равен и конец меньше
+            while (arr[left].compareTo(pivot) == -1){
+                left++;
+            }
+            //пока старт больше или же равен и конец больше
+            while (arr[right].compareTo(pivot) == 1){
+                right--;
+            }
+            if (left <= right){
+                Segment temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        return left;
+    }
+
+    public void QuickSort(Segment[] arr, int left, int right){
+        if (right <= left)
+            return;
+        int partition_index = Partition(arr, left, right);
+        QuickSort(arr,left,partition_index - 1);
+        QuickSort(arr,partition_index,right);
     }
 
 
@@ -81,7 +122,19 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-
+        QuickSort(segments,0, segments.length - 1);
+        int start = 0;
+        int end = 0;
+        for (Segment segment : segments){
+            start = segment.start;
+            end = segment.stop;
+            for (int i = 0; i < points.length; i++){
+                if (end < points[i])
+                    break;
+                if (start <= points[i])
+                    result[i]++;
+            }
+        }
 
 
 

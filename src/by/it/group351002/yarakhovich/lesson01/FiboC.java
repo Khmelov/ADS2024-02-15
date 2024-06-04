@@ -25,23 +25,42 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        if (n == 1) return 1;
-        int[] FiboArr = new int[m*6];
 
-        int i;
-        FiboArr[1] = 1;
-        for(i = 2; i < m*6; i++)
-        {
-            FiboArr[i] = (FiboArr[i-1] + FiboArr[i-2]) % m;
-            if ((FiboArr[i] == 1) && (FiboArr[i-1] == 0)) break;
+            int period = getPisanoPeriod(m);
+
+            n = n % period;
+
+            long prev = 0;
+            long curr = 1;
+
+            for (int i = 2; i <= n; i++) {
+                long next = (prev + curr) % m;
+                prev = curr;
+                curr = next;
+            }
+
+            return curr;
         }
-        i -= 1;
 
-        i = (int) n % i;
+        int getPisanoPeriod(int m) {
+            int prev = 0;
+            int curr = 1;
+            int per = 2;
 
-        return FiboArr[i];
+            while (true) {
+                int next = (prev + curr) % m;
+                prev = curr;
+                curr = next;
+
+                if (prev == 0 && curr == 1) {
+                    return per - 1;
+                }
+
+                per++;
+            }
+        }
     }
 
 
-}
+
 

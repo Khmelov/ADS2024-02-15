@@ -43,15 +43,19 @@ import java.util.Map;
 //        abacabad
 
 public class B_Huffman {
-
+/*декодирование строки, закодированной с использованием алгоритма Хаффмана*/
     String decode(File file) throws FileNotFoundException {
         StringBuilder result=new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
+        /*Метод открывает файл и считывает данные, включая количество различных
+         символов (count) и длину закодированной строки (length).*/
         Scanner scanner = new Scanner(file);
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
+        /* - Для каждого символа считывается его код и сохраняется в массив codes,
+   - Каждый символ и его код связываются для последующего декодирования.*/
         String[] codes = new String[count];
         for (int i = 0; i < count; i++) {
             String s = scanner.next();
@@ -59,6 +63,11 @@ public class B_Huffman {
             String code = scanner.next();
             codes[ch - 'a'] = code;
         }
+        /* акодированная строка s считывается из файла.
+   - Происходит итерация по символам закодированной строки для декодирования.
+   - Для каждой подстроки сравнивается с массивом кодов codes, и
+    при совпадении находится соответствующий символ и декодированный символ
+     добавляется к результирующей строке.*/
         String s = scanner.next();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
@@ -71,6 +80,8 @@ public class B_Huffman {
                 }
             }
         }
+        /*Декодированная строка сохраняется в result и
+        возвращается в виде строки с помощью result.toString().*/
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

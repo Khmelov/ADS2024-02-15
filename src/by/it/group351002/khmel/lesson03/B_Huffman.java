@@ -39,6 +39,8 @@ import java.util.Scanner;
 
 //        Sample Output 2:
 //        abacabad
+
+//Декодировка нашла код сопоставила и вывела букву
 public class B_Huffman {
 
     String decode(File file) throws FileNotFoundException {

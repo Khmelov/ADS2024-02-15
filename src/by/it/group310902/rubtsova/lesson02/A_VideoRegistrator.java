@@ -30,13 +30,15 @@ public class A_VideoRegistrator {
         //Подготовка к жадному поглощению массива событий
         //hint: сортировка Arrays.sort обеспечит скорость алгоритма
         //C*(n log n) + C1*n = O(n log n)
+
         Arrays.sort(events);
-        result.add(events[0]);
-        for (int i = 0; i<events.length; i++){
-            if (result.get(result.size()-1)+workDuration< events[i]){
+        result.add(events[0]);//перввое событие заносится в список как начальный момент старта видеорегистратора
+        for (int i = 0; i<events.length; i++){ //событие происходит после окончания работы видеорегистратора, заносится в список
+            if (result.get(result.size()-1)+workDuration< events[i]){ //(текущий последний момент старта + workDuration)
                 result.add(events[i]);
             }
         }
+
         //пока есть незарегистрированные события
         //получим одно событие по левому краю
         //и запомним время старта видеокамеры

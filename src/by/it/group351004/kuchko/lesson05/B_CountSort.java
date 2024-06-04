@@ -35,7 +35,7 @@ public class B_CountSort {
         int[] points = new int[n];
 
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++){
             points[i] = scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
@@ -43,7 +43,7 @@ public class B_CountSort {
         for (int val: points)
             tempArr[val]++;
         int b = 0;
-        for (int i = 0; i < 10; ++i){
+        for (int i = 0; i < 10; ++i) {
             for (int j = 0; j < tempArr[i]; ++j) {
                 points[b++] = i;
             }

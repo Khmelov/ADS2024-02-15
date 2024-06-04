@@ -12,8 +12,10 @@ package by.it.group310901.pinchuk.lesson02;
 Необходимо собрать наиболее дорогой вариант рюкзака для этого объема
 Предметы можно резать на кусочки (т.е. алгоритм будет жадным)
  */
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class C_GreedyKnapsack {
@@ -35,11 +37,11 @@ public class C_GreedyKnapsack {
         }
 
         @Override
-        public int compareTo(Item o) {
+        public int compareTo(Item other) {
             //тут может быть ваш компаратор
-
-
-            return 0;
+            double thisCostPerWeight = ((double) cost) / weight;
+            double otherCostPerWeight = ((double) other.cost) / other.weight;
+            return Double.compare(otherCostPerWeight, thisCostPerWeight);
         }
     }
 
@@ -58,18 +60,32 @@ public class C_GreedyKnapsack {
         System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n",n,W);
 
         //тут необходимо реализовать решение задачи
-        //итогом является максимально воможная стоимость вещей в рюкзаке
+        //итогом является максимально возможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
         double result = 0;
+
+
         //тут реализуйте алгоритм сбора рюкзака
         //будет особенно хорошо, если с собственной сортировкой
         //кроме того, можете описать свой компаратор в классе Item
 
         //ваше решение.
+        Arrays.sort(items, (a2, a1)->{
+            return Double.compare((double)a2.cost/a2.weight,(double)a1.cost/a1.weight);
+        });
 
-
-
-
+        for (int i = n-1; i >= 0; i--) {
+            if (W == 0) {
+                break;
+            }
+            if (items[i].weight <= W) {
+                result += items[i].cost;
+                W -= items[i].weight;
+            } else {
+                result += (double) items[i].cost * W / items[i].weight;
+                W = 0;
+            }
+        }
 
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;

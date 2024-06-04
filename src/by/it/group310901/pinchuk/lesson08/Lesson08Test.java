@@ -1,4 +1,4 @@
-package lesson08;
+package by.it.group310901.pinchuk.lesson08;
 
 import org.junit.Test;
 

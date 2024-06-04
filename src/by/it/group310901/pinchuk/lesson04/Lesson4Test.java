@@ -1,4 +1,4 @@
-package by.it.group351001.orsik.lesson04;
+package by.it.group310901.pinchuk.lesson04;
 
 import org.junit.Test;
 
@@ -51,7 +51,7 @@ public class Lesson4Test {
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataC.txt");
         C_GetInversions instance = new C_GetInversions();
         //long startTime = System.currentTimeMillis();
-        int result = instance.calc(stream);
+        long result = instance.calc(stream);
         //long finishTime = System.currentTimeMillis();
         boolean ok=(2==result);
         assertTrue("C failed", ok);

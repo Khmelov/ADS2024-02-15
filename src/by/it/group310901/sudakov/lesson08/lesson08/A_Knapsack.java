@@ -1,4 +1,4 @@
-package lesson08;
+package by.it.group310901.sudakov.lesson08.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -34,37 +34,37 @@ Sample Output 2:
 */
 
 public class A_Knapsack {
-    int calculateMaxWeight(int w, int n, int[] gold) {
-        int[] temp = new int[w + 1];
-        for (int i = 1; i <= w; i++) {
-            for (int j = 0; j < n; j++) {
-                if (gold[j] <= i) {
-                    int tempWeight = temp[i - gold[j]] + gold[j];
-                    if (tempWeight > temp[i]) {
-                        temp[i] = tempWeight;
+
+    int getMaxWeight(InputStream stream) {
+        Scanner scanner = new Scanner(stream);
+        int W = scanner.nextInt(); // Вместимость рюкзака
+        int n = scanner.nextInt(); // Количество вариантов золотых слитков
+        int[] weights = new int[n]; // Веса слитков золота
+
+        // Заполнение массива весов слитков
+        for (int i = 0; i < n; i++) {
+            weights[i] = scanner.nextInt();
+        }
+
+        // Создание массива для хранения максимального веса золота в рюкзаке
+        int[] maxWeights = new int[W + 1];
+
+        // Вычисление максимального веса золота в рюкзаке
+        for (int w = 1; w <= W; w++) {
+            for (int i = 0; i < n; i++) {
+                if (weights[i] <= w) {
+                    int weightWithItem = maxWeights[w - weights[i]] + weights[i];
+                    if (weightWithItem > maxWeights[w]) {
+                        maxWeights[w] = weightWithItem;
                     }
                 }
             }
         }
-        return temp[w];
+
+        // Возвращение максимального веса золота в рюкзаке
+        return maxWeights[W];
     }
-    int getMaxWeight(InputStream stream ) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        Scanner scanner = new Scanner(stream);
-        int w=scanner.nextInt();
-        int n=scanner.nextInt();
-        int gold[]=new int[n];
-        for (int i = 0; i < n; i++) {
-            gold[i]=scanner.nextInt();
-        }
 
-
-
-
-        int result = calculateMaxWeight(w, n, gold);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
-    }
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_Knapsack.class.getResourceAsStream("dataA.txt");

@@ -25,26 +25,38 @@ public class FiboC {
         //Решение сложно найти интуитивно
         //возможно потребуется дополнительный поиск информации
         //см. период Пизано
-        if (n <= 1){
-            return n%m;
-        }
-        long prev = 0;
-        long curr = 1;
-        long result = 0;
-        for (int i = 2; i <= n ; i++) {
-            result = (prev + curr)%m;
-            prev = curr;
-            curr = result;
-            if (prev == 0 && curr == 1){
-                long period = i - 1;
-                int remainder = (int) (n % period);
-                return fasterC(remainder, m);
+        long period = PisanoPeriod(m);
+        long remainderIndex = n % period;
+        long current = 0;
+        long next = 1;
+        long newNum = 0;
+        if (remainderIndex == 0) {
+            return 0;
+        } else if (remainderIndex == 1) {
+            return 1;
+        } else {
+            for (int i = 1; i < remainderIndex; i++) {
+                newNum = (current + next) % m;
+                current = next;
+                next = newNum;
             }
-
         }
-        return result;
+        return newNum;
     }
 
-
+    long PisanoPeriod(int m)
+    {
+        long a=0, b=1, c;
+        for(int i=0;i<m*m; i++)
+        {
+            c=(a+b)%m;
+            a=b;
+            b=c;
+            if(a==0 && b==1)
+                return i+1;
+        }
+        return 0;
+    }
 }
+
 

@@ -1,4 +1,4 @@
-package lesson07;
+package by.it.group310901.pinchuk.lesson07;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 Необходимо:
     Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
-    Рекурсивно вычислить расстояние редактирования двух данных непустых строк
+    Итерационно вычислить расстояние редактирования двух данных непустых строк
 
     Sample Input 1:
     ab
@@ -36,45 +36,39 @@ import java.util.Scanner;
 
 */
 
-public class A_EditDist {
+public class B_EditDist {
 
-    int min(int n1, int n2, int n3){
-        if (n1>n2){
-            n1 = n2;
-        }
-        if (n1>n3){
-            n1 = n3;
-        }
-        return n1;
-    }
+
+
+
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        int[][] dp = new int[one.length() + 1][two.length() + 1];
 
+        for (int i = 0; i <= one.length(); i++) {
+            for (int j = 0; j <= two.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]) + 1, dp[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
+                }
+            }
+        }
+
+        return dp[one.length()][two.length()];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return GDR(one, two);
-    }
-    int GDR(String s1, String s2){
-        if (s1.length() == 0){
-            return s2.length();
-        }
-        else if (s2.length() == 0){
-            return s1.length();
-        }
-        else if (s1.charAt(0) == s2.charAt(0)){
-            return GDR(s1.substring(1), s2.substring(1));
-        }
-        else{
-            return min(GDR(s1.substring(1), s2), GDR(s1, s2.substring(1)), GDR(s1.substring(1), s2.substring(1)))+1;
-        }
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = A_EditDist.class.getResourceAsStream("dataABC.txt");
-        A_EditDist instance = new A_EditDist();
+        InputStream stream = B_EditDist.class.getResourceAsStream("dataABC.txt");
+        B_EditDist instance = new B_EditDist();
         Scanner scanner = new Scanner(stream);
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
     }
+
 }

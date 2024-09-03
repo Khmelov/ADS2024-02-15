@@ -1,4 +1,4 @@
-package lesson08;
+package by.it.group310901.stashuk.lesson08;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

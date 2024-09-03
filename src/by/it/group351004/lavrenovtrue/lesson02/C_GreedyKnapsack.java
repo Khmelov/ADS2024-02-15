@@ -54,7 +54,7 @@ public class C_GreedyKnapsack {
 
         int currentWeight = 0;
 
-        for (by.it.group351004.lavrenov.lesson02.C_GreedyKnapsack.Item item : items) {
+        for (C_GreedyKnapsack.Item item : items) {
             if (currentWeight + item.weight <= W) {
                 result += item.cost;
                 currentWeight += item.weight;

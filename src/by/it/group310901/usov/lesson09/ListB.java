@@ -7,11 +7,12 @@ import java.util.ListIterator;
 
 public class ListB<E> implements List<E> {
 
-    E[] arr = (E[]) new Object[0];
+    int size = 0;
+    E[] arr;
 
     ListB()
     {
-        this.arr =(E[]) new Object[10000];
+        this.arr =(E[]) new Object[this.size];
     }
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
@@ -37,9 +38,35 @@ public class ListB<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        for (int i = 0; i < this.arr.length; i++) {
-            if(this.arr[i] == null) {
-                this.arr[i] = e;
+        E[] Temp = (E[]) new Object[this.size + 1];
+        System.arraycopy(this.arr, 0, Temp, 0, this.size);
+        Temp[this.size] = e;
+        this.arr = Temp;
+        this.size++;
+        return true;
+    }
+
+    @Override
+    public E remove(int index) {
+        E[] Temp = (E[]) new Object[this.size - 1];
+        E data = this.arr[index];
+        System.arraycopy(this.arr, 0, Temp, 0, index);
+        System.arraycopy(this.arr, index + 1, Temp, index, this.size - index - 1);
+        this.arr = Temp;
+        this.size--;
+        return data;
+    }
+
+    @Override
+    public int size() {
+        return this.size;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        for(int i = 0; i < this.arr.length; i++){
+            if(this.arr[i] != null && this.arr[i].equals(o)){
+                this.remove(i);
                 return true;
             }
         }
@@ -47,42 +74,17 @@ public class ListB<E> implements List<E> {
     }
 
     @Override
-    public E remove(int index) {
-        E data = this.arr[index];
-        for(int i = index; i < this.arr.length - 1; i++) {
-            this.arr[i] = this.arr[i + 1];
-        }
-        return data;
-    }
-
-    @Override
-    public int size() {
-        int size = 0;
-        for(E element : this.arr) {
-            if(element != null)
-                size++;
-        }
-        return size;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        var indxe = this.indexOf(o);
-        if (indxe == -1 || this.arr[indxe] == null){
-            return false;
-        }
-        for(int i = indxe; i < this.arr.length - 1; i++){
-            this.arr[i] = this.arr[i + 1];
-        }
-        return true;
-    }
-
-    @Override
     public void add(int index, E element) {
-        for(int i = this.arr.length - 1; i > index; i--){
+        if(this.size == this.arr.length){
+            E[] temp = (E[]) new Object[this.arr.length * 2];
+            System.arraycopy(this.arr, 0, temp, 0, this.arr.length);
+            this.arr = temp;
+        }
+        for(int i = this.size; i > index; i--){
             this.arr[i] = this.arr[i - 1];
         }
         this.arr[index] = element;
+        this.size++;
     }
 
     @Override
@@ -95,25 +97,19 @@ public class ListB<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        for(int i = 0 ; i < this.arr.length;i++){
-            if(this.arr[i] != null){
-                return false;
-            }
-        }
-        return true;
+        return this.size == 0;
     }
 
 
     @Override
     public void clear() {
-        for(int i = 0 ; i < this.arr.length;i++){
-            this.arr[i] = null;
-        }
+        this.size = 0;
+        this.arr = (E[]) new Object[this.size];
     }
 
     @Override
     public int indexOf(Object o) {
-        for(int i = 0 ; i< this.arr.length; i++){
+        for(int i = 0; i < this.arr.length; i++){
             if(this.arr[i] != null && this.arr[i].equals(o)){
                 return i;
             }

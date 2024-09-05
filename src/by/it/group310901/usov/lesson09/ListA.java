@@ -9,11 +9,12 @@ public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
-    E[] arr = (E[]) new Object[0];
+    int size = 0;
+    E[] arr;
 
     ListA()
     {
-        this.arr =(E[]) new Object[10000];
+        this.arr =(E[]) new Object[this.size];
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -38,33 +39,30 @@ public class ListA<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        for (int i = 0; i < this.arr.length; i++) {
-            if(this.arr[i] == null) {
-                this.arr[i] = e;
-                return true;
-            }
-        }
-        return false;
+        E[] Temp = (E[]) new Object[this.size + 1];
+        System.arraycopy(this.arr, 0, Temp, 0, this.size);
+        Temp[this.size] = e;
+        this.arr = Temp;
+        this.size++;
+        return true;
     }
 
     @Override
     public E remove(int index) {
+        E[] Temp = (E[]) new Object[this.size - 1];
         E data = this.arr[index];
-        for(int i = index; i < this.arr.length - 1; i++) {
-            this.arr[i] = this.arr[i + 1];
-        }
+        System.arraycopy(this.arr, 0, Temp, 0, index);
+        System.arraycopy(this.arr, index + 1, Temp, index, this.size - index - 1);
+        this.arr = Temp;
+        this.size--;
         return data;
     }
 
     @Override
     public int size() {
-        int size = 0;
-        for(E element : this.arr) {
-            if(element != null)
-                size++;
-        }
-        return size;
+        return this.size;
     }
+
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,9 @@ Sample Input:
 Sample Output:
 2
 
+
+
+
 Головоломка (т.е. не обязательно).
 Попробуйте обеспечить скорость лучше, чем O(n log n) за счет многопоточности.
 Докажите рост производительности замерами времени.
@@ -34,7 +37,50 @@ Sample Output:
 
 
 public class C_GetInversions {
+    int count = 0;
+    int[] mergeSort(int[] arr, int left ,int right ){
+        if(left == right - 1){
+            if(arr[left] > arr[right]){
+                int temp = arr[left];
+                arr[left] = arr[right];
+                arr[right] = temp;
+            }
+            return arr;
+        }
+        if(left == right){
+            return arr;
+        }
 
+
+        int mid = (left + right) / 2;
+        int[] leftArr = mergeSort(arr, left, mid);
+        int[] rightArr = mergeSort(arr, mid + 1, right);
+
+
+        int[] result = new int[right - left + 1];
+        int i = left;
+        int j = mid + 1;
+        int k = 0;
+
+        while(i <= mid && j<= right){
+            if(leftArr[i] <= rightArr[j]){
+                result[k++] = leftArr[i++];
+            }else{
+                result[k++] = rightArr[j++];
+            }
+        }
+        while(i <= mid){
+            result[k++] = leftArr[i++];
+        }
+        while(j <= right){
+            result[k++] = rightArr[j++];
+            count++;
+        }
+        for(int l = 0; l < result.length; l++){
+            arr[l] = result[l];
+        }
+        return arr;
+    }
     int calc(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -46,10 +92,7 @@ public class C_GetInversions {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        int result = 0;
-        //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-
-
+        mergeSort(a, 0, a.length - 1);
 
 
 
@@ -58,7 +101,7 @@ public class C_GetInversions {
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return count;
     }
 
 

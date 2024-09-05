@@ -33,7 +33,8 @@ Sample Output:
 
 public class C_GetInversions {
 
-     int calc(InputStream stream) {
+    int calc(InputStream stream) {
+
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
         //размер массива

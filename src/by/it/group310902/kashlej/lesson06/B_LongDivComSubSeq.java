@@ -40,8 +40,6 @@ public class B_LongDivComSubSeq {
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         int[] seq = new int[n];
 
         for (int i = 0; i < n; i++) {
@@ -53,7 +51,7 @@ public class B_LongDivComSubSeq {
             }
             result = Math.max(result, seq[i]);
         }
-
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 

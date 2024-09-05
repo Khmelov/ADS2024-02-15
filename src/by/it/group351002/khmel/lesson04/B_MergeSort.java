@@ -19,6 +19,10 @@ Sample Input:
 Sample Output:
 2 2 3 9 9
 */
+
+//слияние есть массив делю попала потом половинки ещё
+//попала пока её останется по одному элемент последний разбитый
+//элемент сливаю между собой сравнивая из между собой
 public class B_MergeSort {
 
     public static void main(String[] args) throws FileNotFoundException {

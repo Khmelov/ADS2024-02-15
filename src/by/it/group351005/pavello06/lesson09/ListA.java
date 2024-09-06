@@ -149,8 +149,18 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public E set(int index, E element) {
-        return null;
+    public E set(int index, E element)
+    {
+        if (index < 0 || index >= _currentItemIndex)
+        {
+            return null;
+        }
+
+        E setItem = _list[index];
+
+        _list[index] = element;
+
+        return setItem;
     }
 
 

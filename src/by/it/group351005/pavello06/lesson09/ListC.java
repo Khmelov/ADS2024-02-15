@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ListA<E> implements List<E>
+public class ListC<E> implements List<E>
 {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
@@ -19,11 +19,11 @@ public class ListA<E> implements List<E>
     E[] _list;
     int _currentItemIndex = 0;
 
-    public ListA()
+    public ListC()
     {
         this(_initialSize);
     }
-    public ListA(int size)
+    public ListC(int size)
     {
         _list = (E[]) new Object[size];
     }
@@ -270,15 +270,19 @@ public class ListA<E> implements List<E>
     @Override
     public boolean removeAll(Collection<?> c)
     {
-        for (Object item : c)
+        boolean removed = false;
+
+        for (int i = 0; i < _currentItemIndex; i++)
         {
-            if (!remove((E) item))
+            if (c.contains(_list[i]))
             {
-                return false;
+                remove(i);
+                i--;
+                removed = true;
             }
         }
 
-        return true;
+        return removed;
     }
 
     @Override

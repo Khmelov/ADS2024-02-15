@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ListA<E> implements List<E>
+public class ListB<E> implements List<E>
 {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
@@ -19,11 +19,11 @@ public class ListA<E> implements List<E>
     E[] _list;
     int _currentItemIndex = 0;
 
-    public ListA()
+    public ListB()
     {
         this(_initialSize);
     }
-    public ListA(int size)
+    public ListB(int size)
     {
         _list = (E[]) new Object[size];
     }

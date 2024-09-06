@@ -218,8 +218,17 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public int lastIndexOf(Object o) {
-        return 0;
+    public int lastIndexOf(Object o)
+    {
+        for (int i = _list.length - 1; i >= 0; i++)
+        {
+            if (o.equals(_list[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     @Override

@@ -99,8 +99,30 @@ public class ListA<E> implements List<E>
     /////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void add(int index, E element) {
+    public void add(int index, E element)
+    {
+        if (index < 0 || index > _currentItemIndex)
+        {
+            return;
+        }
 
+        if (_currentItemIndex == _list.length)
+        {
+            E[] listCopy = (E[]) new Object[_list.length * 2];
+            for (int i = 0; i < _list.length; i++)
+            {
+                listCopy[i] = _list[i];
+            }
+            _list = listCopy;
+        }
+
+        for (int i = _currentItemIndex; i > index; i++)
+        {
+            _list[i] = _list[i - 1];
+        }
+
+        _list[index] = element;
+        _currentItemIndex++;
     }
 
     @Override

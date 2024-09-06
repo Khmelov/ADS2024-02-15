@@ -32,7 +32,20 @@ public class ListA<E> implements List<E>
     @Override
     public String toString()
     {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        sb.append('[');
+        for (int i = 0; i < _currentItemIndex; i++)
+        {
+            sb.append(_list[i]);
+            if (i < _currentItemIndex - 1)
+            {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+
+        return sb.toString();
     }
 
     @Override
@@ -76,7 +89,7 @@ public class ListA<E> implements List<E>
 
     @Override
     public int size() {
-        return 0;
+        return _currentItemIndex;
     }
 
     /////////////////////////////////////////////////////////////////////////

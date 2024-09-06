@@ -173,7 +173,9 @@ public class ListA<E> implements List<E>
     @Override
     public void clear()
     {
+        _list = (E[]) new Object[_initialSize];
 
+        _currentItemIndex = 0;
     }
 
     @Override

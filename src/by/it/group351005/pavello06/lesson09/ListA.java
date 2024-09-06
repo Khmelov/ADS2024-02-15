@@ -1,11 +1,13 @@
 package by.it.group351005.pavello06.lesson09;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ListA<E> implements List<E> {
+public class ListA<E> implements List<E>
+{
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
@@ -14,26 +16,42 @@ public class ListA<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    static int initialSize = 10;
-    E[] list;
-    int currentItemIndex = 0;
+    static int _initialSize = 8;
+    E[] _list;
+    int _currentItemIndex = 0;
 
-    public ListA() {
-        this(initialSize);
+    public ListA()
+    {
+        this(_initialSize);
     }
-    public ListA(int size) {
-        list = (E[]) new Object[size];
+    public ListA(int size)
+    {
+        _list = (E[]) new Object[size];
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "";
     }
 
     @Override
-    public boolean add(E e) {
+    public boolean add(E e)
+    {
+        if (_currentItemIndex == _list.length)
+        {
+            E[] listCopy = (E[]) new Object[_list.length * 2];
+            for (int i = 0; i < _list.length; i++)
+            {
+                listCopy[i] = _list[i];
+            }
+            _list = listCopy;
+        }
 
-        return false;
+        _list[_currentItemIndex] = e;
+        _currentItemIndex++;
+
+        return true;
     }
 
     @Override

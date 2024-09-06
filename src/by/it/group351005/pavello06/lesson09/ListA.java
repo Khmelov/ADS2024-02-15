@@ -193,7 +193,8 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public E get(int index) {
+    public E get(int index)
+    {
         if (index < 0 || index >= _currentItemIndex)
         {
             return null;
@@ -203,7 +204,16 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object o)
+    {
+        for (int i = 0; i < _list.length; i++)
+        {
+            if (o.equals(_list[i]))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 

@@ -126,7 +126,25 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(Object o)
+    {
+        for (int i = 0; i < _list.length; i++)
+        {
+            if (o.equals(_list[i]))
+            {
+                E removedItem = _list[i];
+
+                for (int j = i; j < _currentItemIndex - 1; j++)
+                {
+                    _list[j] = _list[j + 1];
+                }
+
+                _currentItemIndex--;
+
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -138,12 +156,13 @@ public class ListA<E> implements List<E>
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return _currentItemIndex == 0;
     }
 
 
     @Override
-    public void clear() {
+    public void clear()
+    {
 
     }
 

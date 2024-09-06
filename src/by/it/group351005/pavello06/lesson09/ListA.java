@@ -179,7 +179,16 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public int indexOf(Object o) {
+    public int indexOf(Object o)
+    {
+        for (int i = 0; i < _list.length; i++)
+        {
+            if (o.equals(_list[i]))
+            {
+                return i;
+            }
+        }
+
         return 0;
     }
 

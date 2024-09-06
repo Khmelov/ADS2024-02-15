@@ -55,8 +55,23 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public E remove(int index) {
-        return null;
+    public E remove(int index)
+    {
+        if (index < 0 || index >= _currentItemIndex)
+        {
+            return null;
+        }
+
+        E removedItem = _list[index];
+
+        for (int i = index; i < _currentItemIndex - 1; i++)
+        {
+            _list[i] = _list[i + 1];
+        }
+
+        _currentItemIndex--;
+
+        return removedItem;
     }
 
     @Override

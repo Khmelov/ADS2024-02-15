@@ -189,12 +189,17 @@ public class ListA<E> implements List<E>
             }
         }
 
-        return 0;
+        return -1;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        if (index < 0 || index >= _currentItemIndex)
+        {
+            return null;
+        }
+
+        return _list[index];
     }
 
     @Override

@@ -1,4 +1,4 @@
-package by.it.group351005.zhuravski.lesson07;
+package by.it.group351003.zhuravski.lesson07;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 Необходимо:
     Решить задачу МЕТОДАМИ ДИНАМИЧЕСКОГО ПРОГРАММИРОВАНИЯ
-    Итерационно вычислить расстояние редактирования двух данных непустых строк
+    Рекурсивно вычислить расстояние редактирования двух данных непустых строк
 
     Sample Input 1:
     ab
@@ -36,10 +36,11 @@ import java.util.Scanner;
 
 */
 
-public class B_EditDist {
-    static int M, N;
+public class A_EditDist {
     static int[][] D;
-    static String S1, S2;
+    static int M, N;
+    static String S1;
+    static String S2;
     int min(int a, int b, int c) {
         if (a <= b && a <= c)
             return a;
@@ -47,35 +48,34 @@ public class B_EditDist {
             return b;
         return c;
     }
-    int LevenshteinDistance(int i, int j){
-        if (i == 0 && j == 0) return 0;
-        if (i == 0) return LevenshteinDistance(0, j-1) + 1;
-        if (j == 0) return LevenshteinDistance(i-1, 0) + 1;
-        return min(
-                LevenshteinDistance(i-1, j) + 1,
-                LevenshteinDistance(i, j-1) + 1,
-                LevenshteinDistance(i-1, j-1) + (S1.charAt(i-1) == S2.charAt(j-1) ? 0 : 1)
-        );
-    }
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         M = one.length();
         N = two.length();
         D = new int [M + 1][N + 1];
-        S1 = one;
-        S2 = two;
+        D[0][0] = 0;
+        for (int j = 0; j <= N; j++)
+            D[0][j] = j;
+        for (int i = 0; i <= M; ++i)
+            D[i][0] = i;
+        for (int i = 1; i <= M; ++i)
+            for (int j = 1; j <= N; ++j)
+                D[i][j] = min(
+                        D[i - 1][j] + 1,
+                        D[i][j - 1] + 1,
+                        D[i - 1][j - 1] + (one.charAt(i - 1) == two.charAt(j - 1) ? 0 : 1));
+        int result = D[M][N];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return LevenshteinDistance(M, N);
+        return result;
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = B_EditDist.class.getResourceAsStream("dataABC.txt");
-        B_EditDist instance = new B_EditDist();
+        InputStream stream = A_EditDist.class.getResourceAsStream("dataABC.txt");
+        A_EditDist instance = new A_EditDist();
         Scanner scanner = new Scanner(stream);
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(), scanner.nextLine()));
     }
-
 }

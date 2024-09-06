@@ -246,8 +246,14 @@ public class ListA<E> implements List<E>
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
-        return false;
+    public boolean addAll(Collection<? extends E> c)
+    {
+        for (Object item : c)
+        {
+            add((E) item);
+        }
+
+        return true;
     }
 
     @Override

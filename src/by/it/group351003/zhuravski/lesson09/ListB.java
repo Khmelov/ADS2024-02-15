@@ -3,18 +3,31 @@ package by.it.group351003.zhuravski.lesson09;
 import java.util.*;
 
 public class ListB<E> implements List<E> {
-    public class ListElem {
+    class ListElem {
         E value;
         ListElem next;
-        public ListElem(E value, ListElem next) {
-            this.next = next;
+        ListElem(E value, ListElem next) {
             this.value = value;
+            this.next = next;
         }
     };
+    private int count = 0;
     private ListElem first = null;
     private ListElem last = null;
-    private int count = 0;
-
+    private ListElem jumpToPrev(int index) {
+        ListElem cur = first;
+        for (int i = 1; i < index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
+    private ListElem jumpTo(int index) {
+        ListElem cur = first;
+        for (int i = 0; i < index; i++) {
+            cur = cur.next;
+        }
+        return cur;
+    }
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     /////////////////////////////////////////////////////////////////////////
@@ -24,46 +37,52 @@ public class ListB<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        String result = "[";
+        String res = "[";
         if (count > 0) {
             ListElem cur = first;
             for (int i = 1; i < count; i++) {
-                result = result.concat(cur.value.toString());
-                result = result.concat(", ");
+                res = res.concat(cur.value.toString());
+                res = res.concat(", ");
                 cur = cur.next;
             }
-            result = result.concat(cur.value.toString());
+            res = res.concat(cur.value.toString());
         }
-        result += "]";
-        return result;
+        res += "]";
+        return res;
     }
 
     @Override
     public boolean add(E e) {
-        if (last == null) {
-            first = new ListElem(e, null);
-            last = first;
+        if (count > 0) {
+            ListElem n = new ListElem(e, null);
+            last.next = n;
+            last = n;
         }
         else {
-            ListElem v = new ListElem(e, null);
-            last.next = v;
-            last = v;
+            ListElem n = new ListElem(e, null);
+            first = n;
+            last = n;
         }
-        count += 1;
+        count++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < count) {
-            ListElem cur = first;
-            for (int i = 2; i <= index; i++) {
-                cur = cur.next;
+        if ((index < count) && (count > 0)) {
+            if (index > 0) {
+                ListElem cur = jumpToPrev(index);
+                E result = cur.next.value;
+                cur.next = cur.next.next;
+                count--;
+                return result;
             }
-            E res = cur.next.value;
-            cur.next = cur.next.next;
-            count -= 1;
-            return res;
+            else {
+                E result = first.value;
+                first = first.next;
+                count--;
+                return result;
+            }
         }
         return null;
     }
@@ -75,21 +94,26 @@ public class ListB<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-        if (index == 0) {
-            ListElem n = new ListElem(element, first);
-            first = n;
-            count++;
-        }
-        else if (index == count - 1) {
-            add(element);
-        }
-        else {
-            ListElem cur = first;
-            for (int i = 2; i <= index; i++) {
-                cur = cur.next;
+        if (count > 0) {
+            if (index == 0) {
+                ListElem n = new ListElem(element, first);
+                first = n;
+                count++;
             }
-            ListElem n = new ListElem(element, cur.next);
-            cur.next = n;
+            else if (index == count) {
+                add(element);
+            }
+            else if (index < count) {
+                ListElem cur = jumpToPrev(index);
+                ListElem n2 = new ListElem(element, cur.next);
+                cur.next = n2;
+                count++;
+            }
+        }
+        else if (index == 0) {
+            ListElem n = new ListElem(element, null);
+            first = n;
+            last = n;
             count++;
         }
     }
@@ -106,14 +130,11 @@ public class ListB<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        if (index < count) {
-            ListElem cur = first;
-            for (int i = 1; i <= index; i++) {
-                cur = cur.next;
-            }
-            E old = cur.value;
+        if ((count > 0) && (index < count)) {
+            ListElem cur = jumpTo(index);
+            E value = cur.value;
             cur.value = element;
-            return old;
+            return value;
         }
         return null;
     }
@@ -121,7 +142,7 @@ public class ListB<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return count == 0;
     }
 
 
@@ -135,8 +156,8 @@ public class ListB<E> implements List<E> {
     @Override
     public int indexOf(Object o) {
         if (count > 0) {
-            int index = 0;
             ListElem cur = first;
+            int index = 0;
             while (index < count) {
                 if (cur.value.equals(o)) {
                     return index;
@@ -144,18 +165,14 @@ public class ListB<E> implements List<E> {
                 index++;
                 cur = cur.next;
             }
-            return -1;
         }
         return -1;
     }
 
     @Override
     public E get(int index) {
-        if (index < count) {
-            ListElem cur = first;
-            for (int i = 1; i <= index; i++) {
-                cur = cur.next;
-            }
+        if ((count > 0) && (index  < count)) {
+            ListElem cur = jumpTo(index);
             return cur.value;
         }
         return null;
@@ -164,7 +181,7 @@ public class ListB<E> implements List<E> {
     @Override
     public boolean contains(Object o) {
         int index = indexOf(o);
-        if (index > -1) {
+        if (index != -1) {
             return true;
         }
         return false;
@@ -172,20 +189,19 @@ public class ListB<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) {
+        int res = -1;
         if (count > 0) {
-            int index = 0;
-            int res = -1;
             ListElem cur = first;
+            int index = 0;
             while (index < count) {
                 if (cur.value.equals(o)) {
-                    res = index;;
+                    res = index;
                 }
                 index++;
                 cur = cur.next;
             }
-            return res;
         }
-        return -1;
+        return res;
     }
 
 

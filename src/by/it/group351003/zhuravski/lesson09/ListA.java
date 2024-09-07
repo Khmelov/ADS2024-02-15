@@ -4,18 +4,19 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
 public class ListA<E> implements List<E> {
-    public class ListElem {
+    class ListElem {
         E value;
         ListElem next;
-        public ListElem(E value, ListElem next) {
-            this.next = next;
+        ListElem(E value, ListElem next) {
             this.value = value;
+            this.next = next;
         }
     };
+    private int count = 0;
     private ListElem first = null;
     private ListElem last = null;
-    private int count = 0;
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     /////////////////////////////////////////////////////////////////////////
@@ -25,44 +26,55 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        String result = "[";
-        ListElem cur = first;
-        for (int i = 1; i < count; i++) {
-            result = result.concat(cur.value.toString());
-            result = result.concat(", ");
-            cur = cur.next;
+        String res = "[";
+        if (count > 0) {
+            ListElem cur = first;
+            for (int i = 1; i < count; i++) {
+                res = res.concat(cur.value.toString());
+                res = res.concat(", ");
+                cur = cur.next;
+            }
+            res = res.concat(cur.value.toString());
         }
-        result = result.concat(cur.value.toString());
-        result += "]";
-        return result;
+        res += "]";
+        return res;
     }
 
     @Override
     public boolean add(E e) {
-        if (last == null) {
-            first = new ListElem(e, null);
-            last = first;
+        if (count > 0) {
+            ListElem n = new ListElem(e, null);
+            last.next = n;
+            last = n;
         }
         else {
-            ListElem v = new ListElem(e, null);
-            last.next = v;
-            last = v;
+            ListElem n = new ListElem(e, null);
+            first = n;
+            last = n;
         }
-        count += 1;
+        count++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < count) {
-            ListElem cur = first;
-            for (int i = 2; i <= index; i++) {
-                cur = cur.next;
+        if ((index < count) && (count > 0)) {
+            if (index > 0) {
+                ListElem cur = first;
+                for (int i = 1; i < index; i++) {
+                    cur = cur.next;
+                }
+                E result = cur.next.value;
+                cur.next = cur.next.next;
+                count--;
+                return result;
             }
-            E res = cur.next.value;
-            cur.next = cur.next.next;
-            count -= 1;
-            return res;
+            else {
+                E result = first.value;
+                first = first.next;
+                count--;
+                return result;
+            }
         }
         return null;
     }
@@ -80,7 +92,26 @@ public class ListA<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-
+        /*if (count > 0) {
+            if (index == 0) {
+                ListElem n = new ListElem(element, first);
+                first = n;
+                count++;
+            }
+            else if (index == count) {
+                add(element);
+            }
+            else if (index < count) {
+                ListElem cur = first;
+                for (int i = 1; i <= index)
+            }
+        }*/
+        //else {
+        //    ListElem n = new ListElem(element, null);
+        //    first = n;
+        //    last = n;
+        //    count++;
+        //}
     }
 
     @Override

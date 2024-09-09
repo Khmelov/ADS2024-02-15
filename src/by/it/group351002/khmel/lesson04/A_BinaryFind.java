@@ -24,7 +24,10 @@ import java.util.Scanner;
 
 (!) Обратите внимание на смещение начала индекса массивов JAVA относительно условий задачи
 */
-
+//Сравнить полученный объект со значением, которое мы ищем.
+//На каждом шаге область поиска делится пополам. Если он меньше среднего элемента,
+//поиск осуществляется в левой половине. В противном случае – в правой.Алгоритм завершается,
+//когда область поиска сужается до одного элемента
 public class A_BinaryFind {
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_BinaryFind.class.getResourceAsStream("dataA.txt");

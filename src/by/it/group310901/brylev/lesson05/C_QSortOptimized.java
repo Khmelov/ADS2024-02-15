@@ -31,20 +31,72 @@ import java.util.Scanner;
 
 
 public class C_QSortOptimized {
+    private void quickSort(Segment[] segments, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            int m1 = partition(segments, left, mid);
+            int m2 = partition(segments, m1 + 1, right);
+            quickSort(segments, left, m1 - 1);
+            quickSort(segments, m1 + 1,m2 );
+            quickSort(segments, m2 + 1, right);
+        }
+    }
+    private int partition(Segment[] segments, int left, int right) {
+        Segment x = segments[left];
+        int j = left;
+        for (int i = left + 1; i <= right; i++) {
+            if (segments[i].compareTo(x) <= 0) {
+                j++;
+                Segment tmp = segments[j];
+                segments[j] = segments[i];
+                segments[i] = tmp;
+            }
+        }
+        Segment tmp = segments[j];
+        segments[j] = segments[left];
+        segments[left] = tmp;
+        return j;
+    }
+    private int binarySearch(int pos, Segment[] segments){
+        // find in the arrays of segments
+        int left = 0;
+        int right = segments.length - 1;
+        while (left <= right){
+            int mid = left + (right - left) / 2;
+            if (pos < segments[mid].start){
+                right = mid - 1;
+            } else if (pos > segments[mid].stop){
+                left = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return -1;
+    }
 
     //отрезок
-    private class Segment  implements Comparable{
+    private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
         Segment(int start, int stop){
-            this.start = start;
-            this.stop = stop;
+            if(start > stop){
+                this.start = stop;
+                this.stop = start;
+            }else{
+                this.start = start;
+                this.stop = stop;
+            }
         }
 
-        @Override
-        public int compareTo(Object o) {
+        public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
+            if(this.start > o.start){
+                return 1;
+            }
+            if(this.start < o.start){
+                return -1;
+            }
             return 0;
         }
     }
@@ -68,12 +120,31 @@ public class C_QSortOptimized {
             segments[i]=new Segment(scanner.nextInt(),scanner.nextInt());
         }
         //читаем точки
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < m; i++) {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
 
+
+        quickSort(segments, 0, n-1);
+        for(int i = 0 ; i < m; i++){
+            int point1 = points[i];
+            int pos = binarySearch(point1, segments);
+            if(pos == -1){
+                result[i] = 0;
+            } else {
+                int count = 1;
+                for(int j = pos + 1; j < n; j++){
+                    if(segments[j].start <= point1 && segments[j].stop >= point1){
+                        count++;
+                    } else {
+                        break;
+                    }
+                }
+                result[i] = count;
+            }
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;

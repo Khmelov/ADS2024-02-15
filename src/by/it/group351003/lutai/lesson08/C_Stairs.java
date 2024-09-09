@@ -32,13 +32,13 @@ public class C_Stairs {
     int getMaxSum(InputStream stream ) {
         Scanner scanner = new Scanner(stream);
         int n=scanner.nextInt();
-        int stairs[]=new int[n];
+        int[] stairs = new int[n];
         for (int i = 0; i < n; i++) {
             stairs[i]=scanner.nextInt();
         }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int[] Sum = new int[n + 1];
+        int Sum[] = new int[n + 1];
         Sum[0] = 0;
         Sum[1] = stairs[0];
 

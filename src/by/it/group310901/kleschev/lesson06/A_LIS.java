@@ -31,7 +31,19 @@ import java.util.Scanner;
 */
 
 public class A_LIS {
-
+    int upSearch(int[] arr, int x) {
+        int l = 0;
+        int r = arr.length - 1;
+        while(r > l) {
+            int mid = (l + r) >> 1;
+            if (arr[mid] <= x) {
+                l = mid + 1;
+            } else {
+                r = mid;
+            }
+        }
+        return l;
+    }
 
     int getSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -44,7 +56,17 @@ public class A_LIS {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
+        int[] longestIncreasing = new int[n + 1];
+        longestIncreasing[0] = -2000000000;
+        for(int i = 1; i <= n; i++) longestIncreasing[i] = 2000000000;
         int result = 0;
+        for(int i = 0; i < n; i++) {
+            int j = upSearch(longestIncreasing, m[i]);
+            if (longestIncreasing[j - 1] < m[i] && longestIncreasing[j] > m[i]) {
+                longestIncreasing[j] = m[i];
+                result = Math.max(j, result);
+            }
+        }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

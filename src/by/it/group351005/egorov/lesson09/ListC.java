@@ -4,16 +4,10 @@ import java.util.*;
 
 public class ListC<E> implements List<E> {
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
     private final int _INIT_SIZE = 4;
     private E[] _list = (E[])new Object[_INIT_SIZE];
     private int _len = 0;
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -95,7 +89,11 @@ public class ListC<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        return null;
+        if (index >= _len) {
+            throw new RuntimeException("Invalid index");
+        }
+        _list[index] = element;
+        return _list[index];
     }
 
 

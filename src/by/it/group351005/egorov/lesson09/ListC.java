@@ -13,7 +13,7 @@ public class ListC<E> implements List<E> {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[");
         for (int i = 0; i < _len - 1; i++) {
-            stringBuilder.append(_list[i]).append(" ");
+            stringBuilder.append(_list[i]).append(", ");
         }
         if (_len != 0) {
             stringBuilder.append(_list[_len - 1]);
@@ -26,7 +26,7 @@ public class ListC<E> implements List<E> {
     public boolean add(E e) {
         if (_len + 1 > _list.length) {
             E[] newList = (E[])new Object[_list.length * _list.length];
-            for (int i = 0; i < _list.length; i++) {
+            for (int i = 0; i < _len; i++) {
                 newList[i] = _list[i];
             }
             _list = newList;
@@ -42,8 +42,8 @@ public class ListC<E> implements List<E> {
             return null;
         }
         E removeElem = _list[index];
-        for (int i = index; i < _len; i++) {
-            _list[i-1] = _list[i];
+        for (int i = index; i < _len - 1; i++) {
+            _list[i] = _list[i+1];
         }
         _len--;
         return removeElem;
@@ -81,10 +81,11 @@ public class ListC<E> implements List<E> {
     @Override
     public boolean remove(Object o) {
         int index = indexOf(o);
-        if (index == -1) {
-            return false;
+        if (index != -1) {
+            remove(index);
+            return true;
         }
-        return remove(o);
+        return false;
     }
 
     @Override
@@ -92,8 +93,9 @@ public class ListC<E> implements List<E> {
         if (index >= _len) {
             throw new RuntimeException("Invalid index");
         }
+        E oldElem = _list[index];
         _list[index] = element;
-        return _list[index];
+        return oldElem;
     }
 
 
@@ -130,12 +132,12 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        return indexOf(0) != -1;
+        return indexOf(o) != -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = _len - 1; i >= 0; i++) {
+        for (int i = _len - 1; i >= 0; i--) {
             if (Objects.equals(o,_list[i])){
                 return i;
             }
@@ -187,11 +189,12 @@ public class ListC<E> implements List<E> {
             _list = newList;
         }
         else {
-            for (int i = _len - 1; i >= 0; i--) {
+            for (int i = _len - 1; i >= index; i--) {
                 _list[i + collectionLen] = _list[i];
             }
             for (var obj : c) {
-                _list[index++] = obj;
+                _list[index] = obj;
+                index++;
             }
         }
         _len += collectionLen;
@@ -200,13 +203,22 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        if (c.isEmpty()) {
+        if (c.isEmpty())
             return false;
+        boolean state = false;
+        int i = 0;
+        while (i < _len) {
+            if (c.contains(_list[i])) {
+                remove(i);
+                if (!state) {
+                    state = true;
+                }
+            }
+            else {
+                i++;
+            }
         }
-        for (var obj : c) {
-            remove(obj);
-        }
-        return true;
+        return state;
     }
 
     @Override
@@ -215,12 +227,16 @@ public class ListC<E> implements List<E> {
             return false;
         }
         boolean state = false;
-        for (int i = 0; i < _len; i++) {
+        int i = 0;
+        while (i < _len) {
             if (!c.contains(_list[i])) {
                 remove(i);
                 if (!state) {
                     state = true;
                 }
+            }
+            else {
+                i++;
             }
         }
         return state;

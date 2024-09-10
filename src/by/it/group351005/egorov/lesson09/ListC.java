@@ -145,22 +145,57 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
+        if (c.isEmpty()) {
+            return false;
+        }
         for (var obj : c) {
             if (indexOf(obj) == -1) {
                 return false;
             }
         }
-        return true;;
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        if (c.isEmpty()) {
+            return false;
+        }
+        for (var obj : c) {
+            add(obj);
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        int collectionLen = c.size();
+        if (collectionLen == 0) {
+            return false;
+        }
+        if (_len + collectionLen > _list.length) {
+            E[] newList = (E[])new Object[_list.length * _list.length];
+            for (int i = 0; i < index; i++) {
+                newList[i] = _list[i];
+            }
+            for (int i = index; i < _len; i++) {
+                newList[i+collectionLen] = _list[i];
+            }
+            for (var obj: c) {
+                newList[index++] = obj;
+            }
+            _list = newList;
+        }
+        else {
+            for (int i = _len - 1; i >= 0; i--) {
+                _list[i + collectionLen] = _list[i];
+            }
+            for (var obj : c) {
+                _list[index++] = obj;
+            }
+        }
+        _len += collectionLen;
+        return true;
     }
 
     @Override

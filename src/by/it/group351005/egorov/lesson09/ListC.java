@@ -145,7 +145,7 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return for (var obj : c) {
+        for (var obj : c) {
             if (indexOf(obj) == -1) {
                 return false;
             }

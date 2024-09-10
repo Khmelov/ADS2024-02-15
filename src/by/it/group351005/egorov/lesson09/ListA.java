@@ -7,31 +7,54 @@ import java.util.ListIterator;
 
 public class ListA<E> implements List<E> {
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
+    private final int _INIT_SIZE = 4;
+    private E[] _list = (E[])new Object[_INIT_SIZE];
+    private int _len = 0;
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        for (int i = 0; i < _len - 1; i++) {
+            stringBuilder.append(_list[i]).append(", ");
+        }
+        if (_len != 0) {
+            stringBuilder.append(_list[_len - 1]);
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (_len + 1 > _list.length) {
+            E[] newList = (E[])new Object[_list.length * _list.length];
+            for (int i = 0; i < _len; i++) {
+                newList[i] = _list[i];
+            }
+            _list = newList;
+        }
+        _list[_len] = e;
+        _len++;
+        return true;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        if (index >= _len) {
+            return null;
+        }
+        E removeElem = _list[index];
+        for (int i = index; i < _len - 1; i++) {
+            _list[i] = _list[i+1];
+        }
+        _len--;
+        return removeElem;
     }
 
     @Override
     public int size() {
-        return 0;
+        return _len;
     }
 
     /////////////////////////////////////////////////////////////////////////

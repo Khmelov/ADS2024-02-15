@@ -122,7 +122,10 @@ public class ListC<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        return null;
+        if (index >= _len) {
+            throw new RuntimeException("Invalid index");
+        }
+        return _list[index];
     }
 
     @Override

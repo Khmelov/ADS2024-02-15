@@ -130,17 +130,27 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return indexOf(0) != -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        for (int i = _len - 1; i >= 0; i++) {
+            if (Objects.equals(o,_list[i])){
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        return for (var obj : c) {
+            if (indexOf(obj) == -1) {
+                return false;
+            }
+        }
+        return true;;
     }
 
     @Override

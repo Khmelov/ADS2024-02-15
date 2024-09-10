@@ -147,11 +147,11 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        if (c.isEmpty()) {
+        if (c.isEmpty() && _list.length > 0) {
             return false;
         }
         for (var obj : c) {
-            if (indexOf(obj) == -1) {
+            if (!contains(obj)) {
                 return false;
             }
         }

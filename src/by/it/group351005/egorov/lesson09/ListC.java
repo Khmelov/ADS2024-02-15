@@ -1,13 +1,13 @@
 package by.it.group351005.egorov.lesson09;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class ListC<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
+    private final int _INIT_SIZE = 4;
+    private E[] _list = (E[])new Object[_INIT_SIZE];
+    private int _len = 0;
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -16,32 +16,81 @@ public class ListC<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[");
+        for (int i = 0; i < _len - 1; i++) {
+            stringBuilder.append(_list[i]).append(" ");
+        }
+        if (_len != 0) {
+            stringBuilder.append(_list[_len - 1]);
+        }
+        stringBuilder.append("]");
+        return stringBuilder.toString();
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (_len + 1 > _list.length) {
+            E[] newList = (E[])new Object[_list.length * _list.length];
+            for (int i = 0; i < _list.length; i++) {
+                newList[i] = _list[i];
+            }
+            _list = newList;
+        }
+        _list[_len] = e;
+        _len++;
+        return true;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        if (index >= _len) {
+            return null;
+        }
+        E removeElem = _list[index];
+        for (int i = index; i < _len; i++) {
+            _list[i-1] = _list[i];
+        }
+        _len--;
+        return removeElem;
     }
 
     @Override
     public int size() {
-        return 0;
+        return _len;
     }
 
     @Override
     public void add(int index, E element) {
-
+        if (index >= _len) {
+            throw new RuntimeException("Invalid Index");
+        }
+        if (_len + 1 > _list.length) {
+            E[] newList = (E[])new Object[_list.length * _list.length];
+            for (int i = 0; i < index; i++) {
+                newList[i] = _list[i];
+            }
+            newList[index] = element;
+            for (int i = index; i < _len; i++) {
+                newList[i + 1] = _list[i];
+            }
+            _list = newList;
+        } else {
+            for (int i = _len; i > index; i--) {
+                _list[i] = _list[i-1];
+            }
+            _list[index] = element;
+        }
+        _len++;
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int index = indexOf(o);
+        if (index == -1) {
+            return false;
+        }
+        return remove(o);
     }
 
     @Override
@@ -52,18 +101,25 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return _len <= 0;
     }
 
 
     @Override
     public void clear() {
-
+        for (int to = _len, i = _len = 0; i < to; i++) {
+            _list[i] = null;
+        }
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        for (int i = 0; i < _len; i++) {
+            if (Objects.equals(_list[i],o)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override

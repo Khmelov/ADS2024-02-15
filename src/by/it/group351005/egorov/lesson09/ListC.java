@@ -200,12 +200,30 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        if (c.isEmpty()) {
+            return false;
+        }
+        for (var obj : c) {
+            remove(obj);
+        }
+        return true;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        if (c.isEmpty()) {
+            return false;
+        }
+        boolean state = false;
+        for (int i = 0; i < _len; i++) {
+            if (!c.contains(_list[i])) {
+                remove(i);
+                if (!state) {
+                    state = true;
+                }
+            }
+        }
+        return state;
     }
 
     /////////////////////////////////////////////////////////////////////////

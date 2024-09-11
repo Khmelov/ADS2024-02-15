@@ -7,6 +7,17 @@ public class ListB<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
+    E[] arr;
+
+    static int defaultSize = 10;
+    int currLen = 0;
+    public ListB(){
+        this(defaultSize);
+    }
+    public ListB(int size){
+        arr = (E[]) new Object[size];
+    }
+
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
@@ -14,69 +25,146 @@ public class ListB<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        return "";
+        String line = "[";
+
+        for (int i = 0; i < currLen; i++) {
+            line += arr[i].toString();
+            if (i < currLen-1) {
+                line += ", ";
+            }
+        }
+
+        line += "]";
+        return line;
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (currLen == arr.length) {
+            E[] buff = (E[]) new Object[currLen * 2];
+            for (int i = 0; i < currLen; i++) {
+                buff[i] = arr[i];
+            }
+            arr = buff;
+        }
+        arr[currLen++] = e;
+        return true;
     }
 
     @Override
     public E remove(int index) {
+        if (index >= 0 && index < currLen) {
+            E buff = arr[index];
+            for (int i = index; i < currLen-1; i++) {
+                arr[i] = arr[i+1];
+            }
+            arr[--currLen] = null;
+            return buff;
+        }
+
         return null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return currLen;
     }
 
     @Override
     public void add(int index, E element) {
+        if (index >= 0 && index < currLen) {
 
+            if (currLen == arr.length) {
+                E[] buff = (E[]) new Object[currLen * 2];
+                for (int i = 0; i < currLen; i++) {
+                    buff[i] = arr[i];
+                }
+                arr = buff;
+            }
+
+            E buffElem = arr[index];
+            for (int i = currLen; i > index; i--) {
+                arr[i] = arr[i-1];
+            }
+            arr[index] = element;
+            currLen++;
+        }
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int i = 0;
+        while (i < currLen && !Objects.equals(arr[i], o)) {
+            i++;
+        }
+        if (i < currLen) {
+            this.remove(i);
+        }
+        return i != currLen;
     }
 
     @Override
     public E set(int index, E element) {
+        if (index >= 0 && index < currLen) {
+            E buff = arr[index];
+            arr[index] = element;
+            return buff;
+        }
         return null;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return currLen == 0;
     }
 
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < currLen; i++) {
+            arr[i] = null;
+        }
+        arr = (E[]) new Object[defaultSize];
+        currLen = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        for (int i = 0; i < currLen; i++) {
+            if (Objects.equals(arr[i], o)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public E get(int index) {
+        if (index >= 0 && index < currLen) {
+            return arr[index];
+        }
         return null;
     }
 
     @Override
     public boolean contains(Object o) {
+        for (int i = 0; i < currLen; i++) {
+            if (Objects.equals(arr[i], o)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        for (int i = currLen-1; i >= 0; i--) {
+            if (Objects.equals(arr[i], o)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 

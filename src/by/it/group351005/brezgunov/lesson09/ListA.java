@@ -1,8 +1,8 @@
-package by.it.group351003.brezgunov.lesson09;
+package by.it.group351005.brezgunov.lesson09;
 
 import java.util.*;
 
-public class ListC<E> implements List<E> {
+public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
@@ -16,7 +16,7 @@ public class ListC<E> implements List<E> {
     private int size;
     private Object[] arr;
 
-    ListC() {
+    ListA() {
         this.arr = new Object[DEFAULT_CAPACITY];
         this.size = 0;
     }
@@ -66,128 +66,74 @@ public class ListC<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-        if (size == arr.length) {
-            arr = Arrays.copyOf(arr, arr.length + (arr.length >> 1));
-        }
-        System.arraycopy(arr, index, arr, index + 1, size++ - index);
-        arr[index] = element;
+
     }
 
     @Override
     public boolean remove(Object o) {
-        boolean hasObject = false;
-        for (int i = 0; i < size && !hasObject; i++) {
-            if (arr[i].equals(o)) {
-                System.arraycopy(arr, i + 1, arr, i, size-- - i);
-                hasObject = true;
-            }
-        }
-        return hasObject;
+        return false;
     }
 
     @Override
     public E set(int index, E element) {
-        E temp = (E) arr[index];
-        arr[index] = element;
-        return temp;
+        return null;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return false;
     }
 
 
     @Override
     public void clear() {
-        size = 0;
-        arr = new Object[DEFAULT_CAPACITY];
+
     }
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (arr[i].equals(o)) {
-                return i;
-            }
-        }
-        return - 1;
+        return 0;
     }
 
     @Override
     public E get(int index) {
-        return (E) arr[index];
+        return null;
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < size; i++) {
-            if (arr[i].equals(o)) {
-                return true;
-            }
-        }
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = size - 1; i >= 0; i--) {
-            if (arr[i].equals(o)) {
-                return i;
-            }
-        }
-        return - 1;
+        return 0;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object object : c) {
-            if (!this.contains(object)) return false;
-        }
-        return true;
+        return false;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        for (Object object : c) {
-            this.add((E) object);
-        }
-        return !c.isEmpty();
+        return false;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        for (Object object : c) {
-            this.add(index++, (E) object);
-        }
-        return !c.isEmpty();
+        return false;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        boolean hasChanged = false;
-        for (Object object : c) {
-            for (int i = 0; i < size; i++) {
-                if (arr[i].equals(object)) {
-                    this.remove(i--);
-                    hasChanged = true;
-                }
-            }
-        }
-        return hasChanged;
+        return false;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        boolean hasChanged = false;
-        for (int i = 0; i < size; i++) {
-            if (!c.contains(arr[i])) {
-                remove(i--);
-                hasChanged = true;
-            }
-        }
-        return hasChanged;
+        return false;
     }
 
 

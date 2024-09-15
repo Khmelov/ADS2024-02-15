@@ -1,8 +1,8 @@
-package by.it.group351003.brezgunov.lesson09;
+package by.it.group351005.brezgunov.lesson09;
 
 import java.util.*;
 
-public class ListB<E> implements List<E> {
+public class ListC<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
@@ -16,7 +16,7 @@ public class ListB<E> implements List<E> {
     private int size;
     private Object[] arr;
 
-    ListB() {
+    ListC() {
         this.arr = new Object[DEFAULT_CAPACITY];
         this.size = 0;
     }
@@ -142,27 +142,52 @@ public class ListB<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object object : c) {
+            if (!this.contains(object)) return false;
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        for (Object object : c) {
+            this.add((E) object);
+        }
+        return !c.isEmpty();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        for (Object object : c) {
+            this.add(index++, (E) object);
+        }
+        return !c.isEmpty();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean hasChanged = false;
+        for (Object object : c) {
+            for (int i = 0; i < size; i++) {
+                if (arr[i].equals(object)) {
+                    this.remove(i--);
+                    hasChanged = true;
+                }
+            }
+        }
+        return hasChanged;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean hasChanged = false;
+        for (int i = 0; i < size; i++) {
+            if (!c.contains(arr[i])) {
+                remove(i--);
+                hasChanged = true;
+            }
+        }
+        return hasChanged;
     }
 
 
@@ -178,6 +203,7 @@ public class ListB<E> implements List<E> {
 
     @Override
     public ListIterator<E> listIterator() {
+        Math.min(1, 2);
         return null;
     }
 

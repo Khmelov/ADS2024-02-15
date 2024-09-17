@@ -1,5 +1,6 @@
 package by.it.group351001.radzetskii.lesson09;
 
+import javax.lang.model.element.Element;
 import java.util.*;
 
 public class ListC<E> implements List<E> {
@@ -147,7 +148,7 @@ public class ListC<E> implements List<E> {
     @Override
     public boolean contains(Object o) {
         for (int i=0;i<size();i++){
-            if (Objects.equals(o,get(i))){
+            if (o.equals(myList[i])){
                 return true;
             }
         }
@@ -166,38 +167,36 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        int count=0;
-        for (int i=0;i<size();i++){
-            if (c.contains(myList[i])){
-                count++;
-
+        for (Object element:c){
+            if (!contains(element)){
+                return false;
             }
         }
-        if (count==size()){
-            return true;
-        }
-        return false;
+
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
 
-            Iterator it =c.iterator();
-            while (it.hasNext()){
-                add((E)it.next());
+            boolean flag=false;
+            for  (Object elem : c ){
+                add((E)elem);
+                flag=true;
             }
 
-        return true;
+        return flag;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        Iterator it=c.iterator();
-        while (it.hasNext()){
-            add(index,(E) it.next());
+        boolean flag=false;
+        for (Object element:c){
+            add(index,(E) element);
             index++;
+            flag=true;
         }
-        return true;
+        return flag;
     }
 
     @Override

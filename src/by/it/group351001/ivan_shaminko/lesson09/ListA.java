@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351001.ivan_shaminko.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,77 +8,52 @@ import java.util.ListIterator;
 public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
+    private int size = 0;
+    private E[] arr = (E[]) new Object[size]; // возможно надо поменять
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
+        String myString = "[";
 
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+        for (int i = 0; i < size - 1; i++){
+            myString += arr[i] + ", ";
         }
-        sb.append(']');
-        return sb.toString();
+        myString += arr[size - 1] + "]";
+        return myString;
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
+        if(size == arr.length){
+            E []temp = (E[])new Object[(size >> 1) + size + 1];
+            System.arraycopy(arr, 0, temp, 0, size);
+            arr = temp;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        arr[size++] = e;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
+        E tempElement = arr[index];
+        if (index > size - 1) {
+            return  null;
         }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
+        else {
+            System.arraycopy(arr, index + 1, arr, index, (size--) - index - 1); //1024
         }
-
-        curInd--;
-        return deletedElem;
+        return tempElement;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Опциональные к реализации методы             ///////
@@ -182,7 +157,6 @@ public class ListA<E> implements List<E> {
     public Object[] toArray() {
         return new Object[0];
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     ////////        Эти методы имплементировать необязательно    ////////////

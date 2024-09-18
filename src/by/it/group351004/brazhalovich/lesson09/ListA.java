@@ -6,8 +6,17 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ListA<E> implements List<E> {
+    E[] arr;
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
+    static int defaultSize = 10;
+    int currLen = 0;
+    public ListA(){
+        this(defaultSize);
+    }
+    public ListA(int size){
+        arr = (E[]) new Object[size];
+    }
+
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -16,22 +25,49 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        return "";
+        String line = "[";
+
+        for (int i = 0; i < currLen; i++) {
+            line += arr[i].toString();
+            if (i < currLen-1) {
+                line += ", ";
+            }
+        }
+
+        line += "]";
+        return line;
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (currLen == arr.length) {
+            E[] buff = (E[]) new Object[currLen * 2];
+            for (int i = 0; i < currLen; i++) {
+                buff[i] = arr[i];
+            }
+            arr = buff;
+        }
+        arr[currLen++] = e;
+        return true;
     }
 
     @Override
     public E remove(int index) {
+        if (index >= 0 && index < currLen) {
+            E buff = arr[index];
+            for (int i = index; i < currLen-1; i++) {
+                arr[i] = arr[i+1];
+            }
+            arr[--currLen] = null;
+            return buff;
+        }
+
         return null;
     }
 
     @Override
     public int size() {
-        return 0;
+        return currLen;
     }
 
     /////////////////////////////////////////////////////////////////////////

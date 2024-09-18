@@ -3,6 +3,8 @@ package by.it.group351001.shevchenko.lesson05;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 /*
@@ -31,23 +33,24 @@ public class B_CountSort {
             points[i]=scanner.nextInt();
         }
         //тут реализуйте логику задачи с применением сортировки подсчетом
-        final int SIZE = 11;
-        int[] countArray = new int[SIZE];
-        for (int i = 0; i < n; i++) {
-            countArray[points[i]]++;
-        }
-        // перезапись массива
-        int j = 0;
-        int i = 0;
-        while (i < n) {
-            for (int k = 0; k < countArray[j]; k++) {
-                points[i++] = j;
+        int index = points[0];
+        for (int i = 1; i < n; i++) {
+            if (points[i] > index) {
+                index = points[i];
             }
-            j++;
+        }
+        int[] newpoints = new int[index + 1];
+
+        for (int buf : points) {
+            newpoints[buf]++;
         }
 
-
-
+        int count = 0;
+        for (int i = 0; i <= index; i++) {
+            for (int j = 0; j < newpoints[i]; j++) {
+                points[count++] = i;
+            }
+        }
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return points;

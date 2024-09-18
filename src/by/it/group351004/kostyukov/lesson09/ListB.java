@@ -19,6 +19,7 @@ public class ListB<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
+        if (isEmpty()) return "[]";
         StringBuilder str = new StringBuilder("[");
         for (int i = 0; i < size; i++) {
             str.append(array[i]);
@@ -30,10 +31,10 @@ public class ListB<E> implements List<E> {
     }
     @Override
     public boolean add(E e) {
-        if (size == array.length-1){
-            Object[] tempArr = new Object[array.length * 2];
-            System.arraycopy(array, 0, tempArr, 0, size);
-            array = tempArr;
+        if (size >= array.length-1){
+            Object[] temp = new Object[array.length * 2];
+            System.arraycopy(array, 0, temp, 0, size);
+            array = temp;
         }
         array[size] = e;
         size++;
@@ -45,7 +46,10 @@ public class ListB<E> implements List<E> {
         if (array[index] == null)
             return null;
         E res = (E)array[index];
-        System.arraycopy(array, index + 1, array, index, --size);
+        if (index < size - 1)
+            System.arraycopy(array, index + 1, array, index, size - index - 1);
+        array[size-1] = null;
+        size--;
         return res;
     }
 
@@ -56,49 +60,88 @@ public class ListB<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
+        Object[] temp = new Object[size + 1];
+        System.arraycopy(array, 0, temp, 0, size);
+        array = temp;
+        for (int i = size; i > index; i--)
+            array[i] = array[i - 1];
+        array[index] = element;
+        size++;
 
     }
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (o.equals(array[i]))
+                index = i;
+        }
+        if (index == -1)
+            return false;
+
+        for (int i = index; i < size-1; i++)
+            array[i] = array[i + 1];
+        array[size-1] = null;
+        size--;
+        return true;
     }
 
     @Override
     public E set(int index, E element) {
-        return null;
+        if (index >= size){
+            Object[] temp = new Object[index+1];
+            System.arraycopy(array, 0, temp, 0, size);
+            array = temp;
+            array[index] = element;
+            return null;
+        }
+        E res = (E)array[index];
+        array[index] = element;
+        return res;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
 
     @Override
     public void clear() {
-
+        array = new Object[DEFAULT_SIZE];
+        size = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        for (int i = 0; i < size; i++){
+            if (o.equals(array[i])) return i;
+        }
+        return -1;
     }
 
     @Override
     public E get(int index) {
-        return null;
+        return (E) array[index];
     }
 
     @Override
     public boolean contains(Object o) {
+        for (int i = 0; i < size; i++){
+            if (o.equals(array[i]))
+                return true;
+        }
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        for (int i = size-1; i >= 0; i--){
+            if (o.equals(array[i])) return i;
+        }
+        return -1;
     }
 
 

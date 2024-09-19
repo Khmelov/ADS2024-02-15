@@ -1,4 +1,3 @@
-
 package by.it.a_khmelev.lesson01;
 
 /*

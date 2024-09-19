@@ -61,7 +61,7 @@ public class ListA<E> implements List<E> {
             arr[--currLen] = null;
             return buff;
         }
-
+        //
         return null;
     }
 

@@ -3,7 +3,7 @@ package by.it.group351004.brazhalovich.lesson09;
 import java.util.*;
 
 public class ListC<E> implements List<E> {
-
+//
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
     E[] arr;
 

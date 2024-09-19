@@ -59,7 +59,7 @@ public class ListA<E> implements List<E> {
     /**
      * Resize internal array
      *
-     * @param step New lenght is old plus step
+     * @param step New length is old plus step
      * @param last Copy elements from first to last one
      */
     @SuppressWarnings("unchecked")

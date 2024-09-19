@@ -1,12 +1,21 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351001.radzetskii.lesson09;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
-public class ListA<E> implements List<E> {
+public class ListB<E> implements List<E> {
 
+    private static int capacity=10;
+    private int size=0;
+    private E[] myList;
+    public ListB(){
+        this(capacity);
+    }
+    public ListB(int newSize){
+        if (newSize>capacity){
+            capacity=2*newSize;
+        }
+        myList=  (E[]) new Object[newSize];
+    }
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     /////////////////////////////////////////////////////////////////////////
@@ -14,70 +23,146 @@ public class ListA<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
+        StringBuilder stringBuilder= new StringBuilder();
+        stringBuilder.append('[');
+        for (int i=0;i<size;i++) {
+            stringBuilder.append(myList[i]);
+            if (i!=size-1){
+                stringBuilder.append(", ");
             }
         }
-        sb.append(']');
-        return sb.toString();
+        stringBuilder.append(']');
+
+        return stringBuilder.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
+        if (size == myList.length) {
+            E[] newList = (E[]) new Object[size * 2];
+            System.arraycopy(myList, 0, newList, 0, size);
+            myList = newList;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        myList[size]=e;
+        size++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index<0 || index>=size){
             return null;
         }
 
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
+        E res=(E)myList[index];
+        for (int i=index+1;i<size;i++){
+            myList[i-1]=myList[i];
         }
-
-        curInd--;
-        return deletedElem;
+        size--;
+        return res;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
+
+    @Override
+    public void add(int index, E element) {
+        if ((index < 0) || (index >= size())) {
+            return;
+        }
+
+        if (size == myList.length) {
+            E[] newList = (E[]) new Object[size * 2];
+            System.arraycopy(myList, 0, newList, 0, size);
+            myList = newList;
+        }
+        size++;
+        for (int i = size() - 1; i > index; i--) {
+            myList[i] = myList[i - 1];
+        }
+        myList[index]=element;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        for (int i=0;i<size();i++){
+            if (Objects.equals(o,get(i))){
+                remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public E set(int index, E element) {
+        if (index < 0 || index >= size()) {
+            return null;
+        }
+        E elem = (E) myList[index];
+
+        myList[index]=element;
+        return elem;
+    }
+
+
+    @Override
+    public boolean isEmpty() {
+        if (size()==0){
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public void clear() {
+        myList = (E[]) new Object[capacity];
+
+        size = 0;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        for (int i=0;i<size();i++){
+            if (Objects.equals(o,get(i))){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public E get(int index) {
+        if  (index < 0 || index >= size()){
+            return null;}
+        return (E)myList[index];
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        for (int i=0;i<size();i++){
+            if (Objects.equals(o,get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        for (int i=size()-1;i>=0;i--){
+            if (Objects.equals(o,get(i))){
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -85,52 +170,6 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public void add(int index, E element) {
-
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
-    public E set(int index, E element) {
-        return null;
-    }
-
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public E get(int index) {
-        return null;
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        return false;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return 0;
-    }
 
     @Override
     public boolean containsAll(Collection<?> c) {

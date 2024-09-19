@@ -1,12 +1,11 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351001.polozkov.lesson09;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
-public class ListA<E> implements List<E> {
+public class ListB<E> implements List<E> {
 
+    private Object[] arr = new Object[1];
+    private int siz = 0;
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     /////////////////////////////////////////////////////////////////////////
@@ -14,70 +13,113 @@ public class ListA<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+        StringBuilder sb = new StringBuilder("[");
+        String razd = "";
+        for (int i = 0; i < size(); i++) {
+            sb.append(razd).append(arr[i]);
+            razd = ", ";
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
-        elements[curInd] = e;
-        curInd++;
+        if (arr.length == siz)
+            arr = Arrays.copyOf(arr, siz * 2);
+        arr[siz++] = e;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size())
             return null;
-        }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E res = (E) arr[index];
+        for (int i = index; i < size() - 1; i++)
+            arr[i] = arr[i + 1];
+        siz--;
+        return res;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return siz;
     }
+
+    @Override
+    public void add(int index, E element) {
+        if (arr.length == siz)
+            arr = Arrays.copyOf(arr, siz * 2);
+        siz++;
+        for (int i = siz - 1; i > index; i--)
+            arr[i] = arr[i - 1];
+        arr[index] = element;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        int cnt = 0;
+        while (cnt < size() && !arr[cnt].equals(o))
+            cnt++;
+        if (cnt == size())
+            return false;
+        remove(cnt);
+        return true;
+    }
+
+    @Override
+    public E set(int index, E element) {
+        E res = (E) arr[index];
+        arr[index] = element;
+        return res;
+    }
+
+
+    @Override
+    public boolean isEmpty() {
+        return size() == 0;
+    }
+
+
+    @Override
+    public void clear() {
+        arr = new Object[1];
+        siz = 0;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        for (int i = 0; i < size(); i++)
+            if (arr[i].equals(o))
+                return i;
+        return -1;
+    }
+
+    @Override
+    public E get(int index) {
+        return (E) arr[index];
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        for (int i = 0; i < size(); i++)
+            if (arr[i].equals(o))
+                return true;
+        return false;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        for (int i = size() - 1; i >= 0; i--)
+            if (arr[i].equals(o))
+                return i;
+        return -1;
+    }
+
+
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -85,52 +127,6 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public void add(int index, E element) {
-
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
-    public E set(int index, E element) {
-        return null;
-    }
-
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        return 0;
-    }
-
-    @Override
-    public E get(int index) {
-        return null;
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        return false;
-    }
-
-    @Override
-    public int lastIndexOf(Object o) {
-        return 0;
-    }
 
     @Override
     public boolean containsAll(Collection<?> c) {

@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351002.abrashin.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,68 +15,79 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
 
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
+    //default list size
+    static final int defSize = 8;
 
+    E[] my_list;
+    int size = 0;
+
+    //constructor (creating the List)
     public ListA() {
-        this(size);
+        this(defSize);
     }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
+    public ListA(int size)
+    {
+        my_list = (E[]) new Object[size];
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
 
-            if (i < curInd - 1) {
+        StringBuilder sb= new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < size; i++)
+        {
+            sb.append(my_list[i]);
+            if (i < size - 1)
+            {
                 sb.append(", ");
             }
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
 
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+        if (size >= my_list.length)
+        {
+            E[] new_list = (E[]) new Object[my_list.length * 2];
+            for (int i = 0; i < my_list.length; i++)
+            {
+                new_list[i] = my_list[i];
             }
-
-            elements = tempElements;
+            my_list = new_list;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        my_list[size] = e;
+        size++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+
+        if (index < 0 || index >= size)
+        {
             return null;
         }
 
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
+        E _rItem = my_list[index];
+
+        for (int i = index; i < size - 1; ++i)
+        {
+            my_list[i] = my_list[i + 1];
         }
 
-        curInd--;
-        return deletedElem;
+        size--;
+
+        return _rItem;
     }
 
     @Override
     public int size() {
-        return curInd;
+
+        return size;
     }
 
     /////////////////////////////////////////////////////////////////////////

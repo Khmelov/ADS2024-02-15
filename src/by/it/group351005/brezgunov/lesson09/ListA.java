@@ -1,9 +1,6 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351005.brezgunov.lesson09;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class ListA<E> implements List<E> {
 
@@ -15,68 +12,50 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
 
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
+    final int DEFAULT_CAPACITY = 10;
+    private int size;
+    private Object[] arr;
 
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
+    ListA() {
+        this.arr = new Object[DEFAULT_CAPACITY];
+        this.size = 0;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+        if (size == 0) {
+            return "[]";
         }
-        sb.append(']');
-        return sb.toString();
+        StringBuilder stringBuilder = new StringBuilder("[");
+        for (int i = 0; i < size - 1; i++) {
+            stringBuilder.append(arr[i].toString()).append(", ");
+        }
+        stringBuilder.append(arr[size - 1].toString()).append("]");
+        return stringBuilder.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
+        if (size == arr.length) {
+            arr = Arrays.copyOf(arr, arr.length + (arr.length >> 1));
         }
-
-        elements[curInd] = e;
-        curInd++;
+        arr[size++] = e;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
+        E temp = (E) arr[index];
+        for (int i = index + 1; i < size; i++) {
+            arr[i - 1] = arr[i];
         }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        arr[--size] = null;
+        return temp;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
 
     /////////////////////////////////////////////////////////////////////////

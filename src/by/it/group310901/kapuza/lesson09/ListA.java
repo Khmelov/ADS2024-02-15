@@ -1,90 +1,71 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group310901.kapuza.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.lang.StringBuilder;
 
 public class ListA<E> implements List<E> {
-
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
-    }
+    private E[] data = (E[])new Object[0];
+    private int size = 0;
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            sb.append(data[i]);
+            if (i == size - 1) {
+                sb.append("]");
+                return sb.toString();
             }
+            sb.append(", ");
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+        try {
+            if (size >= data.length) {
+                E[] ndata = (E[]) new Object[data.length != 0 ? data.length << 1 : 10];
+                System.arraycopy(data, 0, ndata, 0, size);
+                data = ndata;
             }
-
-            elements = tempElements;
+            data[size++] = e;
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
-
-        elements[curInd] = e;
-        curInd++;
-        return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size) {
             return null;
         }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E rem = data[index];
+        System.arraycopy(data, index + 1, data, index, size - 1 - index);
+        size--;
+        return rem;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Опциональные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
     @Override
     public void add(int index, E element) {
 
@@ -100,12 +81,10 @@ public class ListA<E> implements List<E> {
         return null;
     }
 
-
     @Override
     public boolean isEmpty() {
         return false;
     }
-
 
     @Override
     public void clear() {
@@ -157,7 +136,6 @@ public class ListA<E> implements List<E> {
         return false;
     }
 
-
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return null;
@@ -182,7 +160,6 @@ public class ListA<E> implements List<E> {
     public Object[] toArray() {
         return new Object[0];
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     ////////        Эти методы имплементировать необязательно    ////////////
@@ -193,5 +170,4 @@ public class ListA<E> implements List<E> {
     public Iterator<E> iterator() {
         return null;
     }
-
 }

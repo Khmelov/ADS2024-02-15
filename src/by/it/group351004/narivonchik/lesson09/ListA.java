@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351004.narivonchik.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ListA<E> implements List<E> {
+    private final int INIT_SIZE = 10;
+    private Object[] arr = new Object[INIT_SIZE];
+    private int size = 0;
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
@@ -14,69 +17,42 @@ public class ListA<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+    public String toString(){
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++){
+            sb.append(arr[i]);
+            sb.append(", ");
         }
-        sb.append(']');
+        sb.delete(sb.length()-2, sb.length());
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
+        if (size == arr.length-1){
+            Object[] temp = new Object[arr.length*2];
+            System.arraycopy(arr, 0, temp, 0, size);
+            arr = temp;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        arr[size] = e;
+        size++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (arr[index] == null)
             return null;
-        }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E res = (E)arr[index];
+        System.arraycopy(arr, index + 1, arr, index, --size);
+        return res;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
 
     /////////////////////////////////////////////////////////////////////////

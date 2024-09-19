@@ -1,4 +1,4 @@
-package by.it.group351002.abrashin.lesson08;
+package by.it.group351001.perova_v.lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -32,6 +32,27 @@ Sample Output 3:
 */
 
 public class C_Stairs {
+    int max(int v1, int v2){
+        if (v1<v2){
+            v1 = v2;
+        }
+        return v1;
+    }
+
+    int calc(int stairs[], int n, int result, int size){
+        if (n<size-1) {
+            int case1 = calc(stairs, n+1, result, size) + stairs[n];                           //Наступать
+            int case2 = calc(stairs, n+2, result, size) + stairs[n+1];                               //Не наступать
+            result = result + max(case1, case2);
+        }
+        else if (n == size - 1){
+            if (stairs[n]>=0) {
+                result = result + stairs[n];
+            }
+            n++;
+        }
+        return result;
+    }
 
     int getMaxSum(InputStream stream ) {
         Scanner scanner = new Scanner(stream);
@@ -42,25 +63,12 @@ public class C_Stairs {
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
-        int [] d = new int[n];
-        d[0] = stairs[0];
-        d[1] = Integer.max(d[0]+stairs[1], stairs[1]);
-
-        for (int i = 2; i < n; i++){
-            d[i] = Integer.max(d[i-2], d[i-1])+stairs[i];
-        }
-
-        int result = d[n-1];
-
-
-
-
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return calc(stairs, 0, 0, n);
     }
 
 
-    public static void main(String[] args) throws FileNotFoundException {
+        public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = C_Stairs.class.getResourceAsStream("dataC.txt");
         C_Stairs instance = new C_Stairs();
         int res=instance.getMaxSum(stream);

@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351001.orlovich.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -6,77 +6,71 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ListA<E> implements List<E> {
-
+    private static int incrementSize = 10;
+    private int currSize = 0;
+    private E[] mas = (E[])new Object[0];
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListA() {
-        this(size);
-    }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+StringBuilder str = new StringBuilder();
+        for (int i = 0; i < currSize; i++) {
+        str.append(mas[i] + ", ");
         }
-        sb.append(']');
-        return sb.toString();
+
+        String ans = str.toString();
+
+        if (ans.length() > 0)
+        {
+            ans = ans.substring(0,ans.length() - 2);
+        }
+
+        return "[" + ans + "]";
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
+        int index = currSize;
+        if (currSize == mas.length)
+        {
+            var tempMas = mas;
+            mas = (E[]) new  Object[currSize + incrementSize];
 
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+            for (int i = 0; i < currSize; i++) {
+                mas[i] = tempMas[i];
             }
 
-            elements = tempElements;
         }
 
-        elements[curInd] = e;
-        curInd++;
-        return true;
+        mas[index] = e;
+        currSize++;
+
+        return 1 == 1;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
+        if (index >= currSize || index < 0) return null;
+
+        var tempMas = mas;
+
+        E result = mas[index];
+
+        for (int i = index + 1; i < currSize; i++) {
+            mas[i - 1] = tempMas[i];
         }
 
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        currSize--;
+        return  result;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return currSize;
     }
 
     /////////////////////////////////////////////////////////////////////////

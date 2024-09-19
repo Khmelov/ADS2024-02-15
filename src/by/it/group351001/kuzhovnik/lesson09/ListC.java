@@ -1,247 +1,183 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351001.kuzhovnik.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
+import java.util.*;
 public class ListC<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
+    private Object[] arr = new Object[1];
+    int siz = 0;
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListC() {
-        this(size);
-    }
-
-    public ListC(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+        StringBuilder sb = new StringBuilder("[");
+        String razd = "";
+        for (int i = 0; i < size(); i++) {
+            sb.append(razd).append(arr[i]);
+            razd = ", ";
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
-        elements[curInd] = e;
-        curInd++;
+        if (arr.length == siz)
+            arr = Arrays.copyOf(arr, siz * 2);
+        arr[siz++] = e;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size())
             return null;
-        }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E res = (E) arr[index];
+        for (int i = index; i < size() - 1; i++)
+            arr[i] = arr[i + 1];
+        siz--;
+        return res;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return siz;
     }
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > curInd) {
-            return;
-        }
-
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
-        for (int i = curInd; i > index; i--) {
-            elements[i] = elements[i - 1];
-        }
-
-        elements[index] = element;
-        curInd++;
+        if (arr.length == siz)
+            arr = Arrays.copyOf(arr, siz * 2);
+        siz++;
+        for (int i = siz - 1; i > index; i--)
+            arr[i] = arr[i - 1];
+        arr[index] = element;
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                E deletedItem = elements[i];
-
-                for (int j = i; j < curInd; j++) {
-                    elements[j] = elements[j + 1];
-                }
-
-                curInd--;
-                return true;
-            }
-        }
-        return false;
+        int cnt = 0;
+        while (cnt < size() && !arr[cnt].equals(o))
+            cnt++;
+        if (cnt == size())
+            return false;
+        remove(cnt);
+        return true;
     }
 
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index >= curInd) {
-            return null;
-        }
-
-        E oldElem = elements[index];
-        elements[index] = element;
-        return oldElem;
+        E res = (E) arr[index];
+        arr[index] = element;
+        return res;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return curInd == 0;
+        return size() == 0;
     }
 
 
     @Override
     public void clear() {
-        elements = (E[]) new Object[size];
-        curInd = 0;
+        arr = new Object[1];
+        siz = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < size(); i++)
+            if (arr[i].equals(o))
                 return i;
-            }
-        }
-
         return -1;
     }
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
-        }
-
-        return elements[index];
+        return (E) arr[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < size(); i++)
+            if (arr[i].equals(o))
                 return true;
-            }
-        }
-
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = curInd - 1; i >= 0; i--) {
-            if (o.equals(elements[i])) {
+        for (int i = size() - 1; i >= 0; i--)
+            if (arr[i].equals(o))
                 return i;
-            }
-        }
         return -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object elem: c) {
-            if (!contains(elem)) {
+        for (Object o : c)
+            if (!contains(o))
                 return false;
-            }
-        }
         return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        for (Object elem: c) {
-            add((E) elem);
-        }
-        return true;
+        for (Object o : c)
+            add((E) o);
+        return !c.isEmpty();
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        for (Object elem: c) {
-            add(index, (E) elem);
-            index++;
+        if (arr.length - size() < c.size()) {
+            int newlen = arr.length;
+            while (newlen - size() < c.size())
+                newlen *= 2;
+            arr = Arrays.copyOf(arr, newlen);
         }
-        return true;
+        for (int i = size() - 1; i >= index; i--)
+            arr[i + c.size()] = arr[i];
+        Iterator<? extends E> it = c.iterator();
+        for (int i = 0; i < c.size(); i++)
+            arr[index + i] = it.next();
+        siz += c.size();
+        return !c.isEmpty();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-
-        boolean deletedElem = false;
-
-        for (int i = 0; i < curInd; i++) {
-            if (c.contains(elements[i])) {
-                remove(i);
-                i--;
-                deletedElem = true;
-            }
-        }
-        return deletedElem;
+        ListC<E> nw = new ListC<E>();
+        for (int i = 0; i < size(); i++)
+            if (!c.contains(arr[i]))
+                nw.add((E) arr[i]);
+        if (size() == nw.size())
+            return false;
+        arr = nw.arr;
+        siz = nw.size();
+        return true;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-
-        boolean deletedElem = false;
-
-        for (int i = 0; i < curInd; i++) {
-            if (!c.contains(elements[i])) {
-                remove(i);
-                i--;
-                deletedElem = true;
-            }
-        }
-        return deletedElem;
+        ListC<E> nw = new ListC<E>();
+        for (int i = 0; i < size(); i++)
+            if (c.contains(arr[i]))
+                nw.add((E) arr[i]);
+        if (size() == nw.size())
+            return false;
+        arr = nw.arr;
+        siz = nw.size();
+        return true;
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Опциональные к реализации методы             ///////

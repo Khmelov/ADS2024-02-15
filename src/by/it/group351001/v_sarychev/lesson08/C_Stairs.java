@@ -1,4 +1,4 @@
-package by.it.group351002.abrashin.lesson08;
+package lesson08;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -41,17 +41,15 @@ public class C_Stairs {
             stairs[i]=scanner.nextInt();
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-        int [] d = new int[n];
-        d[0] = stairs[0];
-        d[1] = Integer.max(d[0]+stairs[1], stairs[1]);
-
-        for (int i = 2; i < n; i++){
-            d[i] = Integer.max(d[i-2], d[i-1])+stairs[i];
+        int result = 0;
+        int[] sums=new int[n];
+        sums[0]=stairs[0];
+        sums[1]=Math.max(sums[0]+stairs[1],stairs[1]);
+        for(int i=2;i<n;i++)
+        {
+            sums[i]=stairs[i]+Math.max(sums[i-1],sums[i-2]);
         }
-
-        int result = d[n-1];
-
+        result=sums[n-1];
 
 
 

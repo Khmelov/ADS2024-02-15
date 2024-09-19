@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351005.kostyabet.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,69 +14,68 @@ public class ListA<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
+    static final int defSize = 8;
+    E[] _list;
+    int _curItem = 0;
     public ListA() {
-        this(size);
+        this(defSize);
     }
-
-    public ListA(int size) {
-        elements = (E[]) new Object[size];
+    public ListA(int size)
+    {
+        _list = (E[]) new Object[size];
     }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
+        StringBuilder sb= new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < _curItem; ++i)
+        {
+            E curSym = _list[i];
+            sb.append(curSym);
+            if (i < _curItem - 1)
+            {
                 sb.append(", ");
             }
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
-
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+        if (_curItem >= _list.length)
+        {
+            E[] _cList = (E[]) new Object[_list.length * 2];
+            for (int i = 0; i < _list.length; ++i)
+            {
+                _cList[i] = _list[i];
             }
-
-            elements = tempElements;
+            _list = _cList;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        _list[_curItem] = e;
+        _curItem++;
         return true;
     }
-
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index < 0 || index >= _curItem)
+        {
             return null;
         }
 
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
+        E _rItem = _list[index];
+
+        for (int i = index; i < _curItem - 1; ++i)
+        {
+            _list[i] = _list[i + 1];
         }
 
-        curInd--;
-        return deletedElem;
-    }
+        _curItem--;
 
+        return _rItem;
+    }
     @Override
     public int size() {
-        return curInd;
+        return _curItem;
     }
 
     /////////////////////////////////////////////////////////////////////////

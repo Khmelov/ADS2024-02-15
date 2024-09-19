@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351004.narivonchik.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,238 +8,204 @@ import java.util.ListIterator;
 public class ListC<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
+    private final int INIT_SIZE = 10;
+    private Object[] arr = new Object[INIT_SIZE];
+    private int size = 0;
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListC() {
-        this(size);
-    }
-
-    public ListC(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+    public String toString(){
+        if (isEmpty()) return "[]";
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++){
+            sb.append(arr[i]);
+            sb.append(", ");
         }
-        sb.append(']');
+        sb.delete(sb.length()-2, sb.length());
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
+        if (size >= arr.length-1){
+            Object[] temp = new Object[arr.length * 2];
+            System.arraycopy(arr, 0, temp, 0, size);
+            arr = temp;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        arr[size] = e;
+        size++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (arr[index] == null)
             return null;
-        }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E res = (E)arr[index];
+        if (index < size - 1)
+            System.arraycopy(arr, index + 1, arr, index, size - index - 1);
+        arr[size-1] = null;
+        size--;
+        return res;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > curInd) {
-            return;
-        }
-
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
-        for (int i = curInd; i > index; i--) {
-            elements[i] = elements[i - 1];
-        }
-
-        elements[index] = element;
-        curInd++;
+        Object[] temp = new Object[size + 1];
+        System.arraycopy(arr, 0, temp, 0, size);
+        arr = temp;
+        for (int i = size; i > index; i--)
+            arr[i] = arr[i - 1];
+        arr[index] = element;
+        size++;
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                E deletedItem = elements[i];
-
-                for (int j = i; j < curInd; j++) {
-                    elements[j] = elements[j + 1];
-                }
-
-                curInd--;
-                return true;
+        int index = -1;
+        for (int i = 0; i < size; i++) {
+            if (o.equals(arr[i])) {
+                index = i;
+                break;
             }
         }
-        return false;
+        if (index == -1)
+            return false;
+
+        for (int i = index; i < size-1; i++)
+            arr[i] = arr[i + 1];
+        arr[size-1] = null;
+        size--;
+        return true;
     }
 
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size){
+            Object[] temp = new Object[index+1];
+            System.arraycopy(arr, 0, temp, 0, size);
+            arr = temp;
+            arr[index] = element;
             return null;
         }
-
-        E oldElem = elements[index];
-        elements[index] = element;
-        return oldElem;
+        E res = (E)arr[index];
+        arr[index] = element;
+        return res;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return curInd == 0;
+        return size == 0;
     }
 
 
     @Override
     public void clear() {
-        elements = (E[]) new Object[size];
-        curInd = 0;
+        arr = new Object[INIT_SIZE];
+        size = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                return i;
-            }
+        for (int i = 0; i < size; i++){
+            if (o.equals(arr[i])) return i;
         }
-
         return -1;
     }
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
-        }
-
-        return elements[index];
+        return (E)arr[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < size; i++){
+            if (o.equals(arr[i]))
                 return true;
-            }
         }
-
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = curInd - 1; i >= 0; i--) {
-            if (o.equals(elements[i])) {
-                return i;
-            }
+        for (int i = size-1; i >= 0; i--){
+            if (o.equals(arr[i])) return i;
         }
         return -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object elem: c) {
-            if (!contains(elem)) {
+        for (Object o : c)
+            if (!contains(o))
                 return false;
-            }
-        }
         return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        for (Object elem: c) {
-            add((E) elem);
-        }
+        Object[] newArray = new Object[size + c.size()];
+        System.arraycopy(arr, 0, newArray, 0, size);
+        arr = newArray;
+        for (Object el : c)
+            arr[size++] = el;
         return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        for (Object elem: c) {
-            add(index, (E) elem);
-            index++;
-        }
-        return true;
+        //if (arr.length < size + c.size()) {
+            Object[] newArray = new Object[size + c.size()];
+            System.arraycopy(arr, 0, newArray, 0, index);
+            int i = index;
+            for (E e : c) {
+                newArray[i] = e;
+                i++;
+            }
+            System.arraycopy(arr, index, newArray, i, size-index);
+            arr = newArray;
+        //}
+
+        size += c.size();
+        return !c.isEmpty();
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-
-        boolean deletedElem = false;
-
-        for (int i = 0; i < curInd; i++) {
-            if (c.contains(elements[i])) {
-                remove(i);
-                i--;
-                deletedElem = true;
+        boolean isChanged = false;
+        for (Object o : c) {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(arr[i])) {
+                    E del = remove(i);
+                    isChanged = true;
+                }
             }
         }
-        return deletedElem;
+        return isChanged;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-
-        boolean deletedElem = false;
-
-        for (int i = 0; i < curInd; i++) {
-            if (!c.contains(elements[i])) {
-                remove(i);
-                i--;
-                deletedElem = true;
+        int deletedCount = 0;
+        int fullSize = size;
+        for (int i = 0; i < fullSize; i++) {
+            if (!c.contains(arr[i - deletedCount])) {
+                remove(i - deletedCount);
+                deletedCount++;
             }
         }
-        return deletedElem;
+        return deletedCount != 0;
     }
 
     /////////////////////////////////////////////////////////////////////////

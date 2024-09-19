@@ -1,6 +1,9 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group351001.perova_v.lesson09;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 public class ListB<E> implements List<E> {
 
@@ -12,140 +15,146 @@ public class ListB<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
+    static final int defSize = 8;
+    E[] _list;
+    int _curItem = 0;
     public ListB() {
-        this(size);
+        this(defSize);
     }
-
-    public ListB(int size) {
-        elements = (E[]) new Object[size];
+    public ListB(int size)
+    {
+        _list = (E[]) new Object[size];
     }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+        StringBuilder sb= new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < _curItem; ++i)
+    {
+        E curSym = _list[i];
+        sb.append(curSym);
+        if (i < _curItem - 1)
+        {
+            sb.append(", ");
         }
-        sb.append(']');
+    }
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+        if (_curItem >= _list.length)
+        {
+            E[] _cList = (E[]) new Object[_list.length * 2];
+            for (int i = 0; i < _list.length; ++i)
+            {
+                _cList[i] = _list[i];
             }
-
-            elements = tempElements;
+            _list = _cList;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        _list[_curItem] = e;
+        _curItem++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index < 0 || index >= _curItem)
+        {
             return null;
         }
 
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
+        E _rItem = _list[index];
+
+        for (int i = index; i < _curItem - 1; ++i)
+        {
+            _list[i] = _list[i + 1];
         }
 
-        curInd--;
-        return deletedElem;
+        _curItem--;
+
+        return _rItem;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return _curItem;
     }
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > curInd) {
+        if (index < 0 || index > _curItem)
+        {
             return;
         }
 
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+        if (_curItem >= _list.length)
+        {
+            E[] _cList = (E[]) new Object[_list.length * 2];
+            for (int i = 0; i < _list.length; ++i)
+            {
+                _cList[i] = _list[i];
             }
-
-            elements = tempElements;
+            _list = _cList;
         }
 
-        for (int i = curInd; i > index; i--) {
-            elements[i] = elements[i - 1];
+        for (int i = _curItem; i > index; i--)
+        {
+            _list[i] = _list[i - 1];
         }
 
-        elements[index] = element;
-        curInd++;
+        _list[index] = element;
+        _curItem++;
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                E deletedItem = elements[i];
+    for (int i = 0; i < _curItem; ++i)
+    {
+        if (o.equals(_list[i])) {
+            E rItem = _list[i];
 
-                for (int j = i; j < curInd; j++) {
-                    elements[j] = elements[j + 1];
-                }
-
-                curInd--;
-                return true;
+            for (int j = i; j < _curItem; ++j) {
+                _list[j] = _list[j + 1];
             }
+            _curItem--;
+
+            return true;
         }
-        return false;
+    }return false;
     }
 
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index >= curInd) {
+        if (index < 0 || index > _curItem)
+        {
             return null;
         }
 
-        E oldElem = elements[index];
-        elements[index] = element;
-        return oldElem;
+        E _setItem = _list[index];
+        _list[index] = element;
+        return _setItem;
     }
-
 
     @Override
     public boolean isEmpty() {
-        return curInd == 0;
+        return _curItem == 0;
     }
 
 
     @Override
     public void clear() {
-        elements = (E[]) new Object[size];
-        curInd = 0;
+        _list = (E[]) new Object[defSize];
+        _curItem = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < _curItem; ++i)
+        {
+            if (o.equals(_list[i]))
+            {
                 return i;
             }
         }
@@ -155,28 +164,31 @@ public class ListB<E> implements List<E> {
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index < 0 || index >= _curItem)
+        {
             return null;
         }
 
-        return elements[index];
+        return _list[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < _curItem; ++i) {
+            if (o.equals(_list[i]))
+            {
                 return true;
             }
         }
-
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = curInd - 1; i >= 0; i--) {
-            if (o.equals(elements[i])) {
+        for (int i = _curItem - 1; i >= 0; --i)
+        {
+            if (o.equals(_list[i]))
+            {
                 return i;
             }
         }

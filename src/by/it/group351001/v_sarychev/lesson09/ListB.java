@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package lesson09;
 
 import java.util.*;
 
@@ -6,181 +6,148 @@ public class ListB<E> implements List<E> {
 
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
+    private  E[] elems= (E[]) new Object[]{};
+    private int size=0;
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListB() {
-        this(size);
-    }
-
-    public ListB(int size) {
-        elements = (E[]) new Object[size];
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
-            }
+        StringBuilder sb=new StringBuilder("[");
+        String sep ="";
+        for (int i=0;i < size; i++){
+            sb.append(sep).append(elems[i]);
+            sep=", ";
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
+        if (size==elems.length){
+            E[] arr = (E[]) new Object[size*3/2+1];
+            System.arraycopy(elems,0,arr,0,size);
+            elems=arr;
         }
-
-        elements[curInd] = e;
-        curInd++;
+        elems[size]=e;
+        size++;
         return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
-        }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E elem= elems[index];
+        System.arraycopy(elems,index+1,elems,index,size-index-1);
+        size--;
+        elems[size]=null;
+        return elem;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > curInd) {
-            return;
+        if (size==elems.length){
+            E[] arr = (E[]) new Object[size*3/2+1];
+            System.arraycopy(elems,0,arr,0,size);
+            elems=arr;
         }
+        System.arraycopy(elems,index,elems,index+1,size-index);
+        elems[index]=element;
+        size++;
+    }
 
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+    @Override
+    public int indexOf(Object o) {
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
+                if (elems[i] == null) {
+                    return i;
+                }
             }
-
-            elements = tempElements;
         }
-
-        for (int i = curInd; i > index; i--) {
-            elements[i] = elements[i - 1];
+        else {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(elems[i])) {
+                    return i;
+                }
+            }
         }
-
-        elements[index] = element;
-        curInd++;
+        return -1;
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                E deletedItem = elements[i];
-
-                for (int j = i; j < curInd; j++) {
-                    elements[j] = elements[j + 1];
-                }
-
-                curInd--;
-                return true;
-            }
+        int i = indexOf(o);
+        if (i==-1){
+            return false;
         }
-        return false;
+        else {
+            remove(i);
+            return true;
+        }
     }
 
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index >= curInd) {
-            return null;
-        }
-
-        E oldElem = elements[index];
-        elements[index] = element;
-        return oldElem;
+        E elem = elems[index];
+        elems[index]=element;
+        return elem;
     }
 
 
     @Override
     public boolean isEmpty() {
-        return curInd == 0;
-    }
-
-
-    @Override
-    public void clear() {
-        elements = (E[]) new Object[size];
-        curInd = 0;
-    }
-
-    @Override
-    public int indexOf(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                return i;
-            }
+        if (size==0){
+            return true;
         }
-
-        return -1;
-    }
-
-    @Override
-    public E get(int index) {
-        if (index < 0 || index >= curInd) {
-            return null;
-        }
-
-        return elements[index];
-    }
-
-    @Override
-    public boolean contains(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                return true;
-            }
-        }
-
         return false;
     }
 
     @Override
+    public void clear() {
+        elems = null;
+        elems = (E[]) new Object[]{};
+        size=0;
+    }
+
+    @Override
+    public E get(int index) {
+        return elems[index];
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        if (indexOf(o)==-1){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public int lastIndexOf(Object o) {
-        for (int i = curInd - 1; i >= 0; i--) {
-            if (o.equals(elements[i])) {
-                return i;
+        int index=-1;
+        if (o == null) {
+            for (int i = 0; i < size; i++) {
+                if (elems[i] == null) {
+                    index=i;
+                }
             }
         }
-        return -1;
+        else {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(elems[i])) {
+                    index=i;
+                }
+            }
+        }
+        return index;
     }
 
 

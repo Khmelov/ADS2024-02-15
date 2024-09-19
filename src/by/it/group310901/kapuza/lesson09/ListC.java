@@ -1,119 +1,80 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group310901.kapuza.lesson09;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
+import java.util.*;
+import java.lang.StringBuilder;
 public class ListC<E> implements List<E> {
-
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
-    public ListC() {
-        this(size);
-    }
-
-    public ListC(int size) {
-        elements = (E[]) new Object[size];
-    }
+    private E[] data = (E[])new Object[0];
+    private int size = 0;
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = 0; i < curInd; i++) {
-            sb.append(elements[i]);
-
-            if (i < curInd - 1) {
-                sb.append(", ");
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            sb.append(data[i]);
+            if (i == size - 1) {
+                sb.append("]");
+                return sb.toString();
             }
+            sb.append(", ");
         }
-        sb.append(']');
+        sb.append("]");
         return sb.toString();
     }
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
+        try {
+            if (size >= data.length) {
+                E[] ndata = (E[]) new Object[data.length != 0 ? data.length << 1 : 10];
+                System.arraycopy(data, 0, ndata, 0, size);
+                data = ndata;
             }
-
-            elements = tempElements;
+            data[size++] = e;
+            return true;
+        } catch (Exception ex) {
+            return false;
         }
-
-        elements[curInd] = e;
-        curInd++;
-        return true;
     }
 
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size) {
             return null;
         }
-
-        E deletedElem = elements[index];
-        for (int i = index; i < curInd - 1; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        curInd--;
-        return deletedElem;
+        E rem = data[index];
+        System.arraycopy(data, index + 1, data, index, size - 1 - index);
+        size--;
+        return rem;
     }
 
     @Override
     public int size() {
-        return curInd;
+        return size;
     }
 
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > curInd) {
-            return;
+        if (size >= data.length) {
+            E[] ndata = (E[]) new Object[data.length != 0 ? data.length << 1 : 10];
+            System.arraycopy(data, 0, ndata, 0, size);
+            data = ndata;
         }
-
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
-        for (int i = curInd; i > index; i--) {
-            elements[i] = elements[i - 1];
-        }
-
-        elements[index] = element;
-        curInd++;
+        System.arraycopy(data, index, data, index + 1, size - index);
+        data[index] = element;
+        size++;
     }
 
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                E deletedItem = elements[i];
-
-                for (int j = i; j < curInd; j++) {
-                    elements[j] = elements[j + 1];
-                }
-
-                curInd--;
+        for (int i = 0; i < size; i++) {
+            if (o.equals(data[i])) {
+                remove(i);
                 return true;
             }
         }
@@ -122,132 +83,132 @@ public class ListC<E> implements List<E> {
 
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size) {
             return null;
         }
-
-        E oldElem = elements[index];
-        elements[index] = element;
-        return oldElem;
+        E tmp = data[index];
+        data[index] = element;
+        return tmp;
     }
-
 
     @Override
     public boolean isEmpty() {
-        return curInd == 0;
+        return size == 0;
     }
-
 
     @Override
     public void clear() {
-        elements = (E[]) new Object[size];
-        curInd = 0;
+        data = (E[]) new Object[0];
+        size = 0;
     }
 
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < size; i++) {
+            if (o.equals(data[i]))
                 return i;
-            }
         }
-
         return -1;
     }
 
     @Override
     public E get(int index) {
-        if (index < 0 || index >= curInd) {
+        if (index >= size)
             return null;
-        }
-
-        return elements[index];
+        return data[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
+        for (int i = 0; i < size; i++)
+            if (o.equals(data[i]))
                 return true;
-            }
-        }
-
         return false;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = curInd - 1; i >= 0; i--) {
-            if (o.equals(elements[i])) {
+        for (int i = size - 1; i >= 0; i--)
+            if (o.equals(data[i]))
                 return i;
-            }
-        }
         return -1;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object elem: c) {
-            if (!contains(elem)) {
+        Object[] tmp = c.toArray();
+        for (int i = 0; i < c.size(); i++) {
+            if (! this.contains(tmp[i]))
                 return false;
-            }
         }
         return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        for (Object elem: c) {
-            add((E) elem);
+        if (c.size() == 0)
+            return false;
+        E[] tmp = (E[]) c.toArray();
+        if (size + tmp.length >= data.length) {
+            E[] ndata = (E[]) new Object[size + tmp.length];
+            System.arraycopy(data, 0, ndata, 0, size);
+            data = ndata;
         }
+        System.arraycopy(tmp, 0, data, size, tmp.length);
+        size += tmp.length;
         return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        for (Object elem: c) {
-            add(index, (E) elem);
-            index++;
+        if (c.size() == 0)
+            return false;
+        E[] tmp = (E[]) c.toArray();
+        if (size + tmp.length >= data.length) {
+            E[] ndata = (E[]) new Object[size + tmp.length];
+            System.arraycopy(data, 0, ndata, 0, size);
+            data = ndata;
         }
+        System.arraycopy(data, index, data, index + tmp.length, size - index);
+        System.arraycopy(tmp, 0, data, index, tmp.length);
+        size += tmp.length;
         return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-
-        boolean deletedElem = false;
-
-        for (int i = 0; i < curInd; i++) {
-            if (c.contains(elements[i])) {
-                remove(i);
-                i--;
-                deletedElem = true;
+        boolean edited = false;
+        int i = 0;
+        while (i < size) {
+            if (c.contains(data[i])) {
+                this.remove(i);
+                edited = true;
             }
+            else
+                i++;
         }
-        return deletedElem;
+        return edited;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-
-        boolean deletedElem = false;
-
-        for (int i = 0; i < curInd; i++) {
-            if (!c.contains(elements[i])) {
-                remove(i);
-                i--;
-                deletedElem = true;
+        boolean edited = false;
+        int i = 0;
+        while (i < size) {
+            if (! c.contains(data[i])) {
+                this.remove(i);
+                edited = true;
             }
+            else
+                i++;
         }
-        return deletedElem;
+        return edited;
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Опциональные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return null;
@@ -272,7 +233,6 @@ public class ListC<E> implements List<E> {
     public Object[] toArray() {
         return new Object[0];
     }
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     ////////        Эти методы имплементировать необязательно    ////////////
@@ -283,5 +243,4 @@ public class ListC<E> implements List<E> {
     public Iterator<E> iterator() {
         return null;
     }
-
 }

@@ -64,7 +64,7 @@ public class ListA<E> implements List<E> {
 
         return null;
     }
-
+//
     @Override
     public int size() {
         return currLen;

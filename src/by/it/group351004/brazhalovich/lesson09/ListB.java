@@ -124,7 +124,7 @@ public class ListB<E> implements List<E> {
         arr = (E[]) new Object[defaultSize];
         currLen = 0;
     }
-
+//
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < currLen; i++) {

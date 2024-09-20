@@ -38,10 +38,15 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean add(E elem) {
-        if (length == elements.length)
-            resize(extendStep, length);
-        elements[length++] = elem;
-        return true;
+        try {
+            if (length == elements.length)
+                resize(extendStep, length);
+            elements[length++] = elem;
+            return true;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -161,18 +166,18 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> collection) {
-        for (E elem : collection)
-            add(elem);
-        return true;
+        var isModified = false;
+        for (var elem : collection)
+            isModified = add(elem) || isModified;
+        return isModified;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> collection) {
-        for (E elem : collection) {
-            add(index, elem);
-            index++;
-        }
-        return true;
+        var initIndex = index;
+        for (E elem : collection)
+            add(index++, elem);
+        return index != initIndex;
     }
 
     @Override

@@ -154,8 +154,6 @@ public class ListC<E> implements List<E> {
         return -1;
     }
 
-    ///////
-
     @Override
     public boolean containsAll(Collection<?> collection) {
         for (Object elem : collection)
@@ -203,38 +201,83 @@ public class ListC<E> implements List<E> {
         return deleted;
     }
 
-    // ----- Опциональные к реализации методы -------------------------------------
+    // ----- Опциональные к реализации методы --------------------------------------
 
     @Override
-    public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+    @SuppressWarnings("unchecked")
+    public List<E> subList(int from, int to) {
+        var subLenght = to - from + 1;
+        if (from < 0 || to >= length || subLenght < 1)
+            throw new IndexOutOfBoundsException("Invalid subList borders: " + from + ".." + to);
+
+        var subElements = (E[]) new Object[subLenght];
+        System.arraycopy(elements, from, subElements, 0, subLenght);
+        return new ListC<>(subElements);
+    }
+
+    /**
+     * Init ListC with array
+     *
+     * @param elements Internal array without nullish tail
+     */
+    public ListC(E[] elements) {
+        this.elements = elements;
+        length = elements.length;
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
+        if (index >= length)
+            throw new IndexOutOfBoundsException(
+                    "Index '" + index + "' is equal or greater than lenght '" + length + "'.");
+        var iter = iterator();
+        for (int i = 0; i < index; i++)
+            iter.next();
         return null;
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        return null;
+        return listIterator(0);
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    @SuppressWarnings("unchecked")
+    public <T> T[] toArray(T[] arr) {
+        if (arr.length < length)
+            return (T[]) java.util.Arrays.copyOf(elements, length, arr.getClass());
+        System.arraycopy(elements, 0, arr, 0, length);
+        for (int i = length; i < arr.length; i++)
+            arr[i] = null;
+        return arr;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return elements.clone();
     }
 
     // ----- Опциональные к реализации методы (необходимо для отладки) -------------
 
     @Override
     public Iterator<E> iterator() {
-        return null;
-    }
+        return new Iterator<E>() {
+            protected int current = 0;
 
+            @Override
+            public boolean hasNext() {
+                return current < length;
+            }
+
+            @Override
+            public E next() {
+                return elements[current++];
+            }
+
+            @Override
+            public void remove() {
+                ListC.this.remove(--current);
+            }
+        };
+    }
 }

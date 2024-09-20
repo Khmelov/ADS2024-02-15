@@ -48,22 +48,17 @@ public class ListC<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        String res = "[";
-        if (count > 0) {
-            ListElem cur = first;
-            System.out.println(count);
-            for (int i = 1; i < count; i++) {
-                if (cur == null) {
-                    System.out.println(i);
-                }
-                res = res.concat(cur.value.toString());
-                res = res.concat(", ");
-                cur = cur.next;
+        StringBuilder res = new StringBuilder("[");
+        ListElem curElem = first;
+        while (curElem != null){
+            res.append(curElem.value.toString());
+            if (curElem.next != null){
+                res.append(", ");
             }
-            res = res.concat(cur.value.toString());
+            curElem = curElem.next;
         }
-        res += "]";
-        return res;
+        res.append("]");
+        return res.toString();
     }
 
     @Override

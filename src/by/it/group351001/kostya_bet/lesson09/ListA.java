@@ -1,4 +1,4 @@
-package by.it.group351005.kostyabet.lesson09;
+package by.it.group351001.kostya_bet.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;

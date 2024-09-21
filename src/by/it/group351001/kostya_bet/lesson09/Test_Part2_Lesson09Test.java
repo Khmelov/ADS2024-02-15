@@ -1,4 +1,4 @@
-package by.it.group351005.kostyabet.lesson09;
+package by.it.group351001.kostya_bet.lesson09;
 
 
 import by.it.HomeWork;
@@ -49,7 +49,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 add(Object)
                 remove(int)
                 size()
-                                
+                
                 remove(Object)
                 add(int,Object)
                 remove(Object)
@@ -71,7 +71,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 add(Object)
                 remove(int)
                 size()
-                                
+                
                 remove(Object)
                 add(int,Object)
                 remove(Object)
@@ -82,7 +82,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 get(int)
                 contains(Object)
                 lastIndexOf(Object)
-                                
+                
                 containsAll(Collection)
                 addAll(Collection)
                 addAll(int,Collection)                
@@ -97,7 +97,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
         TreeSet<String> methodNames = new TreeSet<>(Arrays.asList(methods));
         Class<?> aClass = findClass(className);
         checkStructure(aClass);
-        System.out.printf("\nStart test methods in class %s%n",aClass);
+        System.out.printf("\nStart test methods in class %s%n", aClass);
         eObject = ArrayList.class.getDeclaredConstructor().newInstance();
         aObject = (List<Integer>) aClass.getDeclaredConstructor().newInstance();
 

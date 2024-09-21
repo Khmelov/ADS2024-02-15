@@ -1,11 +1,11 @@
-package by.it.group351005.kostyabet.lesson09;
+package by.it.group351001.kostya_bet.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ListC<E> implements List<E> {
+public class ListB<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
@@ -17,10 +17,10 @@ public class ListC<E> implements List<E> {
     static final int defSize = 8;
     E[] _list;
     int _curItem = 0;
-    public ListC() {
+    public ListB() {
         this(defSize);
     }
-    public ListC(int size)
+    public ListB(int size)
     {
         _list = (E[]) new Object[size];
     }
@@ -183,78 +183,40 @@ public class ListC<E> implements List<E> {
         }
         return -1;
     }
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        for (Object item : c)
-        {
-            if (!contains(c))
-            {
-                return false;
-            }
-        }
 
-        return true;
-    }
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        for (E item : c)
-        {
-            if(!add(item))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
-        for (Object item : c)
-        {
-            add(index, (E) item);
-            index++;
-        }
-
-        return true;
-    }
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        boolean removed = false;
-
-        for (int i = 0; i < _curItem; i++)
-        {
-            if (c.contains(_list[i]))
-            {
-                remove(i);
-                i--;
-                removed = true;
-            }
-        }
-
-        return removed;
-    }
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        boolean retained = false;
-
-        for (int i = 0; i < _curItem; ++i)
-        {
-            if (!c.contains(_list[i]))
-            {
-                remove(i);
-                i--;
-                retained = true;
-            }
-        }
-
-        return retained;
-    }
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Опциональные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
+
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends E> c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return false;
+    }
+
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {

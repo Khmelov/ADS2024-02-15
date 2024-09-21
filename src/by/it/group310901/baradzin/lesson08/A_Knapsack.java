@@ -29,12 +29,13 @@ import java.util.Scanner;
 
 public class A_Knapsack {
     int getMaxWeight(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var w = scanner.nextInt();
-        var weights = new int[scanner.nextInt()];
-        for (var i = 0; i < weights.length; i++)
-            weights[i] = scanner.nextInt();
-        return knapsackWithRepsBU(w, weights);
+        try (var scanner = new Scanner(stream)) {
+            var w = scanner.nextInt();
+            var weights = new int[scanner.nextInt()];
+            for (var i = 0; i < weights.length; i++)
+                weights[i] = scanner.nextInt();
+            return knapsackWithRepsBU(w, weights);
+        }
     }
 
     int knapsackWithRepsBU(int W, int[] weights) {

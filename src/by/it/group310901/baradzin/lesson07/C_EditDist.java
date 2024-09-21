@@ -1,7 +1,6 @@
 package by.it.group310901.baradzin.lesson07;
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -98,9 +97,10 @@ public class C_EditDist {
         var stream = C_EditDist.class.getResourceAsStream("dataABC.txt");
         var instance = new C_EditDist();
         assert stream != null;
-        var scanner = new Scanner(stream);
-        System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
-        System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
-        System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
+        try (var scanner = new Scanner(stream)) {
+            System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
+            System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
+            System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
+        }
     }
 }

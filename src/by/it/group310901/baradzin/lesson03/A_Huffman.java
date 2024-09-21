@@ -53,23 +53,24 @@ public class A_Huffman {
     }
 
     String encode(File file) throws FileNotFoundException {
-        var scanner = new Scanner(file);
-        var input = scanner.next();
+        try (var scanner = new Scanner(file)) {
+            var input = scanner.next();
 
-        var symbols = new HashMap<Character, Integer>();
-        input.chars().forEach(symbol -> symbols.compute((char) symbol, (key, frequency) -> (frequency == null ? 0 :
-                frequency) + 1));
+            var symbols = new HashMap<Character, Integer>();
+            input.chars().forEach(symbol -> symbols.compute((char) symbol, (key, frequency) -> (frequency == null ? 0 :
+                    frequency) + 1));
 
-        var priorityQueue = new PriorityQueue<Node>(symbols.size());
-        symbols.forEach((symbol, frequency) -> priorityQueue.add(new LeafNode(symbol, frequency)));
+            var priorityQueue = new PriorityQueue<Node>(symbols.size());
+            symbols.forEach((symbol, frequency) -> priorityQueue.add(new LeafNode(symbol, frequency)));
 
-        while (priorityQueue.size() > 1)
-            priorityQueue.add(new InternalNode(priorityQueue.poll(), Objects.requireNonNull(priorityQueue.poll())));
+            while (priorityQueue.size() > 1)
+                priorityQueue.add(new InternalNode(priorityQueue.poll(), Objects.requireNonNull(priorityQueue.poll())));
 
-        Objects.requireNonNull(priorityQueue.poll()).fillCodes("");
-        var sb = new StringBuilder();
-        input.chars().forEach(c -> sb.append(codes.get((char) c)));
-        return sb.toString();
+            Objects.requireNonNull(priorityQueue.poll()).fillCodes("");
+            var sb = new StringBuilder();
+            input.chars().forEach(c -> sb.append(codes.get((char) c)));
+            return sb.toString();
+        }
     }
 
     /**

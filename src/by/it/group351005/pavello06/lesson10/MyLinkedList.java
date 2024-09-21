@@ -4,55 +4,40 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 
-public class MyArrayDeque<E> implements Deque<E> {
-    final static int InitialSize = 8;
-    int _front;
-    int _rear;
-    int _size;
-    E[] _elements;
+public class MyLinkedList<E> implements Deque<E> {
+    class MyLinkedListNode<E> {
+        public E Data;
+        public MyLinkedListNode<E> Previous;
+        public MyLinkedListNode<E> Next;
 
-    MyArrayDeque() {
-        this(InitialSize);
-    }
-
-    MyArrayDeque(int size) {
-        _front = size / 2;
-        _rear = _front - 1;
-        _size = 0;
-        _elements = (E[]) new Object[size];
-    }
-
-    private void Resize(int size) {
-        E[] temp = (E[]) new Object[size];
-        int k = (size - _size) / 2;
-
-        for (int i = 0; i < _size; i++) {
-            temp[i + k] = _elements[_front + i];
+        public MyLinkedListNode(E data) {
+            Data = data;
         }
+    }
 
-        _front = k;
-        _rear = k + _size - 1;
-        _elements = temp;
+    MyLinkedListNode<E> _head;
+    MyLinkedListNode<E> _tail;
+    int _size;
+
+    MyLinkedList() {
+        _head = null;
+        _tail = null;
+        _size = 0;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         sb.append('[');
+        MyLinkedListNode<E> temp = _head;
         for (int i = 0; i < _size; i++) {
-            sb.append(_elements[_front + i]);
+            sb.append(temp.Data);
             if (i < _size - 1) {
                 sb.append(", ");
             }
+            temp = temp.Next;
         }
         sb.append(']');
-
         return sb.toString();
-    }
-
-    @Override
-    public int size() {
-        return _size;
     }
 
     @Override
@@ -61,26 +46,84 @@ public class MyArrayDeque<E> implements Deque<E> {
         return true;
     }
 
-    @Override
-    public void addFirst(E e) {
-        if (_front == 0) {
-            Resize(_elements.length * 2);
+    public E remove(int index) {
+        if (index < 0 || index >= _size) {
+            return null;
         }
 
-        _front--;
+        MyLinkedListNode<E> temp = _head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.Next;
+        }
+        E e = temp.Data;
+
+        if (temp.Previous != null) {
+            temp.Previous.Next = temp.Next;
+        } else {
+            _head = temp.Next;
+        }
+
+        if (temp.Next != null) {
+            temp.Next.Previous = temp.Previous;
+        } else {
+            _tail = temp.Previous;
+        }
+
+        _size--;
+
+        return e;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        MyLinkedListNode<E> temp = _head;
+        int index = 0;
+        while (temp != null) {
+            if (temp.Data.equals(o)) {
+                remove(index);
+                return true;
+            }
+            index++;
+            temp = temp.Next;
+        }
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return _size;
+    }
+
+    @Override
+    public void addFirst(E e) {
+        MyLinkedListNode<E> node = new MyLinkedListNode<>(e);
+        if (_head != null) {
+            node.Next = _head;
+            _head.Previous = node;
+        }
+        _head = node;
+
+        if (_tail == null) {
+            _tail = node;
+        }
+
         _size++;
-        _elements[_front] = e;
     }
 
     @Override
     public void addLast(E e) {
-        if (_rear == _elements.length - 1) {
-            Resize(_elements.length * 2);
+        MyLinkedListNode<E> node = new MyLinkedListNode<>(e);
+        if (_tail != null) {
+            _tail.Next = node;
+            node.Previous = _tail;
+        }
+        _tail = node;
+
+        if (_head == null) {
+            _head = node;
         }
 
-        _rear++;
         _size++;
-        _elements[_rear] = e;
     }
 
     @Override
@@ -93,8 +136,7 @@ public class MyArrayDeque<E> implements Deque<E> {
         if (_size == 0) {
             return null;
         }
-
-        return _elements[_front];
+        return _head.Data;
     }
 
     @Override
@@ -102,8 +144,7 @@ public class MyArrayDeque<E> implements Deque<E> {
         if (_size == 0) {
             return null;
         }
-
-        return _elements[_rear];
+        return _tail.Data;
     }
 
     @Override
@@ -116,10 +157,18 @@ public class MyArrayDeque<E> implements Deque<E> {
         if (_size == 0) {
             return null;
         }
+        E e = _head.Data;
+        _head = _head.Next;
 
-        _front++;
+        if (_head != null) {
+            _head.Previous = null;
+        }
+        else {
+            _tail = null;
+        }
+
         _size--;
-        return _elements[_front - 1];
+        return e;
     }
 
     @Override
@@ -127,10 +176,18 @@ public class MyArrayDeque<E> implements Deque<E> {
         if (_size == 0) {
             return null;
         }
+        E e = _tail.Data;
+        _tail = _tail.Previous;
 
-        _rear--;
+        if (_tail != null) {
+            _tail.Next = null;
+        }
+        else {
+            _head = null;
+        }
+
         _size--;
-        return _elements[_rear + 1];
+        return e;
     }
 
 
@@ -218,11 +275,6 @@ public class MyArrayDeque<E> implements Deque<E> {
     @Override
     public E pop() {
         return null;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
     }
 
     @Override

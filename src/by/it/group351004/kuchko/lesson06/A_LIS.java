@@ -30,7 +30,20 @@ import java.util.Scanner;
 */
 
 public class A_LIS {
-
+    static int findMax(int[] arr) {
+        int[] nowArr = new int[arr.length];
+        for (int i = 0; i < nowArr.length; i++) {
+            nowArr[i] = 1;
+            for (int j = 0; j < i; j++)
+                if (arr[j] < arr[i] && nowArr[j] + 1 > nowArr[i])
+                    nowArr[i] = nowArr[j] + 1;
+        }
+        int maxLen = 0;
+        for (int i = 0; i < nowArr.length; i++)
+            if (nowArr[i] > maxLen)
+                maxLen = nowArr[i];
+        return maxLen;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         InputStream stream = A_LIS.class.getResourceAsStream("dataA.txt");
@@ -50,7 +63,7 @@ public class A_LIS {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        int result = 0;
+        int result = findMax(m);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

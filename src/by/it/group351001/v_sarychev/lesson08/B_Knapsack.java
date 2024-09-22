@@ -36,24 +36,32 @@ public class B_Knapsack {
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
-        boolean[] temp = new boolean[w+1];
-        for (int i = 0; i<n; i++){
-            int j = gold[i];
-            int tempj = 0;
-            while (tempj<=w){
-                temp[j] = true;
-                tempj = tempj + j;
+        int[] arr=new int[w+1];
+        for(int i=0;i<w+1;i++) {
+            arr[i]=0;
+        }
+        arr[0]=1;
+        for(int i=0;i<n;i++) {
+            for(int j=w;j>=0;j--) {
+                if(arr[j]==1) {
+                    if (j + gold[i] <= w) {
+                        arr[j+gold[i]] = 1;
+                    }
+                }
             }
         }
-        int i = w;
-        while (!temp[i]){
-            i--;
+        int result = 0;
+        for(int i=w;i>0;i--) {
+            if(arr[i]==1) {
+                result=i;
+                break;
+            }
         }
 
-        int result = i+1;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
+
 
 
     public static void main(String[] args) throws FileNotFoundException {

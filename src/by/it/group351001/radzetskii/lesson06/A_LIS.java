@@ -3,6 +3,7 @@ package by.it.group351001.radzetskii.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -45,10 +46,32 @@ public class A_LIS {
             m[i] = scanner.nextInt();
         }
         int result = 0;
+        result=findHugeCount(m);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }
 
+    int findHugeCount(int[] m) {
+        int count = 0;
+
+        int[] counts = new int[m.length];
+        for (int i = 0; i < m.length; i++) {
+
+            counts[i] = 1;
+            for (int j = 0; j < i; j++) {
+            if(((counts[j]+1)>counts[i]) && (m[j]<m[i])){
+                 counts[i]=counts[j]+1;
+
+                }
+            }
+        }
+        count=counts[0];
+        for (int i=0;i<m.length;i++){
+         if(counts[i]>count)
+             count=counts[i];
+        }
+        return count;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

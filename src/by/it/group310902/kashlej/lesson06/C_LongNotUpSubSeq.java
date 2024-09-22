@@ -45,8 +45,6 @@ public class C_LongNotUpSubSeq {
         //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
 
-
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         int[] seq = new int[n];
 
         for (int i = 0; i < n; i++) {
@@ -58,6 +56,7 @@ public class C_LongNotUpSubSeq {
             }
             result = Math.max(result, seq[i]);
         }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
         return result;
     }

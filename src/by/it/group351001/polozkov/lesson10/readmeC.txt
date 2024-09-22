@@ -8,20 +8,20 @@
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
 
-                toString()
-                size()
-                clear()
-                add(E element)
-                remove()
-                contains(E element)
+                toString() ==
+                size() ==
+                clear() ==
+                add(E element) ==
+                remove() ==
+                contains(E element) ==
 
                 offer(E element)
-                poll()
-                peek()
-                element()
-                isEmpty()
+                poll() ==
+                peek() ==
+                element() ==
+                isEmpty() ==
 
-                containsAll(Collection<E> c)
-                addAll(Collection<E> c)
-                removeAll(Collection<E> c)
-                retainAll(Collection<E> c)
+                containsAll(Collection<E> c) ==
+                addAll(Collection<E> c) ==
+                removeAll(Collection<E> c) ==
+                retainAll(Collection<E> c) ==

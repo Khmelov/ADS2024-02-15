@@ -8,20 +8,20 @@
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
 
-                toString()
-                add(E element)
-                remove(int)
+                toString() ==
+                add(E element) ==
+                remove(int) ==
                 remove(E element)
-                size()
+                size() ==
 
-                addFirst(E element)
-                addLast(E element)
+                addFirst(E element) ==
+                addLast(E element) ==
 
                 element()
-                getFirst()
-                getLast()
+                getFirst() ==
+                getLast() ==
 
-                poll()
-                pollFirst()
-                pollLast()
+                poll() ==
+                pollFirst() ==
+                pollLast() ==
 

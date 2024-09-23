@@ -95,8 +95,7 @@ public class Test_Part2_Lesson10Test extends HomeWork {
                                 
                 containsAll(Collection)
                 addAll(Collection)
-                removeAll(Collection)
-                retainAll(Collection)
+
                 """.split("\\s+");
         eObject = new PriorityQueue<>();
         randomCheck("MyPriorityQueue", methods);

@@ -158,18 +158,8 @@ public class A_Huffman {
         fir.fillCodes(bfcod);
         for(int i=0;i<s.length();i++)
             sb.append(codes.get(s.charAt(i)));
-        System.out.print(codes.size());
-        System.out.print(' ');
-        System.out.println(sb.length());
-        for(char key : codes.keySet())
-        {
-            System.out.print(key);
-            System.out.print(": ");
-            System.out.println(codes.get(key));
-        }
         System.out.println(sb);
         return sb.toString();
-        //01001100100111
         //01001100100111
     }
     //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

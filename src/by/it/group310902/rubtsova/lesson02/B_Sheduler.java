@@ -65,7 +65,10 @@ public class B_Sheduler {
         //Начало и конец событий могут совпадать.
         List<Event> result;
         result = new ArrayList<>();
-        //ваше решение.
+
+
+        //если событие не пересекается со временем окончания последнего события в списке, то оно добавляется в список
+        //если пересекается пропускаем, смотрим следующее
         events= sortEvents(events);
         for (int i = 0; i< events.length;) {
             int end=events[i].stop;
@@ -74,6 +77,52 @@ public class B_Sheduler {
                 i++;
             }
         }
-        return result;          //вернем итог
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return result;
     }
 }

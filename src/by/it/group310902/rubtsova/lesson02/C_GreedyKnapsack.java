@@ -42,7 +42,7 @@ public class C_GreedyKnapsack {
             return 0;
         }
     }
-    Item[] itemsSort(Item[] items) {
+    Item[] itemsSort(Item[] items) { //в порядке убывания стоимости в единицу времени
         int gap = items.length/2;
         while (gap>0){
             for (int i = 0; i< items.length-gap; i++){
@@ -59,7 +59,7 @@ public class C_GreedyKnapsack {
         return items;
     }
 
-    double getMaximumPackage(Item[] items, int W){
+    double getMaximumPackage(Item[] items, int W){ //считает стоимость с ограничением по весу
         double result = 0;
         int i= 0;
         double tempWeight=0;

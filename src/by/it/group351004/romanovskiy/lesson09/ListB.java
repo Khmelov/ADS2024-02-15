@@ -7,23 +7,16 @@ import java.util.ListIterator;
 
 public class ListB<E> implements List<E> {
 
+    private E[] elements;
+    private int curInd = 0;
+    private static final int INITIAL_SIZE = 8;
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-
-    E[] elements;
-    int curInd = 0;
-    static int size = 8;
-
+    @SuppressWarnings("unchecked")
     public ListB() {
-        this(size);
+        elements = (E[]) new Object[INITIAL_SIZE];
     }
 
+    @SuppressWarnings("unchecked")
     public ListB(int size) {
         elements = (E[]) new Object[size];
     }
@@ -34,7 +27,6 @@ public class ListB<E> implements List<E> {
         sb.append('[');
         for (int i = 0; i < curInd; i++) {
             sb.append(elements[i]);
-
             if (i < curInd - 1) {
                 sb.append(", ");
             }
@@ -45,33 +37,31 @@ public class ListB<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
-        elements[curInd] = e;
-        curInd++;
+        ensureCapacity();
+        elements[curInd++] = e;
         return true;
+    }
+
+    private void ensureCapacity() {
+        if (curInd == elements.length) {
+            E[] newElements = (E[]) new Object[elements.length * 2];
+            for (int i = 0; i < elements.length; i++) {
+                newElements[i] = elements[i];
+            }
+            elements = newElements;
+        }
     }
 
     @Override
     public E remove(int index) {
         if (index < 0 || index >= curInd) {
-            return null;
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + curInd);
         }
-
         E deletedElem = elements[index];
         for (int i = index; i < curInd - 1; i++) {
             elements[i] = elements[i + 1];
         }
-
-        curInd--;
+        elements[--curInd] = null; // Clear the last element
         return deletedElem;
     }
 
@@ -83,23 +73,12 @@ public class ListB<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index < 0 || index > curInd) {
-            return;
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + curInd);
         }
-
-        if (curInd == elements.length) {
-            E[] tempElements = (E[]) new Object[elements.length * 2];
-
-            for (int i = 0; i < elements.length; i++) {
-                tempElements[i] = elements[i];
-            }
-
-            elements = tempElements;
-        }
-
+        ensureCapacity();
         for (int i = curInd; i > index; i--) {
             elements[i] = elements[i - 1];
         }
-
         elements[index] = element;
         curInd++;
     }
@@ -108,13 +87,7 @@ public class ListB<E> implements List<E> {
     public boolean remove(Object o) {
         for (int i = 0; i < curInd; i++) {
             if (o.equals(elements[i])) {
-                E deletedItem = elements[i];
-
-                for (int j = i; j < curInd; j++) {
-                    elements[j] = elements[j + 1];
-                }
-
-                curInd--;
+                remove(i);
                 return true;
             }
         }
@@ -124,24 +97,23 @@ public class ListB<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         if (index < 0 || index >= curInd) {
-            return null;
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + curInd);
         }
-
         E oldElem = elements[index];
         elements[index] = element;
         return oldElem;
     }
-
 
     @Override
     public boolean isEmpty() {
         return curInd == 0;
     }
 
-
     @Override
     public void clear() {
-        elements = (E[]) new Object[size];
+        for (int i = 0; i < curInd; i++) {
+            elements[i] = null;
+        }
         curInd = 0;
     }
 
@@ -152,28 +124,20 @@ public class ListB<E> implements List<E> {
                 return i;
             }
         }
-
         return -1;
     }
 
     @Override
     public E get(int index) {
         if (index < 0 || index >= curInd) {
-            return null;
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + curInd);
         }
-
         return elements[index];
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < curInd; i++) {
-            if (o.equals(elements[i])) {
-                return true;
-            }
-        }
-
-        return false;
+        return indexOf(o) >= 0;
     }
 
     @Override
@@ -186,74 +150,164 @@ public class ListB<E> implements List<E> {
         return -1;
     }
 
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Опциональные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-
-
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object item : c) {
+            if (!contains(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        boolean modified = false;
+        for (E item : c) {
+            add(item);
+            modified = true;
+        }
+        return modified;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-        return false;
+        if (index < 0 || index > curInd) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + curInd);
+        }
+        boolean modified = false;
+        for (E item : c) {
+            add(index++, item);
+            modified = true;
+        }
+        return modified;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean modified = false;
+        for (Object item : c) {
+            while (remove(item)) {
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean modified = false;
+        for (int i = 0; i < curInd; i++) {
+            if (!c.contains(elements[i])) {
+                remove(i--);
+                modified = true;
+            }
+        }
+        return modified;
     }
-
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return null;
+        if (fromIndex < 0 || toIndex > curInd || fromIndex > toIndex) {
+            throw new IndexOutOfBoundsException("fromIndex: " + fromIndex + ", toIndex: " + toIndex + ", Size: " + curInd);
+        }
+        ListB<E> subList = new ListB<>(toIndex - fromIndex);
+        for (int i = fromIndex; i < toIndex; i++) {
+            subList.add(elements[i]);
+        }
+        return subList;
     }
 
     @Override
     public ListIterator<E> listIterator(int index) {
-        return null;
+        return new ListIterator<E>() {
+            private int currentIndex = index;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < curInd;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) throw new IndexOutOfBoundsException();
+                return elements[currentIndex++];
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return currentIndex > 0;
+            }
+
+            @Override
+            public E previous() {
+                if (!hasPrevious()) throw new IndexOutOfBoundsException();
+                return elements[--currentIndex];
+            }
+
+            @Override
+            public int nextIndex() {
+                return currentIndex;
+            }
+
+            @Override
+            public int previousIndex() {
+                return currentIndex - 1;
+            }
+
+            @Override
+            public void remove() {
+                ListB.this.remove(--currentIndex);
+            }
+
+            @Override
+            public void set(E e) {
+                ListB.this.set(currentIndex, e);
+            }
+
+            @Override
+            public void add(E e) {
+                ListB.this.add(currentIndex++, e);
+            }
+        };
     }
 
     @Override
     public ListIterator<E> listIterator() {
-        return null;
+        return listIterator(0);
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        if (a.length < curInd) {
+            return (T[]) java.util.Arrays.copyOf(elements, curInd, a.getClass());
+        }
+        System.arraycopy(elements, 0, a, 0, curInd);
+        if (a.length > curInd) {
+            a[curInd] = null;
+        }
+        return a;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        return java.util.Arrays.copyOf(elements, curInd);
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    ////////        Эти методы имплементировать необязательно    ////////////
-    ////////        но они будут нужны для корректной отладки    ////////////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<E> iterator() {
-        return null;
-    }
+        return new Iterator<E>() {
+            private int index = 0;
 
+            @Override
+            public boolean hasNext() {
+                return index < curInd;
+            }
+
+            @Override
+            public E next() {
+                return elements[index++];
+            }
+        };
+    }
 }

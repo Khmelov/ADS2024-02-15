@@ -7,7 +7,6 @@ import java.util.ListIterator;
 
 public class ListA<E> implements List<E> {
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     E[] arr;
 

@@ -5,7 +5,6 @@ import java.util.*;
 public class ListB<E> implements List<E> {
 
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     E[] arr;
 

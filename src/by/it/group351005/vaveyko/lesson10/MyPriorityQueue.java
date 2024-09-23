@@ -2,120 +2,199 @@ package by.it.group351005.vaveyko.lesson10;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Queue;
 
-public class MyPriorityQueue<E> implements Queue<E> {
+public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
 
-    final int defaultSize = 10;
-    E[] _items;
-    int _count;
+    final int defaultSize = 8;
+    E[] _elements;
+    int size;
 
-    MyPriorityQueue () {
-        _items = (E[]) new Object[defaultSize];
-        _count = 0;
+    public MyPriorityQueue() {
+        _elements = (E[]) new Comparable[defaultSize];
     }
 
-    int getL(int i) {
-        return i*2+1;
-    }
-    int getR(int i) {
-        return i*2+2;
-    }
-
+    @Override
     public String toString() {
-        StringBuilder line = new StringBuilder();
-        line.append('[');
-        for (int i = 0; i < _count; i++) {
-            line.append(_items[i]);
-            if (i < _count - 1)
-                line.append(", ");
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < size; i++) {
+            sb.append(_elements[i]);
+            if (i < size - 1) {
+                sb.append(", ");
+            }
         }
-        line.append(']');
-        return line.toString();
+        sb.append("]");
+        return sb.toString();
+    }
+
+    void heapifyUp(int index) {
+        int parent = (index - 1) / 2;
+
+        if (parent >= 0 && _elements[index].compareTo(_elements[parent]) < 0) {
+            E temp = _elements[index];
+            _elements[index] = _elements[parent];
+            _elements[parent] = temp;
+            heapifyUp(parent);
+        }
+    }
+
+    void heapifyDown(int index) {
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+        int largest = left;
+
+        if (right < size && _elements[right].compareTo(_elements[largest]) < 0)
+            largest = right;
+
+        if (largest < size && _elements[largest].compareTo(_elements[index]) < 0) {
+            E temp = _elements[index];
+            _elements[index] = _elements[largest];
+            _elements[largest] = temp;
+            heapifyDown(largest);
+        }
     }
 
     @Override
     public int size() {
-        return _count;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return _count == 0;
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < _count; i++)
-            if (o.equals(_items[i]))
+        for (int i = 0; i < size; i++) {
+            if (_elements[i].equals(o)) {
                 return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean add(E e) {
-        return false;
+        if (size == _elements.length) {
+            resize();
+        }
+        _elements[size++] = e;
+        heapifyUp(size - 1);
+        return true;
     }
 
-    @Override
-    public boolean remove(Object o) {
-        return false;
+    void resize() {
+        int newCapacity = _elements.length * 2;
+        E[] newItems = (E[]) new Comparable[newCapacity];
+        System.arraycopy(_elements, 0, newItems, 0, size);
+        _elements = newItems;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object item : c) {
+            if (!contains(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        boolean modified = false;
+        for (E item : c) {
+            if (add(item)) {
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean modified = false;
+        for (Object item : c) {
+            if (remove(item)) {
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        boolean modified = false;
+        for (int i = size - 1; i >= 0; i--) {
+            if (!c.contains(_elements[i])) {
+                remove(_elements[i]);
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
-    public void clear() {
-
+    public boolean remove(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(o, _elements[i])) {
+                _elements[i] = _elements[--size];
+                heapifyDown(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean offer(E e) {
-        return false;
+        return add(e);
     }
 
     @Override
     public E remove() {
-        return null;
+        if (isEmpty()) {
+            throw new IllegalArgumentException("PriorityQueue is empty");
+        }
+        E root = _elements[0];
+        _elements[0] = _elements[--size];
+        heapifyDown(0);
+        return root;
     }
 
     @Override
     public E poll() {
-        return null;
+        if (isEmpty()) {
+            return null;
+        }
+        return remove();
     }
 
     @Override
     public E element() {
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        return _elements[0];
     }
 
     @Override
     public E peek() {
-        return null;
+        return element();
     }
 
+    @Override
+    public void clear() {
+        size = 0;
+    }
 
-
-
-
+    @Override
+    public Iterator<E> iterator() {
+        return null;
+    }
 
     @Override
     public Object[] toArray() {
@@ -124,11 +203,6 @@ public class MyPriorityQueue<E> implements Queue<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
-    }
-
-    @Override
-    public Iterator<E> iterator() {
         return null;
     }
 }

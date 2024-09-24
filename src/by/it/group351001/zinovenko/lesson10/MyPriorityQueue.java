@@ -1,92 +1,257 @@
 package by.it.group351001.zinovenko.lesson10;
 
-
-
 import java.util.*;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.IntFunction;
 
-public class MyPriorityQueue<E> implements Queue<E> {
-    private int currentSize = 16;
-    private E[] elements = (E[]) new Object[currentSize];
-    private final ReentrantLock lock = new ReentrantLock();
-    private int itemCount = 0;
+@SuppressWarnings("all")
+
+public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
+
+    /////////////////////////////////////////////////////////////////////////
+    //////               Обязательные к реализации методы             ///////
+    /////////////////////////////////////////////////////////////////////////
+
+    /*toString()
+    size()
+    clear()
+    add(E element)
+    remove()
+    contains(E element)
+    offer(E element)
+    poll()
+    peek()
+    element()
+    isEmpty()
+    containsAll(Collection<E> c)
+    addAll(Collection<E> c)
+    removeAll(Collection<E> c)
+    retainAll(Collection<E> c)*/
+
+    private static final int defaultSize = 10;
+    private int currentSize;
+    private E[] heap;
+
+    public MyPriorityQueue() {
+        heap = (E[]) new Comparable[defaultSize];
+        currentSize = 0;
+
+    }
+
+    void swap(int x, int y) {
+        E temp = heap[x];
+        heap[x] = heap[y];
+        heap[y] = temp;
+    }
+
+    void siftDown(int i) {
+        int child1, child2, min;
+
+        while (2 * i + 1 < currentSize) {
+            child1 = 2 * i + 1;
+            child2 = 2 * i + 2;
+            min = child1;
+
+            if ((child2 < currentSize) && (heap[child2].compareTo(heap[min])) < 0) {
+                min = child2;
+            }
+
+            if (heap[i].compareTo(heap[min]) < 0) {
+                break;
+            }
+
+            swap(i, min);
+            i = min;
+        }
+    }
+
+    void siftUp(int i) {
+        while (heap[i].compareTo(heap[(i - 1) / 2]) < 0) {
+            swap(i, (i - 1) / 2);
+            i = (i - 1) / 2;
+        }
+    }
+
+    void heapify() {
+        for (int i = (currentSize / 2); i >= 0; i--) {
+            siftDown(i);
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < currentSize; i++) {
+            sb.append(heap[i]);
+            if (i < currentSize - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 
     @Override
     public int size() {
-        return itemCount;
-    }
-
-    private void swap(int i, int j) {
-        E temp = elements[i];
-        elements[i] = elements[j];
-        elements[j] = temp;
+        return currentSize;
     }
 
     @Override
-    public boolean isEmpty() {
-        return itemCount == 0;
+    public void clear() {
+        heap = (E[]) new Comparable[defaultSize];
+        currentSize = 0;
+    }
+
+    @Override
+    public boolean add(E e) {
+        if (currentSize == heap.length) {
+            E[] newHeap = (E[]) new Comparable[currentSize * 2];
+
+            System.arraycopy(heap, 0, newHeap, 0, currentSize);
+            heap = newHeap;
+        }
+
+        heap[currentSize] = e;
+        siftUp(currentSize);
+        currentSize++;
+        return true;
+    }
+
+    @Override
+    public E remove() {
+        if (currentSize == 0) {
+            return null;
+        }
+
+        E temp = heap[0];
+        currentSize--;
+        heap[0] = heap[currentSize];
+        siftDown(0);
+
+        return temp;
     }
 
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < itemCount; i++) {
-            if (elements[i].equals(o)) {
+        for (int i = 0; i < currentSize; i++) {
+            if (heap[i].equals(o)) {
                 return true;
             }
         }
         return false;
     }
 
+
+    @Override
+    public boolean offer(E e) {
+        return add(e);
+    }
+
+
+    @Override
+    public E poll() {
+        return remove();
+    }
+
+    @Override
+    public E element() {
+        if (currentSize == 0) {
+            return null;
+        }
+
+        return heap[0];
+    }
+
+    @Override
+    public E peek() {
+        return element();
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        for (Object item : c) {
+            if (!contains(item)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        boolean flag = false;
+        for (E item : c) {
+            if (add(item)) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        int cursor1 = 0, cursor2 = 0, counter = 0;
+
+        for (cursor2 = 0; cursor2 < currentSize; cursor2++) {
+            if (!c.contains(heap[cursor2])) {
+                heap[cursor1++] = heap[cursor2];
+            } else {
+                counter++;
+            }
+
+        }
+
+        if (counter != 0) {
+            currentSize -= counter;
+            heapify();
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        int cursor1 = 0, cursor2 = 0, counter = 0;
+
+        for (cursor2 = 0; cursor2 < currentSize; cursor2++) {
+            if (c.contains(heap[cursor2])) {
+                heap[cursor1++] = heap[cursor2];
+            } else {
+                counter++;
+            }
+        }
+
+        if (counter != 0) {
+            currentSize -= counter;
+            heapify();
+            return true;
+        }
+
+        return false;
+    }
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    //////               Опциональные к реализации методы             ///////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean remove(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
-            private int index = 0;
-            @Override
-            public boolean hasNext() {
-                return index < itemCount;
-            }
-
-            @Override
-            public E next() {
-                return elements[index++];
-            }
-        };
-    }
-
-    private int compare(E a, E b) {
-        return ((Comparable<E>) a).compareTo(b);
-    }
-
-    private int getParent(int index) {
-        return (index - 1) >> 1;
-    }
-    private int getLeftChild(int index) {
-        return (index << 1) + 1;
-    }
-    private int getRightChild(int index) {
-        return (index << 1) + 2;
-    }
-    private boolean isLeaf(int index) {
-        return (index > (currentSize >> 1)) && (index < currentSize);
-    }
-
-    private void minHeapify(int index) {
-        int leftChild = getLeftChild(index);
-        int rightChild = getRightChild(index);
-        int smallest = index;
-
-        if (leftChild < itemCount && compare(elements[leftChild], elements[smallest]) < 0) {
-            smallest = leftChild;
-        }
-
-        if (rightChild < itemCount && compare(elements[rightChild], elements[smallest]) < 0) {
-            smallest = rightChild;
-        }
-
-        if (smallest != index) {
-            swap(index, smallest);
-            minHeapify(smallest);
-        }
+        return null;
     }
 
     @Override
@@ -99,198 +264,5 @@ public class MyPriorityQueue<E> implements Queue<E> {
         return null;
     }
 
-    @Override
-    public boolean add(E e) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        int prevCount = itemCount;
-        try {
-            if (itemCount == currentSize) {
-                resize();
-            }
 
-            elements[itemCount] = e;
-            int current = itemCount;
-            itemCount++;
-
-            while (current > 0 && compare(elements[current], elements[getParent(current)]) < 0) {
-                swap(current, getParent(current));
-                current = getParent(current);
-            }
-        } finally {
-            lock.unlock();
-        }
-        return itemCount > prevCount;
-    }
-
-    private void resize() {
-        int updateSize = currentSize + (currentSize >> 1);
-        E[] newElements = (E[]) new Object[updateSize];
-        System.arraycopy(elements, 0, newElements, 0, itemCount);
-        currentSize = updateSize;
-        elements = newElements;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try{
-            for(Object o : c) {
-                if(!contains(o)) {
-                    return false;
-                }
-            }
-        }finally {
-            lock.unlock();
-        }
-        return true;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            boolean modified = false;
-            for (E element : c) {
-                if (add(element)) {
-                    modified = true;
-                }
-            }
-            return modified;
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        boolean removed = false;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            E[] newHeap = (E[]) new Object[currentSize];
-            int newSize = 0;
-            for (int i = 0; i < itemCount; i++) {
-                if (!c.contains(elements[i])) {
-                    newHeap[newSize++] = elements[i];  // Копируем только те элементы, которые не должны быть удалены
-                } else {
-                    removed = true;
-                }
-            }
-            elements = newHeap;  // Заменяем старый массив новым
-            itemCount = newSize;
-            for (int i = itemCount / 2 - 1; i >= 0; i--) {
-                minHeapify(i);  // Восстанавливаем структуру Min-Heap
-            }
-        } finally {
-            lock.unlock();
-        }
-        return removed;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        boolean retained = false;
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            E[] newHeap = (E[]) new Object[currentSize];
-            int newSize = 0;
-            for (int i = 0; i < itemCount; i++) {
-                if (c.contains(elements[i])) {
-                    newHeap[newSize++] = elements[i];  // Копируем только элементы, которые нужно сохранить
-                    retained = true;
-                }
-            }
-            elements = newHeap;  // Заменяем старую кучу новой
-            itemCount = newSize;
-            for (int i = itemCount / 2 - 1; i >= 0; i--) {
-                minHeapify(i);  // Восстанавливаем структуру Min-Heap
-            }
-        } finally {
-            lock.unlock();
-        }
-        return true;
-    }
-
-    @Override
-    public void clear() {
-        itemCount = 0;
-    }
-
-    @Override
-    public boolean offer(E e) {
-        return add(e);
-    }
-
-    @Override
-    public E remove() {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        E temp = null;
-        try {
-            if (itemCount > 0) {
-                temp = elements[0];
-                elements[0] = elements[itemCount - 1];
-                elements[itemCount - 1] = null;
-                itemCount--;
-                minHeapify(0);
-            }
-        } finally {
-            lock.unlock();
-        }
-        return temp;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            sb.append("[");
-            if(itemCount > 0) {
-                for (int i = 0; i < itemCount - 1; i++) {
-                    sb.append(elements[i]).append(", ");
-                }
-                sb.append(elements[itemCount - 1]);
-            }
-            sb.append("]");
-        }finally {
-            lock.unlock();
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public E poll() {
-        return remove();
-    }
-
-    @Override
-    public E element() {
-        return peek();
-    }
-
-    @Override
-    public E peek() {
-        ReentrantLock lock = this.lock;
-        lock.lock();
-        E temp = null;
-        try{
-            if(itemCount > 0){
-                temp = elements[0];
-            }
-        }finally {
-            lock.unlock();
-        }
-        return temp;
-    }
 }

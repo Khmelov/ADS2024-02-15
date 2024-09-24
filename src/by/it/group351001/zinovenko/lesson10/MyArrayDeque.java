@@ -5,31 +5,56 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 
+@SuppressWarnings("all")
+
 public class MyArrayDeque<E> implements Deque<E> {
-    final int defaultSize = 8;
-    int _front;
-    int _rear;
-    E[] _items;
-    int Count;
-    MyArrayDeque() {
-        _items = (E[]) new Object[defaultSize];
-        _rear = -1;
+
+    /////////////////////////////////////////////////////////////////////////
+    //////               Обязательные к реализации методы             ///////
+    /////////////////////////////////////////////////////////////////////////
+
+    /*toString()
+    size()
+    add(E element)
+    addFirst(E element)
+    addLast(E element)
+    element()
+    getFirst()
+    getLast()
+    poll()
+    pollFirst()
+    pollLast()*/
+
+    private static final int defaultSize = 10;
+    private int currentSize;
+    private E[] elements;
+
+    public MyArrayDeque() {
+        elements = (E[]) new Object[defaultSize];
+        currentSize = 0;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (int i = _front, count = 0; count < Count; i++, count++) {
-            sb.append(_items[i % _items.length]);
-            if (count < Count - 1) {
-                sb.append(", ");
+        StringBuilder newString = new StringBuilder();
+
+        newString.append('[');
+        for (int i = 0; i < currentSize; i++) {
+            newString.append(elements[i]);
+            if (i != currentSize - 1) {
+                newString.append(", ");
             }
         }
-        sb.append("]");
-        return sb.toString();
+
+        newString.append(']');
+
+        return newString.toString();
     }
 
+    @Override
+    public int size() {
+        return currentSize;
+    }
 
     @Override
     public boolean add(E e) {
@@ -39,71 +64,46 @@ public class MyArrayDeque<E> implements Deque<E> {
 
     @Override
     public void addFirst(E e) {
-        if (Count == _items.length)
-            Resize(_items.length * 2);
-        _front = (_front - 1 + _items.length) % _items.length;
-        _items[_front] = e;
-        Count++;
+        if (currentSize == elements.length) {
+            E[] newElements = (E[]) new Object[elements.length * 2];
+
+            System.arraycopy(elements, 0, newElements, 0, currentSize);
+            elements = newElements;
+        }
+
+        currentSize++;
+        for (int i = currentSize - 1; i > 0; i--) {
+            elements[i] = elements[i - 1];
+        }
+
+        elements[0] = e;
     }
 
     @Override
     public void addLast(E e) {
-        if (Count == _items.length)
-            Resize(_items.length * 2);
-        _rear = (_rear + 1) % _items.length;
-        _items[_rear] = e;
-        Count++;
-    }
+        if (currentSize == elements.length) {
+            E[] newElements = (E[]) new Object[elements.length * 2];
 
-    void Resize(int max) {
-        E[] tempItems = (E[]) new Object[max];
-        int counter = 0;
-        for (int i = _front; counter != Count; i++)
-            tempItems[counter++] = _items[i % Count];
-        _items = tempItems;
-        _front = 0;
-        _rear = Count - 1;
+            System.arraycopy(elements, 0, newElements, 0, currentSize);
+            elements = newElements;
+        }
+
+        elements[currentSize++] = e;
     }
 
     @Override
-    public int size() {
-        return Count;
-    }
-
-    @Override
-    public E pollFirst() {
-        if (Count == 0)
-            return null;
-        E item = _items[_front];
-        _front = (_front + 1) % _items.length;
-        Count--;
-        return item;
-    }
-
-    @Override
-    public E pollLast() {
-        if (Count == 0)
-            return null;
-        E item = _items[_rear];
-        _rear = (_rear - 1 + _items.length) % _items.length;
-        Count--;
-        return item;
+    public E element() {
+        return elements[0];
     }
 
     @Override
     public E getFirst() {
-        if (Count == 0)
-            return null;
-        return _items[_front];
+        return elements[0];
     }
 
     @Override
     public E getLast() {
-        if (_rear == -1 && Count > 0)
-            return _items[_front];
-        if (Count == 0)
-            return null;
-        return _items[_rear];
+        return elements[currentSize - 1];
     }
 
     @Override
@@ -112,11 +112,37 @@ public class MyArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public E element() {
-        return getFirst();
+    public E pollFirst() {
+        if (currentSize == 0) {
+            return null;
+        }
+
+        E polledElement = elements[0];
+
+        currentSize--;
+
+        for (int i = 0; i < currentSize; i++) {
+            elements[i] = elements[i + 1];
+        }
+
+        return polledElement;
     }
 
-    //////////////////////////
+    @Override
+    public E pollLast() {
+        if (currentSize == 0) {
+            return null;
+        }
+
+        return elements[--currentSize];
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    //////               Опциональные к реализации методы             ///////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean offerFirst(E e) {
@@ -138,6 +164,7 @@ public class MyArrayDeque<E> implements Deque<E> {
         return null;
     }
 
+
     @Override
     public E peekFirst() {
         return null;
@@ -158,6 +185,7 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
+
     @Override
     public boolean offer(E e) {
         return false;
@@ -167,6 +195,7 @@ public class MyArrayDeque<E> implements Deque<E> {
     public E remove() {
         return null;
     }
+
 
     @Override
     public E peek() {
@@ -194,16 +223,6 @@ public class MyArrayDeque<E> implements Deque<E> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
-    }
-
-    @Override
     public void push(E e) {
 
     }
@@ -228,9 +247,10 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
+
     @Override
     public boolean isEmpty() {
-        return Count == 0;
+        return false;
     }
 
     @Override
@@ -252,4 +272,6 @@ public class MyArrayDeque<E> implements Deque<E> {
     public Iterator<E> descendingIterator() {
         return null;
     }
+
+
 }

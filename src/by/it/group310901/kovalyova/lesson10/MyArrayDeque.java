@@ -10,7 +10,6 @@ public class MyArrayDeque <E> implements Deque<E> {
     private int size;
     private int head;
     private int tail;
-
     MyArrayDeque(){
         capacity=5;
         deque=(E[]) new Object[capacity];

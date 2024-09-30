@@ -9,6 +9,7 @@ public class MyPriorityQueue <E extends Comparable<E>>  implements Queue<E> {
         maxSize = 5;
         data = (E[]) new Comparable[maxSize];
     }
+
     private void Swap (int indexA, int indexB){
         E temp = data[indexA];
         data[indexA] = data[indexB];

@@ -51,12 +51,12 @@ public class ListC<E> implements List<E> {
         length++;
 
         if (length >= capacity) {
-            E[] tempElem = (E[]) new Object[capacity += 16];
+            E[] tempArr = (E[]) new Object[capacity += 16];
 
             for (int i = 0; i < length - 1; i++)
-                tempElem[i] = array[i];
+                tempArr[i] = array[i];
 
-            array = tempElem;
+            array = tempArr;
         }
         array[length - 1] = e;
 
@@ -91,12 +91,12 @@ public class ListC<E> implements List<E> {
         length++;
 
         if (length >= capacity) {
-            E[] tempElem = (E[]) new Object[capacity += 16];
+            E[] tempArr = (E[]) new Object[capacity += 16];
 
             for (int i = 0; i < length; i++)
-                tempElem[i] = array[i];
+                tempArr[i] = array[i];
 
-            array = tempElem;
+            array = tempArr;
         }
         for (int i = length - 1; i > index; i--)
             array[i] = array[i - 1];
@@ -124,10 +124,10 @@ public class ListC<E> implements List<E> {
             return null;
 
         else {
-            E newElement = array[index];
+            E oldElement = array[index];
             array[index] = element;
 
-            return newElement;
+            return oldElement;
         }
     }
 
@@ -159,8 +159,7 @@ public class ListC<E> implements List<E> {
     public E get(int index) {
         if (index > length || index < 0)
             return null;
-        else
-            return array[index];
+        return array[index];
     }
 
     @Override
@@ -180,43 +179,50 @@ public class ListC<E> implements List<E> {
     }
 
     @Override
-    public boolean containsAll(Collection<?> c)
-    {
+    public boolean containsAll(Collection<?> c) {
         for (Object element : c)
-            if (contains(element) == false)
+            if (!contains(element))
                 return false;
         return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        for (E element : c)
+        int tempLength = length;
+
+        for (E element : c) {
+            if (element == null) break;
             add(element);
-        return true;
+        }
+        return tempLength != length;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        int tempLength = length;
+
         for (E element : c) {
             add(index, element);
             index++;
         }
-        return true;
+        return tempLength != length;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        for (Object element : c)
-            while (remove(element));
+        int tempLength = length;
 
-        return true;
+        for (Object element : c)
+            if (contains(element))
+                while (remove(element));
+        return tempLength != length;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
         int i = 0;
         while (i < length) {
-            if (c.contains(array[i]) == false) {
+            if (!c.contains(array[i])) {
                 remove(array[i]);
                 continue;
             }

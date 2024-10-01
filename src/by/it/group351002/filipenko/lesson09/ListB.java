@@ -49,12 +49,12 @@ public class ListB<E> implements List<E> {
         length++;
 
         if (length >= capacity) {
-            E[] tempElem = (E[]) new Object[capacity += 16];
+            E[] tempArr = (E[]) new Object[capacity += 16];
 
             for (int i = 0; i < length - 1; i++)
-                tempElem[i] = array[i];
+                tempArr[i] = array[i];
 
-            array = tempElem;
+            array = tempArr;
         }
         array[length - 1] = e;
 
@@ -89,12 +89,12 @@ public class ListB<E> implements List<E> {
         length++;
 
         if (length >= capacity) {
-            E[] tempElem = (E[]) new Object[capacity += 16];
+            E[] tempArr = (E[]) new Object[capacity += 16];
 
             for (int i = 0; i < length; i++)
-                tempElem[i] = array[i];
+                tempArr[i] = array[i];
 
-            array = tempElem;
+            array = tempArr;
         }
         for (int i = length - 1; i > index; i--)
             array[i] = array[i - 1];
@@ -132,9 +132,7 @@ public class ListB<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        if (length == 0)
-            return true;
-        return false;
+        return length == 0;
     }
 
     @Override

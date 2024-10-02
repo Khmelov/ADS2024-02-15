@@ -176,6 +176,7 @@ public class MyLinkedList<E> implements Deque<E> {
         return data;
     }
 
+
     public E removeLast() {
         if (tail == null) {
             throw new NoSuchElementException();

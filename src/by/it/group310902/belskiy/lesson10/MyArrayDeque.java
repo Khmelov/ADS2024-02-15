@@ -178,6 +178,7 @@ public class MyArrayDeque<E>  implements Deque<E> {
         return elements[(rear - 1 + elements.length) % elements.length];
     }
 
+
     @Override
     public E peekFirst() {
         return null;
@@ -230,7 +231,7 @@ public class MyArrayDeque<E>  implements Deque<E> {
         }
     }
 
-    @SuppressWarnings("unchecked")
+
     private void resize(int newCapacity) {
         E[] newElements = (E[]) new Object[newCapacity];
         for (int i = 0; i < size; i++) {

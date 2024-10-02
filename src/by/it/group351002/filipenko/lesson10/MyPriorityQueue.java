@@ -29,7 +29,7 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
         int min;
 
         while (leftChild < size) {
-            if (heap[parent].compareTo(heap[leftChild]) > 0 || heap[parent].compareTo(heap[rightChild]) > 0) {
+            if (heap[parent].compareTo(heap[leftChild]) > 0 || heap[parent].compareTo(heap[rightChild]) > 0 && rightChild < size) {
                 min = leftChild;
                 if (rightChild < size && heap[leftChild].compareTo(heap[rightChild]) > 0)
                     min = rightChild;
@@ -188,8 +188,6 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
         for (i = size / 2; i >= 0; i--)
             heapifyDown(i);
 
-        for (i = size - 1; i >= size / 2; i--)
-            heapifyUp(i);
         return true;
     }
 
@@ -209,8 +207,6 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
         for (i = size / 2; i >= 0; i--)
             heapifyDown(i);
 
-        for (i = size - 1; i >= size / 2; i--)
-            heapifyUp(i);
         return true;
     }
 

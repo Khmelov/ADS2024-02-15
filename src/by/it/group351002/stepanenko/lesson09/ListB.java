@@ -61,7 +61,7 @@ public class ListB<E> implements List<E> {
         for (int i = index; i < curInd - 1; i++) {
             elements[i] = elements[i + 1];
         }
-        elements[--curInd] = null; // Clear the last element
+        elements[--curInd] = null;
         return deletedElem;
     }
 

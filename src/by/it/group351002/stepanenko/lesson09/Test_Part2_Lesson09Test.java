@@ -97,7 +97,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
         TreeSet<String> methodNames = new TreeSet<>(Arrays.asList(methods));
         Class<?> aClass = findClass(className);
         checkStructure(aClass);
-        System.out.printf("\nStart test methods in class %s%n",aClass);
+        System.out.printf("\nStart test methods in class %s%n", aClass);
         eObject = ArrayList.class.getDeclaredConstructor().newInstance();
         aObject = (List<Integer>) aClass.getDeclaredConstructor().newInstance();
 
@@ -147,10 +147,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
         Object[] parameters = new Object[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; i++) {
             if (Collection.class.isAssignableFrom(parameterTypes[i])) {
-                Set<Integer> collect = IntStream
-                        .range(2, 2 + rnd.nextInt(eObject.size()))
-                        .mapToObj(index -> randomObject())
-                        .collect(Collectors.toUnmodifiableSet());
+                Set<Integer> collect = IntStream.range(2, 2 + rnd.nextInt(eObject.size())).mapToObj(index -> randomObject()).collect(Collectors.toUnmodifiableSet());
                 parameters[i] = collect;
             } else if (Integer.class.isAssignableFrom(parameterTypes[i])) {
                 parameters[i] = randomObject();
@@ -195,30 +192,18 @@ public class Test_Part2_Lesson09Test extends HomeWork {
 
 
     private Map<String, Method> fill(Class<?> c, TreeSet<String> methodNames) {
-        return Stream.of(c.getMethods(), c.getDeclaredMethods())
-                .flatMap(Arrays::stream)
-                .distinct()
-                .filter(m -> methodNames.contains(getSignature(m).split(" ", 3)[1]))
-                .filter(this::notComparable)
-                .collect(Collectors.toMap(this::getSignature, m -> m));
+        return Stream.of(c.getMethods(), c.getDeclaredMethods()).flatMap(Arrays::stream).distinct().filter(m -> methodNames.contains(getSignature(m).split(" ", 3)[1])).filter(this::notComparable).collect(Collectors.toMap(this::getSignature, m -> m));
     }
 
 
     private boolean notComparable(Method m) {
-        return m.getReturnType() != Comparable.class &&
-               0 == Arrays.stream(m.getParameterTypes())
-                       .filter(p -> p == Comparable.class)
-                       .count();
+        return m.getReturnType() != Comparable.class && 0 == Arrays.stream(m.getParameterTypes()).filter(p -> p == Comparable.class).count();
     }
 
     private String getSignature(Method method) {
         return cache.computeIfAbsent(method, m -> {
             Class<?>[] parameterTypes = method.getParameterTypes();
-            StringJoiner out = new StringJoiner(
-                    ",",
-                    method.getReturnType().getSimpleName() + " " + method.getName() + "(",
-                    ")"
-            );
+            StringJoiner out = new StringJoiner(",", method.getReturnType().getSimpleName() + " " + method.getName() + "(", ")");
             for (int i = 0, parameterTypesLength = parameterTypes.length; i < parameterTypesLength; i++) {
                 out.add(parameterTypes[i].getSimpleName());
             }
@@ -228,11 +213,6 @@ public class Test_Part2_Lesson09Test extends HomeWork {
 
 
     public String getSignatures(Class<?> aClass) {
-        return Stream.of(aClass.getMethods(), aClass.getDeclaredMethods())
-                .flatMap(Arrays::stream)
-                .distinct()
-                .filter(m -> !Modifier.isStatic(m.getModifiers()))
-                .map(this::getSignature)
-                .collect(Collectors.joining("\n"));
+        return Stream.of(aClass.getMethods(), aClass.getDeclaredMethods()).flatMap(Arrays::stream).distinct().filter(m -> !Modifier.isStatic(m.getModifiers())).map(this::getSignature).collect(Collectors.joining("\n"));
     }
 }

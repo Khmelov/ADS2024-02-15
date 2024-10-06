@@ -115,16 +115,16 @@ public class ListC<E> implements List<E> {
         }
     }
 
-
     @Override
     public boolean remove(Object o) {
-        if ((head == o) || (head.data == o)) {
+        if (head != null && head.data.equals(o)) {
             head = head.next;
             return true;
         }
 
         Node current = head;
         Node prev = null;
+
         while (current != null) {
             if (current.data.equals(o)) {
                 prev.next = current.next;
@@ -133,6 +133,7 @@ public class ListC<E> implements List<E> {
             prev = current;
             current = current.next;
         }
+
         return false;
     }
 

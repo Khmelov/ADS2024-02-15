@@ -214,7 +214,7 @@ public class ListC<E> implements List<E> {
 
         for (Object item : c)
         {
-            if (!contains(c))
+            if (!contains(item))
             {
                 return false;
             }
@@ -225,7 +225,7 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-
+        if (c.isEmpty()) return false;
         for (E item : c)
         {
             if(!add(item))
@@ -239,11 +239,13 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
-
+        if (c.isEmpty()) return false;
         for (Object item : c)
         {
+
             add(index, (E) item);
             index++;
+
         }
 
         return true;

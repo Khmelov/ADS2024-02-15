@@ -1,175 +1,220 @@
 package by.it.group351005.pavello06.lesson11;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
 public class MyHashSet<E> implements Set<E> {
-
     class Node<E> {
         E data;
+        Node<E> previous;
         Node<E> next;
+        Node<E> nextInSet;
 
-        Node(E data) {
+        public Node(E data) {
             this.data = data;
         }
     }
-    static final int defaultSize = 32;
-    Node<E>[] _items;
-    int _count;
+    class List<E> {
+        Node<E> head;
+        Node<E> tail;
 
-    public MyHashSet() {
-        this(defaultSize);
-    }
+        void add(Node<E> node) {
+            if (head == null) {
+                head = node;
+            } else {
+                tail.next = node;
+                node.previous = tail;
+            }
 
-    public MyHashSet(int capacity) {
-        _items = new Node[capacity];
-    }
+            tail = node;
+        }
+        void remove(Node<E> node) {
+            if (node.previous != null) {
+                node.previous.next = node.next;
+            } else {
+                head = head.next;
+            }
 
-    int GetHash(Object value) {
-        return (value.hashCode() & 0x7FFFFFFF) % _items.length;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        boolean first = true;
-        for (int i = 0; i < _items.length; i++) {
-            Node<E> current = _items[i];
-            while (current != null) {
-                if (!first) {
-                    sb.append(", ");
-                }
-                sb.append(current.data);
-                first = false;
-                current = current.next;
+            if (node.next != null) {
+                node.next.previous = node.previous;
+            } else {
+                tail = tail.previous;
             }
         }
+        void clear() {
+            head = null;
+            tail = null;
+        }
+    }
 
+    Node<E>[] elements;
+    static final int INITIAL_SIZE = 16;
+    int size;
+    List<E> list = new List<E>();
+
+
+    public MyHashSet() {
+        this(INITIAL_SIZE);
+    }
+    public MyHashSet(int size) {
+        elements = new Node[size];
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        Node<E> current = list.head;
+        if (current != null) {
+            sb.append(current.data);
+            current = current.next;
+        }
+        while (current != null) {
+            sb.append(", ");
+            sb.append(current.data);
+            current = current.next;
+        }
         sb.append("]");
         return sb.toString();
     }
-
     @Override
     public int size() {
-        return _count;
+        return size;
     }
-
+    @Override
+    public void clear() {
+        Arrays.fill(elements, null);
+        size = 0;
+        list.clear();
+    }
     @Override
     public boolean isEmpty() {
-        return _count == 0;
+        return size == 0;
     }
-
-    @Override
-    public boolean contains(Object o) {
-        Node<E> current = _items[GetHash(o)];
-        while (current != null) {
-            if (current.data.equals(o)) {
-                return true;
-            }
-            current = current.next;
-        }
-        return false;
+    private int getHashCode(E element) {
+        return element.hashCode() % elements.length;
     }
-
     @Override
     public boolean add(E e) {
-        int index = GetHash(e);
-        Node<E> current = _items[index];
+        int index = getHashCode(e);
+        Node<E> current = elements[index];
         while (current != null) {
             if (current.data.equals(e)) {
                 return false;
             }
-            current = current.next;
+            current = current.nextInSet;
         }
-        Node<E> newNode = new Node<>(e);
-        newNode.next = _items[index];
-        _items[index] = newNode;
-        _count++;
-        if (_count > _items.length * 0.75) {
-            resize();
+        Node<E> newNode = new Node<E>(e);
+        newNode.nextInSet = elements[index];
+        elements[index] = newNode;
+        size++;
+        list.add(newNode);
+        if (size > elements.length * 0.75) {
+            Node<E>[] newElements = new Node[elements.length * 2];
+            current = list.head;
+            while (current != null) {
+                int newIndex = current.data.hashCode() % newElements.length;
+                current.nextInSet = newElements[newIndex];
+                newElements[newIndex] = current;
+                current = current.next;
+            }
+            elements = newElements;
         }
         return true;
     }
-
-    void resize() {
-        Node<E>[] newItems = new Node[_items.length * 2];
-        for (int i = 0; i < _items.length; i++) {
-            Node<E> current = _items[i];
-            while (current != null) {
-                Node<E> next = current.next;
-                int newIndex = current.data.hashCode() & 0x7FFFFFFF % newItems.length;
-                current.next = newItems[newIndex];
-                newItems[newIndex] = current;
-                current = next;
-            }
-        }
-        _items = newItems;
-    }
-
     @Override
     public boolean remove(Object o) {
-        int index = GetHash(o);
-        Node<E> current = _items[index];
+        E e = (E)o;
+        int index = getHashCode(e);
         Node<E> previous = null;
+        Node<E> current = elements[index];
         while (current != null) {
-            if (current.data.equals(o)) {
+            if (current.data.equals(e)) {
                 if (previous == null) {
-                    _items[index] = current.next;
+                    elements[index] = current.nextInSet;
                 } else {
-                    previous.next = current.next;
+                    previous.nextInSet = current.nextInSet;
                 }
-                _count--;
+                size--;
+                list.remove(current);
                 return true;
             }
             previous = current;
-            current = current.next;
+            current = current.nextInSet;
         }
         return false;
     }
-
     @Override
-    public void clear() {
-        for (int i = 0; i < _items.length; i++)
-            _items[i] = null;
-        _count = 0;
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public Iterator<E> iterator() {
-        return null;
-    }
-
-    @Override
-    public Object[] toArray() {
-        return new Object[0];
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    public boolean contains(Object o) {
+        E e = (E)o;
+        int index = getHashCode(e);
+        Node<E> current = elements[index];
+        while (current != null) {
+            if (current.data.equals(e)) {
+                return true;
+            }
+            current = current.nextInSet;
+        }
+        return false;
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (var object : c) {
+            if (!contains(object)) {
+                return false;
+            }
+        }
+        return true;
     }
-
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        boolean result = false;
+        for (var element : c) {
+            if (add(element)) {
+                result = true;
+            }
+        }
+        return result;
     }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        return false;
-    }
-
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean result = false;
+        for (var object : c) {
+            if (remove(object)) {
+                result = true;
+            }
+        }
+        return result;
     }
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        if (c.isEmpty()) {
+            this.clear();
+            return true;
+        }
+        boolean isModified = false;
+        MyHashSet<E> tempSet = new MyHashSet<>(elements.length);
+        Node<E> current = list.head;
+        while (current != null) {
+            if (c.contains(current.data)) {
+                tempSet.add(current.data);
+                isModified = true;
+            }
+            current = current.next;
+        }
+        elements = tempSet.elements;
+        list.head = tempSet.list.head;
+        list.tail = tempSet.list.tail;
+        size = tempSet.size;
+
+        return isModified;
+    }
+
+    @Override
+    public Iterator<E> iterator() {return null;}
+    @Override
+    public Object[] toArray() {return new Object[0];}
+    @Override
+    public <T> T[] toArray(T[] a) {return null;}
 }

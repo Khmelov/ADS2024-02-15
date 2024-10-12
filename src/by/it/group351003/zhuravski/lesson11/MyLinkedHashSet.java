@@ -1,18 +1,18 @@
 package by.it.group351003.zhuravski.lesson11;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-public class MyHashSet<E> implements Set<E> {
+import java.util.*;
+//Сколхозил на основе 10 lesson'а
+public class MyLinkedHashSet<E> implements Set<E> {
     private final int indexCapacity = 35;
     private LinkedList<SetObject>[] lists;
     private int elemAm = 0;
-    public MyHashSet() {
+    MyPseudoList<SetObject> added;
+    public MyLinkedHashSet() {
         lists = new LinkedList[indexCapacity];
         for (int i = 0; i < lists.length; i++) {
             lists[i] = new LinkedList<SetObject>();
         }
+        added = new MyPseudoList<>();
     }
 
     private int calcIndex(E elem) {
@@ -66,6 +66,7 @@ public class MyHashSet<E> implements Set<E> {
             int index = calcIndex(e);
             SetObject<E> obj = new SetObject<E>(e);
             pushObj(obj, index);
+            added.add(obj);
             return true;
         }
         return false;
@@ -79,6 +80,7 @@ public class MyHashSet<E> implements Set<E> {
             if (object.compare(o)) {
                 lists[index].remove(object);
                 elemAm--;
+                added.remove(object);
                 return true;
             }
         }
@@ -87,22 +89,45 @@ public class MyHashSet<E> implements Set<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object obj : c) {
+            if (!contains(obj)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        int oldLen = elemAm;
+        for (Object obj : c) {
+            add((E)obj);
+        }
+        return oldLen != elemAm;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        int oldLen = elemAm;
+        MyPseudoList<SetObject> old = added;
+        added = new MyPseudoList<>();
+        clear();
+        SetObject checked;
+        while (null != (checked = old.poll()))  {
+            if (c.contains(checked.val)) {
+                add((E) checked.val);
+            }
+        }
+        return elemAm != oldLen;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        boolean res = false;
+        for (Object o : c) {
+            res |= remove(o);
+        }
+        return res;
     }
 
     @Override
@@ -111,6 +136,7 @@ public class MyHashSet<E> implements Set<E> {
         for (int i = 0; i < indexCapacity; i++) {
             lists[i].clear();
         }
+        added.clear();
     }
 
     public String toString() {
@@ -118,12 +144,12 @@ public class MyHashSet<E> implements Set<E> {
         builder.append('[');
         String divSym = ", ";
         String preSym = "";
-        for (int i = 0; i < lists.length; i++) {
-            for (SetObject setObject : lists[i]) {
-                builder.append(preSym);
-                preSym = divSym;
-                builder.append(setObject.toString());
-            }
+        Elem<SetObject> cur = added.first;
+        while (cur != null) {
+            builder.append(preSym);
+            preSym = divSym;
+            builder.append(cur.val.toString());
+            cur = cur.next;
         }
         builder.append(']');
         return builder.toString();

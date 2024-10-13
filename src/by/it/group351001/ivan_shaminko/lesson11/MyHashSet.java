@@ -2,16 +2,16 @@ package by.it.group351001.ivan_shaminko.lesson11;
 
 import java.util.*;
 import static java.util.Objects.hash;
-//size()
-//clear()
-//isEmpty()
-//add(Object)
-//remove(Object)
-//contains(Object)
+//size() +
+//clear() +
+//isEmpty() +
+//add(Object) +
+//remove(Object) +
+//contains(Object) +
 
 public class MyHashSet<E> implements Set<E> {
-    private int size = 0;
-    private MyNode<E>[] table = (MyNode<E>[])new MyNode[8];
+    private int size = 1;
+    private MyNode<E>[] table = (MyNode<E>[]) new MyNode[8];
     private int takenplaces = 0;
 
     static private class MyNode<E>{
@@ -26,55 +26,113 @@ public class MyHashSet<E> implements Set<E> {
     private int gethash(E e){
         return e.hashCode();
     }
-    private int resize(){
-        MyNode<E>[] newTable=
+    private void resize(){
+        int oldsize = size;
+        MyNode<E>[] newTable = (MyNode<E>[]) new MyNode[size + (size >> 1) + 1];
+        for (int i = 0; i < oldsize; i++) {
+            MyNode<E> current = table[i];
+            while (current != null) {
+                int newIndex = gethash(current.data) % size;
+                MyNode<E> next = current.next;
+                current.next = newTable[newIndex];
+                newTable[newIndex] = current;
+                current = next;
+            }
+        }
+        table = newTable;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        boolean first = true; // Флаг для первого элемента
+
+        for (MyNode<E> node : table) {
+            MyNode<E> current = node;
+            while (current != null) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(current.data);
+                first = false;
+                current = current.next;
+            }
+        }
+
+        sb.append("]");
+        return sb.toString();
+    }
+
     @Override
     public int size() {
-        return size;
+        return takenplaces;
     }
 
     @Override
     public void clear() {
-
+        table = (MyNode<E>[]) new MyNode[size];
+        takenplaces = 0;
     }
     @Override
     public boolean isEmpty() {
-        return false;
+        return takenplaces == 0;
     }
 
     @Override
     public boolean add(E e) {
-        if (takenplaces == table.length){
+        if (takenplaces >= size * 0.75) {
             resize();
         }
-        int index = gethash(e);
-        MyNode currentNode = table[index];
-        if (!contains(e)){
-            if (table[index].data == null) {
-                table[index].data = e;
-            }
-            else {
-                while (table[index].data != null) {
-                    index++;
-                }
 
+        int index = gethash(e) % size;
+        MyNode<E> current = table[index];
+
+        while (current != null) {
+            if (current.data.equals(e)) {
+                return false;
             }
+            current = current.next;
         }
-        return false;
+
+        MyNode<E> newNode = new MyNode<>(e, table[index]);
+        table[index] = newNode;
+        takenplaces++;
+        return true;
     }
+
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i != table.length; i++){
-            if (o.equals(table[i].data)){
+        int index = gethash((E) o) % size;
+        MyNode<E> current = table[index];
+
+        while (current != null) {
+            if (current.data.equals(o)) {
                 return true;
             }
+            current = current.next;
         }
         return false;
     }
 
     @Override
     public boolean remove(Object o) {
+        int index = gethash((E) o) % size;
+        MyNode<E> current = table[index];
+        MyNode<E> prev = null;
+
+        while (current != null) {
+            if (current.data.equals(o)) {
+                if (prev == null) {
+                    table[index] = current.next;
+                } else {
+                    prev.next = current.next;
+                }
+                takenplaces--;
+                return true;
+            }
+            prev = current;
+            current = current.next;
+        }
         return false;
     }
 

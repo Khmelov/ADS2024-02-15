@@ -83,6 +83,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
                 retainAll(Collection)
                 """.split("\\s+");
         eObject = new TreeSet<>();
+        rnd = new Random(1);
         randomCheck("MyTreeSet", methods);
     }
 
@@ -146,10 +147,10 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         Object[] parameters = new Object[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; i++) {
             if (Collection.class.isAssignableFrom(parameterTypes[i])) {
-                Set<Number> collect = IntStream
+                ArrayList<Number> collect = new ArrayList<>(IntStream
                         .range(2, 2 + rnd.nextInt(eObject.size()))
                         .mapToObj(index -> randomInteger())
-                        .collect(Collectors.toUnmodifiableSet());
+                        .collect(Collectors.toUnmodifiableSet()));
                 parameters[i] = collect;
             } else if (Integer.class.isAssignableFrom(parameterTypes[i])) {
                 parameters[i] = randomInteger();

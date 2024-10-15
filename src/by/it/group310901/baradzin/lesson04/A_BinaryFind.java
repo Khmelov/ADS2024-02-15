@@ -40,13 +40,14 @@ public class A_BinaryFind {
     }
 
     int[] findIndex(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var a = new int[scanner.nextInt()];
-        for (var i = 0; i < a.length; i++)
-            a[i] = scanner.nextInt();
-        var result = new int[scanner.nextInt()];
-        for (var i = 0; i < result.length; i++) result[i] = find(a, scanner.nextInt());
-        return result;
+        try (var scanner = new Scanner(stream)) {
+            var a = new int[scanner.nextInt()];
+            for (var i = 0; i < a.length; i++)
+                a[i] = scanner.nextInt();
+            var result = new int[scanner.nextInt()];
+            for (var i = 0; i < result.length; i++) result[i] = find(a, scanner.nextInt());
+            return result;
+        }
     }
 
     int find(int[] a, int b) {

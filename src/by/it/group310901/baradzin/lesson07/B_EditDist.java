@@ -41,9 +41,10 @@ public class B_EditDist {
         var stream = B_EditDist.class.getResourceAsStream("dataABC.txt");
         var instance = new B_EditDist();
         assert stream != null;
-        var scanner = new Scanner(stream);
-        for (var i = 0; i < 3; i++)
-            System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
+        try (var scanner = new Scanner(stream)) {
+            for (var i = 0; i < 3; i++)
+                System.out.println(instance.getDistanceEditing(scanner.nextLine(), scanner.nextLine()));
+        }
     }
 
     int getDistanceEditing(String one, String two) {

@@ -12,7 +12,6 @@ public class MyAvlMap implements Map<Integer, String> {
         String value;
         byte height;
         Node left, right;
-
         public Node(Integer key, String value) {
             this.key = key;
             this.value = value;

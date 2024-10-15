@@ -20,6 +20,7 @@
                 containsKey(Integer)
                 containsValue(String)
 
+
                 size()
                 clear()
                 isEmpty()

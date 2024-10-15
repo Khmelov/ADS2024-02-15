@@ -36,7 +36,7 @@ public class Test_Part2_Lesson12Test extends HomeWork {
         String[] methods = """
                 toString()
                 put(Object,Object)
-                remove(Object)
+                remove(Object) 
                 get(Object)
                 containsKey(Object)
 

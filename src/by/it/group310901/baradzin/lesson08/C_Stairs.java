@@ -34,12 +34,13 @@ import java.util.Scanner;
 
 public class C_Stairs {
     int getMaxSum(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var n = scanner.nextInt();
-        var stairs = new int[n];
-        for (var i = 0; i < n; i++)
-            stairs[i] = scanner.nextInt();
-        return getMaxSum(stairs);
+        try (var scanner = new Scanner(stream)) {
+            var n = scanner.nextInt();
+            var stairs = new int[n];
+            for (var i = 0; i < n; i++)
+                stairs[i] = scanner.nextInt();
+            return getMaxSum(stairs);
+        }
     }
 
     public static int getMaxSum(int[] a) {

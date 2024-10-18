@@ -1,178 +1,110 @@
 package by.it.group351003.zhuravski.lesson11;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
 public class MyTreeSet<E extends Comparable<E>> implements Set<E> {
-
-    class Node {
-        E data;
-        Node left;
-        Node right;
-
-        Node(E data) {
-            this.data = data;
+    class Stick {
+        public E value = null;
+        public Stick left = null;
+        public Stick right = null;
+        public Stick parent = null;
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            if (value != null) {
+                if (left.value != null) {
+                    builder.append(left.toString());
+                    builder.append(", ");
+                }
+                builder.append(value.toString());
+                if (right.value != null) {
+                    builder.append(", ");
+                    builder.append(right.toString());
+                }
+            }
+            return builder.toString();
         }
+    };
+    Stick root;
+    private int count = 0;
+
+
+    private Stick find_closest(Object val) {
+        Stick cur = root;
+        while ((cur.value != null) && (!cur.value.equals(val))) {
+            if (val.hashCode() > cur.value.hashCode()) {
+                cur = cur.right;
+            }
+            else {
+                cur = cur.left;
+            }
+        }
+        return cur;
+    }
+    private Stick find_biggest(Stick root) {
+        Stick cur = root;
+        while (cur.value != null) {
+            cur = cur.right;
+        }
+        cur = cur.parent;
+        return cur;
+    }
+    private void remove_stick(Stick stick) {
+        if (stick.left.value != null) {
+            Stick rightest = find_biggest(stick.left);
+            if (rightest.parent == stick) {
+                stick.value = rightest.value;
+                stick.left = rightest.left;
+                stick.left.parent = stick;
+            }
+            else {
+                stick.value = rightest.value;
+                rightest.parent.right = rightest.left;
+                rightest.left.parent = rightest.parent;
+            }
+        } else if (stick.right.value != null) {
+            Stick npd = stick.right;
+            stick.value = npd.value;
+            stick.left = npd.left;
+            npd.left.parent = stick;
+            stick.right = npd.right;
+            npd.right.parent = stick;
+        }
+        else {
+            stick.value = null;
+            stick.left = null;
+            stick.right = null;
+        }
+        count--;
     }
 
-    @Override
+    public MyTreeSet()  {
+        root = new Stick();
+    }
     public String toString() {
-        StringBuilder sb = new StringBuilder("[");
-        inOrderTraversal(_root, sb);
-        return sb.append("]").toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append('[');
+        builder.append(root.toString());
+        builder.append(']');
+        return builder.toString();
     }
-
-    void inOrderTraversal(Node node, StringBuilder sb) {
-        if (node == null) return;
-        inOrderTraversal(node.left, sb);
-        if (sb.length() > 1)
-            sb.append(", ");
-        sb.append(node.data);
-        inOrderTraversal(node.right, sb);
-    }
-    Node _root;
-    int _count;
-
     @Override
     public int size() {
-        return _count;
+        return count;
     }
 
     @Override
     public boolean isEmpty() {
-        return _count == 0;
-    }
-
-    boolean contains(Node node, E element) {
-        if (node == null) return false;
-        int compare = element.compareTo(node.data);
-        if (compare < 0)
-            return contains(node.left, element);
-        else if (compare > 0)
-            return contains(node.right, element);
-        else
-            return true;
+        return count == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return contains(_root, (E) o);
+        Stick closest = find_closest(o);
+        return closest.value != null;
     }
-
-    Node insert(Node node, E element) {
-        if (node == null)
-            return new Node(element);
-        int compare = element.compareTo(node.data);
-        if (compare < 0)
-            node.left = insert(node.left, element);
-        else if (compare > 0)
-            node.right = insert(node.right, element);
-        return node;
-    }
-
-    @Override
-    public boolean add(E e) {
-        if (!contains(e)) {
-            _root = insert(_root, e);
-            _count++;
-            return true;
-        }
-        return false;
-    }
-
-    Node findMin(Node node) {
-        while (node.left != null) {
-            node = node.left;
-        }
-        return node;
-    }
-
-    Node delete(Node node, E element) {
-        if (node == null) return null;
-        int compare = element.compareTo(node.data);
-        if (compare < 0) {
-            node.left = delete(node.left, element);
-        } else if (compare > 0) {
-            node.right = delete(node.right, element);
-        } else {
-            if (node.left == null) {
-                return node.right;
-            } else if (node.right == null) {
-                return node.left;
-            }
-            node.data = findMin(node.right).data;
-            node.right = delete(node.right, node.data);
-        }
-        return node;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        if (contains(o)) {
-            _root = delete(_root, (E) o);
-            _count--;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        for (Object obj: c) {
-            if (!contains(obj))
-                return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        boolean isModified = false;
-        for (E element: c) {
-            if (add(element))
-                isModified = true;
-        }
-        return isModified;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        if (c.isEmpty()) {
-            this.clear();
-            return true;
-        }
-        boolean isModified = false;
-        MyTreeSet<E> retainSet = new MyTreeSet<>();
-        for (Object obj : c) {
-            if (contains(obj)) {
-                retainSet.add((E) obj);
-                isModified = true;
-            }
-        }
-        _root = retainSet._root;
-        _count = retainSet._count;
-
-        return isModified;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        boolean isModified = false;
-        for (Object obj: c) {
-            if (remove(obj))
-                isModified = true;
-        }
-        return isModified;
-    }
-
-    @Override
-    public void clear() {
-        _root = null;
-        _count = 0;
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Iterator<E> iterator() {
@@ -187,5 +119,85 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E> {
     @Override
     public <T> T[] toArray(T[] a) {
         return null;
+    }
+
+    @Override
+    public boolean add(E e) {
+        boolean res = false;
+        Stick closest = find_closest(e);
+        if (closest.value == null) {
+            count++;
+            closest.value = e;
+            closest.left = new Stick();
+            closest.left.parent = closest;
+            closest.right = new Stick();
+            closest.right.parent = closest;
+            res = true;
+        }
+        return res;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        boolean res = false;
+        Stick closest = find_closest(o);
+        if (closest.value != null) {
+            remove_stick(closest);
+            res = true;
+        }
+        return res;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        for (Object o : c) {
+            if (!contains(o)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        int oldLen = count;
+        for (E e : c) {
+            add(e);
+        }
+        return oldLen != count;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        int oldLen = count;
+        Object[] retained = new Object[count];
+        int retained_am = 0;
+        for (Object o : c) {
+            if (contains(o)) {
+                retained[retained_am] = o;
+                retained_am++;
+            }
+        }
+        clear();
+        for (int i = 0; i < retained_am; i++) {
+            add((E)retained[i]);
+        }
+        return oldLen != count;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        int oldLen = count;
+        for (Object o : c) {
+            remove(o);
+        }
+        return oldLen != count;
+    }
+
+    @Override
+    public void clear() {
+        while (!isEmpty()) {
+            remove_stick(root);
+        }
     }
 }

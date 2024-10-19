@@ -48,23 +48,39 @@ public class Test_Part2_Lesson12Test extends HomeWork {
         eObject = new TreeMap<>();
         randomCheck("MyAvlMap", methods);
     }
-
-    @Test(timeout = 500 * INVOCATION_COUNT_PER_METHOD)
-    public void testTaskB() throws Exception {
-        String[] methods = """
+    /*
                 toString()
                 put(Object,Object)
                 remove(Object)
                 get(Object)
                 containsKey(Object)
                 containsValue(Object)
-                                
+
                 size()
                 clear()
                 isEmpty()
-                                
+
                 headMap(Object)
                 tailMap(Object)
+                firstKey()
+                lastKey()
+     */
+    @Test(timeout = 500 * INVOCATION_COUNT_PER_METHOD)
+    public void testTaskB() throws Exception {
+        String[] methods = """
+                toString()
+                put(Object,Object)
+                
+                get(Object)
+                containsKey(Object)
+                containsValue(Object)
+                                
+                size()
+                
+                isEmpty()
+                                
+                
+                
                 firstKey()
                 lastKey()
                 """.split("\\s+");

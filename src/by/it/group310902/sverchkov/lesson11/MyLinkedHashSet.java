@@ -125,21 +125,36 @@ public class MyLinkedHashSet<E> implements Set<E> {
         }
 
         size++;
-/*
+
         if (size >= arr.length * 0.75)
             resize();
-*/
+
         return true;
     }
 
     void resize() {
-        arr = new Node[arr.length * 2];
-        size = 0;
+        Node<E>[] newArr = new Node[arr.length*2];
+
         Node<E> node = head;
-        head = null;
-        for (; node != null; node = node.next){
-            add(node.element);
+        while(node != null){
+            int index = node.element.hashCode() % (arr.length*2);
+            if (newArr[index] == null){
+                newArr[index] = node;
+                node.next = null;
+            }
+            else {
+                Node<E> temp = newArr[index];
+                while(temp.next != null){
+                    temp = temp.next;
+                }
+                temp.next = node;
+                node.next = null;
+            }
+            node = node.orderNext;
         }
+
+        arr = newArr;
+
     }
 
     @Override

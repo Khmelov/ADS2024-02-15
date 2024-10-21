@@ -96,8 +96,9 @@ public class ListC<E> implements List<E> {
         }
         if (i < currLen) {
             this.remove(i);
+            return true;
         }
-        return i != currLen;
+        return false;
     }
 
     @Override
@@ -166,11 +167,19 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object item : c) {
+            if (!contains(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
+        if (c.isEmpty()) {
+            return false;
+        }
         E[] buff = (E[]) c.toArray();
         for (int i = 0; i < buff.length; i++) {
             this.add(buff[i]);
@@ -180,6 +189,9 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
+        if (c.isEmpty()) {
+            return false;
+        }
         if (index >= 0 && index < currLen) {
 
             E[] arrC = (E[]) c.toArray();

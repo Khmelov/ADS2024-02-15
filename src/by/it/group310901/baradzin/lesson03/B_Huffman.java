@@ -45,16 +45,17 @@ public class B_Huffman {
     }
 
     String decode(File file) throws FileNotFoundException {
-        var scanner = new Scanner(file);
-        var count = scanner.nextInt();
-        scanner.nextLine();
+        try (var scanner = new Scanner(file)) {
+            var count = scanner.nextInt();
+            scanner.nextLine();
 
-        var head = new NodeHead();
-        for (var i = 0; i < count; i++) {
-            var line = scanner.nextLine();
-            head.push(line.substring(3), line.charAt(0));
+            var head = new NodeHead();
+            for (var i = 0; i < count; i++) {
+                var line = scanner.nextLine();
+                head.push(line.substring(3), line.charAt(0));
+            }
+            return head.parse(scanner.nextLine(), head);
         }
-        return head.parse(scanner.nextLine(), head);
     }
 
     static class NodeNum {

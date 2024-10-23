@@ -1,11 +1,9 @@
 package by.it.group351004.kuchko.lesson12;
 
-import com.sun.source.tree.Tree;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-
+@SuppressWarnings("all")
 public class MyAvlMap implements Map<Integer, String> {
     private class TreeNode {
         TreeNode left, right;

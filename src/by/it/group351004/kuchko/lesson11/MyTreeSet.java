@@ -3,7 +3,7 @@ package by.it.group351004.kuchko.lesson11;
 import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
-
+@SuppressWarnings("all")
 public class MyTreeSet<E extends Comparable<E>> implements Set<E> {
     private final int DEFAULT_SIZE = 16;
     private int size;

@@ -1,89 +1,104 @@
 package by.it.group351002.mikhalkov.lesson13;
 
 import java.util.*;
+import java.util.Map.Entry;
 
-class GraphC {
-    private Map<Character, List<Character>> gr;
-    private Map<Character, List<Character>> TrGr;
+public class GraphC {
+    static Integer currTime = 0;
 
-    public GraphC() {
-        gr = new TreeMap<>();
-        TrGr = new TreeMap<>();
-    }
-
-    public void addEdge(char first, char second) {
-        TrGr.putIfAbsent(first, new ArrayList<>());
-        gr.putIfAbsent(second, new ArrayList<>());
-        gr.get(second).add(first);
-        TrGr.get(first).add(second);
-    }
-
-    private void firstDFS(char node, Set<Character> visited, Deque<Character> order){
+    private static void dfsTime(String node, Map<String, List<String>> graph, Set<String> visited, Map<String, Integer> time) {
         visited.add(node);
-        List <Character> NearNodes = gr.getOrDefault(node, new ArrayList<>());
-        for (char tempNode: NearNodes){
-            if (!visited.contains(tempNode)) {
-                firstDFS(tempNode, visited, order);
+        if (graph.get(node) != null)
+            for (String next_node : graph.get(node)) {
+                if (!visited.contains(next_node)) {
+                    currTime++;
+                    dfsTime(next_node, graph, visited, time);
+                }
             }
-        }
-        order.addFirst(node);
+        time.put(node, currTime++);
     }
 
-    private void secondDFS(char node, Set<Character> visited, List<Character> cmp){
+    private static void dfs(String node, Map<String, List<String>> graph, Set<String> visited, List<String> path) {
         visited.add(node);
-
-        List <Character> NearNodes = TrGr.getOrDefault(node, new ArrayList<>());
-        for (char tempNode: NearNodes){
-            if (!visited.contains(tempNode)){
-                secondDFS(tempNode,visited,cmp);
+        path.add(node);
+        if (graph.get(node) != null)
+            for (String next_node : graph.get(node)) {
+                if (!visited.contains(next_node)) {
+                    dfs(next_node, graph, visited, path);
+                }
             }
-        }
-        cmp.add(node);
     }
 
-    public void components(){
-        Set<Character> visited = new HashSet<>();
-        Deque<Character> order = new ArrayDeque<>();
-        for (char node: gr.keySet()) {
-            if (!visited.contains(node)){
-                firstDFS(node,visited,order);
+    static class MapEntryComparator implements Comparator<Map.Entry<String, Integer>> {
+        @Override
+        public int compare(Entry<String, Integer> entry1, Entry<String, Integer> entry2) {
+            int valueComparison = entry1.getValue().compareTo(entry2.getValue());
+            if (valueComparison == 0) {
+                return entry2.getKey().compareTo(entry1.getKey());
             }
-        }
-        visited.clear();
-        List<List<Character>> ans = new ArrayList<>();
-        while(!(order.size()==0)){
-            char node = order.pollFirst();
-            List <Character> comp = new ArrayList<>();
-            if (!visited.contains(node)){
-                secondDFS(node,visited,comp);
-                Collections.sort(comp);
-                ans.add(comp);
-            }
-        }
-        Collections.reverse(ans);
-        for (List<Character> col: ans) {
-            for (Character node : col) {
-                System.out.print(node);
-            }
-            System.out.println();
+            return valueComparison;
         }
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Map<String, List<String>> graph = new HashMap<>();
+        Map<String, List<String>> graphReversed = new HashMap<>();
+        Set<String> visited = new HashSet<>();
+        Map<String, Integer> time = new HashMap<>();
 
-        String input = scanner.nextLine();
+        try (Scanner scanner = new Scanner(System.in)) {
 
-        GraphC gr = new GraphC();
+            String input = scanner.nextLine();
+            String[] nodes = input.split("\\s*,\\s*");
 
-        String[] edges = input.split(", ");
-        for (String edge : edges) {
-            String[] vertices = edge.split(" -> ");
-            char A = vertices[0].trim().charAt(0);
-            char B = vertices[1].trim().charAt(0);
-            gr.addEdge(A, B);
+            for (String node : nodes) {
+                String[] vertexes = node.split("\\s*->\\s*");
+                if (graph.containsKey(vertexes[0])) {
+                    graph.get(vertexes[0]).add(vertexes[1]);
+                }
+                else {
+                    List<String> list = new ArrayList<>();
+                    list.add(vertexes[1]);
+                    graph.put(vertexes[0], list);
+                }
+
+                if (graphReversed.containsKey(vertexes[1])) {
+                    graphReversed.get(vertexes[1]).add(vertexes[0]);
+                    continue;
+                }
+
+                List<String> list = new ArrayList<>();
+                list.add(vertexes[0]);
+                graphReversed.put(vertexes[1], list);
+            }
         }
-        gr.components();
 
+        for (String node : graph.keySet()) {
+            if (!visited.contains(node)) {
+                dfsTime(node, graph, visited, time);
+            }
+        }
+
+        List<Map.Entry<String, Integer>> entryList = new ArrayList<>(time.entrySet());
+        entryList.sort(new MapEntryComparator());
+        String[] vertices = new String[entryList.size()];
+        for (int i = entryList.size() - 1; i > -1; i--) {
+            vertices[entryList.size() - 1 - i] = entryList.get(i).getKey();
+        }
+
+        visited = new HashSet<>();
+        for (String node : vertices) {
+            if (!visited.contains(node)) {
+                List<String> path = new ArrayList<>();
+                dfs(node, graphReversed, visited, path);
+
+                path.sort(CharSequence::compare);
+
+                for (String n : path) {
+                    System.out.print(n);
+                }
+                System.out.println();
+            }
+        }
     }
 }

@@ -52,7 +52,9 @@ public class A_Knapsack {
         {
             dp[i] = dp[i-1];
             for (int j=0;j<n && gold[j]<=i;j++)
-                dp[i] = Math.max(dp[i],gold[j]+dp[i-gold[j]]);
+                dp[i] = Math.max(
+                        dp[i],gold[j]+dp[i-gold[j]]
+                );
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return dp[w];

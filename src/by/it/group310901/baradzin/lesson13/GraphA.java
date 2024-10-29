@@ -2,15 +2,12 @@ package by.it.group310901.baradzin.lesson13;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.Stack;
 
 public class GraphA {
 
-    private Map<String, ArrayList<String>> elements = new HashMap<>();
+    protected HashMap<String, ArrayList<String>> elements = new HashMap<>();
 
     public GraphA(Scanner input) {
         for (var connections : input.nextLine().split(", ")) {
@@ -31,7 +28,7 @@ public class GraphA {
     public String toString() {
         var sb = new StringBuilder();
         var stack = new Stack<String>();
-        var visited = new HashSet<String>();
+        var visited = new Stack<String>();
 
         for (var node : elements.keySet())
             if (!visited.contains(node))
@@ -44,13 +41,14 @@ public class GraphA {
         return sb.toString();
     }
 
-    private void dfs(String node, Set<String> visited, Stack<String> stack) {
+    protected Stack<String> dfs(String node, Stack<String> visited, Stack<String> stack) {
         visited.add(node);
         if (elements.get(node) != null)
             for (var next : elements.get(node))
                 if (!visited.contains(next))
                     dfs(next, visited, stack);
         stack.push(node);
+        return stack;
     }
 
     public static void main(String[] args) {

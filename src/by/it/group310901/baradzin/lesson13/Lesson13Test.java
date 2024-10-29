@@ -35,6 +35,17 @@ public class Lesson13Test extends HomeWork {
         run("0 -> 1", true).include("no").exclude("yes");
         run("0 -> 1, 1 -> 2", true).include("no").exclude("yes");
         run("0 -> 1, 1 -> 2, 2 -> 0", true).include("yes").exclude("no");
+        run("0 -> 1, 1 -> 2, 2 -> 0, 2 -> 3", true).include("yes").exclude("no");
+        run("A -> C, B -> D, C -> A, D -> B", true).include("yes").exclude("no");
+        run("A -> A").include("yes").exclude("no");
+        run("B -> C, A -> B, A -> A").include("yes").exclude("no");
+        run("A -> B, B -> C, C -> D, D -> E, E -> F, F -> G, G -> H, H -> I, I -> J, J -> K, K -> L, L -> M, M -> N, N -> O, O -> P, P -> Q, Q -> R, R -> S, S -> T, T -> U, U -> V, V -> W, W -> X, X -> Y, Y -> Z, Z -> A")
+                .include("yes").exclude("no");
+        run("A -> B, B -> C, C -> D, D -> E, E -> F, F -> G, G -> H, H -> I, I -> J, J -> K, K -> L, L -> M, M -> N, N -> O, O -> P, P -> Q, Q -> R, R -> S, S -> T, T -> U, U -> V, V -> W, W -> X, X -> Y, Y -> Z")
+                .include("no").exclude("yes");
+        run("CCD -> CD").include("no").exclude("yes");
+        run("CD -> CD, CDD -> CDD, CD -> CDD").include("yes").exclude("no");
+        run("C -> C, M -> N, N -> O, O -> P, P -> Q, Q -> R, R -> S, S -> T, T -> U, U -> V, V -> W").include("yes").exclude("no");
     }
 
     @Test

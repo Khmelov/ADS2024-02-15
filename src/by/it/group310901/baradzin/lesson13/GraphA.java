@@ -9,14 +9,18 @@ public class GraphA {
 
     protected HashMap<String, ArrayList<String>> elements = new HashMap<>();
 
-    public GraphA(Scanner input) {
-        for (var connections : input.nextLine().split(", ")) {
-            var nodes = connections.split(" -> ");
+    public GraphA(Scanner scanner) {
+        this(scanner, " -> ");
+    }
+
+    public GraphA(Scanner scanner, String separator) {
+        for (var connections : scanner.nextLine().split(", ")) {
+            var nodes = connections.split(separator);
             if (!elements.containsKey(nodes[0]))
                 elements.put(nodes[0], new ArrayList<>());
             elements.get(nodes[0]).add(nodes[1]);
         }
-        input.close();
+        scanner.close();
     }
 
     public GraphA sort() {
@@ -32,7 +36,7 @@ public class GraphA {
 
         for (var node : elements.keySet())
             if (!visited.contains(node))
-                dfs(node, visited, stack);
+                traverse(node, visited, stack);
 
         sb.append(stack.pop());
         while (!stack.empty())
@@ -41,12 +45,12 @@ public class GraphA {
         return sb.toString();
     }
 
-    protected Stack<String> dfs(String node, Stack<String> visited, Stack<String> stack) {
+    protected Stack<String> traverse(String node, Stack<String> visited, Stack<String> stack) {
         visited.add(node);
         if (elements.get(node) != null)
             for (var next : elements.get(node))
                 if (!visited.contains(next))
-                    dfs(next, visited, stack);
+                    traverse(next, visited, stack);
         stack.push(node);
         return stack;
     }

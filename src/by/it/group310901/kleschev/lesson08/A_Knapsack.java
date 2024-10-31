@@ -38,18 +38,21 @@ Sample Output 2:
 public class A_Knapsack {
 
     int getMaxWeight(InputStream stream ) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //Создается объект Scanner для считывания данных из потока
         Scanner scanner = new Scanner(stream);
         int w=scanner.nextInt();
         int n=scanner.nextInt();
         int gold[]=new int[n];
+        //Создается массив gold размером n, в который будут сохраняться значения.
         for (int i = 0; i < n; i++) {
             gold[i]=scanner.nextInt();
         }
 
-
+//Создается массив ans размером w + 1, который будет хранить промежуточные результаты.
+//Все элементы массива ans инициализируются нулем.
         int ans[] = new int[w + 1];
         int result = 0;
+        //Вычисление максимальной суммы
         for(int i = 1; i <= w; i++) {
             for(int j = 0; j < n; j++) {
                 if (i - gold[j] >= 0) {
@@ -58,7 +61,7 @@ public class A_Knapsack {
                 }
             }
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //Возвращение результата
         return result;
     }
 

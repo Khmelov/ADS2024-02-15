@@ -162,7 +162,7 @@ public class ListA<E> implements List<E> {
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object i:c){
-           if(!contains(i))
+            if(!contains(i))
                 return false;
         }
         return true;

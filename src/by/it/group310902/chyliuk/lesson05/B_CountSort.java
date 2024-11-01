@@ -1,4 +1,4 @@
-package lesson05;
+package by.it.group310902.chyliuk.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,23 +18,31 @@ import java.util.Scanner;
 public class B_CountSort {
 
     int[] countSort(InputStream stream) throws FileNotFoundException {
+        // Создаем сканнер для чтения данных из потока ввода
         Scanner scanner = new Scanner(stream);
 
+        // Читаем количество элементов в массиве (n)
         int n = scanner.nextInt();
-        int[] points = new int[n];
+        int[] points = new int[n]; // Создаем массив для хранения элементов
 
+        // Читаем элементы массива и сохраняем их в points
         for (int i = 0; i < n; i++) {
             points[i] = scanner.nextInt();
         }
 
-
+        // Создаем массив для подсчета количества элементов каждого значения (от 0 до 10)
         int[] count = new int[11];
+
+        // Подсчитываем количество вхождений каждого элемента в массиве points
         for (int i = 0; i < n; i++) {
             count[points[i]]++;
         }
 
+        // Создаем массив для отсортированных элементов
         int[] sortedPoints = new int[n];
         int currentSortedIndex = 0;
+
+        // Проходим по массиву count и добавляем каждый элемент в отсортированный массив sortedPoints
         for (int i = 0; i < count.length; i++) {
             while (count[i] > 0) {
                 sortedPoints[currentSortedIndex++] = i;
@@ -42,8 +50,10 @@ public class B_CountSort {
             }
         }
 
+        // Возвращаем отсортированный массив
         return sortedPoints;
     }
+
 
 
 

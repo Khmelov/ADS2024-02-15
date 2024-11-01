@@ -24,21 +24,28 @@ public class FiboC {
     }
 
     long fasterC(long n, int m) {
-        //Решение сложно найти интуитивно
-        //возможно потребуется дополнительный поиск информации
-        //см. период Пизано
-        ArrayList<Long> fibo = new ArrayList<>();
-        fibo.add(0L);
-        fibo.add(1L);
-        fibo.add(1L);
-        while (fibo.get(fibo.size() - 2) != 0L || fibo.get(fibo.size() - 1) != 1L)
-            fibo.add((fibo.get(fibo.size() - 2) + fibo.get(fibo.size() - 1)) % m);
-        fibo.remove(fibo.size() - 1);
-        fibo.remove(fibo.size() - 1);
-        return fibo.get((int)(n % fibo.size()));
+            //Решение сложно найти интуитивно
+            //возможно потребуется дополнительный поиск информации
+            //см. период Пизано
+            long[] fiboArray = new long[3];
+            long[] remainderArray = new long[6*m+2];
+            fiboArray[0] = 0;
+            fiboArray[1] = 1;
+            remainderArray[0] = 0;
+            remainderArray[1] = 1 % m;
+            if (n == 1) return 1;
+            else {
+                int i = 2;
+                do {
+                    fiboArray[2] = fiboArray[1] + fiboArray[0];
+                    remainderArray[i] = fiboArray[2] % m;
+                    fiboArray[0] = fiboArray[1];
+                    fiboArray[1] = fiboArray[2];
+                    i++;
+                } while (!((remainderArray[i - 1] == 1) && (remainderArray[i - 2] == 0)));
+                return (remainderArray[(int)n % (i - 2)]);
+            }
+        }
 
     }
-
-
-}
 

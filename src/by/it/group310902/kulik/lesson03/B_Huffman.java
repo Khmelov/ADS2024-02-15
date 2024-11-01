@@ -2,6 +2,9 @@ package by.it.group310902.kulik.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -50,15 +53,21 @@ public class B_Huffman {
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         //тут запишите ваше решение
-        //ЭТО НЕ КОМПИЛИРУЕТСЯ!!!!!
-//        for(int i = 0;i<length;i++){
-//            sb.append(str.charAt(i));
-//            String key = sb.toString();
-//            if(mp.containsKey(key)){
-//                result.append(mp.get(key));
-//                sb = new StringBuilder();
-//            }
-//        }
+        Map<String,Character> chars = new HashMap<>();
+        for (int i = 0; i < count; ++i){
+            char c = scanner.next().charAt(0);
+            String s = scanner.next();
+            chars.put(s,c);
+        }
+        String cin = scanner.next();
+        String buff ="";
+        for (int i = 0; i < cin.length(); ++i) {
+            buff += cin.charAt(i);
+            if (chars.get(buff) != null){
+                result.append(chars.get(buff));
+                buff = "";
+            }
+        }
         System.out.println(result);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111

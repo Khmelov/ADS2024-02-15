@@ -37,14 +37,15 @@ public class B_MergeSort {
     }
 
     int[] getMergeSort(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var a = new int[scanner.nextInt()];
-        for (var i = 0; i < a.length; i++) {
-            a[i] = scanner.nextInt();
-            System.out.println(a[i]);
+        try (var scanner = new Scanner(stream)) {
+            var a = new int[scanner.nextInt()];
+            for (var i = 0; i < a.length; i++) {
+                a[i] = scanner.nextInt();
+                System.out.println(a[i]);
+            }
+            mergeSort(a, 0, a.length);
+            return a;
         }
-        mergeSort(a, 0, a.length);
-        return a;
     }
 
     void mergeSort(int[] arr, int left, int right) {

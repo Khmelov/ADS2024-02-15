@@ -1,5 +1,6 @@
 package by.it.group351003.lutai.lesson10;
 
+
 import java.util.*;
 
 class Node<E> {

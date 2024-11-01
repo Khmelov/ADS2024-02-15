@@ -5,6 +5,7 @@ import by.it.group351003.lutai.lesson11.Node;
 
 import java.util.*;
 
+
 public class MyLinkedHashSet<E> implements Set {
 
     private final int maxDepth = 4;

@@ -1,5 +1,6 @@
 package by.it.group351003.lutai.lesson11;
 
+
 public class Node<E>{
     public Node<E> next;
     public E value;

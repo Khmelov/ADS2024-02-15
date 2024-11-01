@@ -1,5 +1,6 @@
 package by.it.group351003.lutai.lesson12;
 
+
 public class Node {
     int key;
     String value;

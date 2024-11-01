@@ -4,131 +4,54 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 
-@SuppressWarnings("all")
-
-public class MyArrayDeque<E> implements Deque<E> {
-
-    private static final int defaultSize = 10;
-    private int currentSize;
-    private E[] elements;
-
-    public MyArrayDeque() {
-        elements = (E[]) new Object[defaultSize];
-        currentSize = 0;
+public class MyArrayDeque <E> implements Deque<E> {
+    private E[] deque;
+    private int capacity;
+    private int size;
+    private int head;
+    private int tail;
+    MyArrayDeque(){
+        capacity=5;
+        deque=(E[]) new Object[capacity];
+        size=0;
+        head=0;
+        tail=-1;
     }
 
     @Override
     public String toString() {
-        String tempStr = "[";
-
-        for (int i = 0; i < currentSize; i++) {
-            tempStr += elements[i];
-            if (i != currentSize - 1) {
-                tempStr += ", ";
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for (int i = head; i <= tail; i++) {
+            sb.append(deque[i]);
+            if (i < tail) {
+                sb.append(", ");
             }
         }
-
-        tempStr += ']';
-
-        return tempStr.toString();
-    }
-
-    @Override
-    public int size() {
-        return currentSize;
-    }
-
-    @Override
-    public boolean add(E e) {
-        addLast(e);
-        return true;
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override
     public void addFirst(E e) {
-        if (currentSize == elements.length) {
-            E[] newElements = (E[]) new Object[elements.length * 2];
-
-            System.arraycopy(elements, 0, newElements, 0, currentSize);
-            elements = newElements;
+        if (size == capacity)
+        {
+            capacity*=2;
         }
-
-        currentSize++;
-        for (int i = currentSize - 1; i > 0; i--) {
-            elements[i] = elements[i - 1];
+        E[] newList = (E[]) new Object[capacity];
+        newList[0]=e;
+        for (int i=1;i<=size;i++){
+            newList[i]=deque[i-1];
         }
-
-        elements[0] = e;
+        deque = newList;
+        size++;
+        tail++;
     }
 
     @Override
     public void addLast(E e) {
-        if (currentSize == elements.length) {
-            E[] newElements = (E[]) new Object[elements.length * 2];
-
-            System.arraycopy(elements, 0, newElements, 0, currentSize);
-            elements = newElements;
-        }
-
-        elements[currentSize++] = e;
+        add(e);
     }
-
-    @Override
-    public E element() {
-        return getFirst();
-    }
-
-    @Override
-    public E getFirst() {
-        if (currentSize > 0)
-            return elements[0];
-        return null;
-    }
-
-    @Override
-    public E getLast() {
-        if (currentSize > 0)
-            return elements[currentSize - 1];
-        return null;
-    }
-
-    @Override
-    public E poll() {
-        return pollFirst();
-    }
-
-    @Override
-    public E pollFirst() {
-        if (currentSize == 0) {
-            return null;
-        }
-
-        E polledElement = elements[0];
-
-        currentSize--;
-
-        for (int i = 0; i < currentSize; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        return polledElement;
-    }
-
-    @Override
-    public E pollLast() {
-        if (currentSize == 0) {
-            return null;
-        }
-
-        return elements[--currentSize];
-    }
-
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Опциональные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean offerFirst(E e) {
@@ -150,6 +73,40 @@ public class MyArrayDeque<E> implements Deque<E> {
         return null;
     }
 
+    @Override
+    public E pollFirst() {
+        if (size == 0)
+            return null;
+        E elem = deque[head];
+        E[] newList = (E[]) new Object[capacity];
+        for (int i=0;i<size;i++){
+            newList[i]=deque[i+1];
+        }
+        deque = newList;
+        size--;
+        tail--;
+        return elem;
+    }
+
+    @Override
+    public E pollLast() {
+        if (size == 0)
+            return null;
+        E elem = deque[tail];
+        size--;
+        tail--;
+        return elem;
+    }
+
+    @Override
+    public E getFirst() {
+        return deque[head];
+    }
+
+    @Override
+    public E getLast() {
+        return deque[tail];
+    }
 
     @Override
     public E peekFirst() {
@@ -171,6 +128,22 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
+    @Override
+    public boolean add(E e) {
+        if (size == capacity)
+        {
+            capacity*=2;
+            E[] newList = (E[]) new Object[capacity];
+            for (int i=0;i<size;i++){
+                newList[i]=deque[i];
+            }
+            deque = newList;
+        }
+        deque[size]=e;
+        size++;
+        tail++;
+        return true;
+    }
 
     @Override
     public boolean offer(E e) {
@@ -182,6 +155,15 @@ public class MyArrayDeque<E> implements Deque<E> {
         return null;
     }
 
+    @Override
+    public E poll() {
+        return pollFirst();
+    }
+
+    @Override
+    public E element() {
+        return getFirst();
+    }
 
     @Override
     public E peek() {
@@ -233,6 +215,10 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
 
     @Override
     public boolean isEmpty() {
@@ -258,6 +244,4 @@ public class MyArrayDeque<E> implements Deque<E> {
     public Iterator<E> descendingIterator() {
         return null;
     }
-
-
 }

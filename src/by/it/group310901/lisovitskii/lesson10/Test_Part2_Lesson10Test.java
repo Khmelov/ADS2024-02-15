@@ -30,7 +30,6 @@ public class Test_Part2_Lesson10Test extends HomeWork {
     private Collection<Number> aObject;
 
     private Map<Method, String> cache = new HashMap<>();
-
     @Test(timeout = 5000)
     public void testTaskA() throws Exception {
         String[] methods = """
@@ -229,8 +228,8 @@ public class Test_Part2_Lesson10Test extends HomeWork {
 
     private boolean notComparable(Method m) {
         return m.getReturnType() != Comparable.class &&
-                Arrays.stream(m.getParameterTypes())
-                        .noneMatch(p -> p == Comparable.class);
+               Arrays.stream(m.getParameterTypes())
+                       .noneMatch(p -> p == Comparable.class);
     }
 
     private String getSignature(Method method) {

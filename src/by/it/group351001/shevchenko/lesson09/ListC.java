@@ -5,12 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+@SuppressWarnings("all")
+
 public class ListC<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
-    static final int defaultSize = 10;
-    private int currentSize = 0;
+    private static final int defaultSize = 10;
+    private int currentSize;
     private E[] elements;
 
     /////////////////////////////////////////////////////////////////////////
@@ -25,6 +27,7 @@ public class ListC<E> implements List<E> {
 
     public ListC(int size) {
         elements = (E[]) new Object[size];
+        currentSize = 0;
     }
 
     @Override
@@ -65,11 +68,11 @@ public class ListC<E> implements List<E> {
 
         E removedElement = elements[index];
 
+        currentSize--;
+
         for (int i = index; i < currentSize; i++) {
             elements[i] = elements[i + 1];
         }
-
-        currentSize--;
 
         return removedElement;
     }
@@ -136,7 +139,6 @@ public class ListC<E> implements List<E> {
     @Override
     public void clear() {
         elements = (E[]) new Object[defaultSize];
-
         currentSize = 0;
     }
 
@@ -173,7 +175,7 @@ public class ListC<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = currentSize - 1; i >=0; i--) {
+        for (int i = currentSize - 1; i >= 0; i--) {
             if (o.equals(elements[i])) {
                 return i;
             }
@@ -184,7 +186,7 @@ public class ListC<E> implements List<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object element: c) {
+        for (Object element : c) {
             if (!contains(element)) {
                 return false;
             }
@@ -197,7 +199,7 @@ public class ListC<E> implements List<E> {
     public boolean addAll(Collection<? extends E> c) {
         boolean flag = false;
 
-        for (Object element: c) {
+        for (Object element : c) {
             add((E) element);
             flag = true;
         }
@@ -209,7 +211,7 @@ public class ListC<E> implements List<E> {
     public boolean addAll(int index, Collection<? extends E> c) {
         boolean flag = false;
 
-        for (Object element: c) {
+        for (Object element : c) {
             add(index, (E) element);
             index++;
             flag = true;

@@ -35,10 +35,11 @@ public class B_LongDivComSubSeq {
     }
 
     int getDivSeqSize(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var m = new Integer[scanner.nextInt()];
-        for (var i = 0; i < m.length; i++)
-            m[i] = scanner.nextInt();
-        return new SeqCheck((arr, current, next) -> arr[next] % arr[current] == 0).getLength(m);
+        try (var scanner = new Scanner(stream)) {
+            var m = new Integer[scanner.nextInt()];
+            for (var i = 0; i < m.length; i++)
+                m[i] = scanner.nextInt();
+            return new SeqCheck((arr, current, next) -> arr[next] % arr[current] == 0).getLength(m);
+        }
     }
 }

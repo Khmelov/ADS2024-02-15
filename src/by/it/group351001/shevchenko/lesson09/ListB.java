@@ -5,12 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+@SuppressWarnings("all")
+
 public class ListB<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
-    static final int defaultSize = 10;
-    private int currentSize = 0;
+    private static final int defaultSize = 10;
+    private int currentSize;
     private E[] elements;
 
     /////////////////////////////////////////////////////////////////////////
@@ -25,6 +27,7 @@ public class ListB<E> implements List<E> {
 
     public ListB(int size) {
         elements = (E[]) new Object[size];
+        currentSize = 0;
     }
 
     @Override
@@ -65,11 +68,11 @@ public class ListB<E> implements List<E> {
 
         E removedElement = elements[index];
 
+        currentSize--;
+
         for (int i = index; i < currentSize; i++) {
             elements[i] = elements[i + 1];
         }
-
-        currentSize--;
 
         return removedElement;
     }

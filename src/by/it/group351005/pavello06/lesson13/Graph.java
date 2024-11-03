@@ -13,4 +13,8 @@ public class Graph<T> {
     }
 
     public List<Vertex> vertices;
+
+    public void addVertex(T value) {
+        vertices.add(new Vertex(value));
+    }
 }

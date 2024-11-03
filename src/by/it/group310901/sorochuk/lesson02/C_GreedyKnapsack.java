@@ -16,7 +16,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
-
+//класс C_GreedyKnapsack, который содержит вложенный статический класс Item.
+// Класс Item представляет элемент, который имеет поля cost (стоимость) и weight (вес).
 public class C_GreedyKnapsack {
     private static class Item implements Comparable<Item> {
         int cost;
@@ -44,7 +45,9 @@ public class C_GreedyKnapsack {
             return Double.compare(specificWeightOther, specificWeightCurrent);
         }
     }
-
+    //Метод calc(File source) выполняет решение задачи о рюкзаке.
+//Он считывает данные из файла, создает массив предметов,
+//выводит информацию о предметах и их общее количество, а затем приступает к алгоритму сборки рюкзака.
     double calc(File source) throws FileNotFoundException {
         Scanner input = new Scanner(source);
         int n = input.nextInt();      //сколько предметов в файле
@@ -62,6 +65,12 @@ public class C_GreedyKnapsack {
         //тут необходимо реализовать решение задачи
         //итогом является максимально воможная стоимость вещей в рюкзаке
         //вещи можно резать на кусочки (непрерывный рюкзак)
+        //Массив items сортируется по убыванию отношения стоимость/вес, используя лямбда-выражение.
+//Затем выполняется цикл по элементам массива items в обратном порядке.
+//Если вес текущего предмета <= оставшейся вместимости рюкзака (W),то его стоимость
+// добавляется к общей стоимости (result), а его вес вычитается из оставшейся вместимости.
+//Если вес текущего предмета > W, то его стоимость делится на вес и
+// умножается на оставшуюся вместимость (W), а затем добавляется к общей стоимости.
         Arrays.sort(items);
         double result = 0;
         int totalWeight = 0;
@@ -86,7 +95,8 @@ public class C_GreedyKnapsack {
         System.out.printf("Удалось собрать рюкзак на сумму %f\n",result);
         return result;
     }
-
+    //В методе main создается экземпляр класса B_Sheduler, создается массив событий events
+// и вызывается метод calcStartTimes для расчета оптимального заполнения аудитории.
     public static void main(String[] args) throws FileNotFoundException {
         long startTime = System.currentTimeMillis();
         String root=System.getProperty("user.dir")+"/src/";

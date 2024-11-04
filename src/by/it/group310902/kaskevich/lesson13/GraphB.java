@@ -2,11 +2,13 @@ package by.it.group310902.kaskevich.lesson13;
 import java.util.*;
 public class GraphB
 {
-    private static boolean DFS(String node, Map<String, ArrayList<String>> graph, Set<String> visited) {
+    private static boolean DFS(String node, Map<String, ArrayList<String>> graph, Set<String> visited)
+    {
         visited.add(node);
         boolean answ = false;
         if (graph.get(node) != null)
-            for (String next_node : graph.get(node)) {
+            for (String next_node : graph.get(node))
+            {
                 if (!visited.contains(next_node))
                     answ = answ || DFS(next_node, graph, new HashSet<>(visited));
                 else
@@ -15,14 +17,16 @@ public class GraphB
         return answ;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Map<String, ArrayList<String>> graph = new HashMap<>();
 
         Scanner in = new Scanner(System.in);
 
         boolean isEnd = false;
 
-        while (!isEnd) {
+        while (!isEnd)
+        {
             String a = in.next();
             String s = in.next();
             String b = in.next();

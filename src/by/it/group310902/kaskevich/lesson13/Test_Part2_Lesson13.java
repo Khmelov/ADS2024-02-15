@@ -25,6 +25,7 @@ public class Test_Part2_Lesson13 extends HomeWork {
         run("0 -> 1, 1 -> 2, 2 -> 0", true).include("yes").exclude("no");
     }
 
+
     @Test
     public void testGraphC() {
         run("1->2, 2->3, 3->1, 3->4, 4->5, 5->6, 6->4", true)

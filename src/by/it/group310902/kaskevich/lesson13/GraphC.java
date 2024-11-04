@@ -32,20 +32,25 @@ public class GraphC
             neighbours.get(start).add(end);
         }
 
-        for (ArrayList<String> list: neighbours.values()) {
+        for (ArrayList<String> list: neighbours.values())
+        {
             list.sort(new LexicalComparator());
         }
 
-        for (String w : neighbours.keySet()) {
-            if (!vis.contains(w)) {
+        for (String w : neighbours.keySet())
+        {
+            if (!vis.contains(w))
+            {
                 dfs(neighbours, w, vis, st);
             }
         }
 
         Map<String, ArrayList<String>> transpNeighbours = new HashMap<>();
-        for (String v :neighbours.keySet()) {
+        for (String v :neighbours.keySet())
+        {
             ArrayList<String> list = neighbours.get(v);
-            for (String child : list) {
+            for (String child : list)
+            {
                 if (transpNeighbours.get(child) == null)
                     transpNeighbours.put(child, new ArrayList<>());
                 transpNeighbours.get(child).add(v);
@@ -53,9 +58,11 @@ public class GraphC
         }
 
         vis.clear();
-        while (!st.empty()) {
+        while (!st.empty())
+        {
             String v = st.pop();
-            if (!vis.contains(v)) {
+            if (!vis.contains(v))
+            {
                 StringBuilder sb = new StringBuilder();
                 dfs(transpNeighbours, v, vis, sb);
                 char[] charArr = sb.toString().toCharArray();

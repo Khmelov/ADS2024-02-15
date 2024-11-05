@@ -32,10 +32,6 @@ public class Test_Part2_Lesson13 extends HomeWork {
         run("A -> C, B -> C, B -> D, A -> B", true).include("A B D C");
         run("P -> Q, P -> R, Q -> S, R -> S", true).include("P Q R S");
         run("0 -> 2, 0 -> 3, 1 -> 3, 2 -> 4, 3 -> 4", true).include("1 0 2 3 4");
-
-        //Дополните эти тесты СВОИМИ более сложными примерами и проверьте их работоспособность.
-        //Параметр метода run - это ввод. Параметр метода include - это вывод.
-        //Общее число примеров должно быть не менее 20 (сейчас их 8).
     }
 
     @Test
@@ -43,10 +39,15 @@ public class Test_Part2_Lesson13 extends HomeWork {
         run("0 -> 1", true).include("no").exclude("yes");
         run("0 -> 1, 1 -> 2", true).include("no").exclude("yes");
         run("0 -> 1, 1 -> 2, 2 -> 0", true).include("yes").exclude("no");
-
-        //Дополните эти тесты СВОИМИ более сложными примерами и проверьте их работоспособность.
-        //Параметр метода run - это ввод. Параметр метода include - это вывод.
-        //Общее число примеров должно быть не менее 12 (сейчас их 3).
+        run("0 -> 1, 1 -> 2, 2 -> 3", true).include("no").exclude("yes");
+        run("0 -> 2, 2 -> 3, 3 -> 4", true).include("no").exclude("yes");
+        run("0 -> 1, 1 -> 2, 2 -> 0", true).include("yes").exclude("no");
+        run("0 -> 1, 1 -> 2, 2 -> 3, 3 -> 1", true).include("yes").exclude("no");
+        run("1 -> 2, 2 -> 3, 3 -> 4, 4 -> 5", true).include("no").exclude("yes");
+        run("1 -> 2, 2 -> 3, 3 -> 1", true).include("yes").exclude("no");
+        run("5 -> 6, 6 -> 7", true).include("no").exclude("yes");
+        run("3 -> 4, 4 -> 5, 5 -> 3", true).include("yes").exclude("no");
+        run("7 -> 8, 8 -> 9, 9 -> 10", true).include("no").exclude("yes");
     }
 
     @Test

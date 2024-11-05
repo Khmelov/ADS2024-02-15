@@ -1,4 +1,4 @@
-package by.it.group310901.voskresenskiy.lesson05;
+package by.it.group310901.poznyak.lesson05;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,61 +37,60 @@ import java.util.Scanner;
 
 public class A_QSort {
 
-    private void quickSort(Segment[] segments, int left, int right) {
-        if (left < right) {
-            int m = partition(segments, left, right);
-            quickSort(segments, left, m - 1);
-            quickSort(segments, m + 1, right);
-        }
-    }
-    private int partition(Segment[] segments, int left, int right) {
-        Segment x = segments[left];
-        int j = left;
-        for (int i = left + 1; i <= right; i++) {
-            if (segments[i].compareTo(x) <= 0) {
-                j++;
-                Segment tmp = segments[j];
-                segments[j] = segments[i];
-                segments[i] = tmp;
-            }
-        }
-        Segment tmp = segments[j];
-        segments[j] = segments[left];
-        segments[left] = tmp;
-        return j;
-    }
-
-
     //отрезок
     private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
 
         Segment(int start, int stop){
-            if(start > stop){
-                this.start = stop;
-                this.stop = start;
-            }else{
+            if (stop >= start) {
                 this.start = start;
                 this.stop = stop;
+            } else {
+                this.start = stop;
+                this.stop = start;
             }
-            //тут вообще-то лучше доделать конструктор на случай если
-            //концы отрезков придут в обратном порядке
         }
 
         @Override
         public int compareTo(Segment o) {
             //подумайте, что должен возвращать компаратор отрезков
-            if(this.start > o.start){
-                return 1;
-            }
-            if(this.start < o.start){
-                return -1;
-            }
+            if (this.start > o.start) return 1;
+
+            if (this.start < o.start) return -1;
+
             return 0;
         }
     }
 
+    public void qsort(Segment[] segments, int start, int end) {
+        int i = start;
+        int j = end;
+
+        Segment middle = segments[start + (end - start) / 2];
+
+        do {
+            while (segments[i].compareTo(middle) < 0) {
+                i++;
+            }
+            while (segments[j].compareTo(middle) > 0) {
+                j--;
+            }
+            if (i <= j) {
+                Segment temp = segments[i];
+                segments[i] = segments[j];
+                segments[j] = temp;
+                i++;
+                j--;
+            }
+        } while (i <= j);
+
+        if (j > start)
+            qsort(segments, start, j);
+
+        if (i < end)
+            qsort(segments, i, end);
+    }
 
     int[] getAccessory(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -116,16 +115,25 @@ public class A_QSort {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        quickSort(segments, 0, segments.length - 1);
-        for(int i = 0 ; i < m; i++){
-            int count = 0;
-            for(int j = 0; j < n; j++){
-                if(segments[j].start <= points[i] && segments[j].stop >= points[i]){
-                    count++;
-                }
+        qsort(segments, 0, n - 1);
+
+        for (int i = 0; i < m; i++) {
+
+            result[i] = 0;
+
+            int j = 0;
+
+            while ((j < n) && segments[j].stop < points[i]) {
+                j++;
             }
-            result[i] = count;
+
+            while (j < n && segments[j].start <= points[i]) {
+                if (segments[j].stop >= points[i]) result[i]++;
+
+                j++;
+            }
         }
+
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!

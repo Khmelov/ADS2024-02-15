@@ -1,5 +1,6 @@
-package by.it.group310901.sorochuk.lesson06;
+package by.it.group310901.poznyak.lesson06;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -37,13 +38,6 @@ import java.util.Scanner;
 
 public class C_LongNotUpSubSeq {
 
-    public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = B_LongDivComSubSeq.class.getResourceAsStream("dataC.txt");
-        C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
-        int result = instance.getNotUpSeqSize(stream);
-        System.out.print(result);
-    }
-
     int getNotUpSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -55,43 +49,59 @@ public class C_LongNotUpSubSeq {
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
-        int[] c = new int[n];
 
-        int[] previous = new int[n];
+        int[] subMas = new int[n];
+        int[] indexes = new int[n];
 
         for (int i = 0; i < n; i++) {
-            c[i] = 1;
-            previous[i] = -1;
+            indexes[i] = -1;
+        }
+
+        int tmp = 0;
+
+        for (int i = 0; i < n; i++) {
+            subMas[i] = 1;
             for (int j = 0; j < i; j++) {
-                if (m[j] >= m[i] && c[j] + 1 > c[i]) {
-                    c[i] = c[j] + 1;
-                    previous[i] = j;
+                if (subMas[i] < subMas[j] + 1 && m[j] >= m[i]) {
+                    subMas[i] = subMas[j] + 1;
+                    indexes[i] = j;
                 }
             }
         }
 
-        int currIndex = -1;
-
-        int result = 0;
+        int maxLen = 0;
 
         for (int i = 0; i < n; i++) {
-            if (result < c[i]) {
-                result = c[i];
-                currIndex = i;
+            if (subMas[i] > maxLen) {
+                maxLen = subMas[i];
+                tmp = i;
             }
         }
 
-        int[] a = new int[result];
-
-        a[a.length - 1] = currIndex + 1;
-
-        for (int i = a.length - 2; i >= 0; i--) {
-            currIndex = previous[currIndex];
-            a[i] = currIndex + 1;
+        int[] outMas = new int[maxLen];
+        int i = 0;
+        int currInd = tmp;
+        while (currInd != -1) {
+            outMas[i] = currInd;
+            currInd = indexes[currInd];
+            i++;
         }
+
+        for (int j = i - 1; j >= 0; j--) {
+            System.out.print(outMas[j] + 1);
+        }
+        System.out.println();
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return maxLen;
+    }
+
+
+    public static void main(String[] args) throws FileNotFoundException {
+        String root = System.getProperty("user.dir") + "/src/";
+        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson06/dataC.txt");
+        C_LongNotUpSubSeq instance = new C_LongNotUpSubSeq();
+        int result = instance.getNotUpSeqSize(stream);
+        System.out.print(result);
     }
 
 }

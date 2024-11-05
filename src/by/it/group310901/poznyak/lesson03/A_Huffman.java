@@ -1,4 +1,4 @@
-package by.it.group310902.verenich.lesson03;
+package by.it.group310901.poznyak.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,6 +79,13 @@ public class A_Huffman {
             this.right = right;
         }
 
+        InternalNode(){
+            super(0);
+            this.left = null;
+            this.right = null;
+        }
+
+
         @Override
         void fillCodes(String code) {
             left.fillCodes(code + "0");
@@ -100,7 +107,6 @@ public class A_Huffman {
 
         @Override
         void fillCodes(String code) {
-            int a;
             //добрались до листа, значит рекурсия закончена, код уже готов
             //и можно запомнить его в индексе для поиска кода по символу.
             codes.put(this.symbol, code);
@@ -123,30 +129,45 @@ public class A_Huffman {
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
             //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-        for(int i = 0; i < s.length();i++) {
-            count.merge( s.charAt(i), 1, Integer::sum);
+        for (int i = 0; i < s.length(); i++) {
+            char thisChr = s.charAt(i);
+            if(!count.containsKey(thisChr))
+                count.put(thisChr, 1);
+            else
+                count.put(thisChr, count.get(thisChr) + 1);
         }
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for(char c: count.keySet()){
-            priorityQueue.add(new LeafNode(count.get(c),c));
+
+        for (Map.Entry<Character, Integer> tmp : count.entrySet()) {
+            Node newNode = new LeafNode(tmp.getValue(), tmp.getKey());
+            priorityQueue.add(newNode);
         }
+
+        Node headNode = new InternalNode();
+
+        while (priorityQueue.size() != 1) {
+            Node leftNode = priorityQueue.poll();
+            Node rightNode = priorityQueue.poll();
+            headNode = new InternalNode(leftNode, rightNode);
+            priorityQueue.add(headNode);
+        }
+
         //3. вынимая по два узла из очереди (для сборки родителя)
         //и возвращая этого родителя обратно в очередь
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
-        while(priorityQueue.size()>1){
-            priorityQueue.add(new InternalNode(priorityQueue.poll(),priorityQueue.poll()));
-        }
+
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
         StringBuilder sb = new StringBuilder();
         //.....
-        Node r = priorityQueue.poll();
-        r.fillCodes("");
-        for(int i =0; i < s.length();++i){
+
+        headNode.fillCodes("");
+
+        for (int i = 0; i < s.length(); i++)
             sb.append(codes.get(s.charAt(i)));
-        }
+
         return sb.toString();
         //01001100100111
         //01001100100111
@@ -156,7 +177,7 @@ public class A_Huffman {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/a_khmelev/lesson03/dataA.txt");
+        File f = new File(root + "by/it/a_khmelev/lesson03/dataHuffman.txt");
         A_Huffman instance = new A_Huffman();
         long startTime = System.currentTimeMillis();
         String result = instance.encode(f);

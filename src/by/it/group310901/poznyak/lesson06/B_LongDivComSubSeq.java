@@ -1,4 +1,4 @@
-package by.it.group310902.chyliuk.lesson06;
+package by.it.group310901.poznyak.lesson06;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,47 +30,38 @@ import java.util.Scanner;
 
 public class B_LongDivComSubSeq {
 
+
     int getDivSeqSize(InputStream stream) throws FileNotFoundException {
-        // Создаем сканнер для чтения данных из потока ввода
+        //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
-
-        // Читаем количество элементов (n) из ввода
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        //общая длина последовательности
         int n = scanner.nextInt();
-
-        // Создаем массив для хранения элементов
         int[] m = new int[n];
-
-        // Заполняем массив данными из ввода
+        //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
         }
 
-        // Массив для хранения длин LIS, инициализируем каждый элемент значением 1
-        int[] dp = new int[n];
+        int[] subMas = new int[n];
 
-        // Переменная для хранения длины наибольшей LIS
-        int result = 0;
-
-        // Перебираем все элементы массива m
         for (int i = 0; i < n; i++) {
-            // Инициализируем длину LIS для текущего элемента как 1
-            dp[i] = 1;
-
-            // Проходим по всем предыдущим элементам, чтобы определить LIS для текущего элемента
+            subMas[i] = 1;
             for (int j = 0; j < i; j++) {
-                // Если текущий элемент делится на предыдущий без остатка и LIS для предыдущего элемента (dp[j]) увеличивает LIS для текущего элемента
-                if (m[i] % m[j] == 0 && dp[j] + 1 > dp[i]) {
-                    // Обновляем длину LIS для текущего элемента
-                    dp[i] = dp[j] + 1;
-                }
+                if (subMas[i] < subMas[j] + 1 && m[i] % m[j] == 0)
+                    subMas[i] = subMas[j] + 1;
             }
-
-            // Обновляем переменную result с учетом текущей длины LIS
-            result = Math.max(result, dp[i]);
         }
 
-        // Возвращаем длину наибольшей LIS
-        return result;
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            if (subMas[i] > maxLen) {
+                maxLen = subMas[i];
+            }
+        }
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return maxLen;
     }
 
 

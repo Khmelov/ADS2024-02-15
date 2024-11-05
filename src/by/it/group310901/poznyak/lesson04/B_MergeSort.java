@@ -1,4 +1,4 @@
-package by.it.group310901.voskresenskiy.lesson04;
+package by.it.group310901.poznyak.lesson04;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,58 +38,59 @@ public class B_MergeSort {
         // тут ваше решение (реализуйте сортировку слиянием)
         // https://ru.wikipedia.org/wiki/Сортировка_слиянием
 
-        mergeSort(a, 0, a.length-1);
+        a = sort(a);
+
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
     }
-    private void mergeSort(int[] a, int l, int r) {
-        if (l < r) {
-            int m = (l + r) / 2;
-            mergeSort(a, l, m);
-            mergeSort(a, m + 1, r);
-            merge(a, l, m, r);
-        }
+
+    public int[] sort(int[] arr) {
+        if (arr == null)
+            return null;
+        if (arr.length < 2)
+            return arr;
+
+        int[] arrA = new int[arr.length / 2];
+        System.arraycopy(arr, 0, arrA, 0, arrA.length);
+
+        int[] arrB = new int[arr.length - arrA.length];
+        System.arraycopy(arr, arrA.length, arrB, 0, arr.length - arrA.length);
+
+        arrA = sort(arrA);
+        arrB = sort(arrB);
+
+        return merge(arrA, arrB);
     }
 
-    private void merge(int[] a, int l, int m, int r) {
-        int n1 = m - l + 1;
-        int n2 = r - m;
+    public int[] merge(int[] arrA, int[] arrB) {
 
-        int[] L = new int[n1];
-        int[] R = new int[n2];
+        int positionA = 0, positionB = 0;
 
-        for (int i = 0; i < n1; ++i) {
-            L[i] = a[l + i];
-        }
-        for (int j = 0; j < n2; ++j) {
-            R[j] = a[m + 1 + j];
-        }
+        int[] arr = new int[arrA.length + arrB.length];
 
-        int i = 0, j = 0;
-        int k = l;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                a[k] = L[i];
-                i++;
+        for (int i = 0; i < arr.length; i++) {
+            if (positionA == arrA.length) {
+                arr[i] = arrB[positionB];
+                positionB++;
+
+            } else if (positionB == arrB.length) {
+                arr[i] = arrA[positionA];
+                positionA++;
+
+            } else if (arrA[positionA] < arrB[positionB]) {
+                arr[i] = arrA[positionA];
+                positionA++;
+
             } else {
-                a[k] = R[j];
-                j++;
+                arr[i] = arrB[positionB];
+                positionB++;
             }
-            k++;
         }
 
-        while (i < n1) {
-            a[k] = L[i];
-            i++;
-            k++;
-        }
 
-        while (j < n2) {
-            a[k] = R[j];
-            j++;
-            k++;
-        }
+        return arr;
     }
+
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
         InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson04/dataB.txt");

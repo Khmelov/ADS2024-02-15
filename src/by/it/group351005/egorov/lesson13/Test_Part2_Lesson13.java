@@ -53,12 +53,48 @@ public class Test_Part2_Lesson13 extends HomeWork {
     @Test
     public void testGraphC() {
         run("1->2, 2->3, 3->1, 3->4, 4->5, 5->6, 6->4", true)
-                .include("123\n456");
+                .include("123\n")
+                .include("456\n");
         run("C->B, C->I, I->A, A->D, D->I, D->B, B->H, H->D, D->E, H->E, E->G, A->F, G->F, F->K, K->G", true)
-                .include("C\nABDHI\nE\nFGK");
-        //Дополните эти тесты СВОИМИ более сложными примерами и проверьте их работоспособность.
-        //Параметр метода run - это ввод. Параметр метода include - это вывод.
-        //Общее число примеров должно быть не менее 8 (сейчас их 2).
+                .include("C\n")
+                .include("E\n")
+                .include("ABDHI\n")
+                .include("FGK\n");
+        run("X->Y, Y->Z, Z->X, Z->W, W->V, V->U, U->W", true)
+                .include("XYZ\n")
+                .include("UVW\n");
+
+        run("M->N, N->O, O->M, P->Q, Q->P, R->S", true)
+                .include("MNO\n")
+                .include("PQ\n")
+                .include("R\n")
+                .include("S\n");
+
+        run("L->M, M->N, N->O, O->L, P->Q, Q->R, R->P, S->T", true)
+                .include("LMNO\n")
+                .include("PQR\n")
+                .include("S\n")
+                .include("T\n");
+
+        run("A->B, B->A, C->D, D->C, E->F, F->E, G->H", true)
+                .include("AB\n")
+                .include("CD\n")
+                .include("EF\n")
+                .include("G\n")
+                .include("H\n");
+        run("A->B, B->C, C->D, D->A, E->F, F->G, G->E, H->I", true)
+                .include("ABCD\n")
+                .include("EFG\n")
+                .include("H\n")
+                .include("I\n");
+
+        run("1->2, 2->3, 3->1, 4->5, 5->4, 6->7, 8->9, 9->8", true)
+                .include("123\n")
+                .include("45\n")
+                .include("6\n")
+                .include("7\n")
+                .include("89\n");
+
     }
 
 

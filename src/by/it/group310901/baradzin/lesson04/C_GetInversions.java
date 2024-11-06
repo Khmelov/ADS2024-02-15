@@ -46,11 +46,12 @@ public class C_GetInversions {
     }
 
     int calc(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var a = new int[scanner.nextInt()];
-        for (var i = 0; i < a.length; i++)
-            a[i] = scanner.nextInt();
-        return new AsyncInverseCounter(a).invoke();
+        try (var scanner = new Scanner(stream)) {
+            var a = new int[scanner.nextInt()];
+            for (var i = 0; i < a.length; i++)
+                a[i] = scanner.nextInt();
+            return new AsyncInverseCounter(a).invoke();
+        }
     }
 }
 

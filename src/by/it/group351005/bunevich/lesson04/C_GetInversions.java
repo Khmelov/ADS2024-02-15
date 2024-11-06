@@ -1,9 +1,9 @@
 package by.it.group351005.bunevich.lesson04;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Scanner;
+        import java.io.FileNotFoundException;
+        import java.io.InputStream;
+        import java.util.Scanner;
 
 /*
 Рассчитать число инверсий одномерного массива.
@@ -34,6 +34,47 @@ Sample Output:
 
 
 public class C_GetInversions {
+    private static int mergeAndCount(int[] arr, int[] left, int[] right, int l) {
+        int i = 0, j = 0, k = l;
+        int count = 0;
+        int m = left.length - 1;
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j])
+                arr[k++] = left[i++];
+            else {
+                arr[k++] = right[j++];
+                count += (m - l + 1) - i;
+            }
+        }
+
+        while (i < left.length)
+            arr[k++] = left[i++];
+
+        while (j < right.length)
+            arr[k++] = right[j++];
+
+        return count;
+    }
+
+    private static int mergeSortAndCount(int[] arr, int l, int r) {
+        int count = 0;
+
+        if (l < r) {
+            int m = (l + r) / 2;
+
+            int[] left = new int[m - l + 1];
+            int[] right = new int[r - m];
+
+            System.arraycopy(arr, l, left, 0, m - l + 1);
+            System.arraycopy(arr, m + 1, right, 0, r - m);
+
+            count += mergeSortAndCount(arr, l, m);
+            count += mergeSortAndCount(arr, m + 1, r);
+            count += mergeAndCount(arr, left, right, l);
+        }
+
+        return count;
+    }
 
     int calc(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -48,12 +89,7 @@ public class C_GetInversions {
         }
         int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-        for (int i = 0; i < a.length; i++) {
-            for (int j = i+1; j < a.length; j++) {
-                result = a[i] > a[j] ? result + 1 : result;
-            }
-        }
-
+        result = mergeSortAndCount(a, 0, n - 1);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
     }

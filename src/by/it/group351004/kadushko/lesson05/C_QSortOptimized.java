@@ -55,7 +55,7 @@ public class C_QSortOptimized {
     }
 
     int Partition(Segment[] arr, int l, int r) {
-        Segment x = arr[l]; //может быть как r так и l
+        Segment x = arr[l];
         int j = l;
         for (int i = l + 1; i <= r; i++)
             if (arr[i].compareTo(x) <= 0) {
@@ -69,7 +69,7 @@ public class C_QSortOptimized {
         if (l >= r) return;
         while (l < r) {
             int m = Partition(arr, l, r);
-            QSort(arr, l, m - 1); //элиминация хвостовой рекурсии
+            QSort(arr, l, m - 1);
             l = m + 1;
         }
     }

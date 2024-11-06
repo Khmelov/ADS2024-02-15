@@ -39,10 +39,11 @@ public class A_LIS {
     }
 
     int getSeqSize(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var m = new Integer[scanner.nextInt()];
-        for (var i = 0; i < m.length; i++)
-            m[i] = scanner.nextInt();
-        return new SeqCheck((arr, current, next) -> arr[current] < arr[next]).getLength(m);
+        try (var scanner = new Scanner(stream)) {
+            var m = new Integer[scanner.nextInt()];
+            for (var i = 0; i < m.length; i++)
+                m[i] = scanner.nextInt();
+            return new SeqCheck((arr, current, next) -> arr[current] < arr[next]).getLength(m);
+        }
     }
 }

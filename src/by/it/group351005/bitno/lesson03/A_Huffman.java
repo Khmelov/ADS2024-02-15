@@ -115,7 +115,7 @@ public class A_Huffman {
     String encode(File file) throws FileNotFoundException {
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        String s = scanner.next();
+        String nextElemInStream = scanner.next();
 
         //все комментарии от тестового решения были оставлены т.к. это задание A.
         //если они вам мешают их можно удалить
@@ -123,16 +123,16 @@ public class A_Huffman {
         Map<Character, Integer> count = new HashMap<>();
         //1. переберем все символы по очереди и рассчитаем их частоту в Map count
             //для каждого символа добавим 1 если его в карте еще нет или инкремент если есть.
-        for (int i = 0; i < s.length(); i++) {
-            if (!count.containsKey(s.charAt(i)))
-                count.put(s.charAt(i), 1);
+        for (int i = 0; i < nextElemInStream.length(); i++) {
+            if (!count.containsKey(nextElemInStream.charAt(i)))
+                count.put(nextElemInStream.charAt(i), 1);
             else
-                count.put(s.charAt(i), count.get(s.charAt(i)) + 1);
+                count.put(nextElemInStream.charAt(i), count.get(nextElemInStream.charAt(i)) + 1);
         }
         //2. перенесем все символы в приоритетную очередь в виде листьев
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-        for (Character ch: count.keySet()) {
-            Node node = new LeafNode(count.get(ch), ch);
+        for (Character curChar: count.keySet()) {
+            Node node = new LeafNode(count.get(curChar), curChar);
             priorityQueue.add(node);
         }
         //3. вынимая по два узла из очереди (для сборки родителя)
@@ -149,10 +149,11 @@ public class A_Huffman {
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue
         StringBuilder sb = new StringBuilder();
+        assert root != null;
         root.fillCodes("");
         //.....
-        for (int i = 0; i < s.length(); i++)
-            sb.append(codes.get(s.charAt(i)));
+        for (int i = 0; i < nextElemInStream.length(); i++)
+            sb.append(codes.get(nextElemInStream.charAt(i)));
         return sb.toString();
         //01001100100111
         //01001100100111

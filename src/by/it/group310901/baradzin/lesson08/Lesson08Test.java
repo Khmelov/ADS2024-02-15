@@ -2,8 +2,6 @@ package by.it.group310901.baradzin.lesson08;
 
 import org.junit.Test;
 
-import java.io.InputStream;
-
 import static org.junit.Assert.assertEquals;
 
 public class Lesson08Test {

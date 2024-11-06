@@ -42,11 +42,12 @@ public class B_CountSort {
     }
 
     int[] countSort(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var points = new int[scanner.nextInt()];
-        for (var i = 0; i < points.length; i++)
-            points[i] = scanner.nextInt();
-        sort(points);
-        return points;
+        try (var scanner = new Scanner(stream)) {
+            var points = new int[scanner.nextInt()];
+            for (var i = 0; i < points.length; i++)
+                points[i] = scanner.nextInt();
+            sort(points);
+            return points;
+        }
     }
 }

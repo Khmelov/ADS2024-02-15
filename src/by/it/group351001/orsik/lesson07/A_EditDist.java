@@ -42,7 +42,17 @@ public class A_EditDist {
     int rec(int i, int j, String a, String b) {
         if (Math.min(i, j) == 0)
             return Math.max(i, j);
-        return Math.min(Math.min(rec(i, j - 1, a, b), rec(i - 1, j, a, b)) + 1, rec(i - 1, j - 1, a, b) + ((a.charAt(i - 1) == b.charAt(j - 1)) ? 0 : 1));
+        return Math.min(
+                Math.min(
+                        rec(i, j - 1, a, b),
+                        rec(i - 1, j, a, b)
+                ) + 1,
+                rec(i - 1, j - 1, a, b)
+                        + (
+                                (a.charAt(i - 1) == b.charAt(j - 1)
+                                ) ? 0 : 1
+                )
+        );
     }
 
     int getDistanceEdinting(String one, String two) {

@@ -46,20 +46,21 @@ public class A_QSort {
      * Тут реализуйте логику задачи с применением быстрой сортировки
      */
     int[] getAccessory(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var segments = new Segment[scanner.nextInt()];
-        var points = new int[scanner.nextInt()];
-        var result = new int[points.length];
-        for (var i = 0; i < segments.length; i++)
-            segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
-        for (var i = 0; i < points.length; i++)
-            points[i] = scanner.nextInt();
-        qsort(segments);
-        for (var i = 0; i < points.length; i++)
-            for (var j = 0; j < segments.length && points[i] >= segments[j].start; j++)
-                if (points[i] <= segments[j].stop)
-                    result[i]++;
-        return result;
+        try (var scanner = new Scanner(stream)) {
+            var segments = new Segment[scanner.nextInt()];
+            var points = new int[scanner.nextInt()];
+            var result = new int[points.length];
+            for (var i = 0; i < segments.length; i++)
+                segments[i] = new Segment(scanner.nextInt(), scanner.nextInt());
+            for (var i = 0; i < points.length; i++)
+                points[i] = scanner.nextInt();
+            qsort(segments);
+            for (var i = 0; i < points.length; i++)
+                for (var j = 0; j < segments.length && points[i] >= segments[j].start; j++)
+                    if (points[i] <= segments[j].stop)
+                        result[i]++;
+            return result;
+        }
     }
 
     <T extends Comparable<T>> void qsort(T[] arr) {

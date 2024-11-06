@@ -1,7 +1,5 @@
 package by.it.group351004.leshok.lesson09;
 
-import by.it.group351005.bychkowski.lesson09.ListA;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -309,7 +307,7 @@ public class ListC<E> implements List<E>
     @Override
     public List<E> subList(int fromIndex, int toIndex)
     {
-        by.it.group351005.bychkowski.lesson09.ListA<E> subList = new ListA<E>(toIndex - fromIndex + 1);
+        ListA<E> subList = new ListA<E>(toIndex - fromIndex + 1);
 
         for (int i = 0; i < subList.size(); i++)
         {

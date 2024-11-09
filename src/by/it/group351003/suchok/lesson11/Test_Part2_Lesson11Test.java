@@ -36,7 +36,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         String[] methods = """
                 size()
                 clear()
-                isEmpty()
+                isEmpty() 
                 add(Object)
                 remove(Object)
                 contains(Object)

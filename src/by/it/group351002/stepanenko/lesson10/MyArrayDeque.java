@@ -1,57 +1,53 @@
 package by.it.group351002.stepanenko.lesson10;
+
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 
-@SuppressWarnings("all")
-
 public class MyArrayDeque<E> implements Deque<E> {
-
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-
-    /*toString()
-    size()
-    add(E element)
-    addFirst(E element)
-    addLast(E element)
-    element()
-    getFirst()
-    getLast()
-    poll()
-    pollFirst()
-    pollLast()*/
-
-    private static final int defaultSize = 10;
-    private int currentSize;
-    private E[] elements;
-
+    final int INITIAL_SIZE = 8;
+    int head;
+    int tail;
+    E[] array;
+    int size;
     public MyArrayDeque() {
-        elements = (E[]) new Object[defaultSize];
-        currentSize = 0;
+        array = (E[]) new Object[INITIAL_SIZE];
+        head = INITIAL_SIZE / 2;
+        tail = head - 1;
+        size = 0;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder newString = new StringBuilder();
+    private void Expand(int tmpSize) {
+        E[] tempArray = (E[]) new Object[tmpSize];
+        int k = (tmpSize - size) / 2;
 
-        newString.append('[');
-        for (int i = 0; i < currentSize; i++) {
-            newString.append(elements[i]);
-            if (i != currentSize - 1) {
-                newString.append(", ");
-            }
+        for (int i = 0; i < size; i++) {
+            tempArray[i + k] = array[head + i];
         }
 
-        newString.append(']');
+        head = k;
+        tail = k + size - 1;
+        array = tempArray;
+    }
 
-        return newString.toString();
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append('[');
+        for (int i = 0; i < size; i++) {
+            sb.append(array[head + i]);
+            if (i < size - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(']');
+
+        return sb.toString();
     }
 
     @Override
     public int size() {
-        return currentSize;
+        return size;
     }
 
     @Override
@@ -62,46 +58,47 @@ public class MyArrayDeque<E> implements Deque<E> {
 
     @Override
     public void addFirst(E e) {
-        if (currentSize == elements.length) {
-            E[] newElements = (E[]) new Object[elements.length * 2];
-
-            System.arraycopy(elements, 0, newElements, 0, currentSize);
-            elements = newElements;
+        if (head == 0) {
+            Expand(array.length * 2);
         }
 
-        currentSize++;
-        for (int i = currentSize - 1; i > 0; i--) {
-            elements[i] = elements[i - 1];
-        }
-
-        elements[0] = e;
+        head--;
+        size++;
+        array[head] = e;
     }
 
     @Override
     public void addLast(E e) {
-        if (currentSize == elements.length) {
-            E[] newElements = (E[]) new Object[elements.length * 2];
-
-            System.arraycopy(elements, 0, newElements, 0, currentSize);
-            elements = newElements;
+        if (tail == array.length - 1) {
+            Expand(array.length * 2);
         }
 
-        elements[currentSize++] = e;
+        tail++;
+        size++;
+        array[tail] = e;
     }
 
     @Override
     public E element() {
-        return elements[0];
+        return getFirst();
     }
 
     @Override
     public E getFirst() {
-        return elements[0];
+        if (size == 0) {
+            return null;
+        }
+
+        return array[head];
     }
 
     @Override
     public E getLast() {
-        return elements[currentSize - 1];
+        if (size == 0) {
+            return null;
+        }
+
+        return array[tail];
     }
 
     @Override
@@ -111,36 +108,27 @@ public class MyArrayDeque<E> implements Deque<E> {
 
     @Override
     public E pollFirst() {
-        if (currentSize == 0) {
+        if (size == 0) {
             return null;
         }
 
-        E polledElement = elements[0];
-
-        currentSize--;
-
-        for (int i = 0; i < currentSize; i++) {
-            elements[i] = elements[i + 1];
-        }
-
-        return polledElement;
+        head++;
+        size--;
+        return array[head - 1];
     }
 
     @Override
     public E pollLast() {
-        if (currentSize == 0) {
+        if (size == 0) {
             return null;
         }
 
-        return elements[--currentSize];
+        tail--;
+        size--;
+        return array[tail + 1];
     }
 
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Опциональные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean offerFirst(E e) {
@@ -162,7 +150,6 @@ public class MyArrayDeque<E> implements Deque<E> {
         return null;
     }
 
-
     @Override
     public E peekFirst() {
         return null;
@@ -183,7 +170,6 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
-
     @Override
     public boolean offer(E e) {
         return false;
@@ -193,7 +179,6 @@ public class MyArrayDeque<E> implements Deque<E> {
     public E remove() {
         return null;
     }
-
 
     @Override
     public E peek() {
@@ -245,7 +230,6 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
-
     @Override
     public boolean isEmpty() {
         return false;
@@ -270,6 +254,4 @@ public class MyArrayDeque<E> implements Deque<E> {
     public Iterator<E> descendingIterator() {
         return null;
     }
-
-
 }

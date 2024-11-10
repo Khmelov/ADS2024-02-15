@@ -118,16 +118,6 @@ public class MyArrayDeque<E> implements Deque<E> {
         return buff;
     }
 
-
-
-
-
-
-
-
-
-
-
     @Override
     public boolean offerFirst(E e) {
         return false;

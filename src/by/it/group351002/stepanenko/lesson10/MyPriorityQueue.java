@@ -1,75 +1,24 @@
 package by.it.group351002.stepanenko.lesson10;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Queue;
+import java.util.*;
 
-public class MyPriorityQueue< E extends Comparable<E>> implements Queue<E> {
-    private E[] heap;
-    private int size;
+public class MyPriorityQueue<E> implements Queue<E> {
 
-    public MyPriorityQueue() {
-        heap = (E[]) new Comparable[10]; // Начальный размер кучи
-        size = 0;
-    }
+    Object[] arr = new Object[1];
+    int size = 0;
 
-    private void resizeHeap(){
-        E[] newHeap = (E[]) new Comparable[heap.length * 2];
-        System.arraycopy(heap, 0, newHeap, 0, heap.length);
-        heap = newHeap;
-    }
-
-    private void siftUp(int index) {
-        while (index > 0 && heap[parent(index)].compareTo(heap[index]) > 0) {
-            swap(index, parent(index));
-            index = parent(index);
-        }
-    }
-
-    private void swap(int i, int j) {
-        E temp = heap[i];
-        heap[i] = heap[j];
-        heap[j] = temp;
-    }
-
-    private int parent(int index) {
-        return (index - 1) / 2;
-    }
-
-    private int leftChild(int index) {
-        return 2 * index + 1;
-    }
-
-    private int rightChild(int index) {
-        return 2 * index + 2;
-    }
-    private void siftDown(int index) {
-        while (leftChild(index) < size) {
-            int minChild = leftChild(index);
-            if (rightChild(index) < size && heap[rightChild(index)].compareTo(heap[minChild]) < 0) {
-                minChild = rightChild(index);
-            }
-            if (heap[index].compareTo(heap[minChild]) <= 0) {
-                break;
-            }
-            swap(index, minChild);
-            index = minChild;
-        }
-    }
-
-    @Override
     public String toString() {
+        if (isEmpty()) {
+            return "[]";
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (int i = 0; i < size; i++) {
-            sb.append(heap[i]);
-            if (i < size - 1) {
-                sb.append(", ");
-            }
+        for (int i = 0; i < size - 1; i++) {
+            sb.append(arr[i].toString()).append(", ");
         }
-        sb.append("]");
-        return sb.toString();
+        return sb.append(arr[size - 1].toString()).append("]").toString();
     }
+
     @Override
     public int size() {
         return size;
@@ -80,15 +29,15 @@ public class MyPriorityQueue< E extends Comparable<E>> implements Queue<E> {
         return size == 0;
     }
 
+    @Override
     public boolean contains(Object o) {
         for (int i = 0; i < size; i++) {
-            if (heap[i].equals(o)) {
+            if (arr[i].equals(o)) {
                 return true;
             }
         }
         return false;
     }
-
 
     @Override
     public Iterator<E> iterator() {
@@ -105,9 +54,24 @@ public class MyPriorityQueue< E extends Comparable<E>> implements Queue<E> {
         return null;
     }
 
+    private void swap(int i, int j) {
+        Object t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+    }
+
     @Override
     public boolean add(E e) {
-        offer(e);
+        if (size == arr.length) {
+            arr = Arrays.copyOf(arr, size * 2);
+        }
+        arr[size++] = e;
+        int i = size - 1, par = (i-1)/2;
+        while (i > 0 && ((Comparable<? super E>) arr[i]).compareTo((E) arr[par]) < 0){
+            swap(i, par);
+            i = par;
+            par = (i - 1) / 2;
+        }
         return true;
     }
 
@@ -118,127 +82,124 @@ public class MyPriorityQueue< E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        for (Object element : c) {
-            if (!contains(element)) {
-                return false;
-            }
+        for (Object o : c) {
+            if (!contains(o)) {return false;}
         }
         return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        boolean modified = false;
-        for (E element : c) {
-            if (offer(element)) {
-                modified = true;
-            }
+        for (E o : c)
+            add(o);
+        return !c.isEmpty();
+    }
+
+    private void heapify(int i) {
+        int leftChild;
+        int rightChild;
+        int largestChild;
+        while (true) {
+            leftChild = 2 * i + 1;
+            rightChild = leftChild + 1;
+            largestChild = i;
+            if (leftChild < size && ((Comparable<? super E>) arr[leftChild]).compareTo((E) arr[largestChild]) < 0)
+                largestChild = leftChild;
+            if (rightChild < size && ((Comparable<? super E>) arr[rightChild]).compareTo((E) arr[largestChild]) < 0)
+                largestChild = rightChild;
+            if (largestChild == i)
+                break;
+            swap(i, largestChild);
+            i = largestChild;
         }
-        return modified;
+    }
+
+    public void rebuildHeap(Object[] newArr)
+    {
+        if (newArr.length == 0)
+            arr = new Object[1];
+        else
+            arr = newArr;
+        size = newArr.length;
+        for (int i = size / 2 - 1; i >= 0; i--)
+            heapify(i);
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        int cursor1 = 0, cursor2 = 0, counter = 0;
-
-        for (cursor2 = 0; cursor2 < size; cursor2++) {
-            if (!c.contains(heap[cursor2])) {
-                heap[cursor1++] = heap[cursor2];
-            } else {
-                counter++;
+        int amount = 0;
+        for (int i = 0; i < size; i++) {
+            if (!c.contains(arr[i])) {
+                amount++;
             }
-
         }
-
-        if (counter != 0) {
-            size -= counter;
-            for (int i = (size / 2); i >= 0; i--) {
-                siftDown(i);
-            }
-            return true;
-        }
-
-        return false;
+        if (amount == size) {return false;}
+        Object[] newArr = new Object[amount];
+        int ci = 0;
+        for (int i = 0; i < size(); i++)
+            if (!c.contains(arr[i]))
+                newArr[ci++] = arr[i];
+        rebuildHeap(newArr);
+        return true;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        int cursor1 = 0, cursor2 = 0, counter = 0;
-
-        for (cursor2 = 0; cursor2 < size; cursor2++) {
-            if (c.contains(heap[cursor2])) {
-                heap[cursor1++] = heap[cursor2];
-            } else {
-                counter++;
-            }
-        }
-
-        if (counter != 0) {
-            size -= counter;
-            for (int i = (size / 2); i >= 0; i--) {
-                siftDown(i);
-            }
-            return true;
-        }
-
-        return false;
+        int amount = 0;
+        for (int i = 0; i < size; i++)
+            if (c.contains(arr[i]))
+                amount++;
+        if (amount == size)
+            return false;
+        Object[] newArr = new Object[amount];
+        int ci = 0;
+        for (int i = 0; i < size(); i++)
+            if (c.contains(arr[i]))
+                newArr[ci++] = arr[i];
+        rebuildHeap(newArr);
+        return true;
     }
 
     @Override
     public void clear() {
-        heap = (E[]) new Comparable[10];
+        arr = new Object[1];
         size = 0;
     }
 
     @Override
     public boolean offer(E e) {
-        if (size == heap.length) {
-            resizeHeap();
-        }
-        heap[size] = e;
-        siftUp(size);
-        size++;
-        return true;
+        return add(e);
     }
 
     @Override
     public E remove() {
-        if (size == 0) {
-            return null;
-        }
-
-        E temp = heap[0];
-        size--;
-        heap[0] = heap[size];
-        siftDown(0);
-
-        return temp;
+        if (isEmpty())
+            throw new NoSuchElementException();
+        return poll();
     }
+
     @Override
     public E poll() {
-        if (isEmpty()) {
+        if (isEmpty())
             return null;
-        }
-        E min = heap[0];
-        heap[0] = heap[size - 1];
-        size--;
-        siftDown(0);
-        return min;
+
+        E toRet = (E) arr[0];
+        swap(0, --size);
+        heapify(0);
+        return toRet;
     }
 
     @Override
     public E element() {
-        if (isEmpty()) {
-            throw new IllegalStateException("PriorityQueue is empty");
-        }
-        return heap[0];
+        if (isEmpty())
+            throw new NoSuchElementException();
+        return (E) arr[0];
     }
 
     @Override
     public E peek() {
-        if (isEmpty()) {
+        if (isEmpty())
             return null;
-        }
-        return heap[0];
+        return (E) arr[0];
     }
 }

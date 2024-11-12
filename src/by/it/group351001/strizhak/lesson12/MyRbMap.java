@@ -130,62 +130,46 @@ public class MyRbMap implements SortedMap<Integer, String> {
     }
 
     void balanceAfterInsert(Node node) {
-        // Пока текущий узел не является корнем и его цвет и цвет его родителя красные
         while (node != Root && node.color == Color.RED && node.parent.color == Color.RED) {
-            Node parent = node.parent; // Parent (родитель) текущего узла
-            Node grandparent = parent.parent; // Grandparent (дедушка) текущего узла
+            Node parent = node.parent;
+            Node grandparent = parent.parent;
 
-            // Если parent является левым потомком grandparent
             if (parent == grandparent.left) {
-                Node uncle = grandparent.right; // Uncle (правый потомок grandparent)
-
-                // Если uncle существует и его цвет красный
+                Node uncle = grandparent.right;
                 if (uncle != null && uncle.color == Color.RED) {
-                    // Перекрашиваем parent и uncle в черный, а grandparent в красный
                     parent.color = Color.BLACK;
                     uncle.color = Color.BLACK;
                     grandparent.color = Color.RED;
-                    node = grandparent; // Переходим к grandparent
+                    node = grandparent;
                 } else {
-                    // Если текущий узел является правым потомком parent
                     if (node == parent.right) {
-                        node = parent; // Переходим к родителю
-                        RotateLeft(node); // Выполняем левый поворот
+                        node = parent;
+                        RotateLeft(node);
                     }
-                    // Перекрашиваем parent в черный, а grandparent в красный
                     parent.color = Color.BLACK;
                     grandparent.color = Color.RED;
-                    RotateRight(grandparent); // Выполняем правый поворот
+                    RotateRight(grandparent);
                 }
-            } else { // Если родитель текущего узла является правым потомком grandparent
-                Node uncle = grandparent.left; // Uncle текущего узла (левый потомок grandparent)
-
-                // Если uncle существует и его цвет красный
+            } else {
+                Node uncle = grandparent.left;
                 if (uncle != null && uncle.color == Color.RED) {
-                    // Перекрашиваем parent и uncle в черный, а grandparent в красный
                     parent.color = Color.BLACK;
                     uncle.color = Color.BLACK;
                     grandparent.color = Color.RED;
-                    node = grandparent; // Переходим к grandparent
+                    node = grandparent;
                 } else {
-                    // Если текущий узел является левым ребенком родителя
                     if (node == parent.left) {
-                        node = parent; // Переходим к parent
-                        RotateRight(node); // Выполняем правый поворот
+                        node = parent;
+                        RotateRight(node);
                     }
-                    // Перекрашиваем parent в черный, а grandparent в красный
                     parent.color = Color.BLACK;
                     grandparent.color = Color.RED;
-                    RotateLeft(grandparent); // Выполняем левый поворот
+                    RotateLeft(grandparent);
                 }
             }
         }
-
-        // Устанавливаем цвет корня в черный
         Root.color = Color.BLACK;
     }
-
-
     Node getSuccessor(Node node) {
         Node successor = null;
         Node current = node.right;
@@ -197,7 +181,6 @@ public class MyRbMap implements SortedMap<Integer, String> {
 
         return successor;
     }
-
     void deleteNode(Node node) {
         Node replacement;
         if (node.left != null && node.right != null) {
@@ -240,11 +223,9 @@ public class MyRbMap implements SortedMap<Integer, String> {
         }
     }
 
-
     Color getColor(Node node) {
         return (node == null) ? Color.BLACK : node.color;
     }
-
     void setColor(Node node, Color color) {
         if (node != null) {
             node.color = color;
@@ -431,36 +412,26 @@ public class MyRbMap implements SortedMap<Integer, String> {
 
         tailMap(node.right, fromKey, subMap);
     }
-
-
     ///////////////////////
-
     @Override
     public Set<Integer> keySet() {
         return null;
     }
-
     @Override
     public void putAll(Map<? extends Integer, ? extends String> m) {
-
     }
-
-
     @Override
     public Collection<String> values() {
         return null;
     }
-
     @Override
     public Set<Entry<Integer, String>> entrySet() {
         return null;
     }
-
     @Override
     public Comparator<? super Integer> comparator() {
         return null;
     }
-
     @Override
     public SortedMap<Integer, String> subMap(Integer fromKey, Integer toKey) {
         return null;

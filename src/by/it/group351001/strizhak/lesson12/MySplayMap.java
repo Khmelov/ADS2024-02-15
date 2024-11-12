@@ -1,11 +1,8 @@
 package by.it.group351001.strizhak.lesson12;
 
 import java.util.*;
-
 public class MySplayMap implements NavigableMap<Integer, String> {
-
     Node Root;
-
     class Node {
         Integer key;
         String value;
@@ -16,7 +13,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
             this.value = value;
         }
     }
-
     @Override
     public String toString() {
         if (Root == null)
@@ -27,7 +23,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
         sb.append("}");
         return sb.toString();
     }
-
     void inOrderTraversal(Node node, StringBuilder sb) {
         if (node != null) {
             inOrderTraversal(node.left, sb);
@@ -35,34 +30,28 @@ public class MySplayMap implements NavigableMap<Integer, String> {
             inOrderTraversal(node.right, sb);
         }
     }
-
     @Override
     public int size() {
         return size(Root);
     }
-
     int size(Node node) {
         if (node == null) {
             return 0;
         }
         return 1 + size(node.left) + size(node.right);
     }
-
     @Override
     public boolean isEmpty() {
         return Root == null;
     }
-
     @Override
     public boolean containsKey(Object key) {
         return get(key) != null;
     }
-
     @Override
     public boolean containsValue(Object value) {
         return containsValue(Root, value.toString());
     }
-
     boolean containsValue(Node node, String value) {
         if (node == null) {
             return false;
@@ -72,7 +61,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
         }
         return containsValue(node.left, value) || containsValue(node.right, value);
     }
-
     @Override
     public String get(Object key) {
         Node found = SearchKey((Integer) key, Root);
@@ -92,7 +80,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
 
         return SearchKey(key, comparison < 0 ? node.left : node.right);
     }
-
     @Override
     public String put(Integer key, String value) {
         if (Root == null) {
@@ -123,21 +110,17 @@ public class MySplayMap implements NavigableMap<Integer, String> {
         }
         return null;
     }
-
     @Override
     public String remove(Object key) {
         if (Root == null) {
             return null;
         }
-
         Root = splay(Root, (Integer) key);
         int cmp = ((Integer) key).compareTo(Root.key);
         if (cmp != 0) {
             return null;
         }
-
         String removedValue = Root.value;
-
         if (Root.left == null) {
             Root = Root.right;
             if (Root != null) {
@@ -150,17 +133,13 @@ public class MySplayMap implements NavigableMap<Integer, String> {
             newRoot.left.parent = newRoot;
             Root = newRoot;
         }
-
         return removedValue;
     }
-
     Node splay(Node node, Integer key) {
         // Если узел пустой, возвращаем null
         if (node == null) {
             return null;
         }
-
-        // Сравниваем ключ с ключом текущего узла
         int cmp = key.compareTo(node.key);
         if (cmp < 0) { // Если ключ меньше ключа текущего узла
             if (node.left == null) {
@@ -193,19 +172,17 @@ public class MySplayMap implements NavigableMap<Integer, String> {
                 }
             } else if (cmp2 > 0) { // Если ключ больше ключа правого ребенка (Zag-Zag)
                 node.right.right = splay(node.right.right, key); // Рекурсивно выполняем splay для правого ребенка правого ребенка
-                node = rotateLeft(node); // Выполняем левый поворот
+                node = rotateLeft(node);
             }
             if (node.right == null) {
-                return node; // Если правый ребенок пуст, возвращаем текущий узел
+                return node;
             } else {
-                return rotateLeft(node); // Выполняем левый поворот
+                return rotateLeft(node);
             }
-        } else { // Если ключ равен ключу текущего узла
-            return node; // Возвращаем текущий узел
+        } else {
+            return node;
         }
     }
-
-
     Node rotateRight(Node node) {
         Node leftChild = node.left;
         node.left = leftChild.right;
@@ -376,10 +353,8 @@ public class MySplayMap implements NavigableMap<Integer, String> {
             subMap.put(node.key, node.value);
             tailMap(node.left, fromKey, subMap);
         }
-
         tailMap(node.right, fromKey, subMap);
     }
-
     @Override
     public Integer firstKey() {
         if (Root == null)
@@ -390,7 +365,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
         }
         return node.key;
     }
-
     @Override
     public Integer lastKey() {
         if (Root == null)
@@ -401,104 +375,83 @@ public class MySplayMap implements NavigableMap<Integer, String> {
         }
         return node.key;
     }
-
     ///////////////////////////////////////////////////////////////
-
     @Override
     public Entry<Integer, String> ceilingEntry(Integer key) {
         return null;
     }
-
     @Override
     public Entry<Integer, String> higherEntry(Integer key) {
         return null;
     }
-
     @Override
     public Entry<Integer, String> firstEntry() {
         return null;
     }
-
     @Override
     public Entry<Integer, String> lastEntry() {
         return null;
     }
-
     @Override
     public Entry<Integer, String> pollFirstEntry() {
         return null;
     }
-
     @Override
     public Entry<Integer, String> pollLastEntry() {
         return null;
     }
-
     @Override
     public SortedMap<Integer, String> subMap(Integer fromKey, Integer toKey) {
         return null;
     }
-
     @Override
     public NavigableMap<Integer, String> descendingMap() {
         return null;
     }
-
     @Override
     public NavigableSet<Integer> navigableKeySet() {
         return null;
     }
-
     @Override
     public NavigableSet<Integer> descendingKeySet() {
         return null;
     }
-
     @Override
     public NavigableMap<Integer, String> subMap(Integer fromKey, boolean fromInclusive, Integer toKey, boolean toInclusive) {
         return null;
     }
-
     @Override
     public NavigableMap<Integer, String> headMap(Integer toKey, boolean inclusive) {
         return null;
     }
-
     @Override
     public NavigableMap<Integer, String> tailMap(Integer fromKey, boolean inclusive) {
         return null;
     }
-
     @Override
     public Comparator<? super Integer> comparator() {
         return null;
     }
-
     @Override
     public void putAll(Map<? extends Integer, ? extends String> m) {
 
     }
-
     @Override
     public Set<Integer> keySet() {
         return null;
     }
-
     @Override
     public Collection<String> values() {
         return null;
     }
-
     @Override
     public Set<Entry<Integer, String>> entrySet() {
         return null;
     }
-
     @Override
     public Entry<Integer, String> lowerEntry(Integer key) {
         return null;
     }
-
     @Override
     public Entry<Integer, String> floorEntry(Integer key) {
         return null;

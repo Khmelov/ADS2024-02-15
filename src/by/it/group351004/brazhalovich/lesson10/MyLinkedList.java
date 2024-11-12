@@ -4,7 +4,8 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
 
-public class MyLinkedList<E> implements Deque<E> {
+public class
+MyLinkedList<E> implements Deque<E> {
 
     private class ListNode<E> {
         E data;

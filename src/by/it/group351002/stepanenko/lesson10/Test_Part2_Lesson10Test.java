@@ -1,5 +1,6 @@
 package by.it.group351002.stepanenko.lesson10;
 
+
 import by.it.HomeWork;
 import org.junit.Test;
 
@@ -8,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
-        import java.util.stream.Collectors;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -228,8 +229,8 @@ public class Test_Part2_Lesson10Test extends HomeWork {
 
     private boolean notComparable(Method m) {
         return m.getReturnType() != Comparable.class &&
-                Arrays.stream(m.getParameterTypes())
-                        .noneMatch(p -> p == Comparable.class);
+               Arrays.stream(m.getParameterTypes())
+                       .noneMatch(p -> p == Comparable.class);
     }
 
     private String getSignature(Method method) {

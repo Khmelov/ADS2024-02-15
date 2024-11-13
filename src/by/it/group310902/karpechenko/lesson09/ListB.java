@@ -55,7 +55,7 @@ public class ListB<E> implements List<E> {
     @Override
     public E remove(int index) {
         if (index < 0 || index >= curInd) {
-            throw new IndexOutOfBoundsException(STR."Index: '\{index}' out of bounds");
+            throw new IndexOutOfBoundsException("Index: " + index + " out of bounds");
         }
         E del = elements[index];
         System.arraycopy(elements, index + 1, elements, index, curInd - index - 1);
@@ -77,7 +77,7 @@ public class ListB<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index < 0 || index >= curInd) {
-            throw new IndexOutOfBoundsException(STR."Index: '\{index}' out of bounds");
+            throw new IndexOutOfBoundsException("Index: " + index + " out of bounds");
         }
         if (curInd == elements.length) {
             E[] tempElements = (E[]) new Object[elements.length * 2];
@@ -103,7 +103,7 @@ public class ListB<E> implements List<E> {
     @Override
     public E set(int index, E element) {
         if (index < 0 || index >= curInd) {
-            throw new IndexOutOfBoundsException(STR."Index: '\{index}' out of bounds");
+            throw new IndexOutOfBoundsException("Index: " + index + " out of bounds");
         }
         E pred = elements[index];
         elements[index] = element;
@@ -138,7 +138,7 @@ public class ListB<E> implements List<E> {
     @Override
     public E get(int index) {
         if (index < 0 || index >= curInd) {
-            throw new IndexOutOfBoundsException(STR."Index: '\{index}' out of bounds");
+            throw new IndexOutOfBoundsException("Index: " + index + " out of bounds");
         }
         return elements[index];
     }
@@ -180,7 +180,7 @@ public class ListB<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         if (index < 0 || index >= curInd) {
-            throw new IndexOutOfBoundsException(STR."Index: '\{index}' out of bounds");
+            throw new IndexOutOfBoundsException("Index: " + index + " out of bounds");
         }
         boolean b = false;
         for (E i : c){

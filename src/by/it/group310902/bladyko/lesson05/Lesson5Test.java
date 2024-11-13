@@ -1,4 +1,4 @@
-package lesson05;
+package by.it.group310902.bladyko.lesson05;
 
 import org.junit.Test;
 

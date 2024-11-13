@@ -38,34 +38,27 @@ import java.util.Scanner;
 
 public class A_EditDist {
 
-    int min(int n1, int n2, int n3){
-        if (n1>n2){
-            n1 = n2;
-        }
-        if (n1>n3){
-            n1 = n3;
-        }
-        return n1;
+    private static int minimum(int a, int b, int c) {
+        return Math.min(Math.min(a, b), c);
     }
+
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        int[][] distance = new int[one.length() + 1][two.length() + 1];
 
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return GDR(one, two);
-    }
-    int GDR(String s1, String s2){
-        if (s1.length() == 0){
-            return s2.length();
-        }
-        else if (s2.length() == 0){
-            return s1.length();
-        }
-        else if (s1.charAt(0) == s2.charAt(0)){
-            return GDR(s1.substring(1), s2.substring(1));
-        }
-        else{
-            return min(GDR(s1.substring(1), s2), GDR(s1, s2.substring(1)), GDR(s1.substring(1), s2.substring(1)))+1;
-        }
+        for (int i = 0; i <= one.length(); i++)
+            distance[i][0] = i;
+        for (int j = 1; j <= two.length(); j++)
+            distance[0][j] = j;
+
+        for (int i = 1; i <= one.length(); i++)
+            for (int j = 1; j <= two.length(); j++)
+                distance[i][j] = minimum(
+                        distance[i - 1][j] + 1,
+                        distance[i][j - 1] + 1,
+                        distance[i - 1][j - 1] + ((one.charAt(i - 1) == two.charAt(j - 1)) ? 0 : 1));
+
+        return distance[one.length()][two.length()];
     }
 
 

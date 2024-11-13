@@ -84,7 +84,7 @@ public class C_QSortOptimized {
         }
         //тут реализуйте логику задачи с применением быстрой сортировки
         //в классе отрезка Segment реализуйте нужный для этой задачи компаратор
-        qsort(segments, 0, n-1);
+        java.util.Arrays.sort(segments);
         for (int i = 0; i < m; i++) {
             result[i]=0;
             int j = binsearch(segments, points[i]);
@@ -99,50 +99,7 @@ public class C_QSortOptimized {
         return result;
     }
 
-    public void swap(Segment[] a, int i, int j){
-        Segment temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
-    }
-    public void qsort(Segment[] a, int start, int end){
-        int i = start;
-        int j = end-1;
-        int p = start-1;
-        int q = end;
-        Segment v = a[end];
-        do {
-            while (a[i].compareTo(v)<0) {
-                i++;
-            }
-            while (a[j].compareTo(v)>0) {
-                j--;
-            }
-            if (i<j){
-                swap(a, i, j);
-                if (a[i].compareTo(v)==0){
-                    p++;
-                    swap(a, i, p);
-                }
-                if (a[j].compareTo(v)==0){
-                    q--;
-                    swap(a, j, q);
-                }
-            }
-        }while (i<=j);
-        swap(a, i, end);
-        j = i - 1;
-        for (int k = start; k < p; k++, j--){
-            swap(a, k, j);
-        }
-        i++;
-        for (int k = end - 1; k > q; k--, i++){
-            swap(a, k, i);
-        }
-        if (j>start)
-            qsort(a, start, j);
-        if (i<end)
-            qsort(a, i, end);
-    }
+
     public int binsearch(Segment[] a, int x){
         int start = 0;
         int end = a.length-1;

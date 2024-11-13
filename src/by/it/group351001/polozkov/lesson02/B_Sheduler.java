@@ -52,7 +52,7 @@ public class B_Sheduler {
         Event lastEvent = events[0], currEvent;
         for (i = 0; i < events.length - 1; i++) {
             for (j = 0; j < events.length - i - 1; j++) {
-                if ((events[j].start > events[j + 1].start) || ((events[j].start == events[j + 1].start) && (events[j].stop > events[j + 1].stop)))  {
+                if ((events[j].start >= events[j + 1].start) && (events[j].stop > events[j + 1].stop))  {
                     currEvent = events[j];
                     events[j] = events[j + 1];
                     events[j + 1] = currEvent;

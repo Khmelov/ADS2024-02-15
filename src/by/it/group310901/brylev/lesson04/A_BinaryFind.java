@@ -48,7 +48,10 @@ public class A_BinaryFind
         int[] result=new int[k];
         for (int i = 0; i < k; i++) {
             int value = scanner.nextInt();
-            //тут реализуйте бинарный поиск индекса
+            //бинарный поиск индекса
+            //Если value меньше значения в a[middle], мы сужаем диапазон поиска в верхней половине.
+            //Если value больше значения в a[middle], мы сужаем диапазон поиска в нижней половине.
+            //Если value равно значению в a[middle], мы сохраняем индекс в result[i].
             int low = 0;
             int high = a.length - 1;
             boolean isFound = false;

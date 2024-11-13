@@ -38,11 +38,11 @@ import java.util.Scanner;
 */
 
 public class A_EditDist {
-
+//В данном случае используется функция Integer.min, чтобы найти минимальное значение.
     int min(int a, int b, int c) {
         return Integer.min(a, Integer.min(b, c));
     }
-
+//Метод dist является рекурсивной функцией, которая вычисляет редакционное расстояние между двумя подстроками.
     int dist(int i, int j, String one, String two) {
         if (i == 0) {
             return j;
@@ -54,15 +54,14 @@ public class A_EditDist {
 
         int tmp = (one.charAt(i - 1) == two.charAt(j - 1)) ? 0 : 1;
         return min(dist(i - 1, j, one, two) + 1, dist(i, j - 1, one, two) + 1, dist(i - 1, j - 1, one, two) + tmp);
+        //Рекурсивно вычисляются три возможных расстояния:i;i-1;i-1,j-1
     }
     int getDistanceEdinting(String one, String two) {
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-
-
         int result = 0;
         result = dist(one.length(), two.length(), one, two);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return result;
+        //Метод инициализирует переменную result нулем и вызывает метод dist с длинами обеих строк.
+        //Возвращается вычисленное редакционное расстояние.
     }
 
 

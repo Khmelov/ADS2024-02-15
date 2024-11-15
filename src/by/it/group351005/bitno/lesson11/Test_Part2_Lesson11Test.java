@@ -65,7 +65,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         eObject = new LinkedHashSet<>();
         randomCheck("MyLinkedHashSet", methods);
     }
-
+//
     @Test(timeout = 5000)
     public void testTaskC() throws Exception {
         String[] methods = """

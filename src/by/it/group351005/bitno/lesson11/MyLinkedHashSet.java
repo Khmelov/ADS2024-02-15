@@ -10,7 +10,7 @@ public class MyLinkedHashSet<E> implements Set<E> {
     private static class Node<E>
     {
         int hash;
-        E value;
+        E value;//
         Node<E> next;
         Node<E> nextInList = null;
         private Node(int newHash, E newValue, Node<E> newNext){

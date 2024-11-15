@@ -29,6 +29,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
     private Collection<Number> aObject;
 
     private Map<Method, String> cache = new HashMap<>();
+
     @Test(timeout = 5000)
     public void testTaskA() throws Exception {
         String[] methods = """
@@ -43,6 +44,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         eObject = new HashSet<>();
         randomCheck("MyHashSet", methods);
     }
+
     @Test(timeout = 5000)
     public void testTaskB() throws Exception {
         String[] methods = """
@@ -62,6 +64,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         eObject = new LinkedHashSet<>();
         randomCheck("MyLinkedHashSet", methods);
     }
+
     @Test(timeout = 5000)
     public void testTaskC() throws Exception {
         String[] methods = """
@@ -81,6 +84,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         eObject = new TreeSet<>();
         randomCheck("MyTreeSet", methods);
     }
+
     private void randomCheck(String aClassName, String... methods) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Set<String> methodNames = new TreeSet<>(Arrays.asList(methods));
         methodNames.removeIf(key -> key == null || key.isBlank());
@@ -158,6 +162,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         }
         return parameters;
     }
+
     private Number randomInteger() {
         int i = getRandomIndex();
         if (rnd.nextBoolean()) {
@@ -186,6 +191,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
             }
         }
     }
+
     private void checkFieldAsCollection(Field field) {
         if (Collection.class.isAssignableFrom(field.getType())) {
             fail("Incorrect field: " + field);
@@ -208,6 +214,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
                 Arrays.stream(m.getParameterTypes())
                         .noneMatch(p -> p == Comparable.class);
     }
+
     private String getSignature(Method method) {
         return cache.computeIfAbsent(method, m -> {
             Class<?>[] parameterTypes = method.getParameterTypes();
@@ -227,6 +234,7 @@ public class Test_Part2_Lesson11Test extends HomeWork {
     public String getSignatures(Class<?> aClass) {
         return getSignatures(aClass.getMethods(), aClass.getDeclaredMethods());
     }
+
     public String getSignatures(Method[]... methods) {
         return Stream.of(methods)
                 .flatMap(Arrays::stream)

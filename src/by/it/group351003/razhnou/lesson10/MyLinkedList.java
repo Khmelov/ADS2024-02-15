@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 public class MyLinkedList<E> implements Deque<E> {
-
+    // НА ОСНОВЕ ДВУНАПРАВЛЕННЫХ СПИСКОВ
     class DoublyNode<E>
     {
         public E Data;

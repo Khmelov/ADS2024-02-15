@@ -150,16 +150,6 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     @Override
     public boolean offerFirst(E e) {
         return false;

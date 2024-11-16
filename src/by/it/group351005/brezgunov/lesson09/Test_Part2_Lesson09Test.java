@@ -49,7 +49,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 add(Object)
                 remove(int)
                 size()
-                 
+                                
                 remove(Object)
                 add(int,Object)
                 remove(Object)
@@ -59,8 +59,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 indexOf(Object)
                 get(int)
                 contains(Object)
-                lastIndexOf(Object)      
-              
+                lastIndexOf(Object)
                 """.split("\\s+");
         randomCheck("ListB", methods);
     }
@@ -86,22 +85,13 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                                 
                 containsAll(Collection)
                 addAll(Collection)
-                addAll(int,Collection)
+                addAll(int,Collection)                
                 removeAll(Collection)
                 retainAll(Collection)
                 retainAll(Collection)
                 """.split("\\s+");
         randomCheck("ListC", methods);
     }
-
-    /*
-    containsAll(Collection)
-                addAll(Collection)
-                addAll(int,Collection)
-                removeAll(Collection)
-                retainAll(Collection)
-                retainAll(Collection)
-     */
 
     private void randomCheck(String className, String... methods) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         TreeSet<String> methodNames = new TreeSet<>(Arrays.asList(methods));

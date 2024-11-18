@@ -127,5 +127,6 @@ public class StatesHanoiTowerC {
         }
         sb.deleteCharAt(sb.length() - 1);
         System.out.println(sb);
+
     }
 }

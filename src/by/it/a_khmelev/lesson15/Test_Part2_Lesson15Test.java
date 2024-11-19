@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("NewClassNamingConvention")
-public class Test_Part2_Lesson15 extends HomeWork {
+public class Test_Part2_Lesson15Test extends HomeWork {
 
     private static List<String> samples;
 

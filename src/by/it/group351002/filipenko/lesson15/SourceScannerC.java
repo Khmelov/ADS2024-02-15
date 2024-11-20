@@ -20,10 +20,11 @@ public class SourceScannerC extends SourceScannerA{
     }
 
     private static boolean checkDistance(String file1, String file2) {
-        if (Math.abs(file1.length() - file2.length()) > NORMAL_DISTANCE)
+        int distance = Math.abs(file1.length() - file2.length());
+
+        if (distance > NORMAL_DISTANCE)
             return false;
 
-        int distance = 0;
         String s1, s2;
         String[] array_s1 = file1.split(" "), array_s2 = file2.split(" ");
 

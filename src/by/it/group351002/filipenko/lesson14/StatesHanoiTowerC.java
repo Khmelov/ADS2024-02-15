@@ -74,7 +74,7 @@ public class StatesHanoiTowerC {
         }
     }
 
-    static void printParents(int diskCount, DSU someDSU) {
+    static void printSetSizes (int diskCount, DSU someDSU) {
         int[] dsuParents = new int[diskCount+1];
         int[] dsuTreeSizes = new int[diskCount+1];
         StringBuilder sb = new StringBuilder();
@@ -111,6 +111,6 @@ public class StatesHanoiTowerC {
             myDSU.makeSet(i);
 
         groupInSubtrees(myDSU);
-        printParents(diskCount, myDSU);
+        printSetSizes(diskCount, myDSU);
     }
 }

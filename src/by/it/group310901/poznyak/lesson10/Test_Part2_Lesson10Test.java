@@ -1,4 +1,4 @@
-package by.it.group310902.karpechenko.lesson11;
+package by.it.group310901.poznyak.lesson10;
 
 
 import by.it.HomeWork;
@@ -20,7 +20,7 @@ import static org.junit.Assert.fail;
 
 //поставьте курсор на следующую строку и нажмите Ctrl+Shift+F10
 //для корректной сборки теста добавьте библиотеку init.jar в проект (она находится в корне)
-public class Test_Part2_Lesson11Test extends HomeWork {
+public class Test_Part2_Lesson10Test extends HomeWork {
 
     private static final int RND_SEED = 123;
     public static final int INVOCATION_COUNT_PER_METHOD = 10;
@@ -34,36 +34,47 @@ public class Test_Part2_Lesson11Test extends HomeWork {
     @Test(timeout = 5000)
     public void testTaskA() throws Exception {
         String[] methods = """
+                toString()
                 size()
-                clear()
-                isEmpty()
+                              
                 add(Object)
-                remove(Object)
-                contains(Object)
-
+                addFirst(Object)
+                addLast(Object)
+                                
+                element()
+                getFirst()
+                getLast()
+                                
+                poll()
+                pollFirst()
+                pollLast()
                 """.split("\\s+");
-        eObject = new HashSet<>();
-        randomCheck("MyHashSet", methods);
+        eObject = new ArrayDeque<>();
+        randomCheck("MyArrayDeque", methods);
     }
 
     @Test(timeout = 5000)
     public void testTaskB() throws Exception {
         String[] methods = """
                 toString()
-                size()
-                clear()
-                isEmpty()
                 add(Object)
+                remove(int)
                 remove(Object)
-                contains(Object)
+                size()
                                 
-                containsAll(Collection)
-                addAll(Collection)
-                removeAll(Collection)
-                retainAll(Collection)
+                addFirst(Object)
+                addLast(Object)
+                                
+                element()
+                getFirst()
+                getLast()
+                                
+                poll()
+                pollFirst()
+                pollLast()
                 """.split("\\s+");
-        eObject = new LinkedHashSet<>();
-        randomCheck("MyLinkedHashSet", methods);
+        eObject = new LinkedList<>();
+        randomCheck("MyLinkedList", methods);
     }
 
     @Test(timeout = 5000)
@@ -72,18 +83,30 @@ public class Test_Part2_Lesson11Test extends HomeWork {
                 toString()
                 size()
                 clear()
-                isEmpty()
                 add(Object)
-                remove(Object)
+                remove()
                 contains(Object)
+                                
+                offer(Object)
+                poll()
+                peek()
+                element()
+                isEmpty()
                                 
                 containsAll(Collection)
                 addAll(Collection)
                 removeAll(Collection)
                 retainAll(Collection)
                 """.split("\\s+");
-        eObject = new TreeSet<>();
-        randomCheck("MyTreeSet", methods);
+        eObject = new PriorityQueue<>();
+        randomCheck("MyPriorityQueue", methods);
+
+        // Подсказка! Вывод образцовой коллекции должен быть абсолютно идентичен вашей.
+        // Все методы имеют жестко заданное поведение, а уровень C не удается пройти скорее всего
+        // из-за того, что методы removeAll(Collection) и retainAll(Collection) вами сделаны наивно
+        // и имеют скорость O(n log n). Сторонним эффектом такого решения будет отличие в порядке элементов.
+        // Корректно написанные removeAll и retainAll должны работать за O(n), считая, что операции contains
+        // в переданной коллекции работают за O(1). See https://en.wikipedia.org/wiki/Heapsort
     }
 
     private void randomCheck(String aClassName, String... methods) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
@@ -94,8 +117,8 @@ public class Test_Part2_Lesson11Test extends HomeWork {
         System.out.printf("\nStart test methods in class %s%n", aClass);
         aObject = (Collection<Number>) aClass.getDeclaredConstructor().newInstance();
 
-        Map<String, Method> methodsE = fill(eObject.getClass(), methodNames);
         Map<String, Method> methodsA = fill(aClass, methodNames);
+        Map<String, Method> methodsE = fill(eObject.getClass(), methodNames);
 
         assertEquals("Not found methods for test in:\n" + getSignatures(aClass), methodNames.size(), methodsA.size());
 
@@ -104,8 +127,8 @@ public class Test_Part2_Lesson11Test extends HomeWork {
             if (eObject.size() < 10) {
                 for (int i = 0; i <= count; i++) {
                     Integer value = rnd.nextInt(MAX_VALUE) * (i + 1);
-                    eObject.add(value);
                     aObject.add(value);
+                    eObject.add(value);
                 }
                 System.out.printf("%n==Add %d random values. %n", count);
             }
@@ -122,20 +145,14 @@ public class Test_Part2_Lesson11Test extends HomeWork {
             }
             int params = methodE.getParameterCount();
             Object[] parameters = getRandomParams(methodA.getParameterTypes());
-            String nameAndParameters = getSignature(methodA).replace(")", "->" + Arrays.toString(parameters)) + ")";
-            System.out.printf("Start %s%n", nameAndParameters);
+            System.out.printf("Start %s. Parameters=%s%n", getSignature(methodA), Arrays.toString(parameters));
             Object expected = methodE.invoke(eObject, parameters);
             Object actual = methodA.invoke(aObject, parameters);
             String eString = eObject.toString();
             String aString = aObject.toString();
             assertEquals("Error compare methods\n" + methodE + "\n" + methodA, expected, actual);
-            System.out.printf("\tStop. Size actual=%d expected=%d%n", aObject.size(), eObject.size());
-            int eChecksum = checkSum(eString);
-            int aChecksum = checkSum(aString);
-            assertEquals(("Erros state\n" +
-                          "expectred check sum=%d for %s\n" +
-                          "   actual check sum=%d for %s\n")
-                    .formatted(eChecksum, eString, aChecksum, aString), eChecksum, aChecksum);
+            assertEquals("Erros state after\n" + methodE + "\n" + methodA, eString, aString);
+            System.out.printf("Size actual=%d expected=%d%n", aObject.size(), eObject.size());
         }
         System.out.println("=".repeat(100) + "\nCOMPLETE: " + methodNames);
         System.out.println("expected: " + eObject);
@@ -212,8 +229,8 @@ public class Test_Part2_Lesson11Test extends HomeWork {
 
     private boolean notComparable(Method m) {
         return m.getReturnType() != Comparable.class &&
-               Arrays.stream(m.getParameterTypes())
-                       .noneMatch(p -> p == Comparable.class);
+                Arrays.stream(m.getParameterTypes())
+                        .noneMatch(p -> p == Comparable.class);
     }
 
     private String getSignature(Method method) {
@@ -243,9 +260,5 @@ public class Test_Part2_Lesson11Test extends HomeWork {
                 .filter(m -> !Modifier.isStatic(m.getModifiers()))
                 .map(this::getSignature)
                 .collect(Collectors.joining("\n"));
-    }
-
-    private int checkSum(String someString) {
-        return someString.chars().sum();
     }
 }

@@ -1,7 +1,6 @@
 package by.it.group351005.brezgunov.lesson09;
 
 import java.util.*;
-
 public class ListB<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ

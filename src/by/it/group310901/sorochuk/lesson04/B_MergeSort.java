@@ -20,7 +20,7 @@ Sample Output:
 2 2 3 9 9
 */
 public class B_MergeSort {
-
+    //В методе getMergeSort происходит чтение данных из файла и вызов метода mergeSort.
     int[] getMergeSort(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -43,7 +43,8 @@ public class B_MergeSort {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         return a;
     }
-
+//Метод mergeSort рекурсивно делит массив на две половины,
+    // сортирует каждую и затем объединяет их.
     public int[] sort(int[] arr) {
         if (arr == null)
             return null;
@@ -61,7 +62,7 @@ public class B_MergeSort {
 
         return merge(arrA, arrB);
     }
-
+    //В методе getMergeSort происходит чтение данных из файла и вызов метода mergeSort.
     public int[] merge(int[] arrA, int[] arrB) {
 
         int positionA = 0, positionB = 0;

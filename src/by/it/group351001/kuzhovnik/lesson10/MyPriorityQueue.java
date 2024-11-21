@@ -83,7 +83,7 @@ public class MyPriorityQueue<E> implements Queue<E> {
     }
 
     @Override
-    public E poll() {
+    public E poll(){
         if (size == 0)
             return null;
         E element = data[0];

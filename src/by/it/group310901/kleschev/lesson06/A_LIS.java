@@ -58,6 +58,7 @@ public class A_LIS {
         }
         int[] longestIncreasing = new int[n + 1];
         longestIncreasing[0] = -2000000000;
+        //вычисляет длину наибольшей возрастающей последовательности в массиве m
         for(int i = 1; i <= n; i++) longestIncreasing[i] = 2000000000;
         int result = 0;
         for(int i = 0; i < n; i++) {

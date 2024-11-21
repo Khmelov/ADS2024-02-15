@@ -37,7 +37,8 @@ import java.util.Scanner;
 
 public class A_QSort {
 
-    //отрезок
+    //отрезок//В классе Segment описывается отрезок.
+    ////У отрезка есть начальная точка (start) и конечная точка (stop).
     private class Segment  implements Comparable<Segment>{
         int start;
         int stop;
@@ -62,7 +63,8 @@ public class A_QSort {
             return 0;
         }
     }
-
+    //Метод quickSort реализует алгоритм быстрой сортировки для массива отрезков segments.
+//Если левая граница left меньше правой границы right, выполняется сортировка.
     public void qsort(Segment[] segments, int start, int end) {
         int i = start;
         int j = end;
@@ -97,6 +99,10 @@ public class A_QSort {
         Scanner scanner = new Scanner(stream);
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //число отрезков отсортированного массива
+        //число отрезков отсортированного массива
+        // Считывается количество отрезков n и количество точек m из входного потока scanner.
+        //Создаются массивы объектов segments (для хранения отрезков)
+        // и примитивов points (для хранения точек).
         int n = scanner.nextInt();
         Segment[] segments=new Segment[n];
         //число точек

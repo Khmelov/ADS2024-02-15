@@ -1,126 +1,185 @@
-package by.it.group351003.egor_guzaev.lesson15;import java.io.File;
+package by.it.group351003.egor_guzaev.lesson15;
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class SourceScannerC {
-    public static void main(String[] args) {
-        String srcDir = System.getProperty("user.dir") + File.separator + "src" + File.separator;
-        List<FileEntry> fileEntries = new ArrayList<>();
+    static final int NORMAL_DISTANCE = 9;
 
-        try {
-            // Чтение всех файлов .java
-            Files.walk(Path.of(srcDir))
-                    .filter(path -> path.toString().endsWith(".java"))
-                    .forEach(path -> {
-                        try {
-                            String content = Files.readString(path);
+    private static int areReplacementNumbers(char c1, char c2) {
+        return c1 == c2 ? 0 : 1;
+    }
 
-                            // Исключаем тесты
-                            if (!content.contains("@Test") && !content.contains("org.junit.Test")) {
-                                String processed = processContent(content);
-                                if (!processed.isEmpty()) {
-                                    String relativePath = Path.of(srcDir).relativize(path).toString();
-                                    fileEntries.add(new FileEntry(relativePath, processed));
+    private static int getMinEdit(int... numbers) {
+        return Arrays.stream(numbers).min().orElse(
+                Integer.MAX_VALUE);
+    }
+    protected static char[] move(char[] array) {
+        char[] temp;
+        int i = 0, size;
+
+        while(array[i] == 0)
+            i++;
+
+        size = array.length - i;
+        temp = new char[size];
+        System.arraycopy(array, i, temp, 0, size);
+        array = temp;
+
+        i = array.length - 1;
+        while (array[i] == 0)
+            i--;
+
+        size = i + 1;
+        temp = new char[size];
+        System.arraycopy(array, 0, temp, 0, size);
+        return temp;
+    }
+    private static boolean checkDistance(String file1, String file2) {
+        int distance = Math.abs(file1.length() - file2.length());
+
+        if (distance > NORMAL_DISTANCE)
+            return false;
+
+        String s1, s2;
+        String[] array_s1 = file1.split(" "), array_s2 = file2.split(" ");
+
+        for (int index = 0; index < array_s1.length; index++) {
+            s1 = array_s1[index];
+            s2 = array_s2[index];
+            int length = s2.length() + 1;
+            int[] currRow = new int[length];
+            int[] prevRow;
+
+            for (int i = 0; i <= s1.length(); i++) {
+                prevRow = currRow;
+                currRow = new int[length];
+
+                for (int j = 0; j <= s2.length(); j++) {
+                    currRow[j] = i == 0 ? j : (j == 0 ? i : getMinEdit(prevRow[j - 1]
+                                    + areReplacementNumbers(s1.charAt(i - 1), s2.charAt(j - 1)),
+                            prevRow[j] + 1,
+                            currRow[j - 1] + 1));
+                }
+            }
+            distance += currRow[s2.length()];
+            if (distance > NORMAL_DISTANCE)
+                return false;
+        }
+        return true;
+    }
+
+    protected static class MyArrayComparator implements Comparator<ArrayList<Path>> {
+        @Override
+        public int compare(ArrayList<Path> a1, ArrayList<Path> a2) {
+            Collections.sort(a1);
+            Collections.sort(a2);
+
+            return a1.get(0).compareTo(a2.get(0));
+        }
+    }
+    private static ArrayList<ArrayList<Path>> findEqualFiles(HashMap<Path, String> filePaths) {
+        ArrayList<ArrayList<Path>> equalFiles = new ArrayList<>();
+        ArrayList<Path> array, used = new ArrayList<>();
+
+        for(Path filePath1 : filePaths.keySet()) {
+            if (!used.contains(filePath1)) {
+                array = new ArrayList<>();
+                array.add(filePath1);
+
+                for (Path filePath2 : filePaths.keySet())
+                    if (filePath1 != filePath2 && checkDistance(filePaths.get(filePath1), filePaths.get(filePath2))) {
+                        array.add(filePath2);
+                        used.add(filePath2);
+                    }
+
+                if (array.size() > 1)
+                    equalFiles.add(array);
+            }
+        }
+        return equalFiles;
+    }
+
+    private static void findCopies(HashMap<String, HashMap<Path, String>> classes) {
+        ArrayList<ArrayList<Path>> equalFiles;
+        Set<String> classNames = classes.keySet();
+
+        int count;
+
+        for (String className : classNames) {
+            count = 0;
+            equalFiles = findEqualFiles(classes.get(className));
+            Collections.sort(equalFiles, new MyArrayComparator());
+
+            if (!equalFiles.isEmpty()) {
+                System.out.println("\n" + className + ":");
+                for (ArrayList<Path> paths : equalFiles) {
+                    System.out.println("\nКлон №" + ++count);
+                    for (Path path : paths)
+                        System.out.println(path);
+                }
+            }
+        }
+    }
+
+
+    protected static void getInformation() throws IOException {
+        HashMap<String, HashMap<Path, String>> javaClasses = new HashMap<>();
+
+        Path src = Path.of(System.getProperty("user.dir")
+                + File.separator + "src" + File.separator);
+
+        try (Stream<Path> fileTrees = Files.walk(src)) {
+            fileTrees.forEach(
+                    directory -> {
+                        if (directory.toString().endsWith(".java")) {
+                            try {
+                                char[] charArr;
+                                String str = Files.readString(directory);
+                                if (!str.contains("@Test") && !str.contains("org.junit.Test")) {
+                                    str = str.replaceAll("package.*;", "")
+                                            .replaceAll("import.*;", "");
+
+                                    str = str.replaceAll("/\\*[\\w\\W\r\n\t]*?\\*/", "")
+                                            .replaceAll("//.*?\r\n\\s*", "");
+
+                                    while (str.contains("\r\n\r\n"))
+                                        str = str.replaceAll("\r\n\r\n", "\r\n");
+
+                                    if (!str.isEmpty() && (str.charAt(0) < 33 || str.charAt(str.length() - 1) < 33)) {
+                                        charArr = str.toCharArray();
+                                        int indexF = 0, indexL = charArr.length - 1;
+
+                                        while (indexF < charArr.length && charArr[indexF] < 33 && charArr[indexF] != 0)
+                                            charArr[indexF++] = 0;
+
+                                        while (indexL >= 0 && charArr[indexL] < 33 && charArr[indexL] != 0)
+                                            charArr[indexL--] = 0;
+
+                                        str = new String(move(charArr));
+                                    }
+                                    str = str.replaceAll("[\u0000- ]++", " ");
+
+                                    if (!javaClasses.containsKey(directory.getFileName().toString()))
+                                        javaClasses.put(directory.getFileName().toString(), new HashMap<>());
+                                    javaClasses.get(directory.getFileName().toString()).put(src.relativize(directory), str);
+                                }
+                            } catch (IOException e) {
+                                if (System.currentTimeMillis() < 0) {
+                                    System.err.println(directory);
                                 }
                             }
-                        } catch (MalformedInputException e) {
-                            System.err.println("Malformed input: " + path);
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-                    });
-
-            // Сравнение текстов по метрике Левенштейна
-            Map<FileEntry, List<FileEntry>> duplicates = findDuplicates(fileEntries);
-
-            // Вывод результатов
-            duplicates.entrySet().stream()
-                    .sorted(Map.Entry.comparingByKey(Comparator.comparing(f -> f.path)))
-                    .forEach(entry -> {
-                        System.out.println(entry.getKey().path);
-                        entry.getValue().stream()
-                                .map(f -> "  " + f.path)
-                                .sorted()
-                                .forEach(System.out::println);
-                    });
-
-        } catch (IOException e) {
-            e.printStackTrace();
+                    }
+            );
+            findCopies(javaClasses);
         }
     }
 
-    private static String processContent(String content) {
-        StringBuilder sb = new StringBuilder();
-        String[] lines = content.split("\n");
-
-        for (String line : lines) {
-            line = line.strip();
-
-            if (line.startsWith("package") || line.startsWith("import") || line.isEmpty()) {
-                continue;
-            }
-            if (line.startsWith("//")) {
-                continue;
-            }
-
-            sb.append(line).append("\n");
-        }
-
-        String processed = sb.toString();
-        processed = processed.replaceAll("[\\x00-\\x20]+", " "); // Замена символов <33 на пробел
-        return processed.strip();
-    }
-
-    private static Map<FileEntry, List<FileEntry>> findDuplicates(List<FileEntry> files) {
-        Map<FileEntry, List<FileEntry>> duplicates = new HashMap<>();
-        for (int i = 0; i < files.size(); i++) {
-            for (int j = i + 1; j < files.size(); j++) {
-                FileEntry file1 = files.get(i);
-                FileEntry file2 = files.get(j);
-
-                if (Math.abs(file1.content.length() - file2.content.length()) > 10) {
-                    continue; // Быстрое исключение файлов сильно разного размера
-                }
-
-                int distance = optimizedLevenshtein(file1.content, file2.content);
-                if (distance < 10) {
-                    duplicates.computeIfAbsent(file1, k -> new ArrayList<>()).add(file2);
-                }
-            }
-        }
-        return duplicates;
-    }
-
-    private static int optimizedLevenshtein(String s1, String s2) {
-        int[] prev = new int[s2.length() + 1];
-        int[] curr = new int[s2.length() + 1];
-
-        for (int j = 0; j <= s2.length(); j++) {
-            prev[j] = j;
-        }
-
-        for (int i = 1; i <= s1.length(); i++) {
-            curr[0] = i;
-            for (int j = 1; j <= s2.length(); j++) {
-                int cost = (s1.charAt(i - 1) == s2.charAt(j - 1)) ? 0 : 1;
-                curr[j] = Math.min(Math.min(curr[j - 1] + 1, prev[j] + 1), prev[j - 1] + cost);
-            }
-            System.arraycopy(curr, 0, prev, 0, curr.length);
-        }
-
-        return curr[s2.length()];
-    }
-
-    static class FileEntry {
-        String path;
-        String content;
-
-        public FileEntry(String path, String content) {
-            this.path = path;
-            this.content = content;
-        }
+    public static void main(String[] args) throws IOException {
+        getInformation();
     }
 }

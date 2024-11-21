@@ -1,43 +1,34 @@
 package by.it.group351004.romanovskiy.lesson10;
 
-import java.util.Collection;
-import java.util.Deque;
-import java.util.Iterator;
-
+import java.util.*;
 public class MyLinkedList<E> implements Deque<E> {
-    class MyLinkedListNode<E> {
-        public E Data;
-        public MyLinkedListNode<E> Previous;
-        public MyLinkedListNode<E> Next;
 
-        public MyLinkedListNode(E data) {
-            Data = data;
+    Node<E> first;
+    Node<E> last;
+    int size;
+    static class Node<E> {
+        E elem;
+        Node<E> next;
+        Node<E> prev;
+        Node(E data, Node<E> prev, Node<E> next) {
+            this.elem = data;
+            this.prev = prev;
+            this.next = next;
         }
     }
-
-    MyLinkedListNode<E> _head;
-    MyLinkedListNode<E> _tail;
-    int _size;
-
-    MyLinkedList() {
-        _head = null;
-        _tail = null;
-        _size = 0;
-    }
-
+    @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        MyLinkedListNode<E> temp = _head;
-        for (int i = 0; i < _size; i++) {
-            sb.append(temp.Data);
-            if (i < _size - 1) {
-                sb.append(", ");
+        String s = "[";
+        Node<E> temp = first;
+        if (temp != null) {
+            while (temp.next != null) {
+                s = s + temp.elem + ", ";
+                temp = temp.next;
             }
-            temp = temp.Next;
+            s = s + temp.elem;
         }
-        sb.append(']');
-        return sb.toString();
+        s = s + "]";
+        return s;
     }
 
     @Override
@@ -47,83 +38,81 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     public E remove(int index) {
-        if (index < 0 || index >= _size) {
-            return null;
-        }
-
-        MyLinkedListNode<E> temp = _head;
-        for (int i = 0; i < index; i++) {
-            temp = temp.Next;
-        }
-        E e = temp.Data;
-
-        if (temp.Previous != null) {
-            temp.Previous.Next = temp.Next;
+        Node<E> frt = first;
+        for (int i = 0; i < index; i++)
+            frt = frt.next;
+        E data = frt.elem;
+        Node<E> next = frt.next;
+        Node<E> prev = frt.prev;
+        if (next != null){
+            next.prev = prev;
+            frt.next = null;
         } else {
-            _head = temp.Next;
+            last = prev;
         }
-
-        if (temp.Next != null) {
-            temp.Next.Previous = temp.Previous;
+        if (prev != null){
+            prev.next = next;
+            frt.prev = null;
         } else {
-            _tail = temp.Previous;
+            first = next;
         }
-
-        _size--;
-
-        return e;
+        frt.elem = null;
+        size--;
+        return data;
     }
 
     @Override
     public boolean remove(Object o) {
-        MyLinkedListNode<E> temp = _head;
-        int index = 0;
-        while (temp != null) {
-            if (temp.Data.equals(o)) {
-                remove(index);
+        if (isEmpty()) {
+            return false;
+        }
+        Node<E> current = first;
+        while (current != null) {
+            if (Objects.equals(o, current.elem)) {
+                if (current == first) {
+                    removeFirst();
+                } else if (current == last) {
+                    removeLast();
+                } else {
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                    size--;
+                }
                 return true;
             }
-            index++;
-            temp = temp.Next;
+            current = current.next;
         }
         return false;
     }
 
     @Override
     public int size() {
-        return _size;
+        return size;
     }
-
     @Override
     public void addFirst(E e) {
-        MyLinkedListNode<E> node = new MyLinkedListNode<>(e);
-        if (_head != null) {
-            node.Next = _head;
-            _head.Previous = node;
+        Node<E> newNode = new Node<>(e, null, first);
+        Node<E> prevNode = first;
+        first = newNode;
+        if (prevNode == null) {
+            last = newNode;
+        } else{
+            prevNode.prev = newNode;
         }
-        _head = node;
-
-        if (_tail == null) {
-            _tail = node;
-        }
-
-        _size++;
+        size++;
     }
 
     @Override
     public void addLast(E e) {
-        MyLinkedListNode<E> node = new MyLinkedListNode<>(e);
-        if (_tail != null) {
-            _tail.Next = node;
-            node.Previous = _tail;
+        Node<E> newNode = new Node<>(e, last, null);
+        Node<E> prevNode = last;
+        last = newNode;
+        if (prevNode == null) {
+            first = newNode;
+        } else{
+            prevNode.next = newNode;
         }
-        _tail = node;
-
-        if (_head == null) {
-            _head = node;
-        }
-
-        _size++;
+        size++;
     }
 
     @Override
@@ -133,64 +122,57 @@ public class MyLinkedList<E> implements Deque<E> {
 
     @Override
     public E getFirst() {
-        if (_size == 0) {
+        if (first == null)
             return null;
-        }
-        return _head.Data;
+        return first.elem;
     }
 
     @Override
     public E getLast() {
-        if (_size == 0) {
+        if (last == null)
             return null;
-        }
-        return _tail.Data;
+        return last.elem;
     }
-
     @Override
     public E poll() {
         return pollFirst();
     }
-
     @Override
     public E pollFirst() {
-        if (_size == 0) {
+        if (isEmpty()) {
             return null;
         }
-        E e = _head.Data;
-        _head = _head.Next;
-
-        if (_head != null) {
-            _head.Previous = null;
+        E data = first.elem;
+        first = first.next;
+        if (first != null) {
+            first.prev = null;
+        } else {
+            last = null;
         }
-        else {
-            _tail = null;
-        }
-
-        _size--;
-        return e;
+        size--;
+        return data;
     }
 
     @Override
     public E pollLast() {
-        if (_size == 0) {
+        if(last == null)
             return null;
-        }
-        E e = _tail.Data;
-        _tail = _tail.Previous;
 
-        if (_tail != null) {
-            _tail.Next = null;
-        }
-        else {
-            _head = null;
-        }
+        E data = last.elem;
+        Node<E> prev = last.prev;
 
-        _size--;
-        return e;
+        last.elem = null;
+        last.prev = null;
+        last = prev;
+
+        if (last != null)
+            last.next = null;
+        else
+            first = null;
+
+        size--;
+        return data;
     }
-
-
 
     @Override
     public boolean offerFirst(E e) {
@@ -241,6 +223,7 @@ public class MyLinkedList<E> implements Deque<E> {
     public E remove() {
         return null;
     }
+
 
     @Override
     public E peek() {

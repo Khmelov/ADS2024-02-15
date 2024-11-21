@@ -1,139 +1,92 @@
 package by.it.group351004.romanovskiy.lesson10;
 
-import java.util.Collection;
-import java.util.Deque;
-import java.util.Iterator;
+import java.util.*;
 
 public class MyArrayDeque<E> implements Deque<E> {
-    final static int InitialSize = 8;
-    int _front;
-    int _rear;
-    int _size;
-    E[] _elements;
+    private E[] elements = (E[]) new Object[1];
 
-    MyArrayDeque() {
-        this(InitialSize);
-    }
+    private int size = 0;
 
-    MyArrayDeque(int size) {
-        _front = size / 2;
-        _rear = _front - 1;
-        _size = 0;
-        _elements = (E[]) new Object[size];
-    }
-
-    private void Resize(int size) {
-        E[] temp = (E[]) new Object[size];
-        int k = (size - _size) / 2;
-
-        for (int i = 0; i < _size; i++) {
-            temp[i + k] = _elements[_front + i];
-        }
-
-        _front = k;
-        _rear = k + _size - 1;
-        _elements = temp;
-    }
-
-    public String toString() {
+    @Override
+    public String toString(){
         StringBuilder sb = new StringBuilder();
-
-        sb.append('[');
-        for (int i = 0; i < _size; i++) {
-            sb.append(_elements[_front + i]);
-            if (i < _size - 1) {
-                sb.append(", ");
-            }
+        sb.append("[");
+        for (int i = 0; i<size-1; i++){
+            sb.append(elements[i]).append(", ");
         }
-        sb.append(']');
-
+        if (size > 0){
+            sb.append(elements[size-1]);
+        }
+        sb.append("]");
         return sb.toString();
     }
 
-    @Override
-    public int size() {
-        return _size;
+    public int size(){
+        return size;
     }
 
     @Override
-    public boolean add(E e) {
-        addLast(e);
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return null;
+    }
+
+    @Override
+    public Object[] toArray() {
+        return new Object[0];
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
+
+    @Override
+    public Iterator<E> descendingIterator() {
+        return null;
+    }
+
+    private void posincsize(){
+        if (size == elements.length) {
+            E[] newarr = (E[]) new Object[size*3/2+1];
+            System.arraycopy(elements, 0, newarr, 0, size);
+            elements = newarr;
+        }
+    }
+
+    @Override
+    public boolean add(E element){
+        posincsize();
+        elements[size] = element;
+        size++;
         return true;
     }
 
     @Override
-    public void addFirst(E e) {
-        if (_front == 0) {
-            Resize(_elements.length * 2);
-        }
-
-        _front--;
-        _size++;
-        _elements[_front] = e;
+    public boolean offer(E e) {
+        return false;
     }
 
     @Override
-    public void addLast(E e) {
-        if (_rear == _elements.length - 1) {
-            Resize(_elements.length * 2);
-        }
-
-        _rear++;
-        _size++;
-        _elements[_rear] = e;
+    public E remove() {
+        return null;
     }
 
-    @Override
-    public E element() {
-        return getFirst();
+    public void addFirst(E element){
+        posincsize();
+        System.arraycopy(elements, 0, elements, 1, size);
+        elements[0] = element;
+        size++;
     }
-
-    @Override
-    public E getFirst() {
-        if (_size == 0) {
-            return null;
-        }
-
-        return _elements[_front];
+    public void addLast(E element){
+        posincsize();
+        elements[size] = element;
+        size++;
     }
-
-    @Override
-    public E getLast() {
-        if (_size == 0) {
-            return null;
-        }
-
-        return _elements[_rear];
-    }
-
-    @Override
-    public E poll() {
-        return pollFirst();
-    }
-
-    @Override
-    public E pollFirst() {
-        if (_size == 0) {
-            return null;
-        }
-
-        _front++;
-        _size--;
-        return _elements[_front - 1];
-    }
-
-    @Override
-    public E pollLast() {
-        if (_size == 0) {
-            return null;
-        }
-
-        _rear--;
-        _size--;
-        return _elements[_rear + 1];
-    }
-
-
 
     @Override
     public boolean offerFirst(E e) {
@@ -155,34 +108,8 @@ public class MyArrayDeque<E> implements Deque<E> {
         return null;
     }
 
-    @Override
-    public E peekFirst() {
-        return null;
-    }
-
-    @Override
-    public E peekLast() {
-        return null;
-    }
-
-    @Override
-    public boolean removeFirstOccurrence(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean removeLastOccurrence(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean offer(E e) {
-        return false;
-    }
-
-    @Override
-    public E remove() {
-        return null;
+    public E element(){
+        return elements[0];
     }
 
     @Override
@@ -235,28 +162,47 @@ public class MyArrayDeque<E> implements Deque<E> {
         return false;
     }
 
+    public E getFirst(){
+        return elements[0];
+    }
+    public E getLast(){
+        return elements[size-1];
+    }
+
     @Override
-    public boolean isEmpty() {
+    public E peekFirst() {
+        return null;
+    }
+
+    @Override
+    public E peekLast() {
+        return null;
+    }
+
+    @Override
+    public boolean removeFirstOccurrence(Object o) {
         return false;
     }
 
     @Override
-    public Iterator<E> iterator() {
-        return null;
+    public boolean removeLastOccurrence(Object o) {
+        return false;
     }
 
-    @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public E poll(){
+        E temp = elements[0];
+        size--;
+        System.arraycopy(elements, 1, elements, 0, size);
+        return temp;
+    }
+    public E pollFirst(){
+        return poll();
     }
 
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    public E pollLast(){
+        size--;
+        E temp = elements[size];
+        return temp;
     }
 
-    @Override
-    public Iterator<E> descendingIterator() {
-        return null;
-    }
 }

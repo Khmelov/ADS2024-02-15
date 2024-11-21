@@ -1,7 +1,6 @@
 package by.it.group310901.baradzin.lesson14;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DisjointSetUnion {
     int[] parent;
@@ -31,10 +30,8 @@ public class DisjointSetUnion {
         }
     }
 
-    int find(int v) {
-        if (v == parent[v])
-            return v;
-        return find(parent[v]);
+    int find(int i) {
+        return i == parent[i] ? i : find(parent[i]);
     }
 
     ArrayList<Integer> getSizes() {

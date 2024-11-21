@@ -31,7 +31,7 @@ public class PointsA {
         var dsuSizes = dsu.getSizes();
 
         dsuSizes.removeIf(s -> s == 0);
-        Collections.sort(dsuSizes, Collections.reverseOrder());
+        dsuSizes.sort(Collections.reverseOrder());
 
         return dsuSizes;
     }

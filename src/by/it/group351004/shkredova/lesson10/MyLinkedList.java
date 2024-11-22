@@ -7,15 +7,19 @@ import java.util.Iterator;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 public class MyLinkedList<E> implements Deque<E> {
+
     private static class Info<E> {
         public final E data;
         public Info<E> prev = null;
         public Info<E> next = null;
         public Info(E data) { this.data = data; }
     }
+
     private Info<E> start = null;
     private Info<E> end = null;
+
     private int size = 0;
+
     private boolean checkType(Object o) {
         return o == null;
     }

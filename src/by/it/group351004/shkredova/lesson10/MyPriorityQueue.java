@@ -5,11 +5,13 @@ import java.util.function.IntFunction;
 public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
     private E[]array = (E[]) new Comparable[10];
     private int size = 0;
+
     private void resize() {
         E[] tmpArray = (E[]) new Comparable[size * 2 + 1];
         System.arraycopy(array, 0, tmpArray, 0, size);
         array = tmpArray;
     }
+
     private boolean checkType(Object o) {
         return o == null;
     }

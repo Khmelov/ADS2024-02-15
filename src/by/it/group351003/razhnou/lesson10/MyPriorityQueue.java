@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Queue;
 
 public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
-
+    // НА ОСНОВЕ ОЧЕРЕДИ С ПРИОРИТЕТОМ
     private E[] array;
     private int size;
 

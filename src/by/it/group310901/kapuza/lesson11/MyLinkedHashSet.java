@@ -5,108 +5,224 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MyLinkedHashSet<E> implements Set<E> {
-    protected static class Node<E>{
-        public E data;
-        public Node<E> next;
-        public int pos;
+    static class Node<E> {
+        E item;
+        Node<E> next, before, after;
 
-        public Node(){
-
-        }
-
-        public Node(E data, int pos) {
-            this.data = data;
-            this.pos = pos;
-            next = null;
+        public Node(E item) {
+            this.item = item;
         }
     }
-    protected static class DemoList<E> {
-        private Node<E> head,back;
 
-        public boolean contains (E o) {
-            Node<E> cur = head;
-            while (cur != null && !cur.data.equals(o))
-                cur = cur.next;
-            return cur != null;
+    int INITIAL_CAPACITY = 160;
+    float LOAD_FACTOR = 0.75f;
+    Node<E>[] array = new Node[INITIAL_CAPACITY];
+    int size = 0;
+    private Node<E> head, tail;
+
+    int hash(E e, int length) {
+        return e.hashCode() % length;
+    }
+
+    void setHeadTail(Node<E> node) {
+        if (head == null) {
+            head = node;
+        } else {
+            tail.after = node;
+            node.before = tail;
         }
-        public boolean add(E o, int pose, boolean toCheck) {
-            if (toCheck && contains(o))
-                return false;
-            Node<E> cur = new Node<E>(o,pose);
-            if(back == null)
-                head = back = cur;
-            else {
-                back.next = cur;
-                back = cur;
+        tail = node;
+    }
+
+    void resize() {
+        Node<E>[] newArray = new Node[size * 2];
+        for (int i = 0; i < array.length; i++) {
+            while (array[i] != null) {
+                int index = hash(array[i].item, newArray.length);
+                Node<E> newNode = new Node<>(array[i].item);
+                if (newArray[index] == null)
+                    newArray[index] = newNode;
+                else {
+                    Node<E> temp = newArray[index];
+                    while (temp.next != null)
+                        temp = temp.next;
+                    temp.next = newNode;
+                }
+                array[i] = array[i].next;
             }
-            return true;
         }
+        array = newArray;
+    }
 
-        public boolean remove(E o) {
-            if (head == null)
-                return false;
-            if (head.data.equals(o)) {
-                head = head.next;
-                return true;
-            }
-            Node<E> prev = head;
-            while (prev.next != null && !prev.next.data.equals(o))
-                prev = prev.next;
-            if (prev.next == null)
-                return false;
-            if (prev.next == back) {
-                prev.next = null;
-                back = prev;
-            } else
-                prev.next = prev.next.next;
-            return true;
-        }
-    }
-    private int tableSize = 123;
-    private int siz = 0, lastpose = 0;
-    private DemoList[] table = new DemoList[tableSize];
-    {
-        for (int i = 0; i < tableSize; i++)
-            table[i] = new DemoList<E>();
-    }
     @Override
     public String toString() {
+        StringBuilder s = new StringBuilder();
         if (isEmpty())
             return "[]";
-        StringBuilder res = new StringBuilder("[");
-        Node<E>[] nods = new Node[tableSize];
-        for (int i = 0; i < tableSize; i++)
-            nods[i] = (Node<E>) table[i].head;
-        while (true) {
-            Node<E> minInf = new Node<E>((E) new Object(), Integer.MAX_VALUE);
-            int minI = -1;
-            for (int i = 0; i < tableSize; i++)
-                if (nods[i] != null && nods[i].pos < minInf.pos) {
-                    minInf = nods[i];
-                    minI = i;
-                }
-            if (minI == -1)
-                break;
-            nods[minI] = nods[minI].next;
-            res.append(minInf.data.toString()).append(", ");
+        s.append("[");
+        var temp = head;
+        while (temp != null) {
+            s.append(temp.item).append(", ");
+            temp = temp.after;
         }
-        return res.substring(0, res.length() - 2) + "]";
+        if (size != 0) {
+            s.delete(s.length() - 2, s.length());
+        }
+        s.append("]");
+        return s.toString();
     }
+
     @Override
     public int size() {
-        return siz;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return siz == 0;
+        return size == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return table[o.hashCode() % tableSize].contains(o);
+        int index = hash((E) o, array.length);
+
+        if (array[index] == null)
+            return false;
+        else {
+            Node<E> temp = array[index];
+            while (temp != null) {
+                if (temp.item.equals(o))
+                    return true;
+                temp = temp.next;
+            }
+        }
+        return false;
     }
 
+    @Override
+    public boolean add(E e) {
+        int index = hash(e, array.length);
+
+        var node = new Node<>(e);
+        if (array[index] == null) {
+            array[index] = node;
+        } else {
+            var temp = array[index];
+            while (temp.next != null) {
+                if (temp.item.equals(e)) {
+                    return false;
+                }
+                temp = temp.next;
+            }
+            if (temp.item.equals(e))
+                return false;
+            temp.next = node;
+        }
+        setHeadTail(node);
+        if (++size > array.length * LOAD_FACTOR) {
+            resize();
+        }
+        return true;
+    }
+    void deleteFromList(Node<E> node){
+        if (node.before==null && node.after==null){
+            head=null;
+            tail=null;
+            return;
+        }
+        if (node.before!=null && node.after!=null){
+            node.before.after=node.after;
+            node.after.before=node.before;
+        } else if (node.after == null) {
+            node.before.after=null;
+            tail=node.before;
+        } else if (node.before == null) {
+            node.after.before=null;
+            head=node.after;
+        }
+    }
+    @Override
+    public boolean remove(Object o) {
+        int index = hash((E) o, array.length);
+
+        if (array[index] == null)
+            return false;
+        else {
+            Node<E> temp = array[index];
+            Node<E> prev = null;
+            while (temp != null) {
+                if (temp.item.equals(o)) {
+                    if (prev != null) {
+                        prev.next = temp.next;
+                    } else {
+                        array[index] = temp.next;
+                    }
+                    deleteFromList(temp);
+                    size--;
+                    return true;
+                }
+                prev = temp;
+                temp = temp.next;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        for (Object o :
+                c) {
+            if (!contains(o))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        for (E o:
+                c) {
+            add(o);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i]!=null){
+                var temp = array[i];
+                while (temp!=null){
+                    if(!c.contains(temp.item))
+                        remove(temp.item);
+                    temp=temp.next;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        for (Object o :
+                c) {
+            if (contains(o))
+                remove(o);
+        }
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < array.length; i++) {
+            array[i]=null;
+        }
+        head=null;
+        tail=null;
+        size=0;
+    }
+
+    /////////////////////////////////////////
     @Override
     public Iterator<E> iterator() {
         return null;
@@ -120,85 +236,5 @@ public class MyLinkedHashSet<E> implements Set<E> {
     @Override
     public <T> T[] toArray(T[] a) {
         return null;
-    }
-
-    @Override
-    public boolean add(E e) {
-        if (table[e.hashCode() % tableSize].add(e, lastpose++, true))
-            siz++;
-        else
-            return false;
-        return true;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        if (table[o.hashCode() % tableSize].remove(o))
-            siz--;
-        else
-            return false;
-        return true;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        for (Object o : c)
-            if (!contains(o))
-                return false;
-        return true;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        boolean toRet = false;
-        for (E o : c)
-            if (add(o))
-                toRet = true;
-        return toRet;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        int deleted = 0;
-        for (int i = 0; i < tableSize; i++) {
-            DemoList<E> newList = new DemoList<>();
-            Node<E> cur = table[i].head;
-            while (cur != null) {
-                if (c.contains(cur.data))
-                    newList.add(cur.data, cur.pos, false);
-                else
-                    deleted++;
-                cur = cur.next;
-            }
-            table[i] = newList;
-        }
-        siz -= deleted;
-        return deleted > 0;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        int deleted = 0;
-        for (int i = 0; i < tableSize; i++) {
-            DemoList<E> newList = new DemoList<>();
-            Node<E> cur = table[i].head;
-            while (cur != null) {
-                if (!c.contains(cur.data))
-                    newList.add(cur.data, cur.pos, false);
-                else
-                    deleted++;
-                cur = cur.next;
-            }
-            table[i] = newList;
-        }
-        siz -= deleted;
-        return deleted > 0;
-    }
-
-    @Override
-    public void clear() {
-        siz = 0;
-        for (int i = 0; i < tableSize; i++)
-            table[i] = new DemoList<E>();
     }
 }

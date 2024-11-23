@@ -5,10 +5,6 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.NoSuchElementException;
 
-// Создайте class MyPriorityQueue<E>, который реализует интерфейс Queue<E>
-// и работает на основе кучи, построенной на приватном массиве типа E[]
-// БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
 public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
     
     private final int SIZE = 8;

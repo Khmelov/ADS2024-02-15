@@ -7,10 +7,6 @@ import java.util.NoSuchElementException;
 
 import java.lang.StringBuilder;
 
-// Создайте class MyLinkedList<E>, который реализует интерфейс Deque<E>
-// и работает на основе двунаправленного связного списка
-// БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
 public class MyLinkedList<E> implements Deque<E> {
 
     private static class Node<E> {

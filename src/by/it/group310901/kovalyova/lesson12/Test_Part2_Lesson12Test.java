@@ -21,13 +21,16 @@ import static org.junit.Assert.fail;
 //поставьте курсор на следующую строку и нажмите Ctrl+Shift+F10
 //для корректной сборки теста добавьте библиотеку init.jar в проект (она находится в корне)
 public class Test_Part2_Lesson12Test extends HomeWork {
+
     private static final int RND_SEED = 123;
     private static final int INVOCATION_COUNT_PER_METHOD = 10;
     private static final int MAX_VALUE = 100;
     private final Random rnd = new Random(RND_SEED);
     private Map<Integer, String> eObject;
     private Map<Integer, String> aObject;
+
     private Map<Method, String> cache = new HashMap<>();
+
     @Test(timeout = 500 * INVOCATION_COUNT_PER_METHOD)
     public void testTaskA() throws Exception {
         String[] methods = """

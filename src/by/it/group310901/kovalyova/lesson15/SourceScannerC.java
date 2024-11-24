@@ -8,8 +8,10 @@ import java.util.*;
 import java.io.File;
 public class SourceScannerC {
     private static List<FileContent> fileContents = new ArrayList<>();
+
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
+
         try {
             Files.walk(Paths.get(src))
                     .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))

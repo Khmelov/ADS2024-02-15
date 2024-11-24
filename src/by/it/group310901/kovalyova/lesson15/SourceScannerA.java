@@ -6,15 +6,16 @@ import java.nio.file.*;
 import java.util.*;
 
 public class SourceScannerA {
+
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
+
         try {
             List<FileInfo> filesInfo = new ArrayList<>();
             Files.walk(Paths.get(src))
                     .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))
                     .forEach(path -> {
                         try {
-
                             String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 
                             // Пропускаем файлы с @Test или org.junit.Test

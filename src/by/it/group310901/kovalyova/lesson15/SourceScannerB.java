@@ -7,7 +7,6 @@ import java.util.regex.*;
 import java.nio.charset.MalformedInputException;
 
 public class SourceScannerB {
-
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
         try {

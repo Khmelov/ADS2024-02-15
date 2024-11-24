@@ -6,7 +6,6 @@ import java.nio.file.*;
 import java.util.*;
 
 public class SourceScannerA {
-
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
 

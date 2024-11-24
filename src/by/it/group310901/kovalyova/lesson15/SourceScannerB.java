@@ -10,7 +10,6 @@ public class SourceScannerB {
 
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
-
         try {
             List<FileInfo> filesInfo = new ArrayList<>();
             Files.walk(Paths.get(src))

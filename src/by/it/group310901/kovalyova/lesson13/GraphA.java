@@ -7,14 +7,17 @@ public class GraphA {
     private static class vector<T>{
         public int size = 0;
         public Object[] values = new Object[0];
+
         public boolean empty(){
             return size == 0;
         }
+
         public void push_back(T value){
             if(size == values.length)
                 values = Arrays.copyOf(values, size * 3 / 2 + 1);
             values[size++] = value;
         }
+
         public boolean contains(T val) {
             for (int i = 0; i < size; ++i)
                 if (values[i].equals(val))

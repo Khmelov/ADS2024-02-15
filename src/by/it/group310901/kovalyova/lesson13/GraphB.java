@@ -105,6 +105,7 @@ public class GraphB {
                 used[i] = 0;
             used[z] = 1;
             cicle = DFS(z, used, G);
+
         }
         System.out.println(cicle ? "yes" : "no");
         in.close();

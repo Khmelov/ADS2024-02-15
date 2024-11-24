@@ -16,7 +16,7 @@ public class Test_Part2_Lesson15Test extends HomeWork {
 
     private static List<String> samples;
 
-    @Test(timeout = 20000) //можно изменить под свою производительность
+    @Test(timeout = 20000)  //можно изменить под свою производительность
     public void testSourceScannerA() {
         HomeWork run = run("");
         for (String sample : lazyWalk()) {

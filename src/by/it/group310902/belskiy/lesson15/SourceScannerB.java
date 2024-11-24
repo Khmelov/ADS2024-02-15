@@ -15,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class SourceScannerB {
+public class SourceScannerB  {
     public static void main(String[] args) {
         Path srcDir = Paths.get("src"); // Путь к вашему каталогу
         List<FileInfo> filesToProcess = new ArrayList<>();

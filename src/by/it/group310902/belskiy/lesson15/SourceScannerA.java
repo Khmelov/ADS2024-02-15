@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SourceScannerA {
+public class SourceScannerA  {
     public static void main(String[] args) throws IOException {
         // Путь к корневой папке
         Path rootDirectory = Paths.get("src"); // создаётся объект Path, который указывает на корневую папку

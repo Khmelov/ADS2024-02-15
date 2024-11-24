@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static java.nio.file.Files.move;
 
-public class SourceScannerC {
+public class SourceScannerC  {
     static final int NORMAL_DISTANCE = 9; // Константа NORMAL_DISTANCE, которая используется для определения предельного значения расстояния редактирования между строками.
 
     private static int compareChars (char c1, char c2) {

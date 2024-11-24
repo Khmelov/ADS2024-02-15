@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.stream.*;
 
 public class SourceScannerA {
-
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
 

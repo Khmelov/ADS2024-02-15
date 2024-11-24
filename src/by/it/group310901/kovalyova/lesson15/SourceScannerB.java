@@ -7,8 +7,10 @@ import java.util.regex.*;
 import java.nio.charset.MalformedInputException;
 
 public class SourceScannerB {
+
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
+
         try {
             List<FileInfo> filesInfo = new ArrayList<>();
             Files.walk(Paths.get(src))
@@ -47,6 +49,7 @@ public class SourceScannerB {
                             e.printStackTrace();
                         }
                     });
+
             // Сортируем по размеру и лексикографически
             filesInfo.sort(Comparator.comparingInt(FileInfo::getSize)
                     .thenComparing(FileInfo::getPath));

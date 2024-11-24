@@ -6,8 +6,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
-class
-MyNode<E> {
+class MyNode<E> {
     public E value;
     public MyNode next;
 
@@ -140,6 +139,7 @@ public class MyHashSet<E> implements Set<E> {
             return true;
         }
     }
+
     @Override
     public boolean remove(Object o) {
         int hash = hashIndex(o);

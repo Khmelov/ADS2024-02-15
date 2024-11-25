@@ -5,7 +5,7 @@ import java.util.Deque;
 import java.util.Iterator;
 
 public class MyArrayDeque<E> implements Deque<E> {
-
+// НА ОСНОВЕ МАССИВОВ
     final int defaultSize = 8;
     int _front;
     int _rear;

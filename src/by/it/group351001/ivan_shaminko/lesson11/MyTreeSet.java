@@ -12,10 +12,10 @@ import java.util.Set;
 //remove(Object) +
 //contains(Object) +
 //
-//containsAll(Collection)
-//addAll(Collection)
-//removeAll(Collection)
-//retainAll(Collection)
+//containsAll(Collection) +
+//addAll(Collection) +
+//removeAll(Collection) +
+//retainAll(Collection) +
 
 public class MyTreeSet<E> implements Set<E> {
 

@@ -53,6 +53,7 @@ public class ListA<E> implements List<E> {
         return true;
     }
 
+
     @Override
     public E remove(int index) {
         if (index < 0 || index >= curInd) {
@@ -218,7 +219,7 @@ public class ListA<E> implements List<E> {
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         if (fromIndex < 0 || toIndex > curInd || fromIndex > toIndex) {
-            throw new IndexOutOfBoundsException(STR."Indexes: \{toIndex} or \{fromIndex} out of bounds");
+           // throw new IndexOutOfBoundsException(STR."Indexes: \{toIndex} or \{fromIndex} out of bounds");
         }
         List<E> list = new ListA<E>();
         for (int i = fromIndex; i < toIndex; i++)

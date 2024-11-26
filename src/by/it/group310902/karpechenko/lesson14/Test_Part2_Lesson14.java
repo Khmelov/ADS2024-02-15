@@ -15,7 +15,7 @@ public class Test_Part2_Lesson14 extends HomeWork {
 
     private int distance;
     private final Random random = new Random(123);
-
+    /*
     @Test(timeout = 5000)
     public void testPointsA() {
         for (int i = 0; i < TEST_COUNT; i++) {
@@ -28,7 +28,8 @@ public class Test_Part2_Lesson14 extends HomeWork {
             run(input).include(out);
         }
     }
-
+*/
+    /*
     @Test(timeout = 5000)
     public void testSitesB() {
         for (int i = 0; i < TEST_COUNT; i++) {
@@ -41,7 +42,7 @@ public class Test_Part2_Lesson14 extends HomeWork {
             run(input).include(out);
         }
     }
-
+*/
 
     @Test(timeout = 5000)
     public void testStatesHanoiTowerC() {

@@ -10,7 +10,7 @@ public class MyRbMap implements SortedMap<Integer, String> {
     static private class MyNode{
         Integer key;
         String value;
-        Boolean color;///красный - false , черный - true
+        Boolean color; //красный - false , черный - true
         MyNode left, right, parent;
         MyNode(Integer key,String value,MyNode parent) {
             this.key = key;

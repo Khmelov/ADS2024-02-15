@@ -39,20 +39,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
             addtostring(parent.right, str);
     }
 
-    //    public void checktree(MyNode node, String methodname){
-//        if (node != null) {
-//            if (node.right != null) {
-//                if (node.key > node.right.key)
-//                    System.out.println("tree broke " + methodname);
-//                checktree(node.right, methodname);
-//            }
-//            if (node.left != null) {
-//                if (node.key < node.left.key)
-//                    System.out.println("tree broke " + methodname);
-//                checktree(node.left, methodname);
-//            }
-//        }
-//    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -101,7 +87,7 @@ public class MySplayMap implements NavigableMap<Integer, String> {
     }
 
     private void splay(MyNode node){
-        while (node.parent!=null)
+        while (node.parent != null)
             if (node == node.parent.left){
                 if (node.grandfather() == null)
                     rotateright(node.parent);

@@ -1,35 +1,34 @@
 package by.it.group351001.v_sarychev.lesson14;
 
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class StatesHanoiTowerC {
-    private static class DSU {
+    private static class DisjointSetUnion {
         int[] parent;
         int[] size;
 
-        DSU(int size) {
+        DisjointSetUnion(int size) {
             parent = new int[size];
             this.size = new int[size];
+            for (int i = 0; i < size; i++) {
+                parent[i] = i;
+                this.size[i] = 1;
+            }
         }
 
-        void makeSet(int v) {
-            parent[v] = v;
-            size[v] = 1;
+        int size(int i) {
+            return size[find(i)];
         }
 
-        int size(int v) {
-            return size[findSet(v)];
+        int find(int i) {
+            return i == parent[i] ? i : (parent[i] = find(parent[i]));
         }
 
-        int findSet(int v) {
-            if (v == parent[v])
-                return v;
-            return parent[v] = findSet(parent[v]);
-        }
-
-        void unionSets(int a, int b) {
-            a = findSet(a);
-            b = findSet(b);
+        void union(int a, int b) {
+            a = find(a);
+            b = find(b);
             if (a != b) {
                 if (size[a] < size[b]) {
                     int temp = a;
@@ -43,79 +42,57 @@ public class StatesHanoiTowerC {
     }
 
     static int[] carryingOver(int N, int step, int k) {
-        int axisX = 0, axisY, axisZ;
-        axisY = (N % 2 == 0) ? 1 : 2;
-        axisZ = (N % 2 == 0) ? 2 : 1;
+        var x = (N % 2 == 0) ? 0 : 0;
+        var y = (N % 2 == 0) ? 1 : 2;
+        var z = (N % 2 == 0) ? 2 : 1;
 
-        int[] result = new int[3];
-        int t = (step / (1 << (k - 1)) - 1) / 2;
+        var result = new int[3];
 
-        int[] mapping = (k % 2 != 0) ? new int[]{axisX, axisY, axisZ} : new int[]{axisX, axisZ, axisY};
-        int from = mapping[t % 3];
-        int to = mapping[(t + 1) % 3];
+        var t = (step / (1 << (k - 1)) - 1) / 2;
 
-        result[from] = -1;
-        result[to] = 1;
+        var axes = (k % 2 != 0)
+                ? new int[] { x, y, z }
+                : new int[] { x, z, y };
+
+        result[axes[t % 3]] = -1;
+        result[axes[(t + 1) % 3]] = 1;
+
         return result;
     }
 
-    static int countBits(int num) {
-        int count = 0;
-        while (num % 2 == 0) {
-            count++;
-            num /= 2;
-        }
-        return count;
-    }
-
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int N = scanner.nextInt();
-        int max_size = (1 << N) - 1;
-        int[] steps_heights = new int[N];
-        for (int i = 0; i < N; i++)
-            steps_heights[i] = -1;
-        DSU dsu = new DSU(max_size);
-        int[] heights = new int[3];
-        heights[0] = N;
-        for (int i = 0; i < max_size; i++) {
+        int N;
+        try (var scanner = new Scanner(System.in)) {
+            N = scanner.nextInt();
+        }
 
-            int step = i + 1;
-            int[] delta = (step % 2 != 0) ? carryingOver(N, step, 1) : carryingOver(N, step, countBits(step) + 1);
+        var size = (1 << N) - 1;
+        var stepsHeights = new int[N];
+        Arrays.fill(stepsHeights, -1);
 
+        var dsu = new DisjointSetUnion(size);
+        int[] heights = { N, 0, 0 };
+
+        for (int i = 0; i < size; i++) {
+            var delta = carryingOver(N, i + 1, Integer.numberOfTrailingZeros(i + 1) + 1);
             for (int j = 0; j < 3; j++)
                 heights[j] += delta[j];
-
-            int max = Math.max(heights[0], Math.max(heights[1], heights[2]));
-            dsu.makeSet(i);
-
-            int maxHeightIndex = max - 1;
-            if (steps_heights[maxHeightIndex] == -1)
-                steps_heights[maxHeightIndex] = i;
+            var max = Arrays.stream(heights).max().getAsInt();
+            if (stepsHeights[max - 1] == -1)
+                stepsHeights[max - 1] = i;
             else
-                dsu.unionSets(steps_heights[maxHeightIndex], i);
+                dsu.union(stepsHeights[max - 1], i);
         }
 
-        int[] sizes = new int[N];
+        var sizes = new int[N];
         for (int i = 0; i < N; i++)
-            if (steps_heights[i] != -1)
-                sizes[i] = dsu.size(steps_heights[i]);
+            if (stepsHeights[i] != -1)
+                sizes[i] = dsu.size(stepsHeights[i]);
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < N; i++) {
-            int max = i;
-            for (int j = i + 1; j < N; j++)
-                if (sizes[max] < sizes[j])
-                    max = j;
-            if (sizes[max] == 0)
-                break;
-            int temp = sizes[max];
-            sizes[max] = sizes[i];
-            sizes[i] = temp;
-            sb.insert(0, sizes[i] + " ");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        System.out.println(sb);
+        System.out.println(Arrays.stream(sizes)
+                .filter(current -> current > 0)
+                .sorted()
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining(" ")));
     }
 }

@@ -1,59 +1,36 @@
 package by.it.group351001.v_sarychev.lesson14;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class SitesB {
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        var points = new ArrayList<String>();
+        var dsu = new by.it.group351001.v_sarychev.lesson14.DisjointSetUnion(1000);
 
-        DisJointSet<String> disjointSet = new DisJointSet<>();
+        try (var scanner = new Scanner(System.in)) {
+            points = new ArrayList<>();
+            String line;
+            while (!(line = scanner.next()).equals("end")) {
+                var pair = line.split("\\+");
+                var x1 = points.indexOf(pair[0]);
+                if (x1 == -1)
+                    points.add(pair[0]);
+                x1 = points.indexOf(pair[0]);
 
-        while (true) {
-            String input = scanner.nextLine();
+                var x2 = points.indexOf(pair[1]);
+                if (x2 == -1)
+                    points.add(pair[1]);
+                x2 = points.indexOf(pair[1]);
 
-            if (input.equals("end")) {
-                break;
+                dsu.union(x1, x2);
             }
-
-            String[] sites = input.split("\\+");
-
-            for (String site : sites) {
-                if (!disjointSet.contains(site)) {
-                    disjointSet.makeSet(site);
-                }
-            }
-
-            disjointSet.union(sites[0], sites[1]);
         }
 
-        scanner.close();
+        var dsuSizes = dsu.getSizes();
+        dsuSizes.sort(Collections.reverseOrder());
 
-        Map<String, Integer> clusterSizes = new HashMap<>();
-        HashSet<String> set = new HashSet<>();
-        for (String site : disjointSet) {
-            if (set.contains(site))
-                continue;
-            set.add(site);
-            String root = disjointSet.findSet(site);
-            clusterSizes.put(root, disjointSet.getClusterSize(site));
-        }
-
-        /*Map<String, Integer> clusterSizes = new HashMap<>();
-        for (String site : disjointSet) {
-            String root = disjointSet.findSet(site);
-            clusterSizes.put(root, clusterSizes.getOrDefault(root, 0) + 1);
-        }*/
-
-        ArrayList<Integer> temp = new ArrayList<>();
-
-        temp.addAll(clusterSizes.values());
-
-        Collections.sort(temp);
-        Collections.reverse(temp);
-
-        for (int item : temp)
-            System.out.print(item + " ");
-
+        System.out.println(String.join(" ", dsuSizes.stream().map(String::valueOf).toArray(String[]::new)));
     }
 }

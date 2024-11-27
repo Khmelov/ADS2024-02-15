@@ -37,7 +37,7 @@ import java.util.Scanner;
 
 
 
-
+//d
 
 public class B_LongDivComSubSeq {
 

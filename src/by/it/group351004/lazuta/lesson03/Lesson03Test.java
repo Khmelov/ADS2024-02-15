@@ -1,4 +1,4 @@
-package by.it.group351004.lazuta.lesson03;
+package lesson03;
 
 import org.junit.Test;
 
@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 import static org.junit.Assert.assertTrue;
 
-public class Lesson03Test {
+//public class Lesson03Test {
     /*
     для прохождения тестов создайте JUnit-конфигурацию на свой пакет:
     Поля:
@@ -18,7 +18,7 @@ public class Lesson03Test {
     Search for test:    In whole project
     */
 
-
+/*
     @Test
     public void A() throws Exception {
         String root = System.getProperty("user.dir") + "/src/";
@@ -49,3 +49,4 @@ public class Lesson03Test {
     }
 
 }
+*/

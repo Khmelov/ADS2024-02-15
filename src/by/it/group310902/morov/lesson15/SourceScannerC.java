@@ -28,7 +28,7 @@
 //
 //Все операции не должны ничего менять на дисках (разрешено только чтение).
 //Работа не имеет цели найти плагиат, поэтому не нужно менять коды своих программ.
-package lesson15;
+package by.it.group310902.morov.lesson15;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

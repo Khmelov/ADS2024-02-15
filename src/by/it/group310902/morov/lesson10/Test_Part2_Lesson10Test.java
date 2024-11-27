@@ -1,4 +1,4 @@
-package lesson10;
+package by.it.group310902.morov.lesson10;
 
 
 import by.it.HomeWork;

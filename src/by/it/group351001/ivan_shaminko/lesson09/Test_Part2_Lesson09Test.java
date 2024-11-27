@@ -64,7 +64,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
         randomCheck("ListB", methods);
     }
 
-    @Test(timeout = 5000000)
+    @Test(timeout = 5000)
     public void testTaskC() throws Exception {
         String[] methods = """
                 toString()

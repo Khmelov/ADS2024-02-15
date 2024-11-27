@@ -1,36 +1,38 @@
 package by.it.group310901.lisovitskii.lesson11;
-
+//реализацию пользовательского класса MyHashSet, который работает как множество (Set) с использованием хеширования
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-
-public class MyHashSet<E> implements Set<E> {
-
+//реализуем интерфейс
+public class MyHashSet<E> implements Set<E> {//наподобие hash test
+    //внутренний класс для узлов списка
     class Node<E> {
         E data;
-        Node<E> next;
-
+        Node<E> next;//ссылка на след эл
+        // конструктор узла
         Node(E data) {
             this.data = data;
         }
     }
-    static final int defaultSize = 32;
-    Node<E>[] _items;
-    int _count;
-
+    static final int defaultSize = 32;//размер
+//массив, в котором хранятся элементы множества каждый элемент массива является связным списком
+    Node<E>[] _items;//массив эл множества
+    int _count;// колво  элементов
+//коструктор по умолчанию с начальным размером
     public MyHashSet() {
         this(defaultSize);
     }
-
+//конструктор с заданым размером
     public MyHashSet(int capacity) {
         _items = new Node[capacity];
     }
-
+    //вычисляем хэш
     int GetHash(Object value) {
         return (value.hashCode() & 0x7FFFFFFF) % _items.length;
     }
 
     @Override
+    //представляем множество в виде строки
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         boolean first = true;
@@ -40,9 +42,9 @@ public class MyHashSet<E> implements Set<E> {
                 if (!first) {
                     sb.append(", ");
                 }
-                sb.append(current.data);
+                sb.append(current.data);//добавляем данные в сторку
                 first = false;
-                current = current.next;
+                current = current.next;//переходим к след эл
             }
         }
 
@@ -53,15 +55,17 @@ public class MyHashSet<E> implements Set<E> {
     @Override
     public int size() {
         return _count;
-    }
+    }//размер
+
 
     @Override
     public boolean isEmpty() {
         return _count == 0;
-    }
+    }// проверяем пустое ли мн
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object o) {//    // проверяет, содержит ли множество заданный элемент
+
         Node<E> current = _items[GetHash(o)];
         while (current != null) {
             if (current.data.equals(o)) {
@@ -73,25 +77,27 @@ public class MyHashSet<E> implements Set<E> {
     }
 
     @Override
-    public boolean add(E e) {
+    public boolean add(E e) {//добавляем эл в мноэжетсво
         int index = GetHash(e);
         Node<E> current = _items[index];
+        //проверка если эл есть
         while (current != null) {
             if (current.data.equals(e)) {
                 return false;
             }
             current = current.next;
         }
+        //добаваляем новый узел в начало списка
         Node<E> newNode = new Node<>(e);
         newNode.next = _items[index];
         _items[index] = newNode;
         _count++;
-        if (_count > _items.length * 0.75) {
+        if (_count > _items.length * 0.75) {//нужно ли увеличить размер массива ? если заполнено больше 75 проц
             resize();
         }
         return true;
     }
-
+//увеличивает размер маассива и перераспределет эл
     void resize() {
         Node<E>[] newItems = new Node[_items.length * 2];
         for (int i = 0; i < _items.length; i++) {
@@ -106,7 +112,7 @@ public class MyHashSet<E> implements Set<E> {
         }
         _items = newItems;
     }
-
+//удаляем эл из мн
     @Override
     public boolean remove(Object o) {
         int index = GetHash(o);
@@ -127,7 +133,7 @@ public class MyHashSet<E> implements Set<E> {
         }
         return false;
     }
-
+//чистим мн
     @Override
     public void clear() {
         for (int i = 0; i < _items.length; i++)

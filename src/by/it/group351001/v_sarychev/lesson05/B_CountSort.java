@@ -55,7 +55,7 @@ public class B_CountSort {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson05/dataB.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/v_sarychev/lesson05/dataB.txt");
         B_CountSort instance = new B_CountSort();
         int[] result=instance.countSort(stream);
         for (int index:result){

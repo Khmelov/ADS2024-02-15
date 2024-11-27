@@ -1,4 +1,4 @@
-package lesson12;
+package by.it.group310902.morov.lesson12;
 
 import java.util.*;
 

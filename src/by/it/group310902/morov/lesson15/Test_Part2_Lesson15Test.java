@@ -1,4 +1,4 @@
-package lesson15;
+package by.it.group310902.morov.lesson15;
 
 import by.it.HomeWork;
 import org.junit.Test;

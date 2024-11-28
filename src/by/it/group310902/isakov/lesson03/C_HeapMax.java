@@ -105,7 +105,7 @@ public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        File f = new File(root + "by/it/group310902/isakov/lesson03/dataHeap.txt");
+        File f = new File(root + "by/it/group310902/isakov/lesson03/heapData.txt");
         C_HeapMax instance = new C_HeapMax();
         Long result = instance.findMaxValue(new FileInputStream(f));
         System.out.println(result);

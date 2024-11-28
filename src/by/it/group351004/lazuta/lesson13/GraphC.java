@@ -1,4 +1,5 @@
-package by.it.group351004.gasyuk.lesson13;
+package by.it.group351004.lazuta.lesson13;
+
 
 import java.util.*;
 
@@ -33,7 +34,7 @@ public class GraphC {
         }
 
         for (ArrayList<String> list: neighbours.values()) {
-            list.sort(new LexicalComparator());
+            list.sort(new by.it.group351004.lazuta.lesson13.GraphC.LexicalComparator());
         }
 
         for (String w : neighbours.keySet()) {

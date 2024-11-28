@@ -1,4 +1,4 @@
-package by.it.group310902.najmiddinzoda.lesson08;
+package lesson08;
 
 import org.junit.Test;
 

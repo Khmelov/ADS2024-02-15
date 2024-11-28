@@ -37,7 +37,7 @@ import java.util.Scanner;
 
 public class C_HeapMax {
 
-    private class MaxHeap {
+        private class MaxHeap {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         private List<Long> heap = new ArrayList<>();
         int siftDown(int i) {
@@ -115,7 +115,7 @@ public class C_HeapMax {
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";
-        InputStream stream = new FileInputStream(root + "by/it/a_khmelev/lesson03/heapData.txt");
+        InputStream stream = new FileInputStream(root + "by/it/group351001/v_sarychev/lesson03/heapData.txt");
         C_HeapMax instance = new C_HeapMax();
         System.out.println("MAX="+instance.findMaxValue(stream));
     }

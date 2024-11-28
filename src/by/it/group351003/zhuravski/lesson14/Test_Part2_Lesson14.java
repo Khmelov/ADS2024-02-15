@@ -70,6 +70,9 @@ public class Test_Part2_Lesson14 extends HomeWork {
             points.add(point);
         }
         out.append('\n');
+        if (n == 77) {
+            System.out.println(77);
+        }
         return out.toString();
     }
 

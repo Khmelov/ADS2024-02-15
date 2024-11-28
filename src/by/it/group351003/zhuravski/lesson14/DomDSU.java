@@ -1,14 +1,14 @@
 package by.it.group351003.zhuravski.lesson14;
 
 import java.util.ArrayList;
-
+import java.util.Iterator;
+class DSU {
+    Object val;
+    int parent;
+    int count;
+}
 public class DomDSU {
-    class DSU {
-        Object val;
-        int parent;
-        int count;
-    }
-    private ArrayList<DSU> elems;
+    public ArrayList<DSU> elems;
     DomDSU() {
         elems = new ArrayList<>();
     }
@@ -59,19 +59,20 @@ public class DomDSU {
         }
         int firstParent = getParent(first);
         int secondParent = getParent(second);
-        int firstDepth = getDepth(first);
-        int secondDepth = getDepth(second);
-        if (firstDepth > secondDepth) {
-            DSU elem = elems.get(secondParent);
-            elem.parent = firstParent;
-            DSU elem2 = elems.get(firstParent);
-            elem2.count += elem.count;
-        }
-        else {
-            DSU elem = elems.get(firstParent);
-            elem.parent = secondParent;
-            DSU elem2 = elems.get(secondParent);
-            elem2.count += elem.count;
+        if (firstParent != secondParent) {
+            int firstDepth = getDepth(first);
+            int secondDepth = getDepth(second);
+            if (firstDepth > secondDepth) {
+                DSU elem = elems.get(secondParent);
+                elem.parent = firstParent;
+                DSU elem2 = elems.get(firstParent);
+                elem2.count += elem.count;
+            } else {
+                DSU elem = elems.get(firstParent);
+                elem.parent = secondParent;
+                DSU elem2 = elems.get(secondParent);
+                elem2.count += elem.count;
+            }
         }
     }
 }

@@ -34,42 +34,7 @@ Sample Output:
 
 
 public class C_GetInversions {
-    private int numberInversions = 0;
-    private void mergeSort(int[] nums, int left, int right){
-        if (left == right)
-            return;
 
-        int mid = left + (right - left) / 2;
-        mergeSort(nums, left, mid);
-        mergeSort(nums, mid + 1, right);
-        merge(nums, left, mid, right);
-        return;
-    }
-    private void merge(int[] nums, int left, int mid, int right){
-        int[] sorted = new int[right+1];
-        int leftArrInd = left;
-        int rightArrInd = mid + 1;
-        int numsArrInd = 0;
-
-        while ((leftArrInd <= mid) && (rightArrInd <= right)){
-            if (nums[leftArrInd] <= nums[rightArrInd]) {
-                sorted[numsArrInd++] = nums[leftArrInd++];
-                numberInversions += rightArrInd - mid - 1;
-            }
-            else
-                sorted[numsArrInd++] = nums[rightArrInd++];
-        }
-        while (leftArrInd <= mid) {
-            sorted[numsArrInd++] = nums[leftArrInd++];
-            numberInversions += rightArrInd - mid - 1;
-        }
-        while (rightArrInd <= right)
-            sorted[numsArrInd++] = nums[rightArrInd++];
-
-        for (int i = left; i <= right; i++)
-            nums[i] = sorted[i - left];
-        return;
-    }
     int calc(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
         Scanner scanner = new Scanner(stream);
@@ -81,13 +46,59 @@ public class C_GetInversions {
         for (int i = 0; i < n; i++) {
             a[i] = scanner.nextInt();
         }
-        mergeSort(a, 0, a.length-1);
-        return numberInversions;
+        int result = 0;
         //!!!!!!!!!!!!!!!!!!!!!!!!     тут ваше решение   !!!!!!!!!!!!!!!!!!!!!!!!
-        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
 
+        result = sort(a, 0, a.length - 1);
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+        return result;
     }
 
+    int sort(int[] arr, int left, int right) {
+        int count = 0;
+        int m = (left + right) / 2;
+
+        if (right - left > 1) {
+            count += sort(arr, left, m - 1);
+            count
+                    += sort(arr, m, right);
+        }
+        count += merge(arr, left, m, right);
+        return count;
+    }
+
+    int merge(int[] arr, int left, int middle, int right) {
+        int a = 0, b = 0, count = 0;
+        int[] result = new int[right - left + 1];
+
+        while ((left + a < middle) && (middle + b <= right)) {
+
+            if (arr[left + a] <= arr[middle + b]) {
+                result[a + b] = arr[left + a];
+                a++;
+            } else {
+                result[a + b] = arr[middle + b];
+                b++;
+                count++;
+            }
+        }
+
+        while (left + a < middle) {
+            result[a + b] = arr[left + a];
+            a++;
+            count++;
+        }
+
+        while (middle + b <= right) {
+            result[a + b] = arr[middle + b];
+            b++;
+        }
+
+        if (a + b >= 0)
+            System.arraycopy(result, 0, arr, left, a + b);
+        return count;
+    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

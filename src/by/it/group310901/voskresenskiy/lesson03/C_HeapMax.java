@@ -43,43 +43,55 @@ public class C_HeapMax {
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
-        int siftUp(int i) { //просеивание вверх
-            while (heap.get(i) > heap.get((i - 1) / 2)){
-                swap(i, (i - 1) / 2);
-                i = (i - 1) / 2;
-            }
-            return i;
+        private void swap(int a, int b) {
+            long buffer = heap.get(a);
+            heap.set(a, heap.get(b));
+            heap.set(b, buffer);
         }
-        int siftDown(int i) { //просеивание вниз
-            while (2*i + 1 < heap.size()) {
-                int left = 2 * i + 1;
-                int right = 2 * i + 2;
-                int max = left;
-                if((right < heap.size()) && (heap.get(right) > heap.get(left)))
-                    max = right;
-                if(i == max)
-                    break;
-                i = max;
+
+        int siftDown(int index) { //просеивание вверх
+            int leftChildIndex = 2 * index + 1;
+            int rightChildIndex = 2 * index + 2;
+            int maxIndex = index;
+            if (leftChildIndex < heap.size() && heap.get(leftChildIndex) > heap.get(maxIndex))
+                maxIndex = leftChildIndex;
+
+            if (rightChildIndex < heap.size() && heap.get(rightChildIndex) > heap.get(maxIndex))
+                maxIndex = rightChildIndex;
+
+            if (maxIndex != index) {
+                swap(maxIndex, index);
+                siftDown(maxIndex);
             }
-            return i;
+            return index;
+        }
+
+//        int siftUp(int i) { //просеивание вниз
+//
+//            return i;
+//        }
+
+        private void siftUp(int index) {
+            int parentIndex = (index-1)/2;
+
+            if (parentIndex >=0 && heap.get(parentIndex) < heap.get(index)){
+                swap(parentIndex, index);
+                siftUp(parentIndex);
+            }
         }
 
         void insert(Long value) { //вставка
             heap.add(value);
-            siftUp(heap.size()-1);
-        }
-
-        private void swap(int i, int j){
-            Long temp = heap.get(j);
-            heap.set(j, heap.get(i));
-            heap.set(i, temp);
+            siftUp(heap.size() - 1);
         }
 
         Long extractMax() { //извлечение и удаление максимума
             Long result = null;
+
             result = heap.get(0);
-            heap.remove(0);
+            heap.remove(heap.get(0));
             siftDown(0);
+
             return result;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
@@ -105,7 +117,7 @@ public class C_HeapMax {
                 if (p[0].equalsIgnoreCase("insert"))
                     heap.insert(Long.parseLong(p[1]));
                 i++;
-                //System.out.println(heap); //debug
+            //System.out.println(heap); //debug
             }
         }
         return maxValue;

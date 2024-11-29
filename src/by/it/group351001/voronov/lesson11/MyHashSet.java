@@ -27,10 +27,6 @@ public class MyHashSet<E> implements Set<E> {
         items = new Node[capacity];
     }
 
-    int GetHash(Object value) {
-        return (value.hashCode() & 0x7FFFFFFF) % items.length;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
@@ -137,8 +133,13 @@ public class MyHashSet<E> implements Set<E> {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////
+    int GetHash(Object value) {
+        return (value.hashCode() & 0x7FFFFFFF) % items.length;
+    }
 
+
+    ////////////////////////////////////////////////////////////////////////
+    //Вычисляет индекс в хеш-таблице для данного значения.
     @Override
     public Iterator<E> iterator() {
         return null;

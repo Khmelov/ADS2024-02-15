@@ -67,14 +67,6 @@ public class MyLinkedHashSet<E> implements Set<E> {
         return false;
     }
 
-    @Override
-    public Iterator<E> iterator() {
-        return null;
-    }
-
-    int getHash(Object o) {
-        return (o.hashCode() & 0x7FFFFFFF) % items.length;
-    }
 
     void addNode(Node<E> newNode) {
         if(head == null)
@@ -134,6 +126,16 @@ public class MyLinkedHashSet<E> implements Set<E> {
         }
         return false;
     }
+
+    @Override
+    public Iterator<E> iterator() {
+        return null;
+    }
+
+    int getHash(Object o) {
+        return (o.hashCode() & 0x7FFFFFFF) % items.length;
+    }
+
 
     @Override
     public void clear() {

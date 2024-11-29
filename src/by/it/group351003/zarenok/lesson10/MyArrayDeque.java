@@ -36,6 +36,7 @@ public class MyArrayDeque<E> implements Deque<E> {
         }finally {
             lock.unlock();
         }
+        //comment
     }
 
     @Override

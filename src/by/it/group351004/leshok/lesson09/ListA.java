@@ -1,4 +1,4 @@
-package lesson09;
+package by.it.group351004.leshok.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,37 +14,68 @@ public class ListA<E> implements List<E> {
     //////               Обязательные к реализации методы             ///////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    private Node<E> head;
-    private Node<E> tail;
-    private int size;
-
-    private static class Node<T> {
-        T data;
-        Node<T> next;
-
-        Node(T data) {
-            this.data = data;
-            this.next = null;
-        }
+    static final int defSize = 8;
+    E[] _list;
+    int _curItem = 0;
+    public ListA() {
+        this(defSize);
+    }
+    public ListA(int size)
+    {
+        _list = (E[]) new Object[size];
     }
     @Override
     public String toString() {
-        return "";
+        StringBuilder sb= new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < _curItem; ++i)
+        {
+            E curSym = _list[i];
+            sb.append(curSym);
+            if (i < _curItem - 1)
+            {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
-
     @Override
     public boolean add(E e) {
-        return false;
+        if (_curItem >= _list.length)
+        {
+            E[] _cList = (E[]) new Object[_list.length * 2];
+            for (int i = 0; i < _list.length; ++i)
+            {
+                _cList[i] = _list[i];
+            }
+            _list = _cList;
+        }
+        _list[_curItem] = e;
+        _curItem++;
+        return true;
     }
-
     @Override
     public E remove(int index) {
-        return null;
-    }
+        if (index < 0 || index >= _curItem)
+        {
+            return null;
+        }
 
+        E _rItem = _list[index];
+
+        for (int i = index; i < _curItem - 1; ++i)
+        {
+            _list[i] = _list[i + 1];
+        }
+
+        _curItem--;
+
+        return _rItem;
+    }
     @Override
     public int size() {
-        return 0;
+        return _curItem;
     }
 
     /////////////////////////////////////////////////////////////////////////

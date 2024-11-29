@@ -1,98 +1,154 @@
 package by.it.group310901.kapuza.lesson11;
 
 import java.util.*;
+
 public class MyHashSet<E> implements Set<E> {
-    protected static class Node<E>{
-        public E data;
-        public Node<E> next;
 
-        public Node(){
+    class Node<E> {
+        E item;
+        Node<E> next;
 
-        }
-
-        public Node(E data){
-            this.data = data;
-            next = null;
+        public Node(E item) {
+            this.item = item;
         }
     }
-    protected static class DemoList<E>{
-        private Node<E> head,back;
-        public boolean contains(E o){
-            Node<E> cur = head;
-            while(cur!=null && !cur.data.equals(o))
-                cur = cur.next;
-            return cur != null;
-        }
-        public boolean add(E o){
-            if(contains(o))
-                return false;
-            Node<E> cur = new Node<E>(o);
-            if(back == null)
-                head = back = cur;
-            else {
-                back.next = cur;
-                back = cur;
-            }
-            return true;
-        }
-        public boolean remove(E o){
-            if(head == null)
-                return false;
-            if(head.data.equals(o)){
-                head = head.next;
-                return true;
-            }
-            Node<E> prev = head;
-            while(prev.next!=null && !prev.next.data.equals(o))
-                prev = prev.next;
-            if(prev.next == null)
-                return false;
-            if(prev.next == back) {
-                prev.next = null;
-                back = prev;
-            }
-            else
-                prev.next = prev.next.next;
-            return true;
-        }
-    }
-    private int tableSize = 123;
-    private int siz = 0;
-    private DemoList[] table = new DemoList[tableSize];
 
-    {
-        for(int i=0; i<tableSize;i++)
-            table[i] = new DemoList<E>();
+    int INITIAL_CAPACITY = 160;
+    float LOAD_FACTOR = 0.75f;
+    Node<E>[] array = new Node[INITIAL_CAPACITY];
+    int size = 0;
+
+    int hash(E e, int length) {
+        return e.hashCode() % length;
     }
+
+    void resize() {
+        Node<E>[] newArray = new Node[size * 2];
+        for (int i = 0; i < array.length; i++) {
+            while (array[i] != null) {
+                int index = hash(array[i].item, newArray.length);
+                Node<E> newNode = new Node<>(array[i].item);
+                if (newArray[index] == null)
+                    newArray[index] = newNode;
+                else {
+                    Node<E> temp = newArray[index];
+                    while (temp.next != null)
+                        temp = temp.next;
+                    temp.next = newNode;
+                }
+                array[i] = array[i].next;
+            }
+        }
+        array = newArray;
+    }
+
     @Override
     public String toString() {
+        StringBuilder s = new StringBuilder();
         if (isEmpty())
             return "[]";
-        StringBuilder res = new StringBuilder("[");
-        for (int i = 0; i < tableSize; i++) {
-            Node cur = table[i].head;
-            while(cur!=null){
-                res.append(cur.data.toString()).append(", ");
-                cur = cur.next;
+        s.append("[");
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] != null) {
+                Node<E> temp = array[i];
+                while (temp != null) {
+                    s.append(temp.item).append(", ");
+                    temp = temp.next;
+                }
             }
         }
-        return res.substring(0,res.length()-2)+"]";
+        if (size != 0) {
+            s.delete(s.length() - 2, s.length());
+        }
+        s.append("]");
+        return s.toString();
     }
+
     @Override
     public int size() {
-        return siz;
+        return size;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = null;
+        }
+        size = 0;
     }
 
     @Override
     public boolean isEmpty() {
-        return siz == 0;
+        return size == 0;
+    }
+
+    @Override
+    public boolean add(E e) {
+        int index = hash(e, array.length);
+
+        Node<E> node = new Node<>(e);
+        if (array[index] == null) {
+            array[index] = node;
+        } else {
+            Node<E> temp = array[index];
+            while (temp.next != null) {
+                if (temp.item.equals(e)) {
+                    return false;
+                }
+                temp = temp.next;
+            }
+            if (temp.item.equals(e))
+                return false;
+            temp.next = node;
+        }
+        if (++size > array.length * LOAD_FACTOR) {
+            resize();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        int index = hash((E) o, array.length);
+        if (array[index] == null)
+            return false;
+        else {
+            Node<E> temp = array[index];
+            Node<E> prev = null;
+            while (temp != null) {
+                if (temp.item.equals(o)) {
+                    if (prev != null) {
+                        prev.next = temp.next;
+                    } else {
+                        array[index] = temp.next;
+                    }
+                    size--;
+                    return true;
+                }
+                prev = temp;
+                temp = temp.next;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean contains(Object o) {
-        return table[o.hashCode()%tableSize].contains(o);
+        int index = hash((E) o, array.length);
+        if (array[index] == null)
+            return false;
+        else {
+            Node<E> temp = array[index];
+            while (temp != null) {
+                if (temp.item.equals(o))
+                    return true;
+                temp = temp.next;
+            }
+        }
+        return false;
     }
 
+    //////////////////////////////////////////////////////////////
     @Override
     public Iterator<E> iterator() {
         return null;
@@ -108,24 +164,6 @@ public class MyHashSet<E> implements Set<E> {
         return null;
     }
 
-    @Override
-    public boolean add(E e) {
-        if(table[e.hashCode()%tableSize].add(e))
-            siz++;
-        else
-            return false;
-        return true;
-
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        if(table[o.hashCode()%tableSize].remove(o))
-            siz--;
-        else
-            return false;
-        return true;
-    }
 
     @Override
     public boolean containsAll(Collection<?> c) {
@@ -147,10 +185,4 @@ public class MyHashSet<E> implements Set<E> {
         return false;
     }
 
-    @Override
-    public void clear() {
-        siz = 0;
-        for(int i = 0; i<tableSize;i++)
-            table[i] = new DemoList<E>();
-    }
 }

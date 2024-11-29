@@ -5,192 +5,208 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+/*
+ * Класс `ListB` является реализацией интерфейса `List<E>` с использованием массива для хранения элементов.
+ * В данной реализации нельзя использовать стандартные классы коллекций Java.
+ * Необходимо реализовать основные методы списка (add, remove, get, set и др.), чтобы можно было добавлять,
+ * удалять, изменять и искать элементы. Помимо этого, стоит реализовать несколько дополнительных методов
+ * интерфейса `List`, но не все из них являются обязательными для реализации.
+ *
+ * Основная логика заключается в следующем:
+ * - Для хранения элементов используется массив `_list`.
+ * - Если массив заполняется, его размер увеличивается в два раза.
+ * - Важные методы, которые нужно реализовать: `add()`, `remove()`, `get()`, `set()`, `size()` и др.
+ * - Методы, помеченные как "необязательные", могут быть реализованы в будущем для полной поддержки всех возможностей интерфейса `List`.
+ *
+ */
+
+// Определение класса ListB с параметром типа E, который реализует интерфейс List<E>
 public class ListB<E> implements List<E> {
 
-    //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Обязательные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
+    // Константа для хранения значения размера массива по умолчанию
     static final int defSize = 8;
+
+    // Массив для хранения элементов списка
     E[] _list;
+
+    // Счетчик текущего количества элементов в списке
     int _curItem = 0;
+
+    // Конструктор без параметров, создающий массив дефолтного размера
     public ListB() {
         this(defSize);
     }
+
+    // Конструктор с параметром для задания начального размера массива
     public ListB(int size)
     {
-        _list = (E[]) new Object[size];
+        _list = (E[]) new Object[size]; // Приведение массива Object к типу E
     }
+
+    // Метод для преобразования списка в строку, например: "[element1, element2]"
     @Override
     public String toString() {
         StringBuilder sb= new StringBuilder();
         sb.append("[");
-        for (int i = 0; i < _curItem; ++i)
-        {
+        for (int i = 0; i < _curItem; ++i) { // Цикл по всем элементам списка
             E curSym = _list[i];
             sb.append(curSym);
-            if (i < _curItem - 1)
-            {
-                sb.append(", ");
+            if (i < _curItem - 1) {
+                sb.append(", "); // Добавление запятых между элементами
             }
         }
         sb.append("]");
         return sb.toString();
     }
+
+    // Метод для добавления элемента в конец списка
     @Override
     public boolean add(E e) {
-        if (_curItem >= _list.length)
-        {
+        // Если массив заполнен, удваиваем его размер
+        if (_curItem >= _list.length) {
             E[] _cList = (E[]) new Object[_list.length * 2];
-            for (int i = 0; i < _list.length; ++i)
-            {
+            for (int i = 0; i < _list.length; ++i) {
                 _cList[i] = _list[i];
             }
-            _list = _cList;
+            _list = _cList; // Замена старого массива на новый
         }
-        _list[_curItem] = e;
+        _list[_curItem] = e; // Добавление элемента в конец
         _curItem++;
         return true;
     }
+
+    // Метод для удаления элемента по индексу
     @Override
     public E remove(int index) {
-        if (index < 0 || index >= _curItem)
-        {
-            return null;
+        if (index < 0 || index >= _curItem) {
+            return null; // Если индекс вне границ массива, вернуть null
         }
 
-        E _rItem = _list[index];
+        E _rItem = _list[index]; // Запоминаем элемент для возврата
 
-        for (int i = index; i < _curItem - 1; ++i)
-        {
+        // Смещаем элементы, чтобы удалить элемент из массива
+        for (int i = index; i < _curItem - 1; ++i) {
             _list[i] = _list[i + 1];
         }
 
-        _curItem--;
-
+        _curItem--; // Уменьшаем счетчик элементов
         return _rItem;
     }
+
+    // Метод для возврата количества элементов в списке
     @Override
     public int size() {
         return _curItem;
     }
+
+    // Метод для добавления элемента на конкретный индекс
     @Override
     public void add(int index, E element) {
-        if (index < 0 || index > _curItem)
-        {
-            return;
+        if (index < 0 || index > _curItem) {
+            return; // Проверка на корректность индекса
         }
 
-        if (_curItem >= _list.length)
-        {
+        // Если массив заполнен, удваиваем его размер
+        if (_curItem >= _list.length) {
             E[] _cList = (E[]) new Object[_list.length * 2];
-            for (int i = 0; i < _list.length; ++i)
-            {
+            for (int i = 0; i < _list.length; ++i) {
                 _cList[i] = _list[i];
             }
             _list = _cList;
         }
 
-        for (int i = _curItem; i > index; i--)
-        {
+        // Сдвигаем элементы, чтобы освободить место для нового элемента
+        for (int i = _curItem; i > index; i--) {
             _list[i] = _list[i - 1];
         }
 
-        _list[index] = element;
+        _list[index] = element; // Вставляем элемент на нужное место
         _curItem++;
     }
+
+    // Метод для удаления первого вхождения элемента
     @Override
     public boolean remove(Object o) {
-        for (int i = 0; i < _curItem; ++i)
-        {
-            if (o.equals(_list[i])) {
-                E rItem = _list[i];
-
+        for (int i = 0; i < _curItem; ++i) {
+            if (o.equals(_list[i])) { // Сравниваем элементы с искомым
                 for (int j = i; j < _curItem; ++j) {
-                    _list[j] = _list[j + 1];
+                    _list[j] = _list[j + 1]; // Смещаем элементы
                 }
-                _curItem--;
-
+                _curItem--; // Уменьшаем счетчик
                 return true;
             }
         }
-
         return false;
     }
+
+    // Метод для замены элемента по индексу
     @Override
     public E set(int index, E element) {
-        if (index < 0 || index > _curItem)
-        {
-            return null;
+        if (index < 0 || index > _curItem) {
+            return null; // Если индекс неверный, возвращаем null
         }
 
-        E _setItem = _list[index];
-        _list[index] = element;
-        return _setItem;
+        E _setItem = _list[index]; // Запоминаем старый элемент
+        _list[index] = element; // Заменяем на новый
+        return _setItem; // Возвращаем старый элемент
     }
+
+    // Метод для проверки, пуст ли список
     @Override
     public boolean isEmpty() {
         return _curItem == 0;
     }
+
+    // Метод для очистки списка
     @Override
     public void clear() {
-        _list = (E[]) new Object[defSize];
-        _curItem = 0;
+        _list = (E[]) new Object[defSize]; // Создаем новый массив
+        _curItem = 0; // Обнуляем счетчик элементов
     }
+
+    // Метод для поиска индекса первого вхождения элемента
     @Override
     public int indexOf(Object o) {
-        for (int i = 0; i < _curItem; ++i)
-        {
-            if (o.equals(_list[i]))
-            {
-                return i;
+        for (int i = 0; i < _curItem; ++i) {
+            if (o.equals(_list[i])) {
+                return i; // Возвращаем индекс, если элемент найден
             }
         }
-
-        return -1;
+        return -1; // Если не найдено, возвращаем -1
     }
+
+    // Метод для получения элемента по индексу
     @Override
     public E get(int index) {
-        if (index < 0 || index >= _curItem)
-        {
-            return null;
+        if (index < 0 || index >= _curItem) {
+            return null; // Если индекс неверный, возвращаем null
         }
-
-        return _list[index];
+        return _list[index]; // Возвращаем элемент
     }
+
+    // Метод для проверки, содержит ли список элемент
     @Override
     public boolean contains(Object o) {
         for (int i = 0; i < _curItem; ++i) {
-            if (o.equals(_list[i]))
-            {
-                return true;
+            if (o.equals(_list[i])) {
+                return true; // Если найдено, возвращаем true
             }
         }
-
-        return false;
+        return false; // Если не найдено, возвращаем false
     }
+
+    // Метод для поиска индекса последнего вхождения элемента
     @Override
     public int lastIndexOf(Object o) {
-        for (int i = _curItem - 1; i >= 0; --i)
-        {
-            if (o.equals(_list[i]))
-            {
-                return i;
+        for (int i = _curItem - 1; i >= 0; --i) {
+            if (o.equals(_list[i])) {
+                return i; // Возвращаем индекс последнего вхождения
             }
         }
-        return -1;
+        return -1; // Если не найдено, возвращаем -1
     }
 
-
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Опциональные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-
+    // Реализация опциональных методов для интерфейса List (они могут быть реализованы позже)
 
     @Override
     public boolean containsAll(Collection<?> c) {
@@ -217,7 +233,6 @@ public class ListB<E> implements List<E> {
         return false;
     }
 
-
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
         return null;
@@ -243,15 +258,10 @@ public class ListB<E> implements List<E> {
         return new Object[0];
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    ////////        Эти методы имплементировать необязательно    ////////////
-    ////////        но они будут нужны для корректной отладки    ////////////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
     @Override
     public Iterator<E> iterator() {
         return null;
     }
 
 }
+

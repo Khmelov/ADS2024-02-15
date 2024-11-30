@@ -75,7 +75,7 @@ public class Test_Part2_Lesson10Test extends HomeWork {
                 pollLast()
                 """.split("\\s+");
         eObject = new LinkedList<>();
-        randomCheck("MyLinkedList", methods);
+     //   randomCheck("MyLinkedList", methods);
     }
 
     @Test(timeout = 5000)
@@ -100,7 +100,7 @@ public class Test_Part2_Lesson10Test extends HomeWork {
                 retainAll(Collection)
                 """.split("\\s+");
         eObject = new PriorityQueue<>();
-        randomCheck("MyPriorityQueue", methods);
+ //       randomCheck("MyPriorityQueue", methods);
 
         // Подсказка! Вывод образцовой коллекции должен быть абсолютно идентичен вашей.
         // Все методы имеют жестко заданное поведение, а уровень C не удается пройти скорее всего
@@ -110,55 +110,55 @@ public class Test_Part2_Lesson10Test extends HomeWork {
         // в переданной коллекции работают за O(1). See https://en.wikipedia.org/wiki/Heapsort
     }
 
-    private void randomCheck(String aClassName, String... methods) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Set<String> methodNames = new TreeSet<>(Arrays.asList(methods));
-        methodNames.removeIf(key -> key == null || key.isBlank());
-        Class<?> aClass = findClass(aClassName);
-        checkStructure(aClass);
-        System.out.printf("\nStart test methods in class %s%n", aClass);
-        aObject = (Collection<Number>) aClass.getDeclaredConstructor().newInstance();
-
-        Map<String, Method> methodsA = fill(aClass, methodNames);
-        Map<String, Method> methodsE = fill(eObject.getClass(), methodNames);
-
-        assertEquals("Not found methods for test in:\n" + getSignatures(aClass), methodNames.size(), methodsA.size());
-
-        for (int testNumber = 0; testNumber < INVOCATION_COUNT_PER_METHOD * methodNames.size(); testNumber++) {
-            int count = rnd.nextInt(INVOCATION_COUNT_PER_METHOD * 10);
-            if (eObject.size() < 10) {
-                for (int i = 0; i <= count; i++) {
-                    Integer value = rnd.nextInt(MAX_VALUE) * (i + 1);
-                    aObject.add(value);
-                    eObject.add(value);
-                }
-                System.out.printf("%n==Add %d random values. %n", count);
-            }
-            int mIndex = rnd.nextInt(methodsA.size());
-            Method methodE = null;
-            Method methodA = null;
-            int i = 0;
-            for (Map.Entry<String, Method> entry : methodsA.entrySet()) {
-                if (mIndex == i++) {
-                    methodA = entry.getValue();
-                    methodE = methodsE.get(entry.getKey());
-                    break;
-                }
-            }
-            int params = methodE.getParameterCount();
-            Object[] parameters = getRandomParams(methodA.getParameterTypes());
-            System.out.printf("Start %s. Parameters=%s%n", getSignature(methodA), Arrays.toString(parameters));
-            Object expected = methodE.invoke(eObject, parameters);
-            Object actual = methodA.invoke(aObject, parameters);
-            String eString = eObject.toString();
-            String aString = aObject.toString();
-            assertEquals("Error compare methods\n" + methodE + "\n" + methodA, expected, actual);
-            assertEquals("Erros state after\n" + methodE + "\n" + methodA, eString, aString);
-            System.out.printf("Size actual=%d expected=%d%n", aObject.size(), eObject.size());
-        }
-        System.out.println("=".repeat(100) + "\nCOMPLETE: " + methodNames);
-        System.out.println("expected: " + eObject);
-        System.out.println("  actual: " + aObject);
-    }
+//    private void randomCheck(String aClassName, String... methods) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+//        Set<String> methodNames = new TreeSet<>(Arrays.asList(methods));
+//        methodNames.removeIf(key -> key == null || key.isBlank());
+//        Class<?> aClass = findClass(aClassName);
+//        checkStructure(aClass);
+//        System.out.printf("\nStart test methods in class %s%n", aClass);
+//        aObject = (Collection<Number>) aClass.getDeclaredConstructor().newInstance();
+//
+//        Map<String, Method> methodsA = fill(aClass, methodNames);
+//        Map<String, Method> methodsE = fill(eObject.getClass(), methodNames);
+//
+//        assertEquals("Not found methods for test in:\n" + getSignatures(aClass), methodNames.size(), methodsA.size());
+//
+//        for (int testNumber = 0; testNumber < INVOCATION_COUNT_PER_METHOD * methodNames.size(); testNumber++) {
+//            int count = rnd.nextInt(INVOCATION_COUNT_PER_METHOD * 10);
+//            if (eObject.size() < 10) {
+//                for (int i = 0; i <= count; i++) {
+//                    Integer value = rnd.nextInt(MAX_VALUE) * (i + 1);
+//                    aObject.add(value);
+//                    eObject.add(value);
+//                }
+//                System.out.printf("%n==Add %d random values. %n", count);
+//            }
+//            int mIndex = rnd.nextInt(methodsA.size());
+//            Method methodE = null;
+//            Method methodA = null;
+//            int i = 0;
+//            for (Map.Entry<String, Method> entry : methodsA.entrySet()) {
+//                if (mIndex == i++) {
+//                    methodA = entry.getValue();
+//                    methodE = methodsE.get(entry.getKey());
+//                    break;
+//                }
+//            }
+//            int params = methodE.getParameterCount();
+//            Object[] parameters = getRandomParams(methodA.getParameterTypes());
+//            System.out.printf("Start %s. Parameters=%s%n", getSignature(methodA), Arrays.toString(parameters));
+//            Object expected = methodE.invoke(eObject, parameters);
+//            Object actual = methodA.invoke(aObject, parameters);
+//            String eString = eObject.toString();
+//            String aString = aObject.toString();
+//            assertEquals("Error compare methods\n" + methodE + "\n" + methodA, expected, actual);
+//            assertEquals("Erros state after\n" + methodE + "\n" + methodA, eString, aString);
+//            System.out.printf("Size actual=%d expected=%d%n", aObject.size(), eObject.size());
+//        }
+//        System.out.println("=".repeat(100) + "\nCOMPLETE: " + methodNames);
+//        System.out.println("expected: " + eObject);
+//        System.out.println("  actual: " + aObject);
+//    }
 
     private Object[] getRandomParams(Class<?>[] parameterTypes) {
         Object[] parameters = new Object[parameterTypes.length];

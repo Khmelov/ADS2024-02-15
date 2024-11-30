@@ -1,203 +1,134 @@
-package by.it.group351001.ushakou.lesson14; // Указываем пакет, в котором находится класс
+package by.it.group351001.ushakou.lesson14;
 
-import java.util.Scanner; // Импортируем класс Scanner для чтения ввода
+import java.util.Scanner;
 
-// Основной класс для решения задачи Ханойской башни с учётом её состояний
 public class StatesHanoiTowerC {
-    public static void main(String[] args) { // Главный метод программы
 
-        int N; // Количество дисков в Ханойской башне
-
-        // Используем Scanner для чтения количества дисков
-        try (Scanner scanner = new Scanner(System.in)) {
-            N = scanner.nextInt(); // Читаем количество дисков
-        }
-
-        int max_size = (1 << N) - 1; // Общее количество шагов (2^N - 1)
-        int[] steps_heights = new int[N]; // Массив для отслеживания шагов высот
-
-        // Инициализируем массив шагов высот значением -1
-        for (int i = 0; i < N; i++) {
-            steps_heights[i] = -1;
-        }
-
-        DSU dsu = new DSU(max_size); // Создаём структуру данных "Система непересекающихся множеств" (DSU)
-        int[] heights = new int[3]; // Высоты трёх стержней
-
-        heights[0] = N; // Изначально все диски находятся на первом стержне
-        for (int i = 0; i < max_size; i++) { // Перебираем все шаги
-            int step = i + 1; // Текущий шаг
-            int[] delta; // Изменения высот стержней
-
-            if (step % 2 != 0) { // Если шаг нечётный
-                delta = carryingOver(N, step, 1); // Перемещаем диск между стержнями
-            } else { // Если шаг чётный
-                int count = step; // Количество оставшихся шагов
-                int countDisk = 0; // Счётчик дисков
-
-                // Определяем, какой диск перемещать
-                while (count % 2 == 0) {
-                    countDisk++;
-                    count /= 2;
-                }
-
-                delta = carryingOver(N, step, countDisk + 1); // Перемещаем диск
-            }
-
-            // Обновляем высоты стержней
-            for (int j = 0; j < 3; j++) {
-                heights[j] += delta[j];
-            }
-
-            int max = max(heights); // Определяем максимальную высоту
-            dsu.make_set(i); // Создаём множество для текущего шага
-
-            // Проверяем, был ли этот шаг уже обработан
-            if (steps_heights[max - 1] == -1) {
-                steps_heights[max - 1] = i; // Запоминаем шаг
-            } else {
-                dsu.union_sets(steps_heights[max - 1], i); // Объединяем множества
-            }
-        }
-
-        int[] sizes = new int[N]; // Массив для хранения размеров множеств
-        for (int i = 0; i < N; i++) { // Перебираем все высоты
-            if (steps_heights[i] != -1) { // Если шаг был обработан
-                sizes[i] = dsu.size(steps_heights[i]); // Определяем размер множества
-            }
-        }
-
-        StringBuilder sb = new StringBuilder(); // Создаём объект для построения строки результата
-
-        for (int i = 0; i < N; i++) { // Сортируем результаты по убыванию
-            int max = i;
-            for (int j = i + 1; j < N; j++) {
-                if (sizes[max] < sizes[j]) { // Если найден больший размер множества
-                    max = j;
-                }
-            }
-
-            if (sizes[max] == 0) { // Если размер равен нулю, прекращаем обработку
-                break;
-            }
-
-            // Меняем местами размеры множеств
-            int temp = sizes[max];
-            sizes[max] = sizes[i];
-            sizes[i] = temp;
-            sb.insert(0, sizes[i] + " "); // Добавляем размер множества в строку
-        }
-
-        sb.deleteCharAt(sb.length() - 1); // Удаляем последний пробел
-        System.out.println(sb); // Выводим результат
-    }
-
-    // Функция для нахождения максимальной высоты
-    private static int max(int[] heights) {
-        return Math.max(Math.max(heights[0], heights[1]), heights[2]);
-    }
-
-    // Функция для расчёта изменений высот при переносе дисков
-    static int[] carryingOver(int N, int step, int k) {
-        int t, axisY, axisZ;
-
-        // Определяем порядок осей в зависимости от чётности N
-        if (N % 2 == 0) {
-            axisY = 1;
-            axisZ = 2;
-        } else {
-            axisY = 2;
-            axisZ = 1;
-        }
-
-        int[] result = new int[3]; // Массив для хранения изменений высот
-        t = (step / (1 << (k - 1)) - 1) / 2; // Рассчитываем текущий шаг
-        int from = 0, to = 0; // Инициализируем начальный и конечный стержни
-
-        // Определяем начальный и конечный стержни в зависимости от текущего шага
-        if (k % 2 != 0)
-            switch (t % 3) {
-                case 0:
-                    to = axisY;
-                    break;
-                case 1:
-                    from = axisY;
-                    to = axisZ;
-                    break;
-                case 2:
-                    from = axisZ;
-                    break;
-            }
-        else {
-            switch (t % 3) {
-                case 0:
-                    to = axisZ;
-                    break;
-                case 1:
-                    from = axisZ;
-                    to = axisY;
-                    break;
-                case 2:
-                    from = axisY;
-                    break;
-            }
-        }
-
-        result[from] = -1; // Уменьшаем высоту на начальном стержне
-        result[to] = 1; // Увеличиваем высоту на конечном стержне
-
-        return result; // Возвращаем изменения высот
-    }
-
-    // Класс для реализации системы непересекающихся множеств (DSU)
+    // Вложенный класс для реализации системы непересекающихся множеств (DSU).
     private static class DSU {
+        int[] parent; // Массив для хранения родительского элемента для каждой вершины.
+        int[] size;   // Массив для хранения размера множества, к которому принадлежит вершина.
 
-        private final int[] parent; // Массив для хранения родителей
-        private final int[] size; // Массив для хранения размеров множеств
-
-        public DSU(int size) {
-            parent = new int[size]; // Инициализируем массив родителей
-            this.size = new int[size]; // Инициализируем массив размеров множеств
+        // Конструктор для создания DSU с заданным количеством элементов.
+        DSU(int size) {
+            parent = new int[size]; // Инициализация массива родительских элементов.
+            this.size = new int[size]; // Инициализация массива размеров множеств.
         }
 
-        // Создаём множество для вершины
-        public void make_set(int v) {
-            parent[v] = v;
-            size[v] = 1;
+        // Создание множества с единственным элементом.
+        void makeSet(int v) {
+            parent[v] = v; // Устанавливаем родителем вершину саму себя.
+            size[v] = 1;   // Размер множества равен 1.
         }
 
-        // Получаем размер множества
-        public int size(int v) {
-            return size[find_set(v)];
+        // Возвращает размер множества, к которому принадлежит элемент `v`.
+        int size(int v) {
+            return size[findSet(v)]; // Используем путь к корню для нахождения размера.
         }
 
-        // Находим представителя множества (сжатие путей)
-        public int find_set(int v) {
-            if (v == parent[v])
+        // Находит корень множества, к которому принадлежит элемент `v` (с путевой компрессией).
+        int findSet(int v) {
+            if (v == parent[v]) // Если вершина является своим родителем, возвращаем ее.
                 return v;
-            return parent[v] = find_set(parent[v]);
+            return parent[v] = findSet(parent[v]); // Рекурсивно находим корень и оптимизируем путь.
         }
 
-        // Объединяем два множества
-        public void union_sets(int a, int b) {
-            a = find_set(a);
-            b = find_set(b);
-            if (a != b) {
-                if (size[a] < size[b]) { // Объединяем меньший в больший
+        // Объединяет два множества, к которым принадлежат элементы `a` и `b`.
+        void unionSets(int a, int b) {
+            a = findSet(a); // Находим корень множества для `a`.
+            b = findSet(b); // Находим корень множества для `b`.
+            if (a != b) { // Если элементы находятся в разных множествах, объединяем их.
+                if (size[a] < size[b]) { // Меняем местами, чтобы объединять меньшее множество в большее.
                     int temp = a;
                     a = b;
                     b = temp;
                 }
-                parent[b] = a;
-                size[a] += size[b];
+                parent[b] = a; // Устанавливаем родителя для `b`.
+                size[a] += size[b]; // Увеличиваем размер множества `a`.
             }
         }
     }
-}
 
-/*
- * Задача состоит в том, чтобы вычислить размеры компонент, соответствующих состояниям Ханойской башни
- * на каждом шаге перемещения дисков. Используется алгоритм, включающий подсчёт высот и системы DSU
- * для объединения шагов с одинаковыми высотами. Результатом является список размеров групп шагов,
- * отсортированных по убыванию.
- */
+    // Метод для вычисления изменений в высотах столбцов на определенном шаге.
+    static int[] carryingOver(int N, int step, int k) {
+        int axisX = 0, axisY, axisZ; // Оси для перемещения.
+        axisY = (N % 2 == 0) ? 1 : 2; // Определяем направление перемещения для четного и нечетного числа дисков.
+        axisZ = (N % 2 == 0) ? 2 : 1;
+
+        int[] result = new int[3]; // Массив для хранения изменений высот.
+        int t = (step / (1 << (k - 1)) - 1) / 2; // Вычисляем шаг перемещения.
+
+        // Определяем оси для перемещения в зависимости от номера диска.
+        int[] mapping = (k % 2 != 0) ? new int[]{axisX, axisY, axisZ} : new int[]{axisX, axisZ, axisY};
+        int from = mapping[t % 3]; // Определяем начальную ось.
+        int to = mapping[(t + 1) % 3]; // Определяем конечную ось.
+
+        result[from] = -1; // Уменьшаем высоту начального столбца.
+        result[to] = 1;   // Увеличиваем высоту конечного столбца.
+        return result;
+    }
+
+    // Метод для подсчета количества делений числа на 2.
+    static int countBits(int num) {
+        int count = 0; // Счетчик делений.
+        while (num % 2 == 0) { // Пока число делится на 2, увеличиваем счетчик.
+            count++;
+            num /= 2; // Делим число на 2.
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); // Инициализация Scanner для чтения ввода.
+        int N = scanner.nextInt(); // Читаем количество дисков.
+        int max_size = (1 << N) - 1; // Вычисляем общее количество шагов.
+        int[] steps_heights = new int[N]; // Массив для хранения индексов шагов максимальной высоты для каждого диска.
+        for (int i = 0; i < N; i++) // Инициализируем массив значениями -1.
+            steps_heights[i] = -1;
+
+        DSU dsu = new DSU(max_size); // Создаем DSU для управления шагами.
+        int[] heights = new int[3]; // Массив высот столбцов.
+        heights[0] = N; // Устанавливаем начальную высоту первого столбца.
+
+        // Проходим по каждому шагу.
+        for (int i = 0; i < max_size; i++) {
+            int step = i + 1; // Номер шага.
+            // Вычисляем изменения высот в зависимости от номера шага.
+            int[] delta = (step % 2 != 0) ? carryingOver(N, step, 1) : carryingOver(N, step, countBits(step) + 1);
+
+            for (int j = 0; j < 3; j++) // Обновляем высоты столбцов.
+                heights[j] += delta[j];
+
+            int max = Math.max(heights[0], Math.max(heights[1], heights[2])); // Находим максимальную высоту.
+            dsu.makeSet(i); // Создаем множество для текущего шага.
+
+            int maxHeightIndex = max - 1; // Определяем индекс для текущей максимальной высоты.
+            if (steps_heights[maxHeightIndex] == -1) // Если индекс не инициализирован, сохраняем текущий шаг.
+                steps_heights[maxHeightIndex] = i;
+            else // Иначе объединяем текущий шаг с предыдущим, имеющим ту же высоту.
+                dsu.unionSets(steps_heights[maxHeightIndex], i);
+        }
+
+        int[] sizes = new int[N]; // Массив для хранения размеров кластеров шагов.
+        for (int i = 0; i < N; i++) // Заполняем массив размерами кластеров.
+            if (steps_heights[i] != -1)
+                sizes[i] = dsu.size(steps_heights[i]);
+
+        StringBuilder sb = new StringBuilder(); // Строковый буфер для вывода.
+        for (int i = 0; i < N; i++) {
+            int max = i;
+            // Находим индекс максимального размера кластера.
+            for (int j = i + 1; j < N; j++)
+                if (sizes[max] < sizes[j])
+                    max = j;
+            if (sizes[max] == 0) // Если больше кластеров нет, выходим из цикла.
+                break;
+            int temp = sizes[max]; // Меняем местами текущий и максимальный размер.
+            sizes[max] = sizes[i];
+            sizes[i] = temp;
+            sb.insert(0, sizes[i] + " "); // Добавляем размер кластера в строку.
+        }
+        sb.deleteCharAt(sb.length() - 1); // Удаляем последний пробел.
+        System.out.println(sb); // Выводим результат.
+    }
+}

@@ -18,7 +18,6 @@ public class StatesHanoiTowerC {
 
         DSU dsu = new DSU(max_size);
         int[] heights = new int[3];
-
         heights[0] = N;
         for (int i = 0; i < max_size; i++) {
             int step = i + 1;

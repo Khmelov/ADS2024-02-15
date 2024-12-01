@@ -15,6 +15,7 @@ public class SourceScannerC {
                     .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))
                     .forEach(path -> {
                         try {
+
                             String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 
                             // Пропускаем файлы с @Test или org.junit.Test

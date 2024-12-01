@@ -48,7 +48,6 @@ public class SourceScannerB {
                             e.printStackTrace();
                         }
                     });
-
             // Сортируем по размеру и лексикографически
             filesInfo.sort(Comparator.comparingInt(FileInfo::getSize)
                     .thenComparing(FileInfo::getPath));

@@ -18,7 +18,6 @@ public class SitesB {
                 dsu.add(set);
             }
         }
-
         for (int i = 0; i < dsu.size(); i++) {
             for (Set<String> set : dsu) {
                 boolean union = false;

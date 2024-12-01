@@ -25,7 +25,6 @@ public class MyRbMap implements SortedMap<Integer, String> {
     private boolean isRed(Node n) {
         return n != null && n.color == COLOR.RED;
     }
-
     private void swapColors(Node n) {
         COLOR tmp = n.left.color;
         n.left.color = n.color;

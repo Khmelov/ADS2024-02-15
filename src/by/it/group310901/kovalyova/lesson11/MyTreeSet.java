@@ -190,7 +190,6 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E> {
 
         return prevSize != size;
     }
-
     @Override
     public void clear() {
         for (int i = 0; i < size; i++){

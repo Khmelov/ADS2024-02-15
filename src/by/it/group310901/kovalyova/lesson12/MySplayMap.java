@@ -21,7 +21,6 @@ class SplayNode {
         this.parent = parent;
     }
 }
-
 public class MySplayMap implements NavigableMap<Integer, String> {
     private SplayNode HEAD_POINTER = null;
     private int SIZE_OF_MAP = 0;
@@ -235,7 +234,6 @@ public class MySplayMap implements NavigableMap<Integer, String> {
                 temp = temp.right;
             }
         }
-
         if (res != null) {
             splay(res);
             return HEAD_POINTER.key;

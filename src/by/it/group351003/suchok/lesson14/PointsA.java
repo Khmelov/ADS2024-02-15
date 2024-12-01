@@ -24,7 +24,6 @@ public class PointsA {
                 }
             }
         }
-
         List<Integer> clusterSizes = new ArrayList<>();
         HashSet<Point> set = new HashSet<>();
 

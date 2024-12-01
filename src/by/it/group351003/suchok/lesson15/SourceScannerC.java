@@ -28,11 +28,9 @@ public class SourceScannerC {
         temp = new char[size];
         System.arraycopy(array, i, temp, 0, size);
         array = temp;
-
         i = array.length - 1;
         while (array[i] == 0)
             i--;
-
         size = i + 1;
         temp = new char[size];
         System.arraycopy(array, 0, temp, 0, size);

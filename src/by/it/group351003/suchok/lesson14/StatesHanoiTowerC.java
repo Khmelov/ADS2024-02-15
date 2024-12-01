@@ -54,6 +54,7 @@ public class StatesHanoiTowerC {
         result[to] = 1;
         return result;
     }
+
     static int countBits(int num) {
         int count = 0;
         while (num % 2 == 0) {

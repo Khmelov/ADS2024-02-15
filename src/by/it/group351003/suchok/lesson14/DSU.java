@@ -69,7 +69,6 @@ public class DSU<T> implements Iterable<T> {
         if (Objects.equals(rootA, rootB)) {
             return;
         }
-
         DisJointSetNode nodeA = set.get(rootA);
         DisJointSetNode nodeB = set.get(rootB);
 

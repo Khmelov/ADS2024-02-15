@@ -33,7 +33,6 @@ public class SourceScannerA {
                             e.printStackTrace();
                         }
                     });
-
             fileEntries.sort(Comparator.comparingInt((FileEntry f) -> f.size).thenComparing(f -> f.path));
 
             for (FileEntry entry : fileEntries) {

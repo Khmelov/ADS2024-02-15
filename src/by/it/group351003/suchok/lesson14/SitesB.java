@@ -25,11 +25,9 @@ public class SitesB {
             }
             disjointSet.union(sites[0], sites[1]);
         }
-
         scanner.close();
         Map<String, Integer> clusterSizes = new HashMap<>();
         HashSet<String> set = new HashSet<>();
-
         for (String site : disjointSet) {
             if (set.contains(site))
                 continue;

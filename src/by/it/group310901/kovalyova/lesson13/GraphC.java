@@ -16,7 +16,6 @@ public class GraphC {
             return cmp;
         }
     }
-
     private static void getGraph(Map<String, ArrayList<String>> graph, Map<String, ArrayList<String>> reversedGraph ) {
         Scanner in = new Scanner(System.in);
 

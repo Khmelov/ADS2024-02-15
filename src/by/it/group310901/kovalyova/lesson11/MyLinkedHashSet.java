@@ -62,7 +62,6 @@ public class MyLinkedHashSet<E> implements Set<E> {
 
         tail = node;
     }
-
     private void removeNode(ListNode<E> node) {
 
         if (node.after != null) {

@@ -9,7 +9,6 @@ import java.util.Set;
 class MyNode<E> {
     public E value;
     public MyNode next;
-
     public MyNode(E value) {
         this.value = value;
         this.next = null;

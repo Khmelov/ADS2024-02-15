@@ -10,7 +10,6 @@ public class PointsA {
 
             distance = scanner.nextInt();
             dotsAmount = scanner.nextInt();
-
             for (int i = 0; i < dotsAmount; i++) {
                 Point point = new Point(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
                 Set<Point> set = new HashSet<>();

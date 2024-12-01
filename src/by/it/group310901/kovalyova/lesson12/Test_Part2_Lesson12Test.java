@@ -245,7 +245,6 @@ public class Test_Part2_Lesson12Test extends HomeWork {
                Arrays.stream(m.getParameterTypes())
                        .noneMatch(p -> p == Comparable.class);
     }
-
     private String getSignature(Method method) {
         return cache.computeIfAbsent(method, m -> {
             Class<?>[] parameterTypes = method.getParameterTypes();

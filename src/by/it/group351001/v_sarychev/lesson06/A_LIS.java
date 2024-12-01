@@ -1,4 +1,4 @@
-package lesson06;
+package by.it.group351001.v_sarychev.lesson06;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,6 +33,19 @@ import java.util.Scanner;
 public class A_LIS {
 
 
+    int upperbond(int[] A, int val)
+    {
+        int l = 0, r = A.length - 1,m;
+        while(l<r)
+        {
+            m = (l + r)/2;
+            if (A[m] <= val)
+                l = m + 1;
+            else
+                r = m;
+        }
+        return l;
+    }
 
     int getSeqSize(InputStream stream) throws FileNotFoundException {
         //подготовка к чтению данных
@@ -40,113 +53,27 @@ public class A_LIS {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
         //общая длина последовательности
         int n = scanner.nextInt();
-        int[] m = new int[n];
+        int INF = 2000000007;
+        int[] m = new int[n], dp = new int[n+1];
         //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
+            dp[i+1] = INF;
         }
-        int result = longestIncreasingSubsequenceLength(m);
-
-
-
+        dp[0] = -INF;
+        for(int i=0;i<n;i++)
+        {
+            int j = upperbond(dp,m[i]);
+            if (dp[j-1] < m[i] && dp[j] > m[i])
+                dp[j] = m[i];
+        }
+        for (int i=0;i<=n;i++)
+            if (dp[i] == INF)
+                return i-1;
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
+        return -1;
     }
 
-    // n^2
-    int longestIncSubsequenceLength(int numbers[]) {
-        int maxlength = 1;
-        int[] d = new int[numbers.length];
-        for (int i = 0; i <= numbers.length-1; i++)
-        {
-            d[i] = 1;
-        }
-
-
-        for (int i = 0; i <= numbers.length-1; i++)
-        {
-            for (int j = 0; j <= i - 1; j++){
-                if (numbers[i] > numbers[j] && d[j]+1 > d[i]){
-                    d[i] = d[j] + 1;
-                    if (d[i]> maxlength) maxlength = d[i];
-                }
-            }
-        }
-
-        return maxlength;
-    }
-
-    // nlogn
-    int longestIncreasingSubsequenceLength(int numbers[]) {
-
-        if (numbers.length <= 1) {
-            return 1;
-        }
-
-        int lis_length = -1;
-
-        int subsequence[] = new int[numbers.length];
-        int indexes[] = new int[numbers.length];
-
-        for (int i = 0; i < numbers.length; ++i) {
-            subsequence[i] = 2^9+1;
-        }
-
-        subsequence[0] = numbers[0];
-        indexes[0] = 0;
-
-        for (int i = 1; i < numbers.length; ++i) {
-            indexes[i] = ceilIndex(subsequence, 0, i, numbers[i]);
-
-            if (lis_length < indexes[i]) {
-                lis_length = indexes[i];
-            }
-        }
-
-        return lis_length + 1;
-    }
-
-    int ceilIndex(int subsequence[],
-                  int startLeft,
-                  int startRight,
-                  int key){
-
-        int mid = 0;
-        int left = startLeft;
-        int right = startRight;
-        int ceilIndex = 0;
-        boolean ceilIndexFound = false;
-
-        for (mid = (left + right) / 2; left <= right && !ceilIndexFound; mid = (left + right) / 2) {
-            if (subsequence[mid] > key) {
-                right = mid - 1;
-            }
-            else if (subsequence[mid] == key) {
-                ceilIndex = mid;
-                ceilIndexFound = true;
-            }
-            else if (mid + 1 <= right && subsequence[mid + 1] >= key) {
-                subsequence[mid + 1] = key;
-                ceilIndex = mid + 1;
-                ceilIndexFound = true;
-            } else {
-                left = mid + 1;
-            }
-        }
-
-        if (!ceilIndexFound) {
-            if (mid == left) {
-                subsequence[mid] = key;
-                ceilIndex = mid;
-            }
-            else {
-                subsequence[mid + 1] = key;
-                ceilIndex = mid + 1;
-            }
-        }
-
-        return ceilIndex;
-    }
 
     public static void main(String[] args) throws FileNotFoundException {
         String root = System.getProperty("user.dir") + "/src/";

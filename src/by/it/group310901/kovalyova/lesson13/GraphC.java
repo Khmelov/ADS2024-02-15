@@ -18,7 +18,6 @@ public class GraphC {
     }
     private static void getGraph(Map<String, ArrayList<String>> graph, Map<String, ArrayList<String>> reversedGraph ) {
         Scanner in = new Scanner(System.in);
-
         boolean isEnd = false;
         while (!isEnd) {
             String vertexOut = in.next();

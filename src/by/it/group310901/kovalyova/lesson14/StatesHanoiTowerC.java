@@ -8,7 +8,6 @@ public class StatesHanoiTowerC {
         try (Scanner scanner = new Scanner(System.in)) {
             N = scanner.nextInt();
         }
-
         int max_size = (1 << N) - 1;
         int[] steps_heights = new int[N];
 

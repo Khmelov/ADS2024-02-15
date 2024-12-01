@@ -21,7 +21,6 @@ public class MyRbMap implements SortedMap<Integer, String> {
     }
     int SIZE_OF_MAP = 0;
     Node HEAD_POINTER = null;
-
     private boolean isRed(Node n) {
         return n != null && n.color == COLOR.RED;
     }

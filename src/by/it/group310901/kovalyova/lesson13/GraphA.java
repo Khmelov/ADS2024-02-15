@@ -7,7 +7,6 @@ public class GraphA {
     private static class vector<T>{
         public int size = 0;
         public Object[] values = new Object[0];
-
         public boolean empty(){
             return size == 0;
         }

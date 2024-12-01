@@ -6,7 +6,6 @@ public class PointsA {
     public static void main(String[] args) {
         List<Set<Point>> dsu = new ArrayList<>();
         int distance, dotsAmount;
-
         try (Scanner scanner = new Scanner(System.in)) {
 
             distance = scanner.nextInt();

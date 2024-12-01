@@ -1,4 +1,4 @@
-package lesson07;
+package by.it.group351001.v_sarychev.lesson07;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -114,7 +114,7 @@ public class C_EditDist {
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream stream = C_EditDist.class.getResourceAsStream("dataABC.txt");
+        InputStream stream = C_EditDist.class.getResourceAsStream("/dataABC.txt");
         C_EditDist instance = new C_EditDist();
         Scanner scanner = new Scanner(stream);
         System.out.println(instance.getDistanceEdinting(scanner.nextLine(),scanner.nextLine()));

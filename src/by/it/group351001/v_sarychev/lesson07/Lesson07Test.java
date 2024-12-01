@@ -1,4 +1,4 @@
-package lesson07;
+package by.it.group351001.v_sarychev.lesson07;
 
 import org.junit.Test;
 
@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class Lesson07Test {
     @Test
     public void A() throws Exception {
-        A_EditDist instance = new A_EditDist();
+        by.it.group351001.v_sarychev.lesson07.A_EditDist instance = new by.it.group351001.v_sarychev.lesson07.A_EditDist();
         assertEquals("A1 failed", instance.getDistanceEdinting("ab","ab"),0);
         assertEquals("A2 failed", instance.getDistanceEdinting("short","ports"),3);
         assertEquals("A3 failed", instance.getDistanceEdinting("distance","editing"),5);

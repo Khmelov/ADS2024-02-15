@@ -17,6 +17,7 @@ public class PointsA {
                 dsu.add(set);
             }
         }
+
         for (int i = 0; i < dsu.size(); i++) {
             for (Set<Point> set : dsu) {
                 boolean union = false;

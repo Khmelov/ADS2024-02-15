@@ -7,7 +7,6 @@ public class SitesB {
         List<Set<String>> dsu = new ArrayList<>();
         Set<String> links = new HashSet<>();
         try (Scanner scanner = new Scanner(System.in)) {
-
             String line;
             while (!(line = scanner.nextLine()).equals("end")) {
                 links.add(line);

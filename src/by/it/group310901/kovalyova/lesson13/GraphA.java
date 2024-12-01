@@ -15,7 +15,6 @@ public class GraphA {
                 values = Arrays.copyOf(values, size * 3 / 2 + 1);
             values[size++] = value;
         }
-
         public boolean contains(T val) {
             for (int i = 0; i < size; ++i)
                 if (values[i].equals(val))

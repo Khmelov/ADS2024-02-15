@@ -19,7 +19,6 @@ public class SourceScannerA {
                             if (content.contains("@Test") || content.contains("org.junit.Test")) {
                                 return;
                             }
-
                             // Удаляем строку package и все импорты
                             String processedContent = content.replaceAll("(?m)^\\s*package.*;\\s*$", "")
                                     .replaceAll("(?m)^\\s*import.*;\\s*$", "");

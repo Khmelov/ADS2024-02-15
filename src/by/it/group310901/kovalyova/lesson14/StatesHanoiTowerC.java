@@ -24,7 +24,6 @@ public class StatesHanoiTowerC {
                 delta = carryingOver(N, step, 1);
             }
             else {
-
                 int count = step;
                 int countDisk = 0;
 

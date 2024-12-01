@@ -32,7 +32,6 @@ public class Test_Part2_Lesson15Test extends HomeWork {
     public void testSourceScannerC() {
         run("").include("FiboA.java");
     }
-
     private static List<String> lazyWalk() {
         if (samples == null) {
             samples = new ArrayList<>();

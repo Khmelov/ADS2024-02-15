@@ -14,7 +14,6 @@ class MyNode<E> {
         this.next = null;
     }
 }
-
 public class MyHashSet<E> implements Set<E> {
 
     private int SIZE_OF_HASHSET = 0;

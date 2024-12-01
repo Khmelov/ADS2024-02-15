@@ -24,12 +24,10 @@ class AvlNode {
         this.height = 1;
     }
 }
-
 public class MyAvlMap implements Map<Integer, String> {
 
     AvlNode HEAD_POINTER = null;
     int SIZE_OF_MAP = 0;
-
     int calcBalanceValue(AvlNode node) {
         int res = 0;
         if (node.left != null) {

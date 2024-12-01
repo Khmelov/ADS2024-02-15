@@ -8,7 +8,6 @@ import java.util.stream.*;
 public class SourceScannerA {
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
-
         try {
             List<FileData> results = Files.walk(Paths.get(src))
                     .filter(Files::isRegularFile)

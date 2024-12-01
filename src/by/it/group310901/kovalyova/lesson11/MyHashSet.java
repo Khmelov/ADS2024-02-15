@@ -6,7 +6,8 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
-class MyNode<E> {
+class
+MyNode<E> {
     public E value;
     public MyNode next;
 

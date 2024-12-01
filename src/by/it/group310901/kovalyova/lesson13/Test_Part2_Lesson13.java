@@ -30,6 +30,7 @@ public class Test_Part2_Lesson13 extends HomeWork {
         //Общее число примеров должно быть не менее 12 (сейчас их 3).
     }
 
+
     @Test
     public void testGraphC() {
         run("1 -> 2, 2 -> 3, 3 -> 1, 3 -> 4, 4 -> 5, 5 -> 6, 6 -> 4", true)

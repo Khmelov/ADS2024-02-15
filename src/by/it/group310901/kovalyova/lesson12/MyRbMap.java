@@ -19,6 +19,7 @@ public class MyRbMap implements SortedMap<Integer, String> {
             this.left = this.right = null;
         }
     }
+
     int SIZE_OF_MAP = 0;
     Node HEAD_POINTER = null;
 

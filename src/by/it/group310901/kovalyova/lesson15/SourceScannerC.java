@@ -11,6 +11,7 @@ public class SourceScannerC {
     public static void main(String[] args) {
         String src = System.getProperty("user.dir") + File.separator + "src" + File.separator;
         try {
+
             Files.walk(Paths.get(src))
                     .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))
                     .forEach(path -> {

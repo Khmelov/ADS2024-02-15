@@ -21,6 +21,7 @@ public class Test_Part2_Lesson15Test extends HomeWork {
             run.include(sample);
         }
     }
+
     @Test(timeout = 5000) //можно изменить под свою производительность
     public void testSourceScannerB() {
         HomeWork run = run("");

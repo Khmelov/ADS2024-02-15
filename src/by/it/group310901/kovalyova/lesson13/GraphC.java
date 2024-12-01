@@ -26,7 +26,6 @@ public class GraphC {
                 graph.put(vertexOut, new ArrayList<>());
             }
             String edge = in.next();
-
             String vertexIn = in.next();
             if (vertexIn.charAt(vertexIn.length() - 1) == ',') {
                 vertexIn = vertexIn.substring(0, vertexIn.length() - 1);

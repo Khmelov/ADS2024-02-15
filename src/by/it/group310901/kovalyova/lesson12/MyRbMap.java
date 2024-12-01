@@ -31,7 +31,6 @@ public class MyRbMap implements SortedMap<Integer, String> {
         n.right.color = n.color;
         n.color = tmp;
     }
-
     private Node leftRotate(Node n) {
         Node child = n.right;
         n.right = child.left;

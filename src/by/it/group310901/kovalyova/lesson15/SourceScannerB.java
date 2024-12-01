@@ -15,6 +15,7 @@ public class SourceScannerB {
                     .filter(path -> Files.isRegularFile(path) && path.toString().endsWith(".java"))
                     .forEach(path -> {
                         try {
+
                             String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 
                             // Пропускаем файлы с @Test или org.junit.Test
@@ -47,6 +48,7 @@ public class SourceScannerB {
                             e.printStackTrace();
                         }
                     });
+
             // Сортируем по размеру и лексикографически
             filesInfo.sort(Comparator.comparingInt(FileInfo::getSize)
                     .thenComparing(FileInfo::getPath));

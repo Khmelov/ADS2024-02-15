@@ -18,6 +18,7 @@ public class GraphC {
     }
     private static void getGraph(Map<String, ArrayList<String>> graph, Map<String, ArrayList<String>> reversedGraph ) {
         Scanner in = new Scanner(System.in);
+
         boolean isEnd = false;
         while (!isEnd) {
             String vertexOut = in.next();
@@ -26,6 +27,7 @@ public class GraphC {
             }
 
             String edge = in.next();
+
             String vertexIn = in.next();
             if (vertexIn.charAt(vertexIn.length() - 1) == ',') {
                 vertexIn = vertexIn.substring(0, vertexIn.length() - 1);

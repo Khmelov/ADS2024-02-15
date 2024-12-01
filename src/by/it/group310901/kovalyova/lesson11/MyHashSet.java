@@ -17,6 +17,7 @@ class MyNode<E> {
 }
 
 public class MyHashSet<E> implements Set<E> {
+
     private int SIZE_OF_HASHSET = 0;
     private int HASHSET_CAPACITY = 8;
     private MyNode<E>[] arr = (MyNode<E>[]) new MyNode[HASHSET_CAPACITY];
@@ -138,7 +139,6 @@ public class MyHashSet<E> implements Set<E> {
             return true;
         }
     }
-
     @Override
     public boolean remove(Object o) {
         int hash = hashIndex(o);

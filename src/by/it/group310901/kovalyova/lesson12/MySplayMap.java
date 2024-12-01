@@ -12,6 +12,7 @@ class SplayNode {
     public SplayNode left;
     public SplayNode right;
     public SplayNode parent;
+
     SplayNode(Integer key, String value, SplayNode parent) {
         this.key = key;
         this.value = value;
@@ -23,6 +24,7 @@ class SplayNode {
 public class MySplayMap implements NavigableMap<Integer, String> {
     private SplayNode HEAD_POINTER = null;
     private int SIZE_OF_MAP = 0;
+
     boolean isLeftChild(SplayNode child) {
         if (child.parent != null) {
             return child.parent.left == child;

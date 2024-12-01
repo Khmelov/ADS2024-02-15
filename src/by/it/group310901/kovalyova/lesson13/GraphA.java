@@ -11,7 +11,6 @@ public class GraphA {
         public boolean empty(){
             return size == 0;
         }
-
         public void push_back(T value){
             if(size == values.length)
                 values = Arrays.copyOf(values, size * 3 / 2 + 1);

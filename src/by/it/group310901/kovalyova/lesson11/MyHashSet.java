@@ -139,7 +139,6 @@ public class MyHashSet<E> implements Set<E> {
             return true;
         }
     }
-
     @Override
     public boolean remove(Object o) {
         int hash = hashIndex(o);

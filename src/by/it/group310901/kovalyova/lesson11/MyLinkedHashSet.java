@@ -51,7 +51,6 @@ public class MyLinkedHashSet<E> implements Set<E> {
         }
         set = newMap;
     }
-
     private void addNode(ListNode<E> node) {
 
         if (head == null) {

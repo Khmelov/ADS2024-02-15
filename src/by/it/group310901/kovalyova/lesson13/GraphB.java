@@ -95,7 +95,6 @@ public class GraphB {
                 G.push_back(temp);
                 ++count;
             }
-
             vector<Integer> temp = (vector<Integer>)G.values[indexes.get(a.charAt(0))];
             temp.push_back(indexes.get(c.charAt(0)));
         }

@@ -15,7 +15,6 @@ public class SourceScannerA {
                     .forEach(path -> {
                         try {
                             String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-
                             // Пропускаем файлы с @Test или org.junit.Test
                             if (content.contains("@Test") || content.contains("org.junit.Test")) {
                                 return;

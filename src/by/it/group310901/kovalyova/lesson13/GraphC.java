@@ -25,7 +25,6 @@ public class GraphC {
             if (!graph.containsKey(vertexOut)) {
                 graph.put(vertexOut, new ArrayList<>());
             }
-
             String edge = in.next();
 
             String vertexIn = in.next();

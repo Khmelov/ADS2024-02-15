@@ -187,7 +187,6 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E> {
                 i--;
             }
         }
-
         return prevSize != size;
     }
     @Override

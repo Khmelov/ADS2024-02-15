@@ -12,7 +12,6 @@ public class Test_Part2_Lesson14 extends HomeWork {
 
     public static final int MAX_DISTANCE = 25;
     public static final int TEST_COUNT = 100;
-
     private int distance;
     private final Random random = new Random(123);
     @Test(timeout = 5000)

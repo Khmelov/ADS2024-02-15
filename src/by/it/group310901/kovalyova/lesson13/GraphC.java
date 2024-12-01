@@ -39,7 +39,6 @@ public class GraphC {
             reversedGraph.get(vertexIn).add(vertexOut);
         }
     }
-
     private static void getDepth(String node, Map<String, ArrayList<String>> graph, Set<String> visited, Map<String , Integer> depthMap){
         visited.add(node);
 

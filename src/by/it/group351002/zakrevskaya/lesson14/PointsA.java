@@ -1,7 +1,7 @@
 package by.it.group351002.zakrevskaya.lesson14;
 
 import java.util.*;
-
+//
 public class PointsA {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

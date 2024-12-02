@@ -1,7 +1,7 @@
 package by.it.group351002.zakrevskaya.lesson14;
 
 import java.util.Scanner;
-
+//
 public class StatesHanoiTowerC {
     private static class DSU {
         int[] parent;

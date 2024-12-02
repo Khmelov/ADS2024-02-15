@@ -34,11 +34,12 @@ import java.util.Scanner;
 
 public class C_LongNotUpSubSeq {
     int getNotUpSeqSize(InputStream stream) {
-        var scanner = new Scanner(stream);
-        var m = new Integer[scanner.nextInt()];
-        for (var i = 0; i < m.length; i++)
-            m[i] = scanner.nextInt();
-        return new SeqCheck((arr, current, next) -> arr[current] >= arr[next]).getLength(m);
+        try (var scanner = new Scanner(stream)) {
+            var m = new Integer[scanner.nextInt()];
+            for (var i = 0; i < m.length; i++)
+                m[i] = scanner.nextInt();
+            return new SeqCheck((arr, current, next) -> arr[current] >= arr[next]).getLength(m);
+        }
     }
 
     public static void main(String[] args) throws FileNotFoundException {

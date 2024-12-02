@@ -1,0 +1,258 @@
+package by.it.group351002.khmel.lesson12;
+
+
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+//работает на основе АВЛ-дерева -остается сбалансированным после каждой вставки или удаления путем выполнения поворотов.
+//АВЛ-дерево— сбалансированное двоичное дерево поиска, имеет свойство:
+// для каждой его вершины высота её двух поддеревьев различается не более чем на 1
+
+//  Добавление удалени поиск(мин/макс)вершины и слияние двух
+public class MyAvlMap implements Map<Integer, String> {
+
+    private int size = 0;
+    private MyNode root;
+
+// узел хранит пару ключ-значение, высоту для балансировки AVL и ссылки на левые и правые дочерние узлы.
+ //где ключи — целые числа, а значения — строки.
+    static private class MyNode{
+        Integer key;
+        String value;
+        int height;
+        MyNode left, right;
+        MyNode(Integer key,String value) {
+            this.key = key;
+            this.value = value;
+            this.height = 1;
+            this.right = null;
+            this.left = null;
+        }
+
+    }
+    private int height(MyNode node){
+        return (node!=null) ? node.height : 0;
+    }
+
+    //коэффициент баланса -разница высот между левым и правым поддеревьями
+    private int bfactor(MyNode node){
+        return height(node.right)-height(node.left);
+    }
+
+// фикс высоту узла на основе его дочерних элементов
+    private void fixheight(MyNode node){
+        int heightright = height(node.right);
+        int heightleft = height(node.left);
+        node.height = (heightright>heightleft ? heightright : heightleft)+1;
+    }
+
+    private void addtostring(MyNode parent, StringBuilder str){
+        if(parent.left!=null)
+            addtostring(parent.left, str);
+        str.append(parent.key);
+        str.append("=");
+        str.append(parent.value);
+        str.append(", ");
+        if(parent.right!=null)
+            addtostring(parent.right, str);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        if (root!=null) {
+            addtostring(root, sb);
+            sb.delete(sb.length()-2,sb.length());
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+//повороты вправо и влево, чтобы сбалансировать дерево.
+    private MyNode rotateright(MyNode node){
+        MyNode nextnode = node.left;
+        node.left = nextnode.right;
+        nextnode.right = node;
+        fixheight(node);
+        fixheight(nextnode);
+        return nextnode;
+    }
+//Если узел не сбалансирован, он поворачивает узел (влево или вправо) для сохранения свойства AVL.
+    private MyNode rotateleft(MyNode node){
+        MyNode nextnode = node.right;
+        node.right = nextnode.left;
+        nextnode.left = node;
+        fixheight(node);
+        fixheight(nextnode);
+        return nextnode;
+    }
+
+    private MyNode balance(MyNode node){
+        fixheight(node);
+        int h = bfactor(node);
+        if (h == 2){
+            if (bfactor(node.right) < 0)
+                node.right = rotateright(node.right);
+            return rotateleft(node);
+        }
+        if (h == -2){
+            if (bfactor(node.left) > 0)
+                node.left = rotateleft(node.left);
+            return rotateright(node);
+        }
+        return node;
+    }
+
+    private MyNode insert(MyNode node, Integer key, String value, StringBuilder oldvalue){
+        if (node==null) {
+            size++;
+            return new MyNode(key, value);
+        }
+        if (node.key>key)
+            node.left = insert(node.left, key, value,oldvalue);
+        else if (node.key<key)
+            node.right = insert(node.right, key, value, oldvalue);
+        else {
+            oldvalue.append(node.value);
+            node.value = value;
+            return node;
+        }
+        return balance(node);
+    }
+  //Вставляет пару ключ-значение в дерево AVL. Если ключ уже существует, он обновляет значение.
+  // Метод использует рекурсию для поиска подходящего места для ключа и перебалансирует дерево.
+    @Override
+    public String put(Integer key, String value) {
+        StringBuilder oldvalue = new StringBuilder();
+        root = insert(root, key, value, oldvalue);
+//        checkavl(root);
+        return oldvalue.isEmpty()?null:oldvalue.toString();
+    }
+
+
+    private MyNode findmin(MyNode node){
+        if (node.left==null)
+            return node;
+        else
+            return findmin(node.left);
+    }
+
+    private MyNode delete(MyNode node, Integer key, StringBuilder oldvalue){
+        if (node.key.equals(key)){
+            size--;
+            if (oldvalue!=null)
+                oldvalue.append(node.value);
+            if (node.left==null && node.right==null)
+                return null;
+            if (node.left==null)
+                return node.right;
+            if (node.right==null)
+                return node.left;
+            size++;
+            MyNode minnode = findmin(node.right);
+            node.value = minnode.value;
+            node.key = minnode.key;
+            node.right = delete(node.right, minnode.key, null);
+            return node;
+        }
+        if (node.key>key) {
+            if(node.left==null)
+                return node;
+            node.left = delete(node.left, key, oldvalue);
+        }else{
+            if(node.right==null)
+                return node;
+            node.right = delete(node.right, key, oldvalue);
+        }
+        return balance(node);
+    }
+    @Override
+    public String remove(Object key) {
+        int oldsize = size;
+        StringBuilder oldvalue = new StringBuilder();
+        root = delete(root, (Integer)key, oldvalue);
+//        checkavl(root);
+        return oldsize==size?null:oldvalue.toString();
+    }
+
+    @Override
+    public String get(Object key) {
+        MyNode x = root;
+        while(x!=null){
+            if (x.key.equals(key))
+                return x.value;
+            if (x.key>(Integer)key)
+                x = x.left;
+            else
+                x = x.right;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        MyNode x = root;
+        while(x!=null){
+            if (x.key==key)
+                return true;
+            if (x.key>(Integer)key)
+                x = x.left;
+            else
+                x = x.right;
+        }
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+
+    private MyNode eraseNode(MyNode node){
+        if (node != null){
+            node.right = eraseNode(node.right);
+            node.left = eraseNode(node.left);
+            node.key = null;
+            node.value = null;
+        }
+        return null;
+    }
+    @Override
+    public void clear() {
+        size = 0;
+        root = eraseNode(root);
+    }
+    @Override
+    public boolean isEmpty() {
+        return size==0;
+    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public boolean containsValue(Object value) {
+        return false;
+    }
+
+
+
+    @Override
+    public void putAll(Map<? extends Integer, ? extends String> m) {
+
+    }
+
+    @Override
+    public Set<Integer> keySet() {
+        return null;
+    }
+
+    @Override
+    public Collection<String> values() {
+        return null;
+    }
+
+    @Override
+    public Set<Entry<Integer, String>> entrySet() {
+        return null;
+    }
+}

@@ -38,52 +38,31 @@ import java.util.Scanner;
 
 public class B_EditDist {
 
-    int min(int n1, int n2, int n3){
-        if (n1>n2){
-            n1 = n2;
-        }
-        if (n1>n3){
-            n1 = n3;
-        }
-        return n1;
-    }
 
-    int m(int i0, int j0, String s1, String s2){
-        i0--;
-        j0--;
-        if (s1.charAt(i0) == s2.charAt(j0)){
-            return 0;
-        }
-        else{
-            return 1;
-        }
-    }
     int getDistanceEdinting(String one, String two) {
         //!!!!!!!!!!!!!!!!!!!!!!!!!     НАЧАЛО ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        int n = one.length();
-        int m = two.length();
-        int[][] matrix = new int[n+1][m+1];
-        for (int i = 0; i<=n; i++){
-            for (int j = 0; j<=m; j++){
-                if ((i == 0) && (j == 0)){
-                    matrix[i][j] = 0;
-                }
-                else if (j == 0){
-                    matrix[i][j] = i;
-                }
-                else if (i == 0){
-                    matrix[i][j] = j;
-                }
-                else{
-                    matrix[i][j] = min(matrix[i][j-1]+1, matrix[i-1][j]+1, matrix[i-1][j-1]+m(i, j, one, two));
-                }
+        int len0 = one.length() + 1;
+        int len1 = two.length() + 1;
 
+        int[] cost = new int[len0];
+        int[] newcost = new int[len0];
+
+        for (int i = 0; i < len0; i++)
+            cost[i] = i;
+        for (int j = 1; j < len1; j++) {
+            newcost[0] = j;
+
+            for(int i = 1; i < len0; i++) {
+                int match = (one.charAt(i - 1) == two.charAt(j - 1)) ? 0 : 1;
+                int cost_replace = cost[i - 1] + match;
+                int cost_insert  = cost[i] + 1;
+                int cost_delete  = newcost[i - 1] + 1;
+                newcost[i] = Math.min(Math.min(cost_insert, cost_delete), cost_replace);
             }
+            int[] swap = cost; cost = newcost; newcost = swap;
         }
-
-        int result = matrix[n][m];
+        return cost[len0 - 1];
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
-        return result;
     }
 
 

@@ -80,7 +80,7 @@ public class A_QSort {
             int left = 0;
             int right = n - 1;
 
-            while (left <= right){
+            while (left <= right) {
                 int middle = (left + right) / 2;
 
                 if (segments[middle].start <= point && point <= segments[middle].stop) {

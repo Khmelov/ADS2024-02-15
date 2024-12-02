@@ -36,8 +36,6 @@ public class A_VideoRegistrator {
             while (i < events.length && (events[i] <= time)) {
                 i++;
             }
-
-
         }
 
         //Комментарии от проверочного решения сохранены для подсказки, но вы можете их удалить.

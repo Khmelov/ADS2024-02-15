@@ -1,37 +1,195 @@
 package by.it.group310901.kapuza.lesson11;
 
-import java.util.*;
-public class MyTreeSet<E> implements Set<E>{
 
-    private Object[] arr = new Object[0];
-    private int siz = 0;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
-    @Override
-    public String toString() {
-        if (isEmpty())
-            return "[]";
-        StringBuilder res = new StringBuilder("[");
-        for (int i = 0; i < siz - 1; i++)
-            res.append(arr[i].toString()).append(", ");
-        return res + arr[siz - 1].toString() + "]";
+public class MyTreeSet<E extends Comparable> implements Set<E> {
+    static class Node<E> {
+        E item;
+        Node<E> left, right;
+
+        public Node(E item) {
+            this.item = item;
+        }
+    }
+
+    int size = 0;
+    Node<E> root = null;
+
+    Node<E> search(E e) {
+        Node<E> temp = root, prev = null;
+
+        while (temp != null) {
+            prev = temp;
+            if (temp.item.compareTo(e) == 0)
+                return temp;
+            if (e.compareTo(temp.item) > 0) {
+                temp = temp.right;
+            } else {
+                temp = temp.left;
+            }
+        }
+        return prev;
+    }
+
+    void reverse(Node<E> node, StringBuilder s){
+        if (node==null)
+            return;
+        if (node.left!= null)
+            reverse(node.left, s);
+        s.append(node.item).append(", ");
+        if (node.right!=null)
+            reverse(node.right, s);
     }
     @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+        if(root!=null){
+            reverse(root, s);
+            s.delete(s.length()-2, s.length());
+        }
+        s.append("]");
+        return s.toString();
+    }
 
+    @Override
     public int size() {
-        return siz;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return siz == 0;
+        return size == 0;
     }
+
     @Override
     public boolean contains(Object o) {
-        for (int i = 0; i < siz; i++)
-            if (arr[i].equals(o))
-                return true;
+        Node<E> node = search((E) o);
+        return node.item.compareTo(o) == 0;
+    }
+
+
+    @Override
+    public boolean add(E e) {
+        Node<E> node = search(e);
+        if (node == null) {
+            root = new Node<>(e);
+        } else {
+            if (node.item.compareTo(e) == 0)
+                return false;
+            if (e.compareTo(node.item) > 0) {
+                node.right = new Node<>(e);
+            } else {
+                node.left = new Node<>(e);
+            }
+        }
+        size++;
+        return true;
+    }
+
+    Node<E> remove(Node<E> root, E e) {
+        if (root == null) {
+            return root;
+        }
+        if (e.compareTo(root.item) < 0) {
+            root.left = remove(root.left, e);
+            return root;
+        } else if (e.compareTo(root.item) > 0) {
+            root.right = remove(root.right, e);
+            return root;
+        }
+
+        if (root.left == null) {
+            Node<E> temp = root.right;
+            return temp;
+        } else if (root.right == null) {
+            Node<E> temp = root.left;
+            return temp;
+        } else {
+            Node<E> succParent = root;
+
+            Node<E> succ = root.right;
+            while (succ.left != null) {
+                succParent = succ;
+                succ = succ.left;
+            }
+            if (succParent != root) {
+                succParent.left = succ.right;
+            } else {
+                succParent.right = succ.right;
+            }
+            root.item = succ.item;
+
+            return root;
+        }
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        if (contains(o)) {
+            root = remove(root, (E) o);
+            size--;
+            return true;
+        }
         return false;
     }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        for (Object o :
+                c) {
+            if (!contains(o))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        for (E o :
+                c) {
+            add(o);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        MyTreeSet<E> set = new MyTreeSet<>();
+        int count = 0;
+        for (Object o :
+                c) {
+            if (contains(o)) {
+                set.add((E) o);
+                count++;
+            }
+        }
+        size = count;
+        root = set.root;
+        return true;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        if (c.isEmpty())
+            return false;
+        for (Object o :
+                c) {
+            if (contains(o))
+                remove(o);
+        }
+        return true;
+    }
+
+    @Override
+    public void clear() {
+        root=null;
+        size=0;
+    }
+///////////////////////////////////////////////////////////////
 
     @Override
     public Iterator<E> iterator() {
@@ -46,95 +204,5 @@ public class MyTreeSet<E> implements Set<E>{
     @Override
     public <T> T[] toArray(T[] a) {
         return null;
-    }
-    @Override
-    public boolean add(E e) {
-        int index = 0;
-        while (index < siz && ((Comparable<? super E>) arr[index]).compareTo(e) < 0)
-            index++;
-        if (!isEmpty() && index < siz && arr[index].equals(e))
-            return false;
-        if (arr.length == siz)
-            arr = Arrays.copyOf(arr, siz * 2 + 1);
-        siz++;
-        for (int i = siz - 1; i > index; i--)
-            arr[i] = arr[i - 1];
-        arr[index] = e;
-        return true;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        int index = 0;
-        while (index < siz && !arr[index].equals(o))
-            index++;
-        if (index == siz)
-            return false;
-        for (int i = index; i < size() - 1; i++)
-            arr[i] = arr[i + 1];
-        siz--;
-        return true;
-    }
-    @Override
-    public boolean containsAll(Collection<?> c) {
-        for (Object o : c)
-            if (!contains(o))
-                return false;
-        return true;
-    }
-
-    @Override
-    public boolean addAll(Collection<? extends E> c) {
-        boolean toRet = false;
-        for (E o : c)
-            if (add(o))
-                toRet = true;
-        return true;
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-        boolean[] u = new boolean[siz];
-        int kol = 0, cnt = 0;
-        for (int i = 0; i < siz; i++)
-            if (c.contains(arr[i])) {
-                u[i] = true;
-                kol++;
-            }
-        if (kol == siz)
-            return false;
-        Object[] newArr = new Object[kol];
-        for (int i = 0; i < siz; i++)
-            if (u[i])
-                newArr[cnt++] = arr[i];
-        arr = newArr;
-        siz = kol;
-        return true;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        boolean[] temp = new boolean[siz];
-        int kol = 0, cnt = 0;
-        for (int i = 0; i < siz; i++)
-            if (c.contains(arr[i])) {
-                temp[i] = true;
-                kol++;
-            }
-        if (kol == 0)
-            return false;
-        Object[] newArr = new Object[siz - kol];
-        for (int i = 0; i < siz; i++)
-            if (!temp[i])
-                newArr[cnt++] = arr[i];
-        arr = newArr;
-        siz = siz - kol;
-        return true;
-    }
-
-    @Override
-    public void clear() {
-        siz = 0;
-        arr = new Object[0];
     }
 }

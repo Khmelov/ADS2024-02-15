@@ -1,4 +1,4 @@
-package lesson15;
+package by.it.group310902.chyliuk.lesson15;
 
 import by.it.HomeWork;
 import org.junit.Test;

@@ -61,14 +61,14 @@ public class Test_Part2_Lesson14 extends HomeWork {
         out.append(distance).append(" ");
         int n = 1 + random.nextInt(MAX_DISTANCE * 10);
         out.append(n);
-        /*for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             int[] point = {random.nextInt(-diapason, diapason), random.nextInt(diapason), random.nextInt(diapason)};
             out.append('\n')
                     .append(point[0]).append(" ")
                     .append(point[1]).append(" ")
                     .append(point[2]);
             points.add(point);
-        }*/
+        }
         out.append('\n');
         return out.toString();
     }

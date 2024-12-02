@@ -6,10 +6,10 @@ public class PointsA {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        DisJointSet<Point> dsu = new DisJointSet<Point>();
+
         int distanceRequired = scanner.nextInt();
         int count = scanner.nextInt();
-
-        DisJointSet<Point> dsu = new DisJointSet<Point>();
 
         for (int i = 0; i < count; i++) {
             int x = scanner.nextInt();

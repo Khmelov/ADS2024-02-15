@@ -15,9 +15,7 @@ public class SitesB {
             if (input.equals("end")) {
                 break;
             }
-
             String[] sites = input.split("\\+");
-
             for (String site : sites) {
                 if (!disjointSet.contains(site)) {
                     disjointSet.makeSet(site);
@@ -38,12 +36,6 @@ public class SitesB {
             String root = disjointSet.findSet(site);
             clusterSizes.put(root, disjointSet.getClusterSize(site));
         }
-
-        /*Map<String, Integer> clusterSizes = new HashMap<>();
-        for (String site : disjointSet) {
-            String root = disjointSet.findSet(site);
-            clusterSizes.put(root, clusterSizes.getOrDefault(root, 0) + 1);
-        }*/
 
         ArrayList<Integer> temp = new ArrayList<>();
 

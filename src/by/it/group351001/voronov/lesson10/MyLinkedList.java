@@ -4,157 +4,167 @@ import java.util.*;
 
 public class MyLinkedList<E> implements Deque<E> {
 
-    static class DoubleNode<E> {
-        public E data;
-        public DoubleNode<E> next;
-        public DoubleNode<E> prev;
-        public DoubleNode(E data) {
-            this.data = data;
+    static class Node<E> {
+        public E value;
+        public Node<E> nextNode;
+        public Node<E> previousNode;
+
+        public Node(E value) {
+            this.value = value;
         }
     }
-    DoubleNode<E> _head;
-    DoubleNode<E> _tail;
-    int Count;
+
+    Node<E> headNode;
+    Node<E> tailNode;
+    int size;
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        DoubleNode<E> tempHead = _head;
-        while (tempHead.next != null) {
-            sb.append(tempHead.data);
+        Node<E> currentNode = headNode;
+        while (currentNode.nextNode != null) {
+            sb.append(currentNode.value);
             sb.append(", ");
-            tempHead = tempHead.next;
+            currentNode = currentNode.nextNode;
         }
-        sb.append(tempHead.data);
+        sb.append(currentNode.value);
         sb.append("]");
         return sb.toString();
     }
-    @Override
-    public boolean add(E e) {
-        DoubleNode<E> node = new DoubleNode<>(e);
 
-        if (_head == null)
-            _head = node;
-        else
-        {
-            _tail.next = node;
-            node.prev = _tail;
+    @Override
+    public boolean add(E element) {
+        Node<E> newNode = new Node<>(element);
+
+        if (headNode == null)
+            headNode = newNode;
+        else {
+            tailNode.nextNode = newNode;
+            newNode.previousNode = tailNode;
         }
-        _tail = node;
-        Count++;
+        tailNode = newNode;
+        size++;
         return true;
     }
+
     @Override
-    public void addFirst(E e) {
-        DoubleNode<E> node = new DoubleNode<>(e);
-        node.next = _head;
-        if (Count == 0) {
-            _head = _tail = node;
+    public void addFirst(E element) {
+        Node<E> newNode = new Node<>(element);
+        newNode.nextNode = headNode;
+        if (size == 0) {
+            headNode = tailNode = newNode;
+        } else {
+            headNode.previousNode = newNode;
+            headNode = newNode;
         }
-        else {
-            _head.prev = node;
-            _head = node;
-        }
-        Count++;
+        size++;
     }
+
     @Override
-    public void addLast(E e) {
-        add(e);
+    public void addLast(E element) {
+        add(element);
     }
+
     @Override
     public E pollFirst() {
-        if (Count == 0)
+        if (size == 0)
             return null;
-        E output = _head.data;
-        if (Count == 1)
-            _head = _tail = null;
-        else
-        {
-            _head = _head.next;
-            _head.prev = null;
+        E value = headNode.value;
+        if (size == 1)
+            headNode = tailNode = null;
+        else {
+            headNode = headNode.nextNode;
+            headNode.previousNode = null;
         }
-        Count--;
-        return output;
+        size--;
+        return value;
     }
+
     @Override
     public E pollLast() {
-        if (Count == 0)
+        if (size == 0)
             return null;
-        E output = _tail.data;
-        if (Count == 1)
-            _head = _tail = null;
-        else
-        {
-            _tail = _tail.prev;
-            _tail.next = null;
+        E value = tailNode.value;
+        if (size == 1)
+            headNode = tailNode = null;
+        else {
+            tailNode = tailNode.previousNode;
+            tailNode.nextNode = null;
         }
-        Count--;
-        return output;
+        size--;
+        return value;
     }
+
     @Override
     public E poll() {
         return pollFirst();
     }
+
     @Override
     public E getFirst() {
-        if (Count == 0)
+        if (size == 0)
             return null;
-        return _head.data;
+        return headNode.value;
     }
+
     @Override
     public E getLast() {
-        if (Count == 0)
+        if (size == 0)
             return null;
-        return _tail.data;
+        return tailNode.value;
     }
+
     @Override
     public E element() {
         return getFirst();
     }
+
     @Override
     public int size() {
-        return Count;
+        return size;
     }
-    @Override
-    public boolean remove(Object o) {
-        DoubleNode<E> tempHead = _head;
-        while (tempHead != null) {
-            if (Objects.equals(o, tempHead.data)) {
-                if (tempHead.next != null)
-                    tempHead.next.prev = tempHead.prev;
-                else
-                    _tail = tempHead.prev;
 
-                if (tempHead.prev != null)
-                    tempHead.prev.next = tempHead.next;
+    @Override
+    public boolean remove(Object element) {
+        Node<E> currentNode = headNode;
+        while (currentNode != null) {
+            if (Objects.equals(element, currentNode.value)) {
+                if (currentNode.nextNode != null)
+                    currentNode.nextNode.previousNode = currentNode.previousNode;
                 else
-                    _head = tempHead.next;
-                Count--;
+                    tailNode = currentNode.previousNode;
+
+                if (currentNode.previousNode != null)
+                    currentNode.previousNode.nextNode = currentNode.nextNode;
+                else
+                    headNode = currentNode.nextNode;
+                size--;
                 return true;
             }
-            tempHead = tempHead.next;
+            currentNode = currentNode.nextNode;
         }
         return false;
     }
-    public E remove(int index) {
-        DoubleNode<E> tempHead = _head;
-        if (index > -1 && index < Count) {
-            int count = 0;
-            while (count++ < index) {
-                tempHead = tempHead.next;
-            }
-            if (tempHead.next != null)
-                tempHead.next.prev = tempHead.prev;
-            else
-                _tail = tempHead.prev;
 
-            if (tempHead.prev != null)
-                tempHead.prev.next = tempHead.next;
+    public E remove(int index) {
+        Node<E> currentNode = headNode;
+        if (index >= 0 && index < size) {
+            int currentIndex = 0;
+            while (currentIndex++ < index) {
+                currentNode = currentNode.nextNode;
+            }
+            if (currentNode.nextNode != null)
+                currentNode.nextNode.previousNode = currentNode.previousNode;
             else
-                _head = tempHead.next;
-            Count--;
-            return tempHead.data;
+                tailNode = currentNode.previousNode;
+
+            if (currentNode.previousNode != null)
+                currentNode.previousNode.nextNode = currentNode.nextNode;
+            else
+                headNode = currentNode.nextNode;
+            size--;
+            return currentNode.value;
         }
         return null;
     }
@@ -162,7 +172,7 @@ public class MyLinkedList<E> implements Deque<E> {
     //////////////////////////////////////////
 
     @Override
-    public boolean offer(E e) {
+    public boolean offer(E element) {
         return false;
     }
 
@@ -177,12 +187,12 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public boolean offerFirst(E e) {
+    public boolean offerFirst(E element) {
         return false;
     }
 
     @Override
-    public boolean offerLast(E e) {
+    public boolean offerLast(E element) {
         return false;
     }
 
@@ -207,22 +217,22 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public boolean removeFirstOccurrence(Object o) {
+    public boolean removeFirstOccurrence(Object element) {
         return false;
     }
 
     @Override
-    public boolean removeLastOccurrence(Object o) {
+    public boolean removeLastOccurrence(Object element) {
         return false;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(Object element) {
         return false;
     }
 
@@ -242,22 +252,22 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
+    public <T> T[] toArray(T[] array) {
         return null;
     }
 
     @Override
-    public boolean containsAll(Collection<?> c) {
+    public boolean containsAll(Collection<?> collection) {
         return false;
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
+    public boolean addAll(Collection<? extends E> collection) {
         return false;
     }
 
     @Override
-    public void push(E e) {
+    public void push(E element) {
 
     }
 
@@ -267,12 +277,12 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public boolean removeAll(Collection<?> c) {
+    public boolean removeAll(Collection<?> collection) {
         return false;
     }
 
     @Override
-    public boolean retainAll(Collection<?> c) {
+    public boolean retainAll(Collection<?> collection) {
         return false;
     }
 

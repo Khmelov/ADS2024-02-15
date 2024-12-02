@@ -6,63 +6,122 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class MyLinkedHashSet<E> implements Set<E> {
-    class Node<E> {
-        E data;
-        Node<E> next;
-        Node<E> prev, follow;
-        Node(E e) {
-            data = e;
+    class Element<E> {
+        E value;
+        Element<E> nextElement;
+        Element<E> prevElement, linkedElement;
+        Element(E value) {
+            this.value = value;
         }
     }
 
-    static final int START_SIZE = 20;
-    int size = 0;
-    Node<E>[] items;
+    static final int DEFAULT_CAPACITY = 20;
+    int elementCount = 0;
+    Element<E>[] buckets;
 
-    Node<E> head, tail;
+    Element<E> firstElement, lastElement;
 
     MyLinkedHashSet() {
-        this(START_SIZE);
+        this(DEFAULT_CAPACITY);
     }
 
-    MyLinkedHashSet(int size) {
-        items = new Node[size];
+    MyLinkedHashSet(int initialCapacity) {
+        buckets = new Element[initialCapacity];
     }
 
     @Override
     public String toString() {
-        StringBuilder line = new StringBuilder("[");
-        Node<E> curr = head;
-        while (curr != null) {
-            line.append(curr.data);
-            if (curr.follow != null)
-                line.append(", ");
-            curr = curr.follow;
+        StringBuilder stringBuilder = new StringBuilder("[");
+        Element<E> current = firstElement;
+        while (current != null) {
+            stringBuilder.append(current.value);
+            if (current.linkedElement != null)
+                stringBuilder.append(", ");
+            current = current.linkedElement;
         }
-        line.append("]");
-        return line.toString();
+        stringBuilder.append("]");
+        return stringBuilder.toString();
     }
 
     @Override
     public int size() {
-        return size;
+        return elementCount;
     }
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return elementCount == 0;
     }
 
     @Override
-    public boolean contains(Object o) {
-        for (Node<E> item : items) {
-            Node<E> curr = item;
-            while (curr != null) {
-                if (o.equals(curr.data)) {
+    public boolean contains(Object obj) {
+        for (Element<E> bucket : buckets) {
+            Element<E> current = bucket;
+            while (current != null) {
+                if (obj.equals(current.value)) {
                     return true;
                 }
-                curr = curr.next;
+                current = current.nextElement;
             }
+        }
+        return false;
+    }
+
+    void linkElement(Element<E> newElement) {
+        if (firstElement == null) {
+            firstElement = newElement;
+        } else {
+            lastElement.linkedElement = newElement;
+            newElement.prevElement = lastElement;
+        }
+        lastElement = newElement;
+    }
+
+    void unlinkElement(Element<E> element) {
+        if (element.linkedElement != null) {
+            element.linkedElement.prevElement = element.prevElement;
+        } else {
+            lastElement = element.prevElement;
+        }
+        if (element.prevElement != null) {
+            element.prevElement.linkedElement = element.linkedElement;
+        } else {
+            firstElement = element.linkedElement;
+        }
+    }
+
+    void expandBuckets() {
+        Element<E>[] newBuckets = new Element[buckets.length * 2];
+        for (Element<E> current : buckets) {
+            while (current != null) {
+                Element<E> next = current.nextElement;
+                int newIndex = (current.value.hashCode() & 0x7FFFFFFF) % newBuckets.length;
+                current.nextElement = newBuckets[newIndex];
+                newBuckets[newIndex] = current;
+                current = next;
+            }
+        }
+        buckets = newBuckets;
+    }
+
+    @Override
+    public boolean remove(Object obj) {
+        int index = computeHash(obj);
+        Element<E> current = buckets[index];
+        Element<E> previous = null;
+        while (current != null) {
+            if (obj.equals(current.value)) {
+                if (previous == null) {
+                    buckets[index] = current.nextElement;
+                } else {
+                    previous.nextElement = current.nextElement;
+                }
+                elementCount--;
+                unlinkElement(current);
+                return true;
+            }
+            previous = current;
+            current = current.nextElement;
         }
         return false;
     }
@@ -72,151 +131,90 @@ public class MyLinkedHashSet<E> implements Set<E> {
         return null;
     }
 
-    int getHash(Object o) {
-        return (o.hashCode() & 0x7FFFFFFF) % items.length;
-    }
-
-    void addNode(Node<E> newNode) {
-        if(head == null)
-            head = newNode;
-        else {
-            tail.follow = newNode;
-            newNode.prev = tail;
-        }
-        tail = newNode;
-    }
-
-    void removeNode(Node<E> newNode) {
-        if (newNode.follow != null) {
-            newNode.follow.prev = newNode.prev;
-        } else {
-            tail = newNode.prev;
-        }
-        if (newNode.prev != null) {
-            newNode.prev.follow = newNode.follow;
-        } else {
-            head = newNode.follow;
-        }
-    }
-
-    void resize(){
-        Node<E>[] newIems = new Node[items.length*2];
-        for(Node<E> curr : items) {
-            while(curr != null) {
-                Node<E> next = curr.next;
-                int newInd = (curr.data.hashCode() & 0x7FFFFFFF) % newIems.length;
-                curr.next = newIems[newInd];
-                newIems[newInd] = curr;
-                curr = next;
-            }
-        }
-        items = newIems;
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        int ind = getHash(o);
-        Node<E> curr = items[ind];
-        Node<E> prev = null;
-        while(curr != null) {
-            if (o.equals(curr.data)){
-                if(prev == null) {
-                    items[ind] = curr.next;
-                } else {
-                    prev.next = curr.next;
-                }
-                size--;
-                removeNode(curr);
-                return true;
-            }
-            prev = curr;
-            curr = curr.next;
-        }
-        return false;
+    int computeHash(Object obj) {
+        return (obj.hashCode() & 0x7FFFFFFF) % buckets.length;
     }
 
     @Override
     public void clear() {
-        for (int i = 0; i < items.length; i++) {
-            items[i] = null;
+        for (int i = 0; i < buckets.length; i++) {
+            buckets[i] = null;
         }
-        size = 0;
-        head = null;
-        tail = null;
+        elementCount = 0;
+        firstElement = null;
+        lastElement = null;
     }
 
     @Override
-    public boolean add(Object o) {
-        Node<E> newNode = new Node<E>((E)o);
-        int ind = getHash(o);
-        Node<E> curr = items[ind];
-        while (curr != null) {
-            if (curr.data.equals(o)) {
+    public boolean add(Object obj) {
+        Element<E> newElement = new Element<E>((E) obj);
+        int index = computeHash(obj);
+        Element<E> current = buckets[index];
+        while (current != null) {
+            if (current.value.equals(obj)) {
                 return false;
             }
-            curr = curr.next;
+            current = current.nextElement;
         }
-        newNode.next = items[ind];
-        items[ind] = newNode;
-        addNode(newNode);
-        if (++size > items.length * 0.7)
-            resize();
+        newElement.nextElement = buckets[index];
+        buckets[index] = newElement;
+        linkElement(newElement);
+        if (++elementCount > buckets.length * 0.7)
+            expandBuckets();
         return true;
     }
 
-
     @Override
     public boolean addAll(Collection c) {
-        boolean isModified = false;
-        for(Object item : c) {
-            if(add(item)){
-                isModified = true;
+        boolean modified = false;
+        for (Object item : c) {
+            if (add(item)) {
+                modified = true;
             }
         }
-        return isModified;
+        return modified;
     }
 
     @Override
     public boolean removeAll(Collection c) {
-        boolean isModified = false;
-        for(Object item : c) {
-            if(remove(item)){
-                isModified = true;
+        boolean modified = false;
+        for (Object item : c) {
+            if (remove(item)) {
+                modified = true;
             }
         }
-        return isModified;
+        return modified;
     }
 
     @Override
     public boolean retainAll(Collection c) {
-        if (c.isEmpty()){
+        if (c.isEmpty()) {
             clear();
             return true;
         }
-        boolean isModified = false;
-        Node<E> curr = head;
-        while (curr != null) {
-            Node<E> next = curr.follow;
-            if (!c.contains(curr.data)) {
-                remove(curr.data);
-                isModified = true;
+        boolean modified = false;
+        Element<E> current = firstElement;
+        while (current != null) {
+            Element<E> next = current.linkedElement;
+            if (!c.contains(current.value)) {
+                remove(current.value);
+                modified = true;
             }
-            curr = next;
+            current = next;
         }
-        return isModified;
+        return modified;
     }
 
     @Override
     public boolean containsAll(Collection c) {
-        for (Object item : c){
-            if(!contains(item))
+        for (Object item : c) {
+            if (!contains(item))
                 return false;
         }
         return true;
     }
+
     //------------------------------
-
-
 
     @Override
     public Object[] toArray() {

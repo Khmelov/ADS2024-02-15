@@ -37,11 +37,6 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
             i = (i - 1) / 2;
         }
     }
-    void heapify() {
-        for (int i = (currentSize / 2); i >= 0; i--) {
-            siftDown(i);
-        }
-    }
     @Override
     public String toString() {
         String tempStr = "[";
@@ -94,6 +89,11 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
             }
         }
         return false;
+    }
+    void heapify() {
+        for (int i = (currentSize / 2); i >= 0; i--) {
+            siftDown(i);
+        }
     }
     @Override
     public boolean offer(E e) {

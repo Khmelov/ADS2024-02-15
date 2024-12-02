@@ -19,6 +19,7 @@ public class MyPriorityQueue<E> implements Queue<E> {
     private void swap(int i, int j) {
         E temp = elements[i];
         elements[i] = elements[j];
+        //
         elements[j] = temp;
     }
 

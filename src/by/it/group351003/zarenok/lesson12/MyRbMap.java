@@ -8,7 +8,6 @@ public class MyRbMap implements SortedMap<Integer, String> {
     enum Color {
         RED, BLACK
     }
-
     class Node {
         Integer key;
         String value;

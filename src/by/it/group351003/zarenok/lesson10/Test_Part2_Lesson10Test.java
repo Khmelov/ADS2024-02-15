@@ -28,7 +28,7 @@ public class Test_Part2_Lesson10Test extends HomeWork {
     Random rnd = new Random(RND_SEED);
     private Collection<Number> eObject;
     private Collection<Number> aObject;
-
+//
     private Map<Method, String> cache = new HashMap<>();
 
     @Test(timeout = 5000)

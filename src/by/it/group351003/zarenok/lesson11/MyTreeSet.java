@@ -7,7 +7,6 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>{
         E data;
         Node left;
         Node right;
-
         Node(E data) {
             this.data = data;
         }

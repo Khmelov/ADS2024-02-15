@@ -19,6 +19,7 @@ public class MyLinkedList<E> implements Deque<E> {
     private final ReentrantLock lock = new ReentrantLock();
     private Node<E> head;
     private Node<E> tail;
+    //
     private int itemCount = 0;
 
 
@@ -31,6 +32,7 @@ public class MyLinkedList<E> implements Deque<E> {
             if(itemCount == 0){
                 head = temp;
                 tail = temp;
+                //
             }else {
                 temp.prev = null;
                 temp.next = head;

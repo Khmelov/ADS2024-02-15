@@ -1,5 +1,5 @@
 package by.it.group351005.bychkowski.lesson13;
-import by.it.group351005.pavello06.lesson13.GraphUtil;
+import by.it.group351005.bychkowski.lesson13.GraphUtil;
 
 import java.util.Scanner;
 

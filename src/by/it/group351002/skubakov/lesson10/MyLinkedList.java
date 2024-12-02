@@ -3,62 +3,194 @@ package by.it.group351002.skubakov.lesson10;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class MyLinkedList<E> implements Deque<E> {
-    protected static class Node<E> {
-        public E data;
-        public by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> prev, next;
+    class MyLinkedListNode<E> {
+        public E Data;
+        public MyLinkedListNode<E> Previous;
+        public MyLinkedListNode<E> Next;
 
-        public Node() {
-
-        }
-
-        public Node(E data) {
-            this.data = data;
-            prev = next = null;
+        public MyLinkedListNode(E data) {
+            Data = data;
         }
     }
 
-    private by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> head = null, back = null;
-    public int siz = 0;
+    MyLinkedListNode<E> _head;
+    MyLinkedListNode<E> _tail;
+    int _size;
+
+    MyLinkedList() {
+        _head = null;
+        _tail = null;
+        _size = 0;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        MyLinkedListNode<E> temp = _head;
+        for (int i = 0; i < _size; i++) {
+            sb.append(temp.Data);
+            if (i < _size - 1) {
+                sb.append(", ");
+            }
+            temp = temp.Next;
+        }
+        sb.append(']');
+        return sb.toString();
+    }
 
     @Override
-    public String toString() {
-        if (isEmpty())
-            return "[]";
-        StringBuilder res = new StringBuilder("[");
-        by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> cur = head;
-        while (cur.next != null) {
-            res.append(cur.data.toString()).append(", ");
-            cur = cur.next;
+    public boolean add(E e) {
+        addLast(e);
+        return true;
+    }
+
+    public E remove(int index) {
+        if (index < 0 || index >= _size) {
+            return null;
         }
-        return res + cur.data.toString() + "]";
+
+        MyLinkedListNode<E> temp = _head;
+        for (int i = 0; i < index; i++) {
+            temp = temp.Next;
+        }
+        E e = temp.Data;
+
+        if (temp.Previous != null) {
+            temp.Previous.Next = temp.Next;
+        } else {
+            _head = temp.Next;
+        }
+
+        if (temp.Next != null) {
+            temp.Next.Previous = temp.Previous;
+        } else {
+            _tail = temp.Previous;
+        }
+
+        _size--;
+
+        return e;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        MyLinkedListNode<E> temp = _head;
+        int index = 0;
+        while (temp != null) {
+            if (temp.Data.equals(o)) {
+                remove(index);
+                return true;
+            }
+            index++;
+            temp = temp.Next;
+        }
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return _size;
     }
 
     @Override
     public void addFirst(E e) {
-        if (siz++ == 0) {
-            head = back = new by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E>(e);
-            return;
+        MyLinkedListNode<E> node = new MyLinkedListNode<>(e);
+        if (_head != null) {
+            node.Next = _head;
+            _head.Previous = node;
         }
-        by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> cur = new by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E>(e);
-        head.prev = cur;
-        cur.next = head;
-        head = cur;
+        _head = node;
+
+        if (_tail == null) {
+            _tail = node;
+        }
+
+        _size++;
     }
 
     @Override
     public void addLast(E e) {
-        if (siz++ == 0) {
-            head = back = new by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E>(e);
-            return;
+        MyLinkedListNode<E> node = new MyLinkedListNode<>(e);
+        if (_tail != null) {
+            _tail.Next = node;
+            node.Previous = _tail;
         }
-        by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> cur = new by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E>(e);
-        back.next = cur;
-        cur.prev = back;
-        back = cur;
+        _tail = node;
+
+        if (_head == null) {
+            _head = node;
+        }
+
+        _size++;
     }
+
+    @Override
+    public E element() {
+        return getFirst();
+    }
+
+    @Override
+    public E getFirst() {
+        if (_size == 0) {
+            return null;
+        }
+        return _head.Data;
+    }
+
+    @Override
+    public E getLast() {
+        if (_size == 0) {
+            return null;
+        }
+        return _tail.Data;
+    }
+
+    @Override
+    public E poll() {
+        return pollFirst();
+    }
+
+    @Override
+    public E pollFirst() {
+        if (_size == 0) {
+            return null;
+        }
+        E e = _head.Data;
+        _head = _head.Next;
+
+        if (_head != null) {
+            _head.Previous = null;
+        }
+        else {
+            _tail = null;
+        }
+
+        _size--;
+        return e;
+    }
+
+    @Override
+    public E pollLast() {
+        if (_size == 0) {
+            return null;
+        }
+        E e = _tail.Data;
+        _tail = _tail.Previous;
+
+        if (_tail != null) {
+            _tail.Next = null;
+        }
+        else {
+            _head = null;
+        }
+
+        _size--;
+        return e;
+    }
+
+
 
     @Override
     public boolean offerFirst(E e) {
@@ -78,70 +210,6 @@ public class MyLinkedList<E> implements Deque<E> {
     @Override
     public E removeLast() {
         return null;
-    }
-
-    public E remove(int index) {
-        if (index < 0 || index >= siz)
-            throw new IndexOutOfBoundsException();
-        siz--;
-        by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> cur = head;
-        if (siz == 0) {
-            head = back = null;
-            return cur.data;
-        }
-        if (index < siz / 2)
-            for (int i = 0; i < index; i++)
-                cur = cur.next;
-        else {
-            cur = back;
-            for (int i = 0; i < siz - index; i++)
-                cur = cur.prev;
-        }
-        if (cur == head) {
-            head.next.prev = null;
-            head = head.next;
-            return cur.data;
-        }
-        if (cur == back) {
-            back.prev.next = null;
-            back = back.prev;
-            return cur.data;
-        }
-        cur.prev.next = cur.next;
-        cur.next.prev = cur.prev;
-        return cur.data;
-    }
-
-    @Override
-    public E pollFirst() {
-        if (isEmpty())
-            return null;
-        E toRet = head.data;
-        remove(0);
-        return toRet;
-    }
-
-    @Override
-    public E pollLast() {
-        if (isEmpty())
-            return null;
-        E toRet = back.data;
-        remove(siz - 1);
-        return toRet;
-    }
-
-    @Override
-    public E getFirst() {
-        if (isEmpty())
-            throw new NoSuchElementException();
-        return head.data;
-    }
-
-    @Override
-    public E getLast() {
-        if (isEmpty())
-            throw new NoSuchElementException();
-        return back.data;
     }
 
     @Override
@@ -165,12 +233,6 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public boolean add(E e) {
-        addLast(e);
-        return true;
-    }
-
-    @Override
     public boolean offer(E e) {
         return false;
     }
@@ -178,16 +240,6 @@ public class MyLinkedList<E> implements Deque<E> {
     @Override
     public E remove() {
         return null;
-    }
-
-    @Override
-    public E poll() {
-        return pollFirst();
-    }
-
-    @Override
-    public E element() throws NoSuchElementException {
-        return getFirst();
     }
 
     @Override
@@ -226,33 +278,6 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public boolean remove(Object o) {
-        by.it.group351002.skubakov.lesson10.MyLinkedList.Node<E> cur = head;
-        while (cur != null && !((o == null && cur.data == null) || (o != null && o.equals(cur.data))))
-            cur = cur.next;
-        if (cur == null)
-            return false;
-        siz--;
-        if (siz == 0) {
-            head = back = null;
-            return true;
-        }
-        if (cur == head) {
-            head.next.prev = null;
-            head = head.next;
-            return true;
-        }
-        if (cur == back) {
-            back.prev.next = null;
-            back = back.prev;
-            return true;
-        }
-        cur.prev.next = cur.next;
-        cur.next.prev = cur.prev;
-        return true;
-    }
-
-    @Override
     public boolean containsAll(Collection<?> c) {
         return false;
     }
@@ -263,13 +288,8 @@ public class MyLinkedList<E> implements Deque<E> {
     }
 
     @Override
-    public int size() {
-        return siz;
-    }
-
-    @Override
     public boolean isEmpty() {
-        return siz == 0;
+        return false;
     }
 
     @Override

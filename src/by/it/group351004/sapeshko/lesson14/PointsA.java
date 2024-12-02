@@ -3,6 +3,7 @@ package by.it.group351004.sapeshko.lesson14;
 import java.util.*;
 
 public class PointsA {
+
     static class DSU {
         private final int[] parent;
         private final int[] size;

@@ -5,7 +5,7 @@ import java.util.Deque;
 import java.util.Iterator;
 
 public class MyArrayDeque<E> implements Deque<E> {
-
+//a
     final int defaultSize = 10;
     int _count;
     E[] _items;

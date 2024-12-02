@@ -291,7 +291,7 @@ public class MyLinkedList<E> implements Deque<E> {
     public boolean isEmpty() {
         return false;
     }
-
+//a
     @Override
     public Iterator<E> iterator() {
         return null;

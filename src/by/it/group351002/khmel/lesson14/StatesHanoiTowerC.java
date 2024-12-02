@@ -3,6 +3,7 @@ package by.it.group351002.khmel.lesson14;
 import java.util.Scanner;
 
 public class StatesHanoiTowerC {
+
     private static class DSU {
         int[] parent;
         int[] size;

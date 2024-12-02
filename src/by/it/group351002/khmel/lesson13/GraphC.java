@@ -3,6 +3,7 @@ package by.it.group351002.khmel.lesson13;
 import java.util.*;
 
 // Класс GraphC реализует алгоритм поиска сильных компонент связности
+//dd
 public class GraphC {
     // Список смежности графа
     private final Map<String, Set<String>> adjacencyList = new HashMap<>();

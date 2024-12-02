@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.stream.Stream;
 
+
 public class SourceScannerB extends SourceScannerA{
 
     protected static void getInformation() throws IOException {

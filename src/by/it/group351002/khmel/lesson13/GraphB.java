@@ -3,6 +3,7 @@ package by.it.group351002.khmel.lesson13;
 import java.util.*;
 
 // Объявляем публичный класс GraphB
+//dd
 public class GraphB {
     // Храним список смежности графа
     private final Map<String, List<String>> adjacencyList = new HashMap<>();

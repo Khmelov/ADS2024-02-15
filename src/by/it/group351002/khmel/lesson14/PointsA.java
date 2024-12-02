@@ -6,6 +6,7 @@ public class PointsA {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+
         int distanceRequired = scanner.nextInt();
         int count = scanner.nextInt();
 

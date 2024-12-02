@@ -59,6 +59,7 @@ public class SourceScannerC extends SourceScannerA{
             Collections.sort(a1);
             Collections.sort(a2);
 
+
             return a1.get(0).compareTo(a2.get(0));
         }
 

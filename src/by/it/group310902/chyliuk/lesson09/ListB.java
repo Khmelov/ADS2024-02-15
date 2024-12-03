@@ -1,5 +1,4 @@
-
-package lesson09;
+package by.it.group310902.chyliuk.lesson09;
 
 import java.util.Collection;
 import java.util.Iterator;

@@ -1,4 +1,4 @@
-package lesson14;
+package by.it.group310902.chyliuk.lesson14;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package lesson10;
+package by.it.group310902.chyliuk.lesson10;
 
 import java.util.*;
 

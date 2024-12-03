@@ -14,6 +14,7 @@ public class GraphC {
                 graph.addEdge(edge[0], edge[1]);
         }
         String[] result = graph.findComponents();
+
         for(int i = 0; i < result.length; i++)
             System.out.println(result[i]);
     }

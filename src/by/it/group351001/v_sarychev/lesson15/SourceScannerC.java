@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
+
 public class SourceScannerC {
     static final int NORMAL_DISTANCE = 9;
 

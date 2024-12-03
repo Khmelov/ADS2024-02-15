@@ -1,4 +1,4 @@
-package lesson11;
+package by.it.group310902.chyliuk.lesson11;
 
 import java.util.Collection;
 import java.util.Iterator;

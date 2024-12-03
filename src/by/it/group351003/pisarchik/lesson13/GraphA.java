@@ -8,7 +8,6 @@ public class GraphA {
 
 
     private static void addComponent(String[] pair) {
-        TreeSet<String> set = new TreeSet<>();
 
         graph.putIfAbsent(pair[0], new PriorityQueue<>());
         graph.putIfAbsent(pair[1], new PriorityQueue<>());

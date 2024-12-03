@@ -1,4 +1,4 @@
-package lesson07;
+package by.it.group351001.v_sarychev.lesson07;
 
 import org.junit.Test;
 

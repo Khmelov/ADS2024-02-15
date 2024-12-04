@@ -138,7 +138,7 @@ public class MyAvlMap implements Map<Integer, String> {
     AVLNode Balance(AVLNode node)
     {
         if (node == null)
-            return node;
+            return null;
 
         node.Height = 1 + Math.max(Height(node.Left), Height(node.Right));
         int balanceFactor = BalanceFactor(node);
@@ -170,7 +170,7 @@ public class MyAvlMap implements Map<Integer, String> {
     AVLNode remove(AVLNode node, Integer key)
     {
         if (node == null)
-            return node;
+            return null;
         int comparison = key.compareTo(node.key);
         if (comparison < 0)
             node.Left = remove(node.Left, key);

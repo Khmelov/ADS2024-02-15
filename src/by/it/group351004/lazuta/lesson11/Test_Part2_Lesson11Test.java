@@ -1,4 +1,4 @@
-package lesson11;
+package by.it.group351004.lazuta.lesson11;
 
 
 import by.it.HomeWork;

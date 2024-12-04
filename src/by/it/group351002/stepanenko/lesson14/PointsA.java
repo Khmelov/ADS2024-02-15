@@ -1,86 +1,64 @@
 package by.it.group351002.stepanenko.lesson14;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 public class PointsA {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        List<Set<Point>> dsu = new ArrayList<>();
-        int distance, dotsAmount;
+        int distanceRequired = scanner.nextInt();
+        int count = scanner.nextInt();
 
-        try (Scanner scanner = new Scanner(System.in)) {
+        DisJointSet<Point> dsu = new DisJointSet<Point>();
 
-            distance = scanner.nextInt();
-            dotsAmount = scanner.nextInt();
+        for (int i = 0; i < count; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            int z = scanner.nextInt();
+            Point point = new Point(x, y, z);
+            dsu.makeSet(point);
 
-            for (int i = 0; i < dotsAmount; i++) {
-                Point point = new Point(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
-                Set<Point> set = new HashSet<>();
-                set.add(point);
-                dsu.add(set);
-            }
-        }
-
-        for (int i = 0; i < dsu.size(); i++) {
-            for (Set<Point> set : dsu) {
-                boolean union = false;
-                ok:
-                if (dsu.get(i) != set) {
-                    for (Point p1 : dsu.get(i)) {
-                        for (Point p2 : set) {
-                            if (p1 != p2 && checkDistance(p1, p2, distance)) {
-                                union = true;
-                                break ok;
-                            }
-                        }
-                    }
-                }
-
-                if (union) {
-                    dsu.get(i).addAll(set);
-                    set.clear();
-                    i = 0;
+            for (Point existingPoint : dsu) {
+                if (point.distanceTo(existingPoint) <= distanceRequired) {
+                    dsu.union(point, existingPoint);
                 }
             }
         }
 
-        dsu.removeIf(Set::isEmpty);
-        String output = dsu.stream()
-                .map(Set::size)
-                .sorted((n, m) -> m - n)
-                .map(String::valueOf)
-                .collect(Collectors.joining(" "))
-                .trim();
+        List<Integer> clusterSizes = new ArrayList<>();
+        HashSet<Point> set = new HashSet<>();
+        for (Point existingPoint : dsu) {
+            Point root = dsu.findSet(existingPoint);
+            if (set.contains(root))
+                continue;
+            set.add(root);
+            int size = dsu.getClusterSize(root);
+            clusterSizes.add(size);
+        }
 
-        System.out.println(output);
+        Collections.sort(clusterSizes);
+        Collections.reverse(clusterSizes);
+
+        for (int size : clusterSizes) {
+            System.out.print(size + " ");
+        }
+
+
+
     }
 
-    private static boolean checkDistance(Point p1, Point p2, int distance) {
-        return Math.hypot(Math.hypot(p1.getX() - p2.getX(), p1.getY() - p2.getY()), p1.getZ() - p2.getZ()) <= distance;
-    }
+    static class Point {
+        int x, y, z;
 
-    private static class Point {
-
-        private final int x;
-        private final int y;
-        private final int z;
-
-        public Point(int x, int y, int z) {
+        Point(int x, int y, int z) {
             this.x = x;
             this.y = y;
             this.z = z;
         }
 
-        public int getX() {
-            return x;
+        double distanceTo(Point other) {
+            return Math.hypot(Math.hypot(x - other.x, y - other.y), z - other.z);
         }
 
-        public int getY() {
-            return y;
-        }
-
-        public int getZ() {
-            return z;
-        }
     }
 }

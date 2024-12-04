@@ -1,59 +1,66 @@
 package by.it.group351002.stepanenko.lesson14;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 public class SitesB {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        List<Set<String>> dsu = new ArrayList<>();
-        Set<String> links = new HashSet<>();
+        // Создаем экземпляр структуры данных DSU для управления множествами сайтов
+        DisJointSet<String> disjointSet = new DisJointSet<>();
 
-        try (Scanner scanner = new Scanner(System.in)) {
+        // Цикл для считывания пар связанных сайтов
+        while (true) {
+            String input = scanner.nextLine();
 
-            String line;
-            while (!(line = scanner.nextLine()).equals("end")) {
-                links.add(line);
-                String[] sites = line.split("\\+");
-                Set<String> set = new HashSet<>(Arrays.asList(sites));
-                dsu.add(set);
+            // Если введено "end", завершаем ввод
+            if (input.equals("end")) {
+                break;
             }
-        }
 
-        for (int i = 0; i < dsu.size(); i++) {
-            for (Set<String> set : dsu) {
-                boolean union = false;
-                label:
-                if (dsu.get(i) != set) {
-                    for (String site1 : dsu.get(i)) {
-                        for (String site2 : set) {
-                            if (!site1.equals(site2) && checkLink(links, site1, site2)) {
-                                union = true;
-                                break label;
-                            }
-                        }
-                    }
-                }
-                if (union) {
-                    dsu.get(i).addAll(set);
-                    set.clear();
-                    i = 0;
+            // Разбиваем строку на сайты, используя символ "+" в качестве разделителя
+            String[] sites = input.split("\\+");
+
+            // Для каждого сайта в паре создаем множество, если его еще нет
+            for (String site : sites) {
+                if (!disjointSet.contains(site)) {
+                    disjointSet.makeSet(site);
                 }
             }
+
+            // Объединяем сайты в одно множество
+            disjointSet.union(sites[0], sites[1]);
         }
 
-        dsu.removeIf(Set::isEmpty);
-        String output = dsu.stream()
-                .map(Set::size)
-                .sorted((n, m) -> m - n)
-                .map(String::valueOf)
-                .collect(Collectors.joining(" "))
-                .trim();
+        scanner.close(); // Закрываем сканер
 
-        System.out.println(output);
-    }
+        // Карта для хранения размеров кластеров
+        Map<String, Integer> clusterSizes = new HashMap<>();
+        // Множество для отслеживания уникальных корней кластеров
+        HashSet<String> set = new HashSet<>();
 
-    private static boolean checkLink(Set<String> links, String site1, String site2) {
-        return links.contains(String.format("%s+%s", site1, site2)) ||
-                links.contains(String.format("%s+%s", site2, site1));
+        // Проходим по всем сайтам в DSU для подсчета размеров кластеров
+        for (String site : disjointSet) {
+            // Находим корень кластера для данного сайта
+            if (set.contains(site)) {
+                continue; // Если корень уже был обработан, пропускаем его
+            }
+            set.add(site); // Добавляем корень в множество
+            String root = disjointSet.findSet(site); // Находим корень
+            clusterSizes.put(root, disjointSet.getClusterSize(site)); // Получаем размер кластера
+        }
+
+        // Создаем временный список для хранения размеров кластеров
+        ArrayList<Integer> temp = new ArrayList<>();
+        temp.addAll(clusterSizes.values()); // Добавляем размеры кластеров в список
+
+        // Сортируем размеры кластеров в порядке убывания
+        Collections.sort(temp);
+        Collections.reverse(temp);
+
+        // Выводим размеры кластеров на консоль
+        for (int item : temp) {
+            System.out.print(item + " ");
+        }
     }
 }

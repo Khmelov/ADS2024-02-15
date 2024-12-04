@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class SourceScannerC {
-    // version wirh fulltext check is too slow
     private static boolean isSimilar(String content1, String content2) {
         var distance = Math.abs(content1.length() - content2.length());
         if (distance >= 10)

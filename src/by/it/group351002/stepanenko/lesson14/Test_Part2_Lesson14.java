@@ -23,7 +23,7 @@ public class Test_Part2_Lesson14 extends HomeWork {
             String input = generatePointInput(points);
             String out = calculateTestOut(
                     points,
-                    (x, y) -> Math.hypot(Math.hypot(x[0] - y[0], x[1] - y[1]), x[2] - y[2]) < distance
+                    (x, y) -> Math.hypot(Math.hypot(x[0] - y[0], x[1] - y[1]), x[2] - y[2]) <= distance
             );
             run(input).include(out);
         }
@@ -62,7 +62,7 @@ public class Test_Part2_Lesson14 extends HomeWork {
         int n = 1 + random.nextInt(MAX_DISTANCE * 10);
         out.append(n);
         for (int i = 0; i < n; i++) {
-            int[] point = {random.nextInt(-diapason, diapason), random.nextInt(diapason), random.nextInt(diapason)};
+            int[] point = {random.nextInt( diapason), random.nextInt(diapason), random.nextInt(diapason)};
             out.append('\n')
                     .append(point[0]).append(" ")
                     .append(point[1]).append(" ")

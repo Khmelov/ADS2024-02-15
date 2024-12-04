@@ -9,7 +9,7 @@ public class PointsA {
         int distanceRequired = scanner.nextInt();
         int count = scanner.nextInt();
 
-        DSU<Point> dsu = new DSU<>();
+        DisJointSet<Point> dsu = new DisJointSet<Point>();
 
         for (int i = 0; i < count; i++) {
             int x = scanner.nextInt();

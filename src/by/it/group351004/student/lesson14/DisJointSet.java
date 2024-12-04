@@ -1,11 +1,12 @@
 package by.it.group351004.student.lesson14;
 
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-public class DSU<T> implements Iterable<T> {
+public class DisJointSet<T> implements Iterable<T> {
 
     private class DisJointSetNode {
         public T Data;

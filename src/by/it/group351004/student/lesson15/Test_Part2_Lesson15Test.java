@@ -15,7 +15,7 @@ public class Test_Part2_Lesson15Test extends HomeWork {
 
     private static List<String> samples;
 
-    @Test(timeout = 25000) //можно изменить под свою производительность
+    @Test(timeout = 7000) //можно изменить под свою производительность
     public void testSourceScannerA() {
         HomeWork run = run("");
         for (String sample : lazyWalk()) {
@@ -23,7 +23,7 @@ public class Test_Part2_Lesson15Test extends HomeWork {
         }
     }
 
-    @Test(timeout = 25000) //можно изменить под свою производительность
+    @Test(timeout = 7000) //можно изменить под свою производительность
     public void testSourceScannerB() {
         HomeWork run = run("");
         for (String sample : lazyWalk()) {
@@ -32,16 +32,16 @@ public class Test_Part2_Lesson15Test extends HomeWork {
     }
 
 
-    @Test(timeout = 25000) //можно изменить под свою производительность
+    @Test(timeout = 5000) //можно изменить под свою производительность
     public void testSourceScannerC() {
-        run("").include("FiboA.java");
+             run("").include("FiboA.java");
     }
 
     private static List<String> lazyWalk() {
         if (samples == null) {
             samples = new ArrayList<>();
             Path root = Path.of(System.getProperty("user.dir")
-                                + File.separator + "src" + File.separator);
+                    + File.separator + "src" + File.separator);
             try (var walk = Files.walk(root)) {
                 walk.forEach(
                         p -> {

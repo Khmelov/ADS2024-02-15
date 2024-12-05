@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class ListA<E> implements List<E> {
-
+    //aaaaaaaaaaaaaaaaaaaaaaaaa
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     /////////////////////////////////////////////////////////////////////////
@@ -17,7 +17,7 @@ public class ListA<E> implements List<E> {
     private Node<E> head;
     private Node<E> tail;
     private int size;
-
+// d
     private static class Node<T> {
         T data;
         Node<T> next;

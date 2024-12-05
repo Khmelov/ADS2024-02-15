@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GraphC {
 
-    static class LexicalComparator implements Comparator<String> {
+    public static class LexicalComparator implements Comparator<String> {
         public int compare(String s1, String s2) {
             return s2.compareTo(s1);
         }

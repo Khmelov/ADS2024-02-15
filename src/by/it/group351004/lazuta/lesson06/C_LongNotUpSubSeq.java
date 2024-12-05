@@ -46,7 +46,7 @@ import java.util.Scanner;
 
 
 
-
+//dd
 
 
 public class C_LongNotUpSubSeq {

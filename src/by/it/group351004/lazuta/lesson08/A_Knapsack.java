@@ -32,6 +32,7 @@ Sample Output 2:
 14
 
 */
+// dasd
 
 public class A_Knapsack {
 

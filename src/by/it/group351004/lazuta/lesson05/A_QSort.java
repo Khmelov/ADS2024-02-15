@@ -41,7 +41,7 @@ import java.util.Scanner;
 
 
 
-
+// dFsdf
 
 
 public class A_QSort { // думать

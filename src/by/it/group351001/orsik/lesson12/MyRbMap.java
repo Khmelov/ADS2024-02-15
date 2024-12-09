@@ -114,6 +114,12 @@ public class MyRbMap implements SortedMap<Integer, String> {
         node2.color = tmpColor;
     }
 
+
+    //       A            B
+    //      / \          / \
+    //     B   C  =>   D   A
+    //    / \              /
+    //   D   E            E
     private void rotateLeft(Node node) {
 
         Node rChild = node.right;
@@ -137,6 +143,13 @@ public class MyRbMap implements SortedMap<Integer, String> {
         node.parent = rChild;
     }
 
+//              A            B
+//             / \          / \
+//            B   C   =>   D   A
+//           / \                \
+//          D   E                E
+//                                \
+//                                 C
     private void rotateRight(Node node) {
 
         Node lChild = node.left;

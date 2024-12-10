@@ -10,7 +10,7 @@ public class MyRbMap implements SortedMap<Integer, String> {
         RED, BLACK
     }
 
-    class Node {
+    static class Node {
         Integer key;
         String value;
         Node parent, left, right;

@@ -53,6 +53,7 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
             child2 = 2 * i + 2;
             min = child1;
 
+
             if ((child2 < currentSize) && (heap[child2].compareTo(heap[min])) < 0) {
                 min = child2;
             }
@@ -201,7 +202,6 @@ public class MyPriorityQueue<E extends Comparable<E>> implements Queue<E> {
             } else {
                 counter++;
             }
-
         }
 
         if (counter != 0) {

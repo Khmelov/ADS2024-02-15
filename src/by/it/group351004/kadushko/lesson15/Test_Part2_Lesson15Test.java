@@ -17,10 +17,12 @@ public class Test_Part2_Lesson15Test extends HomeWork {
 
     @Test(timeout = 5000) //можно изменить под свою производительность
     public void testSourceScannerA() {
-        HomeWork run = run("");
+         HomeWork run = run("");
         for (String sample : lazyWalk()) {
             run.include(sample);
         }
+
+
     }
 
     @Test(timeout = 5000) //можно изменить под свою производительность
@@ -29,12 +31,17 @@ public class Test_Part2_Lesson15Test extends HomeWork {
         for (String sample : lazyWalk()) {
             run.include(sample);
         }
+
+
     }
 
 
     @Test(timeout = 5000) //можно изменить под свою производительность
     public void testSourceScannerC() {
+
         run("").include("FiboA.java");
+
+
     }
 
     private static List<String> lazyWalk() {

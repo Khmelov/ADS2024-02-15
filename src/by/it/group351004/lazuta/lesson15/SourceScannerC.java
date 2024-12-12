@@ -18,7 +18,7 @@ public class SourceScannerC extends SourceScannerA{
         return Arrays.stream(numbers).min().orElse(
                 Integer.MAX_VALUE);
     }
-
+//
     private static boolean checkDistance(String file1, String file2) {
         int distance = Math.abs(file1.length() - file2.length());
 

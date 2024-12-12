@@ -20,7 +20,7 @@ public class SourceScannerA {
             }
             return int_s1 > int_s2 ? 1 : -1;
         }
-    }
+    }//
     protected static char[] move(char[] array) {
         char[] temp;
         int i = 0, size;

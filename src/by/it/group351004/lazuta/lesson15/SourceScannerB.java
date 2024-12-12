@@ -15,7 +15,7 @@ public class SourceScannerB extends SourceScannerA{
 
         Path src = Path.of(System.getProperty("user.dir")
                 + File.separator + "src" + File.separator);
-
+//
         try (Stream<Path> fileTrees = Files.walk(src)) {
             fileTrees.forEach(
                     directory -> {

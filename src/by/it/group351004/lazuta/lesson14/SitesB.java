@@ -39,12 +39,6 @@ public class SitesB {
             clusterSizes.put(root, disjointSet.getClusterSize(site));
         }
 
-        /*Map<String, Integer> clusterSizes = new HashMap<>();
-        for (String site : disjointSet) {
-            String root = disjointSet.findSet(site);
-            clusterSizes.put(root, clusterSizes.getOrDefault(root, 0) + 1);
-        }*/
-
         ArrayList<Integer> temp = new ArrayList<>();
 
         temp.addAll(clusterSizes.values());

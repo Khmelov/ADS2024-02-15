@@ -1,4 +1,4 @@
-package by.it.group351004.lazuta.lesson14;
+package lesson14;
 
 import java.util.Scanner;
 

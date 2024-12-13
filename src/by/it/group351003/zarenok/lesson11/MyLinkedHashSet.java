@@ -16,7 +16,6 @@ public class MyLinkedHashSet<E> implements Set<E> {
     }
     static final int defaultSize = 32;
     Node<E>[] _items;
-
     Node<E> _head, _tail;
     int _count;
 

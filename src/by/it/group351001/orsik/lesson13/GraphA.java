@@ -38,31 +38,34 @@ public class GraphA {
 
     }
 
+    // Метод для выполнения топологической сортировки
     public static Stack<String> topologicalSort(Map<String, List<String>> graph) {
-
-        Stack<String> result = new Stack<>();
-        Set<String> visited = new HashSet<>();
+        Stack<String> result = new Stack<>(); // Стек для хранения отсортированных узлов
+        Set<String> visited = new HashSet<>(); // Множество для отслеживания посещенных узлов
         for (String vertex : graph.keySet()) {
+            // Если узел еще не посещен, вызываем вспомогательный метод
             if (!visited.contains(vertex)) {
                 topologicalSort(graph, visited, vertex, result);
             }
         }
-
-        return result;
+        return result; // Возвращаем отсортированные узлы
     }
 
+    // Вспомогательный метод для рекурсивного обхода графа
     private static void topologicalSort(Map<String, List<String>> graph, Set<String> visited, String curr, Stack<String> result) {
+        visited.add(curr); // Помечаем текущий узел как посещенный
 
-        visited.add(curr);
-
+        // Если у текущего узла есть соседи, рекурсивно обходим их
         if (graph.get(curr) != null) {
             for (String next : graph.get(curr)) {
+                // Если соседний узел еще не посещен, продолжаем обход
                 if (!visited.contains(next)) {
                     topologicalSort(graph, visited, next, result);
                 }
             }
         }
 
+        // Добавляем текущий узел в стек после посещения всех его соседей
         result.push(curr);
     }
 }

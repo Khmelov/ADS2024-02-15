@@ -34,7 +34,7 @@ public class SourceScannerC extends SourceScannerA{
             int length = s2.length() + 1;
             int[] currRow = new int[length];
             int[] prevRow;
-
+//
             for (int i = 0; i <= s1.length(); i++) {
                 prevRow = currRow;
                 currRow = new int[length];

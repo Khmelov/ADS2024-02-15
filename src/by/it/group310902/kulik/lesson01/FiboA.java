@@ -29,7 +29,7 @@ public class FiboA {
     }
 
     private int calc(int n) {
-        if(n < 2){
+        if(n <= 1){
             return n;
         }
         return calc(n-1) + calc(n-2);
@@ -40,7 +40,7 @@ public class FiboA {
         if(n == 0){ return BigInteger.ZERO;}
         if (n == 1){ return BigInteger.ONE;}
 
-        return slowA(n-1).add(slowA(n-892));
+        return slowA(n-1).add(slowA(n-2));
     }
 
 

@@ -2,6 +2,8 @@ package by.it.group351002.bob.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -40,37 +42,54 @@ import java.util.Scanner;
 //        Sample Output 2:
 //        abacabad
 
+
+/*
+Чтение входных данных: Программа считывает данные из файла, который содержит:
+
+Количество различных букв kk, встречающихся в строке.
+Размер закодированной строки ll.
+Для каждой буквы буквы kk, записаны ее коды в формате "letter: code".
+В последней строке содержится закодированная строка.
+Формирование таблицы кодов: Программа создает карту (map),
+где код каждой буквы сопоставляется с соответствующим символом.
+Коды и символы считываются из файла и добавляются в карту.
+
+Декодирование строки: Программа начинает разбирать закодированную строку, идя от начала до конца.
+Она формирует временную строку str, путем добавления каждого бита из закодированной строки.
+Затем программа проверяет, содержится ли данная временная строка в карте кодов.
+Если она содержится, то соответствующий символ добавляется в результирующую строку result,
+а временная строка очищается.
+Этот процесс повторяется до тех пор, пока закодированная строка не будет полностью разобрана.
+
+Вывод результата: Декодированная строка выводится на экран.
+*/
+
 public class B_Huffman {
+
 
     String decode(File file) throws FileNotFoundException {
         StringBuilder result=new StringBuilder();
         //прочитаем строку для кодирования из тестового файла
         Scanner scanner = new Scanner(file);
-        Integer count = scanner.nextInt();
-        Integer length = scanner.nextInt();
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //тут запишите ваше решение
-        char[] charArr = new char[count];
-        String[] codeArr = new String[count];
-        for (int i = 0; i < count; i++){
-            String temp = scanner.next() + scanner.next();
-            charArr[i] = temp.charAt(0);
-            codeArr[i] = temp.substring(2);
+        int count = scanner.nextInt();
+        int length = scanner.nextInt();
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < count; i++) {
+            String elem = scanner.next();
+            String numKey = scanner.next();
+            map.put(numKey, String.valueOf(elem.charAt(0)));
         }
-        String encodedStr = scanner.next();
-        int i = 0;
-        int charIndex = 0;
-        while (i < encodedStr.length()){
-            if(encodedStr.charAt(i) == '0'){
-                result.append(charArr[charIndex]);
-                charIndex = 0;
+
+        String res = scanner.next();
+        String str = "";
+        for (int i = 0; i < length; i++){
+            int ch = Integer.parseInt(String.valueOf(res.charAt(i)));
+            str += ch;
+            if(map.containsKey(str)) {
+                result.append(map.get(str));
+                str = "";
             }
-            else
-                charIndex++;
-            i++;
         }
-        if(charIndex != 0)
-            result.append(charArr[charIndex]);
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         return result.toString(); //01001100100111
     }

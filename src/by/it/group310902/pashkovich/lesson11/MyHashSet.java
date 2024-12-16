@@ -71,6 +71,7 @@ public class MyHashSet<E> implements Set<E> {
     // Проверяет, содержится ли заданный объект в множестве
     @Override
     public boolean contains(Object o) {
+
         Node<E> current = _items[GetHash(o)];
         while (current != null) {
             if (current.data.equals(o)) {

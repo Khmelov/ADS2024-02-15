@@ -35,6 +35,8 @@ public class SourceScannerA {
 
     // Вложенный класс для сравнения строк, содержащих размер и путь к файлу
     protected static class myStringComparator implements Comparator<String> {
+
+
         @Override
         public int compare(String s1, String s2) {
             int int_s1, int_s2;

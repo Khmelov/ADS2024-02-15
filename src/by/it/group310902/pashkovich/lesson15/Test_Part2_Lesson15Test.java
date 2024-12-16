@@ -39,6 +39,7 @@ public class Test_Part2_Lesson15Test extends HomeWork {
     @Test(timeout = 30000)
     public void testSourceScannerC() {
         HomeWork run = run("");
+
         // Проверяется наличие конкретного файла, например "FiboA.java"
         run.include("FiboA.java");
     }

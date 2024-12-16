@@ -5,20 +5,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+// Класс ListB реализует интерфейс List<E>, предоставляя основные методы работы с коллекцией
 public class ListB<E> implements List<E> {
 
+    // Массив для хранения элементов списка
     E[] elements;
+    // Текущий индекс, указывающий на первый свободный слот
     int curInd = 0;
+    // Начальный размер массива
     static int size = 8;
 
+    // Конструктор без параметров, использует размер по умолчанию
     public ListB() {
         this(size);
     }
 
+    // Конструктор, принимающий начальный размер массива
     public ListB(int size) {
         elements = (E[]) new Object[size];
     }
 
+    // Переопределение метода toString() для вывода списка в виде строки
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -33,8 +40,10 @@ public class ListB<E> implements List<E> {
         return sb.toString();
     }
 
+    // Добавление элемента в список
     @Override
     public boolean add(E e) {
+        // Увеличиваем размер массива, если он заполнен
         if (curInd == elements.length) {
             E[] tempElements = (E[]) new Object[elements.length * 2];
             for (int i = 0; i < elements.length; i++) {
@@ -42,33 +51,39 @@ public class ListB<E> implements List<E> {
             }
             elements = tempElements;
         }
+        // Добавляем элемент в массив
         elements[curInd++] = e;
         return true;
     }
 
+    // Удаление элемента по индексу
     @Override
     public E remove(int index) {
         if (index < 0 || index >= curInd) {
-            return null;
+            return null; // Если индекс некорректен
         }
         E deletedElem = elements[index];
+        // Сдвигаем элементы влево
         for (int i = index; i < curInd - 1; i++) {
             elements[i] = elements[i + 1];
         }
-        elements[--curInd] = null; // Освобождаем последнюю ячейку
+        elements[--curInd] = null; // Очищаем последний элемент
         return deletedElem;
     }
 
+    // Возвращает текущий размер списка
     @Override
     public int size() {
         return curInd;
     }
 
+    // Добавление элемента по индексу
     @Override
     public void add(int index, E element) {
         if (index < 0 || index > curInd) {
             throw new IndexOutOfBoundsException();
         }
+        // Увеличиваем размер массива, если нужно
         if (curInd == elements.length) {
             E[] tempElements = (E[]) new Object[elements.length * 2];
             for (int i = 0; i < elements.length; i++) {
@@ -76,6 +91,7 @@ public class ListB<E> implements List<E> {
             }
             elements = tempElements;
         }
+        // Сдвигаем элементы вправо
         for (int i = curInd; i > index; i--) {
             elements[i] = elements[i - 1];
         }
@@ -83,14 +99,16 @@ public class ListB<E> implements List<E> {
         curInd++;
     }
 
+    // Удаление элемента по объекту
     @Override
     public boolean remove(Object o) {
         int index = indexOf(o);
-        if (index == -1) return false;
+        if (index == -1) return false; // Если элемент не найден
         remove(index);
         return true;
     }
 
+    // Замена элемента по индексу
     @Override
     public E set(int index, E element) {
         if (index < 0 || index >= curInd) {
@@ -101,17 +119,20 @@ public class ListB<E> implements List<E> {
         return oldElem;
     }
 
+    // Проверка на пустоту
     @Override
     public boolean isEmpty() {
         return curInd == 0;
     }
 
+    // Очистка списка
     @Override
     public void clear() {
-        elements = (E[]) new Object[size];
-        curInd = 0;
+        elements = (E[]) new Object[size]; // Создаем новый массив
+        curInd = 0; // Сбрасываем индекс
     }
 
+    // Поиск индекса первого вхождения элемента
     @Override
     public int indexOf(Object o) {
         for (int i = 0; i < curInd; i++) {
@@ -122,6 +143,7 @@ public class ListB<E> implements List<E> {
         return -1;
     }
 
+    // Получение элемента по индексу
     @Override
     public E get(int index) {
         if (index < 0 || index >= curInd) {
@@ -130,11 +152,13 @@ public class ListB<E> implements List<E> {
         return elements[index];
     }
 
+    // Проверка на наличие элемента
     @Override
     public boolean contains(Object o) {
         return indexOf(o) != -1;
     }
 
+    // Поиск индекса последнего вхождения элемента
     @Override
     public int lastIndexOf(Object o) {
         for (int i = curInd - 1; i >= 0; i--) {
@@ -145,12 +169,7 @@ public class ListB<E> implements List<E> {
         return -1;
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //////               Опциональные к реализации методы             ///////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-
+    // Реализация дополнительных методов интерфейса Collection
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object elem : c) {
@@ -198,7 +217,7 @@ public class ListB<E> implements List<E> {
         for (int i = 0; i < curInd; i++) {
             if (!c.contains(elements[i])) {
                 remove(elements[i]);
-                i--; // Компенсируем удаление
+                i--; // Компенсируем смещение индекса
                 modified = true;
             }
         }
@@ -217,6 +236,7 @@ public class ListB<E> implements List<E> {
         return sublist;
     }
 
+    // Необязательные для реализации методы (выбрасывают исключение)
     @Override
     public ListIterator<E> listIterator(int index) {
         throw new UnsupportedOperationException();
@@ -227,6 +247,7 @@ public class ListB<E> implements List<E> {
         throw new UnsupportedOperationException();
     }
 
+    // Преобразование в массив
     @Override
     public <T> T[] toArray(T[] a) {
         if (a.length < curInd) {
@@ -246,12 +267,7 @@ public class ListB<E> implements List<E> {
         return result;
     }
 
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    ////////        Эти методы имплементировать необязательно    ////////////
-    ////////        но они будут нужны для корректной отладки    ////////////
-    /////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
+    // Реализация итератора
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {

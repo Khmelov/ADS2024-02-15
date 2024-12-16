@@ -2,6 +2,8 @@ package by.it.group351005.bitno.lesson03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 // Lesson 3. B_Huffman.
@@ -49,23 +51,25 @@ public class B_Huffman {
         Integer count = scanner.nextInt();
         Integer length = scanner.nextInt();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! НАЧАЛО ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-        char[] charArr = new char[count];
+        Map<String,Character> letter =new HashMap<>();
         for (int i = 0; i < count; i++) {
-            String tempStr = scanner.next() + scanner.next();
-            charArr[i] = tempStr.charAt(0);
+            Character symbol = scanner.next().charAt(0);
+            letter.put(scanner.next(), symbol);
         }
-        String resultStr = scanner.next();
-
-        int i = 0;
-        int zeroStep = 0;
-        do {
-            if (resultStr.charAt(i) == '0') result.append(charArr[zeroStep]);
-            zeroStep = resultStr.charAt(i) == '0' ? 0 : ++zeroStep;
-        } while (++i < resultStr.length());
-        if (zeroStep != 0) result.append(charArr[zeroStep]);
+        String code = scanner.next();
+        StringBuilder symbolCode = new StringBuilder();
+        // change symbols
+        for (int i = 0; i < length; i++) {
+            symbolCode.append(code.charAt(i));
+            if (code.charAt(i) == '0'){
+                result.append(letter.get(symbolCode.toString()));
+                symbolCode = new StringBuilder();
+            }
+        }
+        result.append(letter.get(symbolCode.toString()));
+        scanner.close();
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        return result.toString(); //01001100100111
+        return result.toString();
     }
 
     public static void main(String[] args) throws FileNotFoundException {

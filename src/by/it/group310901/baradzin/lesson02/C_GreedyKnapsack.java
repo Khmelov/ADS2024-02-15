@@ -31,34 +31,35 @@ public class C_GreedyKnapsack {
     }
 
     double calc(File source) throws FileNotFoundException {
-        var input = new Scanner(source);
-        // сколько предметов в файле
-        var n = input.nextInt();
-        // какой вес у рюкзака
-        var W = input.nextInt();
-        // получим список предметов
-        var items = new Item[n];
-        // создавая каждый конструктором
-        for (int i = 0; i < n; i++)
-            items[i] = new Item(input.nextInt(), input.nextInt());
-        //покажем предметы
-        for (var item : items)
-            System.out.println(item);
-        System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
+        try (var input = new Scanner(source)) {
+            // сколько предметов в файле
+            var n = input.nextInt();
+            // какой вес у рюкзака
+            var W = input.nextInt();
+            // получим список предметов
+            var items = new Item[n];
+            // создавая каждый конструктором
+            for (int i = 0; i < n; i++)
+                items[i] = new Item(input.nextInt(), input.nextInt());
+            //покажем предметы
+            for (var item : items)
+                System.out.println(item);
+            System.out.printf("Всего предметов: %d. Рюкзак вмещает %d кг.\n", n, W);
 
-        Arrays.sort(items, Collections.reverseOrder());
-        double result = 0;
-        for (var item: items)
-            if (item.weight <= W) {
-                W -= item.weight;
-                result += item.cost;
-            } else {
-                result += W * item.profit;
-                break;
-            }
+            Arrays.sort(items, Collections.reverseOrder());
+            double result = 0;
+            for (var item: items)
+                if (item.weight <= W) {
+                    W -= item.weight;
+                    result += item.cost;
+                } else {
+                    result += W * item.profit;
+                    break;
+                }
 
-        System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
-        return result;
+            System.out.printf("Удалось собрать рюкзак на сумму %f\n", result);
+            return result;
+        }
     }
 
     private static class Item implements Comparable<Item> {

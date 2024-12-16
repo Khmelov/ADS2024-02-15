@@ -50,21 +50,24 @@ public class C_HeapMax {
     Long findMaxValue(InputStream stream) {
         var maxValue = 0L;
         var heap = new MaxHeap();
-        var scanner = new Scanner(stream);
-        var count = scanner.nextInt();
-        for (var i = 0; i < count; ) {
-            var s = scanner.nextLine();
-            if (s.equalsIgnoreCase("extractMax")) {
-                var res = heap.extractMax();
-                if (res != null && res > maxValue) maxValue = res;
-                System.out.println();
-                i++;
+        try (var scanner = new Scanner(stream)) {
+            var count = scanner.nextInt();
+            for (var i = 0; i < count; ) {
+                var s = scanner.nextLine();
+                if (s.equalsIgnoreCase("extractMax")) {
+                    var res = heap.extractMax();
+                    if (res != null && res > maxValue) maxValue = res;
+                    System.out.println();
+                    i++;
+                }
+                if (s.contains(" ")) {
+                    var p = s.split(" ");
+                    if (p[0].equalsIgnoreCase("insert")) heap.insert(Long.parseLong(p[1]));
+                    i++;
+                }
             }
-            if (s.contains(" ")) {
-                var p = s.split(" ");
-                if (p[0].equalsIgnoreCase("insert")) heap.insert(Long.parseLong(p[1]));
-                i++;
-            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
         return maxValue;
     }

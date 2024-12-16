@@ -24,20 +24,13 @@ public class FiboB {
     }
 
     BigInteger fastB(Integer n) {
-        BigInteger a = BigInteger.ZERO;
-        BigInteger b = BigInteger.ONE;
-        int Number = 3;
-        BigInteger sum = a.add(b) ;
-        while (Number <= n )
-        {
-          a = b;
-          b = sum;
-          sum = a.add(b);
-          Number = Number + 1;
-        }
-        if (n > 0 ) return sum;
+
+        BigInteger[] massiv = new BigInteger[n + 1];
+        massiv[0] = BigInteger.ZERO;
+        massiv[1] = BigInteger.ONE;
+        for (int i = 2; i <= n; i++) massiv[i] = massiv[i-1].add(massiv[i-2]);
         //здесь нужно реализовать вариант с временем O(n) и памятью O(n)
-        return BigInteger.ZERO;
+        return massiv[n];
     }
 
 }

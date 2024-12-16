@@ -3,6 +3,7 @@ package by.it.group351004.mukhin.lesson06;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*
@@ -45,15 +46,35 @@ public class C_LongNotUpSubSeq {
         //общая длина последовательности
         int n = scanner.nextInt();
         int[] m = new int[n];
+        int[] subNumbers = new int[n];
         //читаем всю последовательность
         for (int i = 0; i < n; i++) {
             m[i] = scanner.nextInt();
+            subNumbers[i] = 1;
         }
-        //тут реализуйте логику задачи методами динамического программирования (!!!)
         int result = 0;
+        for (int i = 0; i < subNumbers.length; i++) {
+            for (int j = 0; j < i; j++)
+                if (m[j] >= m[i] && subNumbers[j] + 1 > subNumbers[i])
+                    subNumbers[i] = subNumbers[j] + 1;
+            result = Math.max(result, subNumbers[i]);
+        }
+
+        int temp = 1;
+        int i = 0;
+        int[] Ans = new int[result];
+        while (temp < Ans.length + 1 && i < subNumbers.length) {
+            while(i < subNumbers.length && subNumbers[i] <= temp)
+                i++;
+            Ans[temp++ - 1] = i;
+        }
+
+        System.out.println(result);
+        System.out.print(Arrays.toString(Ans) + "\n");
 
 
         //!!!!!!!!!!!!!!!!!!!!!!!!!     КОНЕЦ ЗАДАЧИ     !!!!!!!!!!!!!!!!!!!!!!!!!
+
         return result;
     }
 

@@ -1,6 +1,7 @@
 package by.it.group310902.kulik.lesson02;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /*
 Даны события events
@@ -24,8 +25,17 @@ public class A_VideoRegistrator {
         //timeWorkDuration время работы видеокамеры после старта
         List<Double> result;
         result = new ArrayList<>();
+        Arrays.sort(events);
         int i=0;
 
+        while (i<events.length){
+            double start = events[i];
+            double stop = start+workDuration;
+            result.add(start);
+            while (i<events.length && events[i]<=stop){
+                i++;
+            }
+        }
         //i - это индекс события events[i]
 //        while(i < events.length){
 //            if(time >= events[i]){

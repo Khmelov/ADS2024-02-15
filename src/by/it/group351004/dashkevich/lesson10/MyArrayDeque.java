@@ -46,7 +46,6 @@ public class MyArrayDeque<E> implements Deque<E> {
             index++;
         }
         line.append(']');
-
         return line.toString();
     }
 

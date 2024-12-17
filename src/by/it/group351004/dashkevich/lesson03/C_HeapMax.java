@@ -43,23 +43,54 @@ public class C_HeapMax {
         //Будет мало? Ну тогда можете его собрать как Generic и/или использовать в варианте B
         private List<Long> heap = new ArrayList<>();
 
-        int siftDown(int i) { //просеивание вверх
-
-            return i;
+        void swap(int i, int j) {
+            Long temp = heap.get(i);
+            heap.set(i, heap.get(j));
+            heap.set(j, temp);
         }
 
-        int siftUp(int i) { //просеивание вниз
+        int siftDown(int i) {
+            int leftChildIndex = 2 * i + 1;
+            int rightChildIndex = 2 * i + 2;
+            int largestIndex = i;
 
+            if (leftChildIndex < heap.size() && heap.get(leftChildIndex) > heap.get(largestIndex)) {
+                largestIndex = leftChildIndex;
+            }
+            if (rightChildIndex < heap.size() && heap.get(rightChildIndex) > heap.get(largestIndex)) {
+                largestIndex = rightChildIndex;
+            }
+            if (largestIndex != i) {
+                swap(i, largestIndex);
+                siftDown(largestIndex);
+            }
+            return largestIndex;
+        }
+
+        int siftUp(int i) {
+            int parentIndex = (i - 1) / 2;
+            while (i > 0 && heap.get(parentIndex) < heap.get(i)) {
+                swap(parentIndex, i);
+                i = parentIndex;
+                parentIndex = (i - 1) / 2;
+            }
             return i;
         }
 
         void insert(Long value) { //вставка
+            heap.add(value);
+            siftUp(heap.size() - 1);
         }
 
         Long extractMax() { //извлечение и удаление максимума
-            Long result = null;
-
-            return result;
+            if (heap.isEmpty()) {
+                return null;
+            }
+            Long max = heap.get(0);
+            heap.set(0, heap.get(heap.size() - 1));
+            heap.remove(heap.size() - 1);
+            siftDown(0);
+            return max;
         }
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! КОНЕЦ ЗАДАЧИ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     }

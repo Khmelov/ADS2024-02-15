@@ -20,7 +20,7 @@ package by.it.group351002.skubakov.lesson14;
 import java.util.*;
 
 public class SitesB {
-
+//
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 

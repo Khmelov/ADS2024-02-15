@@ -14,7 +14,7 @@ import java.util.List;
 public class Test_Part2_Lesson15Test extends HomeWork {
 
     private static List<String> samples;
-
+//
     @Test(timeout = 60000) //можно изменить под свою производительность
     public void testSourceScannerA() {
         HomeWork run = run("");

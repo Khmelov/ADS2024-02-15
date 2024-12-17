@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.stream.Stream;
 
 public class SourceScannerB extends SourceScannerA {
-
+//
     protected static void getInformation() throws IOException {
         ArrayList<String> size_directory = new ArrayList<>();
 

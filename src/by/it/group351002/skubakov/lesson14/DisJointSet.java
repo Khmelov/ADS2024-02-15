@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
-
+//
 public class DisJointSet<T> implements Iterable<T> {
 
     //Этот внутренний класс представляет узел в структуре данных.

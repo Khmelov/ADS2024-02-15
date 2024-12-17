@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class SourceScannerC extends SourceScannerA {
     static final int NORMAL_DISTANCE = 9;
-
+//
     private static int areReplacementNumbers(char c1, char c2) {
         return c1 == c2 ? 0 : 1;
     }

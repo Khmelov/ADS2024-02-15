@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Set;
 public class MyLinkedHashSet <E> implements Set<E>{
     class Node<E> {
+
         E data;
         Node<E> next;
         Node<E> prev, follow;

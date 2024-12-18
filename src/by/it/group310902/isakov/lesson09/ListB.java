@@ -20,6 +20,7 @@ public class ListB<E> implements List<E> {
         this(size);
     }
 
+
     // Конструктор, принимающий начальный размер массива
     public ListB(int size) {
         elements = (E[]) new Object[size];

@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 public class ListC<E> implements List<E> {
 
+
     E[] elements;
     int curInd = 0;
     static int size = 8;

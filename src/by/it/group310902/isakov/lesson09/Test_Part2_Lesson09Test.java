@@ -1,4 +1,4 @@
-package by.it.a_khmelev.lesson09;
+package by.it.group310902.isakov.lesson09;
 
 
 import by.it.HomeWork;
@@ -49,7 +49,7 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 add(Object)
                 remove(int)
                 size()
-
+                                
                 remove(Object)
                 add(int,Object)
                 remove(Object)
@@ -59,7 +59,8 @@ public class Test_Part2_Lesson09Test extends HomeWork {
                 indexOf(Object)
                 get(int)
                 contains(Object)
-                lastIndexOf(Object)""".split("\\s+");
+                lastIndexOf(Object)
+                """.split("\\s+");
         randomCheck("ListB", methods);
     }
 
